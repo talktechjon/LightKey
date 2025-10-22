@@ -337,7 +337,7 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
         inset: 0,
         width: '100%',
         height: '100%',
-        transform: `rotate(${animationRotation}deg)`,
+        transform: `rotate(${-animationRotation}deg)`,
     };
     
     const textContainerStyle: React.CSSProperties = {
