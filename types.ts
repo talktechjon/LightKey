@@ -62,3 +62,5 @@ export interface SecretIconData {
     imageUrl: string;
     description: string;
 }
+
+export type PlaylistType = 'tafsir' | 'recitation' | 'englishRecitation';

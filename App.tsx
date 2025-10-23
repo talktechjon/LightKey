@@ -5,7 +5,8 @@ import FooterMarquee from './components/FooterMarquee.tsx';
 import Tooltip from './components/Tooltip.tsx';
 import StarryBackground from './components/StarryBackground.tsx';
 import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent } from './types.ts';
-import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, getVerse, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
+import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
+import { getVerse } from './data/verseData.ts';
 
 const App: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);
