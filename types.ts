@@ -1,3 +1,4 @@
+// Fix: Replaced incorrect content with actual type definitions.
 export interface SliceData {
   id: number;
   blockCount: number;
@@ -14,10 +15,6 @@ export interface TriangleDefinition {
   points: TrianglePoint[];
 }
 
-export interface VisualizationHandle {
-  spin: () => void;
-}
-
 export interface ChapterDetails {
   number: number;
   englishName: string;
@@ -27,7 +24,26 @@ export interface ChapterDetails {
   juz: string;
 }
 
-export type TooltipContent = VerseTooltipContent | ChapterTooltipContent;
+export interface IconData {
+    id: string;
+    chapter: number;
+    emoji: string;
+    imageUrl: string;
+    description: string;
+}
+
+export interface SecretIconData {
+    id: string;
+    position: number;
+    chapter: number;
+    emoji: string;
+    imageUrl: string;
+    description: string;
+}
+
+export interface VisualizationHandle {
+  spin: () => void;
+}
 
 export interface VerseTooltipContent {
   type: 'verse';
@@ -46,44 +62,14 @@ export interface ChapterTooltipContent {
   color: string;
 }
 
-export interface IconData {
-    id: string;
-    chapter: number;
-    emoji: string;
-    imageUrl: string;
-    description: string;
-}
-
-export interface SecretIconData {
-    id: string;
-    position: number; // 1-9
-    chapter: number;
-    emoji: string;
-    imageUrl: string;
-    description: string;
-}
-
-export type PlaylistType = 'tafsir' | 'recitation' | 'englishRecitation';
-
-// Types for VerseFinder
-export interface VerseResult {
-  numberInSurah: number;
-  surah: {
-    number: number;
-    englishName: string;
-  };
-  arabicText: string;
-  transliteration: string;
-  englishText: string;
-  banglaText: string;
-  fullVerseAudioUrl: string;
-}
+export type TooltipContent = VerseTooltipContent | ChapterTooltipContent;
 
 export interface SurahVerse {
   numberInSurah: number;
   arabicText: string;
   englishText: string;
   banglaText: string;
+  transliteration: string;
   fullVerseAudioUrl: string;
 }
 
@@ -91,13 +77,28 @@ export interface SurahData {
   number: number;
   englishName: string;
   arabicName: string;
-  revelationType: 'Makki' | 'Madani';
+  revelationType: string;
   numberOfAyahs: number;
   verses: SurahVerse[];
 }
 
-export type VerseFinderContent =
-  | { type: 'search'; verses: VerseResult[] }
-  | { type: 'surah'; data: SurahData }
+export interface VerseResult {
+    numberInSurah: number;
+    surah: {
+        number: number;
+        englishName: string;
+    };
+    arabicText: string;
+    transliteration: string;
+    englishText: string;
+    banglaText: string;
+    fullVerseAudioUrl: string;
+}
+
+export type VerseFinderContent = 
+  | { type: 'empty' }
   | { type: 'loading_surah'; number: number }
-  | { type: 'empty' };
+  | { type: 'surah'; data: SurahData }
+  | { type: 'search'; verses: VerseResult[] };
+  
+export type PlaylistType = 'recitation' | 'tafsir' | 'englishRecitation';

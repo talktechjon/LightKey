@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { VerseFinderContent, VerseResult, SurahData } from '../types.ts';
+import { getFullSurah } from '../data/verseData.ts';
 
 type CurrentlyPlaying = {
   surah: number;
@@ -60,6 +61,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
   const [error, setError] = useState<string | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const verseElementsRef = useRef(new Map<string, HTMLDivElement>());
   
   // Single verse playback state
   const [currentlyPlaying, setCurrentlyPlaying] = useState<CurrentlyPlaying>(null);
@@ -106,6 +108,16 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     setCurrentlyPlaying(null);
   }, [content, rangeStart, rangeEnd]);
 
+  // Effect for auto-scrolling
+  useEffect(() => {
+    if (currentlyPlaying) {
+      const key = `${currentlyPlaying.surah}-${currentlyPlaying.ayah}`;
+      const element = verseElementsRef.current.get(key);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [currentlyPlaying]);
 
   // Effect to manage audio events and playlist progression
   useEffect(() => {
@@ -175,7 +187,6 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     if (!isVisible) {
         const audio = audioRef.current;
         audio.pause();
-        // Resetting src to '' can cause an error. A safer way is to remove the attribute and call load().
         if (audio.src) {
             audio.removeAttribute('src');
             audio.load();
@@ -218,50 +229,77 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     setPlaylistIndex(0);
   };
 
-
   const handleSearch = async () => {
     if (!query.trim()) return;
     setIsLoading(true); setError(null); audioRef.current.pause(); setCurrentlyPlaying(null);
     
-    // Normalize different dash characters to a standard hyphen.
     const normalizedQuery = query.replace(/–|—/g, '-');
-    const verseQueries = normalizedQuery.split(',').map(v => v.trim()).filter(Boolean);
+    const queries = normalizedQuery.split(',').map(v => v.trim()).filter(Boolean);
 
-    if (verseQueries.length === 0) {
-      setError('Invalid format. Use Surah:Ayah, e.g., 1:1, 2:255-257');
+    if (queries.length === 0) {
+      setError('Invalid format. Use Surah:Ayah, Chapter, or Surah:Start-End');
       setIsLoading(false); return;
     }
+    
     try {
-        const promises = verseQueries.flatMap(q => {
-            if (q.includes('-')) { // Handle range
+        const promises = queries.map(async (q): Promise<VerseResult[]> => {
+            // Chapter search
+            if (!q.includes(':') && /^\d+$/.test(q)) {
+                const chapterNum = parseInt(q, 10);
+                if (isNaN(chapterNum) || chapterNum < 1 || chapterNum > 114) return [];
+                const surahData = await getFullSurah(chapterNum);
+                if (!surahData) return [];
+                // Map SurahData to VerseResult[]
+                return surahData.verses.map(v => ({
+                    numberInSurah: v.numberInSurah,
+                    surah: { number: surahData.number, englishName: surahData.englishName },
+                    arabicText: v.arabicText,
+                    transliteration: v.transliteration,
+                    englishText: v.englishText,
+                    banglaText: v.banglaText,
+                    fullVerseAudioUrl: v.fullVerseAudioUrl
+                }));
+            }
+
+            // Verse or Range search
+            let verseIdentifiers: string[] = [];
+            if (q.includes('-')) {
                 const [surah, range] = q.split(':');
                 const [start, end] = range.split('-').map(Number);
                 if (!surah || isNaN(start) || isNaN(end) || start > end) return [];
-                let ayahs = [];
-                for (let i = start; i <= end; i++) ayahs.push(`${surah}:${i}`);
-                return ayahs;
+                for (let i = start; i <= end; i++) verseIdentifiers.push(`${surah}:${i}`);
+            } else {
+                verseIdentifiers.push(q);
             }
-            return q;
-        }).map(async (verseQuery) => {
-            const [surah, ayah] = verseQuery.split(':');
-            const url = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/quran-uthmani,en.transliteration,en.sahih,bn.bengali`;
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP error for ${verseQuery}!`);
-            const json = await response.json();
-            if (json.code !== 200) throw new Error(`Invalid data for ${verseQuery}`);
-            const verseData = json.data;
-            const absoluteAyahNumber = verseData[0].number;
-            return {
-              numberInSurah: verseData[0].numberInSurah, surah: { number: verseData[0].surah.number, englishName: verseData[0].surah.englishName },
-              arabicText: verseData.find(v => v.edition.identifier === 'quran-uthmani')?.text || 'N/A',
-              transliteration: verseData.find(v => v.edition.identifier === 'en.transliteration')?.text || 'N/A',
-              englishText: verseData.find(v => v.edition.identifier === 'en.sahih')?.text || 'N/A',
-              banglaText: verseData.find(v => v.edition.identifier === 'bn.bengali')?.text || 'N/A',
-              fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`
-            };
+            
+            const versePromises = verseIdentifiers.map(async (verseQuery) => {
+                const [surah, ayah] = verseQuery.split(':');
+                const url = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/quran-uthmani,en.transliteration,en.sahih,bn.bengali`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error for ${verseQuery}!`);
+                const json = await response.json();
+                if (json.code !== 200) throw new Error(`Invalid data for ${verseQuery}`);
+                const verseData = json.data;
+                const absoluteAyahNumber = verseData[0].number;
+                return {
+                  numberInSurah: verseData[0].numberInSurah, surah: { number: verseData[0].surah.number, englishName: verseData[0].surah.englishName },
+                  arabicText: verseData.find(v => v.edition.identifier === 'quran-uthmani')?.text || 'N/A',
+                  transliteration: verseData.find(v => v.edition.identifier === 'en.transliteration')?.text || 'N/A',
+                  englishText: verseData.find(v => v.edition.identifier === 'en.sahih')?.text || 'N/A',
+                  banglaText: verseData.find(v => v.edition.identifier === 'bn.bengali')?.text || 'N/A',
+                  fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`
+                };
+            });
+            return Promise.all(versePromises);
         });
-      const results = await Promise.all(promises);
-      setContent({type: 'search', verses: results});
+
+      const resultsArrays = await Promise.all(promises);
+      const finalResults = resultsArrays.flat();
+       if (finalResults.length === 0) {
+            setError('No verses found for the given query.');
+        } else {
+            setContent({type: 'search', verses: finalResults});
+        }
     } catch (e) { setError(e instanceof Error ? e.message : 'An unknown error occurred.');
     } finally { setIsLoading(false); }
   };
@@ -275,11 +313,16 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
         case 'search':
             return (
                 <div className="space-y-4">
-                    {content.verses.map((verse, index) => {
+                    {content.verses.map((verse) => {
                         const verseIdentifier = { surah: verse.surah.number, ayah: verse.numberInSurah };
                         const isThisVersePlaying = isPlaying && isSameAudio(currentlyPlaying, verseIdentifier);
+                        const key = `${verse.surah.number}-${verse.numberInSurah}`;
                         return (
-                            <div key={index} className="p-3 bg-gray-900/50 border border-gray-700 rounded-md">
+                            <div 
+                                key={key}
+                                ref={el => { if (el) verseElementsRef.current.set(key, el); else verseElementsRef.current.delete(key); }}
+                                className="p-3 bg-gray-900/50 border border-gray-700 rounded-md"
+                            >
                                 <div className="flex justify-between items-center mb-2">
                                     <h4 className="font-bold text-cyan-400">{verse.surah.englishName} [{verse.surah.number}:{verse.numberInSurah}]</h4>
                                     <button onClick={() => handlePlayToggle(verseIdentifier, verse.fullVerseAudioUrl)} className={`transition-colors ${isThisVersePlaying ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}`} aria-label={`Play audio for ${verse.surah.englishName} ${verse.numberInSurah}`}>
@@ -307,8 +350,13 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                        {content.data.verses.map((verse) => {
                            const verseIdentifier = { surah: content.data.number, ayah: verse.numberInSurah };
                            const isThisVersePlaying = isPlaying && isSameAudio(currentlyPlaying, verseIdentifier);
+                           const key = `${content.data.number}-${verse.numberInSurah}`;
                            return (
-                               <div key={verse.numberInSurah} className="p-3 bg-gray-900/50 border border-gray-700 rounded-md">
+                               <div 
+                                   key={key}
+                                   ref={el => { if (el) verseElementsRef.current.set(key, el); else verseElementsRef.current.delete(key); }}
+                                   className="p-3 bg-gray-900/50 border border-gray-700 rounded-md"
+                                >
                                    <div className="flex justify-between items-center mb-2">
                                        <h4 className="font-bold text-cyan-400">{content.data.number}:{verse.numberInSurah}</h4>
                                        <button onClick={() => handlePlayToggle(verseIdentifier, verse.fullVerseAudioUrl)} className={`transition-colors ${isThisVersePlaying ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}`} aria-label={`Play audio for verse ${verse.numberInSurah}`}>
@@ -364,7 +412,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
         <div className="flex items-center gap-2">
             <input
                 ref={inputRef} type="text" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleKeyDown}
-                placeholder="e.g., 2:255-257, 97:1, 112:1-4"
+                placeholder="e.g., 2:255, 112, 97:1-5"
                 className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-sm text-white placeholder-gray-500 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
             />
             <button onClick={handleSearch} disabled={isLoading} className="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-1.5 px-3 rounded text-sm transition-colors duration-200 disabled:bg-gray-500">

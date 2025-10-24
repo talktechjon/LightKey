@@ -62,12 +62,12 @@ export const getFullSurah = async (surahNumber: number): Promise<SurahData | nul
   }
 
   try {
-    const url = `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/quran-uthmani,en.sahih,bn.bengali`;
+    const url = `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/quran-uthmani,en.sahih,bn.bengali,en.transliteration`;
     const response = await fetch(url);
     if (!response.ok) throw new Error(`API error! status: ${response.status}`);
     
     const json = await response.json();
-    if (json.code !== 200 || !json.data || json.data.length < 3) {
+    if (json.code !== 200 || !json.data || json.data.length < 4) {
       throw new Error(`Invalid data received for surah ${surahNumber}`);
     }
 
@@ -75,8 +75,9 @@ export const getFullSurah = async (surahNumber: number): Promise<SurahData | nul
     const arabicEdition = editions.find(e => e.edition.identifier === 'quran-uthmani');
     const englishEdition = editions.find(e => e.edition.identifier === 'en.sahih');
     const banglaEdition = editions.find(e => e.edition.identifier === 'bn.bengali');
+    const transliterationEdition = editions.find(e => e.edition.identifier === 'en.transliteration');
 
-    if (!arabicEdition || !englishEdition || !banglaEdition) {
+    if (!arabicEdition || !englishEdition || !banglaEdition || !transliterationEdition) {
         throw new Error('One or more required editions are missing.');
     }
 
@@ -87,6 +88,7 @@ export const getFullSurah = async (surahNumber: number): Promise<SurahData | nul
             arabicText: ayah.text,
             englishText: englishEdition.ayahs[index]?.text || 'N/A',
             banglaText: banglaEdition.ayahs[index]?.text || 'N/A',
+            transliteration: transliterationEdition.ayahs[index]?.text || 'N/A',
             fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`,
         };
     });

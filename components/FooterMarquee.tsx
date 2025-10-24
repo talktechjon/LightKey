@@ -27,7 +27,7 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation }) => {
   const startXRef = useRef(0);
   const scrollStartRef = useRef(0);
   const posXRef = useRef(0);
-  const velocity = 1.0; // pixels per frame for auto-scroll
+  const velocity = 0.4; // pixels per frame for auto-scroll
 
   const stopAnimation = () => {
     if (animationFrameRef.current) {
