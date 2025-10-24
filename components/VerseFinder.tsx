@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { VerseFinderContent, VerseResult, SurahData } from '../types.ts';
-import { getFullSurah } from '../data/verseData.ts';
+import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
 
 type CurrentlyPlaying = {
   surah: number;
@@ -262,35 +262,29 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
             }
 
             // Verse or Range search
-            let verseIdentifiers: string[] = [];
+            let verseIdentifiers: { surah: number; ayah: number }[] = [];
             if (q.includes('-')) {
-                const [surah, range] = q.split(':');
+                const [surahStr, range] = q.split(':');
                 const [start, end] = range.split('-').map(Number);
-                if (!surah || isNaN(start) || isNaN(end) || start > end) return [];
-                for (let i = start; i <= end; i++) verseIdentifiers.push(`${surah}:${i}`);
+                const surah = parseInt(surahStr, 10);
+                if (isNaN(surah) || isNaN(start) || isNaN(end) || start > end) return [];
+                for (let i = start; i <= end; i++) verseIdentifiers.push({ surah, ayah: i });
             } else {
-                verseIdentifiers.push(q);
+                const [surahStr, ayahStr] = q.split(':');
+                const surah = parseInt(surahStr, 10);
+                const ayah = parseInt(ayahStr, 10);
+                if (!isNaN(surah) && !isNaN(ayah)) {
+                    verseIdentifiers.push({ surah, ayah });
+                }
             }
             
-            const versePromises = verseIdentifiers.map(async (verseQuery) => {
-                const [surah, ayah] = verseQuery.split(':');
-                const url = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/quran-uthmani,en.transliteration,en.sahih,bn.bengali`;
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP error for ${verseQuery}!`);
-                const json = await response.json();
-                if (json.code !== 200) throw new Error(`Invalid data for ${verseQuery}`);
-                const verseData = json.data;
-                const absoluteAyahNumber = verseData[0].number;
-                return {
-                  numberInSurah: verseData[0].numberInSurah, surah: { number: verseData[0].surah.number, englishName: verseData[0].surah.englishName },
-                  arabicText: verseData.find(v => v.edition.identifier === 'quran-uthmani')?.text || 'N/A',
-                  transliteration: verseData.find(v => v.edition.identifier === 'en.transliteration')?.text || 'N/A',
-                  englishText: verseData.find(v => v.edition.identifier === 'en.sahih')?.text || 'N/A',
-                  banglaText: verseData.find(v => v.edition.identifier === 'bn.bengali')?.text || 'N/A',
-                  fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`
-                };
+            const versePromises = verseIdentifiers.map(async ({ surah, ayah }) => {
+                return getVerseDetails(surah, ayah);
             });
-            return Promise.all(versePromises);
+
+            // Filter out null results from failed fetches
+            const results = (await Promise.all(versePromises)).filter((v): v is VerseResult => v !== null);
+            return results;
         });
 
       const resultsArrays = await Promise.all(promises);

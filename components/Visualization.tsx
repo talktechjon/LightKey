@@ -58,12 +58,12 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
 
 
   const specialChapterPoints = useMemo(() => [
-    TRIANGLE_POINTS[0].points[2].value, // Upward 9- Energy
-    TRIANGLE_POINTS[1].points[1].value, // Downward 6- Particle
-    TRIANGLE_POINTS[0].points[0].value, // Upward 3- Repent
-    TRIANGLE_POINTS[1].points[2].value, // Downward 9 Vibration
-    TRIANGLE_POINTS[0].points[1].value, // Upward 6- Purify
     TRIANGLE_POINTS[1].points[0].value, // Downward 3- Wave
+    TRIANGLE_POINTS[1].points[1].value, // Downward 6- Particle
+    TRIANGLE_POINTS[1].points[2].value, // Downward 9 Vibration
+    TRIANGLE_POINTS[0].points[0].value, // Upward 3- Repent
+    TRIANGLE_POINTS[0].points[1].value, // Upward 6- Purify
+    TRIANGLE_POINTS[0].points[2].value, // Upward 9- Energy
   ], []);
 
   const calculateTargetVerseCounts = (currentRotation: number) => {
@@ -235,12 +235,12 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
     const NUM_LAYERS = 6;
     // This order is from outer to inner to match specialChapterPoints
     const corePolygonColors = [
-        COLORS.triangle2, // Upward 9
-        COLORS.triangle1, // Downward 6
-        COLORS.triangle2, // Upward 3
-        COLORS.triangle1, // Downward 9
-        COLORS.triangle2, // Upward 6
         COLORS.triangle1, // Downward 3
+        COLORS.triangle1, // Downward 6
+        COLORS.triangle1, // Downward 9
+        COLORS.triangle2, // Upward 3
+        COLORS.triangle2, // Upward 6
+        COLORS.triangle2, // Upward 9
     ];
 
     const padding = 25;
