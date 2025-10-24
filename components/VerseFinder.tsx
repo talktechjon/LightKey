@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { VerseFinderContent, VerseResult, SurahData } from '../types.ts';
+import { VerseFinderContent, VerseResult, SurahData, SurahVerse } from '../types.ts';
 import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
+import { SLICE_DATA } from '../constants.ts';
 
 type CurrentlyPlaying = {
   surah: number;
@@ -55,12 +56,26 @@ const MinimizeIcon = () => (
     </svg>
 );
 
+const CopyIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+    <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h10v10H4V5z" />
+  </svg>
+);
+
+const CheckIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+    </svg>
+);
+
 
 const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, content, setContent, setIsAudioPlaying }) => {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle');
   const inputRef = useRef<HTMLInputElement>(null);
   const verseElementsRef = useRef(new Map<string, HTMLDivElement>());
   
@@ -243,19 +258,65 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     const queries = normalizedQuery.split(',').map(v => v.trim()).filter(Boolean);
 
     if (queries.length === 0) {
-      setError('Invalid format. Use Surah:Ayah, Chapter, or Surah:Start-End');
+      setError('Invalid format. Use Surah:Ayah, Chapter, Surah:Start-End, or :Ayah');
       setIsLoading(false); return;
     }
     
     try {
         const promises = queries.map(async (q): Promise<VerseResult[]> => {
-            // Chapter search
-            if (!q.includes(':') && /^\d+$/.test(q)) {
+            // New case: search by ayah number across all surahs. e.g., ":7"
+            if (q.startsWith(':')) {
+                const ayahNumber = parseInt(q.substring(1), 10);
+                if (isNaN(ayahNumber) || ayahNumber < 1) return [];
+
+                const versePromises = SLICE_DATA
+                    .filter(slice => slice.blockCount >= ayahNumber)
+                    .map(slice => getVerseDetails(slice.id, ayahNumber));
+                
+                const results = await Promise.all(versePromises);
+                return results.filter((v): v is VerseResult => v !== null);
+            }
+            
+            // Case: Search for a range of verses in a surah. e.g., "97:1-5"
+            if (q.includes(':') && q.includes('-')) {
+                const [surahStr, range] = q.split(':');
+                const [startStr, endStr] = range.split('-');
+                const surah = parseInt(surahStr, 10);
+                const start = parseInt(startStr, 10);
+                const end = parseInt(endStr, 10);
+
+                if (isNaN(surah) || isNaN(start) || isNaN(end) || start > end || start < 1) return [];
+
+                const verseIdentifiers = [];
+                for (let i = start; i <= end; i++) {
+                    verseIdentifiers.push({ surah, ayah: i });
+                }
+                
+                const versePromises = verseIdentifiers.map(({ surah, ayah }) => getVerseDetails(surah, ayah));
+                const results = await Promise.all(versePromises);
+                return results.filter((v): v is VerseResult => v !== null);
+            }
+
+            // Case: Search for a single verse. e.g., "2:255"
+            if (q.includes(':')) {
+                const [surahStr, ayahStr] = q.split(':');
+                const surah = parseInt(surahStr, 10);
+                const ayah = parseInt(ayahStr, 10);
+
+                if (isNaN(surah) || isNaN(ayah) || surah < 1 || surah > 114 || ayah < 1) return [];
+                
+                const verse = await getVerseDetails(surah, ayah);
+                return verse ? [verse] : [];
+            }
+            
+            // Case: Search for a full surah. e.g., "112"
+            if (/^\d+$/.test(q)) {
                 const chapterNum = parseInt(q, 10);
                 if (isNaN(chapterNum) || chapterNum < 1 || chapterNum > 114) return [];
+                
                 const surahData = await getFullSurah(chapterNum);
                 if (!surahData) return [];
-                // Map SurahData to VerseResult[]
+
                 return surahData.verses.map(v => ({
                     numberInSurah: v.numberInSurah,
                     surah: { number: surahData.number, englishName: surahData.englishName },
@@ -267,30 +328,8 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                 }));
             }
 
-            // Verse or Range search
-            let verseIdentifiers: { surah: number; ayah: number }[] = [];
-            if (q.includes('-')) {
-                const [surahStr, range] = q.split(':');
-                const [start, end] = range.split('-').map(Number);
-                const surah = parseInt(surahStr, 10);
-                if (isNaN(surah) || isNaN(start) || isNaN(end) || start > end) return [];
-                for (let i = start; i <= end; i++) verseIdentifiers.push({ surah, ayah: i });
-            } else {
-                const [surahStr, ayahStr] = q.split(':');
-                const surah = parseInt(surahStr, 10);
-                const ayah = parseInt(ayahStr, 10);
-                if (!isNaN(surah) && !isNaN(ayah)) {
-                    verseIdentifiers.push({ surah, ayah });
-                }
-            }
-            
-            const versePromises = verseIdentifiers.map(async ({ surah, ayah }) => {
-                return getVerseDetails(surah, ayah);
-            });
-
-            // Filter out null results from failed fetches
-            const results = (await Promise.all(versePromises)).filter((v): v is VerseResult => v !== null);
-            return results;
+            // If no case matches, it's an invalid query part.
+            return [];
         });
 
       const resultsArrays = await Promise.all(promises);
@@ -305,6 +344,36 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
   };
   
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => { if (event.key === 'Enter') handleSearch(); };
+  
+  const handleCopyAll = () => {
+    if (content.type !== 'search' && content.type !== 'surah') return;
+
+    const versesToCopy: (VerseResult | SurahVerse)[] = content.type === 'search' 
+        ? content.verses 
+        : content.data.verses;
+
+    if (versesToCopy.length === 0) return;
+
+    const textToCopy = versesToCopy.map(v => {
+        const surahNumber = 'surah' in v ? v.surah.number : content.data.number;
+        const surahName = 'surah' in v ? v.surah.englishName : content.data.englishName;
+
+        return `${surahName} [${surahNumber}:${v.numberInSurah}]\n` +
+               `----------------------------------------\n` +
+               `Arabic: ${v.arabicText}\n` +
+               `English: ${v.englishText}\n` +
+               `Bangla: ${v.banglaText}\n` +
+               `Transliteration: ${v.transliteration}`;
+    }).join('\n\n');
+
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        setCopyStatus('copied');
+        setTimeout(() => setCopyStatus('idle'), 2000); // Reset after 2 seconds
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+        setError('Failed to copy verses to clipboard.');
+    });
+  };
 
   const renderContent = () => {
     switch (content.type) {
@@ -383,7 +452,25 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
   return (
     <div className={`max-h-[calc(100vh-100px)] bg-black/50 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-2xl flex flex-col transition-all duration-300 ease-in-out ${isMaximized ? 'w-80 lg:w-[700px]' : 'w-80'}`}>
       <div className="flex justify-between items-center p-3 border-b border-cyan-500/20 gap-x-2">
-        <h3 className="font-semibold text-cyan-300 shrink-0">Reader</h3>
+        <div className="flex items-center gap-x-2">
+            <h3 className="font-semibold text-cyan-300 shrink-0">Reader</h3>
+            {((content.type === 'search' && content.verses.length > 0) ||
+              (content.type === 'surah' && content.data.verses.length > 0)) && (
+                <button
+                    onClick={handleCopyAll}
+                    className={`flex items-center gap-1.5 text-xs rounded-md px-2 py-1 transition-all duration-200 ${
+                        copyStatus === 'copied' 
+                        ? 'bg-emerald-600 text-white' 
+                        : 'bg-gray-700/50 hover:bg-cyan-700/50 text-gray-300 hover:text-white'
+                    }`}
+                    title="Copy all visible verses"
+                    disabled={copyStatus === 'copied'}
+                >
+                    {copyStatus === 'copied' ? <CheckIcon /> : <CopyIcon />}
+                    {copyStatus === 'copied' ? 'Copied!' : 'Copy All'}
+                </button>
+            )}
+        </div>
         
         {content.type === 'surah' && (
             <div className="flex items-center gap-1 text-xs text-white">
@@ -412,7 +499,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
         <div className="flex items-center gap-2">
             <input
                 ref={inputRef} type="text" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleKeyDown}
-                placeholder="e.g., 2:255, 112, 97:1-5"
+                placeholder="e.g., 2:255, 112, 97:1-5, :7"
                 className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-sm text-white placeholder-gray-500 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
             />
             <button onClick={handleSearch} disabled={isLoading} className="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-1.5 px-3 rounded text-sm transition-colors duration-200 disabled:bg-gray-500">
