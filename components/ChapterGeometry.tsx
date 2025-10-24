@@ -72,14 +72,14 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
 
 const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, showTooltip, hideTooltip }) => {
     
-    // This is the order for the central visualization, from outer to inner
+    // This is the order for the combined geometry visualization, from outer to inner
     const centralGeometryPoints = [
-        TRIANGLE_POINTS[0].points[2].value, // ▲ Upward 9- Energy
-        TRIANGLE_POINTS[1].points[1].value, // ▼ Downward 6- Particle
-        TRIANGLE_POINTS[0].points[0].value, // ▲ Upward 3- Repent
-        TRIANGLE_POINTS[1].points[2].value, // ▼ Downward 9 Vibration
-        TRIANGLE_POINTS[0].points[1].value, // ▲ Upward 6- Purify
         TRIANGLE_POINTS[1].points[0].value, // ▼ Downward 3- Wave
+        TRIANGLE_POINTS[1].points[1].value, // ▼ Downward 6- Particle
+        TRIANGLE_POINTS[1].points[2].value, // ▼ Downward 9 Vibration/Fall
+        TRIANGLE_POINTS[0].points[0].value, // ▲ Upward 3- Repent
+        TRIANGLE_POINTS[0].points[1].value, // ▲ Upward 6- Purify
+        TRIANGLE_POINTS[0].points[2].value, // ▲ Upward 9- Energy/Return
     ];
     
     const centralVerseCounts = centralGeometryPoints.map(pointValue => {
@@ -103,12 +103,12 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, showTooltip
     const renderCombinedGeometry = () => {
         const NUM_LAYERS = 6;
         const corePolygonColors = [
-            TRIANGLE_POINTS[0].color, // Energy
-            TRIANGLE_POINTS[1].color, // Particle
-            TRIANGLE_POINTS[0].color, // Repent
-            TRIANGLE_POINTS[1].color, // Vibration
-            TRIANGLE_POINTS[0].color, // Purify
             TRIANGLE_POINTS[1].color, // Wave
+            TRIANGLE_POINTS[1].color, // Particle
+            TRIANGLE_POINTS[1].color, // Vibration
+            TRIANGLE_POINTS[0].color, // Repent
+            TRIANGLE_POINTS[0].color, // Purify
+            TRIANGLE_POINTS[0].color, // Energy
         ];
 
         const maxPolyRadius = 32;
