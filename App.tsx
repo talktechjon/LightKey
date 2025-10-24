@@ -5,9 +5,9 @@ import FooterMarquee from './components/FooterMarquee.tsx';
 import Tooltip from './components/Tooltip.tsx';
 import StarryBackground from './components/StarryBackground.tsx';
 import VerseFinder from './components/VerseFinder.tsx';
-import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent } from './types.ts';
+import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent, VerseFinderContent } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
-import { getVerse } from './data/verseData.ts';
+import { getVerse, getFullSurah } from './data/verseData.ts';
 
 const App: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);
@@ -19,9 +19,21 @@ const App: React.FC = () => {
   const [isSecretModeActive, setIsSecretModeActive] = useState(false);
   const [secretEmojiShift, setSecretEmojiShift] = useState(0);
   const [isVerseFinderVisible, setIsVerseFinderVisible] = useState(false);
-  
+  const [verseFinderContent, setVerseFinderContent] = useState<VerseFinderContent>({ type: 'empty' });
+
   // Defer updates to the most expensive, off-screen component (Footer)
   const deferredRotation = useDeferredValue(rotation);
+
+  const loadSurahInFinder = async (surahNumber: number) => {
+    setIsVerseFinderVisible(true);
+    setVerseFinderContent({ type: 'loading_surah', number: surahNumber });
+    const surahData = await getFullSurah(surahNumber);
+    if (surahData) {
+        setVerseFinderContent({ type: 'surah', data: surahData });
+    } else {
+        setVerseFinderContent({ type: 'empty' }); 
+    }
+  };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     event.preventDefault();
@@ -114,6 +126,8 @@ const App: React.FC = () => {
         <VerseFinder 
           isVisible={isVerseFinderVisible}
           setIsVisible={setIsVerseFinderVisible}
+          content={verseFinderContent}
+          setContent={setVerseFinderContent}
         />
       </div>
 
@@ -138,6 +152,7 @@ const App: React.FC = () => {
             secretEmojiShift={secretEmojiShift}
             showTooltip={showChapterTooltip}
             hideTooltip={hideTooltip}
+            onSliceSelect={loadSurahInFinder}
           />
         </div>
         <SidePanel 
