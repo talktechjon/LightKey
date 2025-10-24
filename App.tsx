@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useDeferredValue } from 'react';
+import React, { useState, useRef, useCallback, useDeferredValue, useEffect } from 'react';
 import Visualization from './components/Visualization.tsx';
 import SidePanel from './components/SidePanel.tsx';
 import FooterMarquee from './components/FooterMarquee.tsx';
@@ -21,8 +21,127 @@ const App: React.FC = () => {
   const [isVerseFinderVisible, setIsVerseFinderVisible] = useState(false);
   const [verseFinderContent, setVerseFinderContent] = useState<VerseFinderContent>({ type: 'empty' });
 
+  // --- Idle Animation State ---
+  const [isIdle, setIsIdle] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const idleTimerRef = useRef<number | null>(null);
+  const idleIntervalRef = useRef<number | null>(null);
+  const idleStartPositionRef = useRef<number | null>(null);
+  const animationFrameId = useRef<number | null>(null);
+
+  // Refs to hold the latest state for the stable resetIdleTimer callback
+  const isAudioPlayingRef = useRef(isAudioPlaying);
+  useEffect(() => { isAudioPlayingRef.current = isAudioPlaying; }, [isAudioPlaying]);
+
+  const isIdleRef = useRef(isIdle);
+  useEffect(() => { isIdleRef.current = isIdle; }, [isIdle]);
+
+  const rotationRef = useRef(rotation);
+  useEffect(() => { rotationRef.current = rotation; }, [rotation]);
+  // --- End Idle Animation State ---
+
   // Defer updates to the most expensive, off-screen component (Footer)
   const deferredRotation = useDeferredValue(rotation);
+  
+  const animateRotation = useCallback((start: number, end: number, duration: number, onComplete?: () => void) => {
+    if (animationFrameId.current) {
+      cancelAnimationFrame(animationFrameId.current);
+    }
+    let startTime: number | null = null;
+    const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeInOutCubic(progress);
+
+      const newRotation = start + (end - start) * easedProgress;
+      setRotation(newRotation);
+
+      if (progress < 1) {
+        animationFrameId.current = requestAnimationFrame(step);
+      } else {
+        setRotation(end); 
+        if (onComplete) onComplete();
+      }
+    };
+    animationFrameId.current = requestAnimationFrame(step);
+  }, []);
+
+  const resetIdleTimer = useCallback(() => {
+    // Stop any ongoing idle timers/intervals
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    if (idleIntervalRef.current) {
+      clearInterval(idleIntervalRef.current);
+      idleIntervalRef.current = null;
+    }
+
+    // If we were idle, now we are active. Animate back to the start position.
+    if (isIdleRef.current) {
+      setIsIdle(false);
+      if (idleStartPositionRef.current !== null) {
+        const startRotation = rotationRef.current;
+        const targetRotation = idleStartPositionRef.current;
+        
+        // Find the shortest path to animate back
+        let diff = (targetRotation % 360) - (startRotation % 360);
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        
+        const endRotation = startRotation + diff;
+        animateRotation(startRotation, endRotation, 1500); // Slightly longer animation for a graceful return
+      }
+    }
+
+    // Set a new timer to enter idle mode
+    idleTimerRef.current = window.setTimeout(() => {
+      if (!isAudioPlayingRef.current) {
+        idleStartPositionRef.current = rotationRef.current; // Capture position before starting idle tick
+        setIsIdle(true);
+      } else {
+        // If audio is playing, just reset the timer to check again later
+        resetIdleTimer();
+      }
+    }, 15000); // 15-second idle timeout
+  }, [animateRotation]); // Dependency array is minimal, making the function stable.
+
+  useEffect(() => {
+    const events: (keyof WindowEventMap)[] = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'];
+    // Use a stable handler function that calls the latest resetIdleTimer
+    const stableHandler = () => resetIdleTimer();
+
+    events.forEach(event => window.addEventListener(event, stableHandler, { passive: true }));
+    resetIdleTimer(); // Start the timer on initial load
+
+    return () => {
+      events.forEach(event => window.removeEventListener(event, stableHandler));
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+      if (idleIntervalRef.current) clearInterval(idleIntervalRef.current);
+      if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
+    };
+  }, [resetIdleTimer]);
+
+  useEffect(() => {
+    if (isIdle) {
+      if (idleIntervalRef.current) clearInterval(idleIntervalRef.current); // Ensure no multiple intervals
+      idleIntervalRef.current = window.setInterval(() => {
+        setRotation(prev => prev - (360 / TOTAL_SLICES));
+      }, 1000); // Tick every second
+    } else {
+      if (idleIntervalRef.current) {
+        clearInterval(idleIntervalRef.current);
+        idleIntervalRef.current = null;
+      }
+    }
+    return () => {
+      if (idleIntervalRef.current) {
+        clearInterval(idleIntervalRef.current);
+        idleIntervalRef.current = null;
+      }
+    };
+  }, [isIdle]);
+
 
   const loadSurahInFinder = async (surahNumber: number) => {
     setIsVerseFinderVisible(true);
@@ -128,6 +247,7 @@ const App: React.FC = () => {
           setIsVisible={setIsVerseFinderVisible}
           content={verseFinderContent}
           setContent={setVerseFinderContent}
+          setIsAudioPlaying={setIsAudioPlaying}
         />
       </div>
 

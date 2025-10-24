@@ -12,6 +12,7 @@ interface VerseFinderProps {
   setIsVisible: (visible: boolean) => void;
   content: VerseFinderContent;
   setContent: (content: VerseFinderContent) => void;
+  setIsAudioPlaying: (isPlaying: boolean) => void;
 }
 
 const PlayIcon = () => (
@@ -55,7 +56,7 @@ const MinimizeIcon = () => (
 );
 
 
-const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, content, setContent }) => {
+const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, content, setContent, setIsAudioPlaying }) => {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -122,25 +123,23 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
   // Effect to manage audio events and playlist progression
   useEffect(() => {
     const audio = audioRef.current;
-    const onPlay = () => setIsPlaying(true);
-    const onPause = () => setIsPlaying(false);
+    const onPlay = () => { setIsPlaying(true); setIsAudioPlaying(true); };
+    const onPause = () => { setIsPlaying(false); setIsAudioPlaying(false); };
 
     const onEnded = () => {
-        if (isPlaylistPlaying && playlist.length > 0) {
-            const nextIndex = playlistIndex + 1;
-            if (nextIndex < playlist.length) {
-                setPlaylistIndex(nextIndex);
-            } else if (isRepeatActive) {
-                setPlaylistIndex(0);
-            } else {
-                setIsPlaylistPlaying(false);
-                setPlaylistIndex(0);
-                setCurrentlyPlaying(null);
-            }
+        const wasPlaylistPlaying = isPlaylistPlaying;
+        const hasMoreInPlaylist = playlistIndex + 1 < playlist.length;
+        
+        if (wasPlaylistPlaying && hasMoreInPlaylist) {
+            setPlaylistIndex(prev => prev + 1);
+        } else if (wasPlaylistPlaying && isRepeatActive) {
+            setPlaylistIndex(0);
         } else {
+            setIsPlaylistPlaying(false);
             setCurrentlyPlaying(null);
+            setIsPlaying(false);
+            setIsAudioPlaying(false);
         }
-        setIsPlaying(false);
     };
     
     const onError = () => {
@@ -148,10 +147,10 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
         if (failedRequest) {
             setError(`Audio failed to load for [${failedRequest.surah}:${failedRequest.ayah}]`);
         } else {
-            // Fallback for unexpected errors before a track is selected
             setError('Audio playback failed. The source might be unavailable.');
         }
-        onEnded(); // Treat error as 'ended' to advance the playlist
+        setIsAudioPlaying(false);
+        onEnded();
     };
 
     audio.addEventListener('play', onPlay);
@@ -165,7 +164,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
       audio.removeEventListener('ended', onEnded);
       audio.removeEventListener('error', onError);
     };
-  }, [isPlaylistPlaying, isRepeatActive, playlist, playlistIndex, currentlyPlaying]);
+  }, [isPlaylistPlaying, isRepeatActive, playlist, playlistIndex, currentlyPlaying, setIsAudioPlaying]);
   
   // Effect to automatically play the next track in the playlist
   useEffect(() => {
@@ -194,8 +193,9 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
         setCurrentlyPlaying(null); 
         setIsPlaying(false); 
         setIsPlaylistPlaying(false);
+        setIsAudioPlaying(false);
     }
-  }, [isVisible, content.type]);
+  }, [isVisible, content.type, setIsAudioPlaying]);
 
   const isSameAudio = (a: CurrentlyPlaying, b: CurrentlyPlaying) => {
     if (!a || !b) return false;
@@ -222,7 +222,13 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     }
   };
 
-  const handlePlaylistPlayPause = () => { if (playlist.length > 0) setIsPlaylistPlaying(p => !p); };
+  const handlePlaylistPlayPause = () => { 
+      if (playlist.length > 0) {
+          const newIsPlaylistPlaying = !isPlaylistPlaying;
+          setIsPlaylistPlaying(newIsPlaylistPlaying);
+          setIsAudioPlaying(newIsPlaylistPlaying); // Directly update global state
+      }
+  };
   const handleRepeatToggle = () => setIsRepeatActive(p => !p);
   const handleShuffle = () => {
     setPlaylist(p => [...p].sort(() => Math.random() - 0.5));
