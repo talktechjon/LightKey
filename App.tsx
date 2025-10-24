@@ -4,6 +4,7 @@ import SidePanel from './components/SidePanel.tsx';
 import FooterMarquee from './components/FooterMarquee.tsx';
 import Tooltip from './components/Tooltip.tsx';
 import StarryBackground from './components/StarryBackground.tsx';
+import VerseFinder from './components/VerseFinder.tsx';
 import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
 import { getVerse } from './data/verseData.ts';
@@ -17,6 +18,7 @@ const App: React.FC = () => {
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [isSecretModeActive, setIsSecretModeActive] = useState(false);
   const [secretEmojiShift, setSecretEmojiShift] = useState(0);
+  const [isVerseFinderVisible, setIsVerseFinderVisible] = useState(false);
   
   // Defer updates to the most expensive, off-screen component (Footer)
   const deferredRotation = useDeferredValue(rotation);
@@ -88,14 +90,33 @@ const App: React.FC = () => {
       className="w-full h-screen text-gray-100 font-sans relative flex flex-col overflow-hidden"
     >
       <StarryBackground />
-      <button 
-        onClick={() => setIsSecretModeActive(p => !p)}
-        className="absolute top-4 left-4 z-50 w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50 hover:border-cyan-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
-        title={isSecretModeActive ? "Deactivate Secret Pattern" : "Activate Secret Pattern"}
-        aria-label="Toggle Secret Emoji Pattern"
-      >
-        <div className="w-2 h-2 rounded-full bg-cyan-400/70 shadow-[0_0_8px_1px_rgba(0,255,255,0.5)]"></div>
-      </button>
+      <div className="absolute top-4 left-4 z-50 flex flex-col gap-y-2">
+        <div className="flex gap-x-2">
+          <button 
+            onClick={() => setIsSecretModeActive(p => !p)}
+            className="w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50 hover:border-cyan-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+            title={isSecretModeActive ? "Deactivate Secret Pattern" : "Activate Secret Pattern"}
+            aria-label="Toggle Secret Emoji Pattern"
+          >
+            <div className="w-2 h-2 rounded-full bg-cyan-400/70 shadow-[0_0_8px_1px_rgba(0,255,255,0.5)]"></div>
+          </button>
+          <button 
+            onClick={() => setIsVerseFinderVisible(p => !p)}
+            className="w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50 hover:border-cyan-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+            title="Toggle Verse Finder"
+            aria-label="Toggle Verse Finder"
+          >
+             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
+        <VerseFinder 
+          isVisible={isVerseFinderVisible}
+          setIsVisible={setIsVerseFinderVisible}
+        />
+      </div>
+
 
       <div className="relative z-10 flex flex-col lg:flex-row flex-1 min-h-0">
         <div 
