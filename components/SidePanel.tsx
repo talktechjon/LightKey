@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { SLICE_DATA, TRIANGLE_POINTS, TOTAL_SLICES, CHAPTER_DETAILS, SECRET_EMOJI_PATTERN, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, TAFSIR_YOUTUBE_VIDEO_IDS, RECITATION_YOUTUBE_VIDEO_IDS, ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
 import { getSliceAtPoint } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
@@ -56,6 +56,12 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
       return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleStep]);
 
+  const animationSequence = useMemo(() => {
+    return (customSequence.match(/\d+/g) || [])
+        .map(s => parseInt(s, 10))
+        .filter(n => !isNaN(n) && n >= 1 && n <= TOTAL_SLICES);
+  }, [customSequence]);
+
 
   useEffect(() => {
     const cleanup = () => {
@@ -68,9 +74,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
         return;
     }
 
-    const sequence = (customSequence.match(/\d+/g) || [])
-        .map(s => parseInt(s, 10))
-        .filter(n => !isNaN(n) && n >= 1 && n <= TOTAL_SLICES);
+    const sequence = animationSequence;
 
     if (sequence.length === 0) {
         setAnimationMode('off');
@@ -138,7 +142,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
     animationFrameId.current = requestAnimationFrame(animate);
 
     return cleanup;
-  }, [animationMode, animationIndex, customSequence, setRotation]);
+  }, [animationMode, animationIndex, animationSequence, setRotation]);
 
 
   const createPlaylist = (type: PlaylistType, chapterIds: number[]) => {

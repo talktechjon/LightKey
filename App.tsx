@@ -22,20 +22,16 @@ const App: React.FC = () => {
   const [verseFinderContent, setVerseFinderContent] = useState<VerseFinderContent>({ type: 'empty' });
 
   // --- Idle Animation State ---
+  const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(true);
   const [isIdle, setIsIdle] = useState(false);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const idleTimerRef = useRef<number | null>(null);
   const idleIntervalRef = useRef<number | null>(null);
   const idleStartPositionRef = useRef<number | null>(null);
   const animationFrameId = useRef<number | null>(null);
 
-  // Refs to hold the latest state for the stable resetIdleTimer callback
-  const isAudioPlayingRef = useRef(isAudioPlaying);
-  useEffect(() => { isAudioPlayingRef.current = isAudioPlaying; }, [isAudioPlaying]);
-
+  // Refs to hold the latest state for stable callbacks
   const isIdleRef = useRef(isIdle);
   useEffect(() => { isIdleRef.current = isIdle; }, [isIdle]);
-
   const rotationRef = useRef(rotation);
   useEffect(() => { rotationRef.current = rotation; }, [rotation]);
   // --- End Idle Animation State ---
@@ -70,49 +66,44 @@ const App: React.FC = () => {
   }, []);
 
   const resetIdleTimer = useCallback(() => {
-    // Stop any ongoing idle timers/intervals
+    if (!isIdleAnimationEnabled) return; // Feature is disabled globally.
+
     if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
     if (idleIntervalRef.current) {
       clearInterval(idleIntervalRef.current);
       idleIntervalRef.current = null;
     }
 
-    // If we were idle, now we are active. Animate back to the start position.
     if (isIdleRef.current) {
       setIsIdle(false);
       if (idleStartPositionRef.current !== null) {
         const startRotation = rotationRef.current;
         const targetRotation = idleStartPositionRef.current;
         
-        // Find the shortest path to animate back
         let diff = (targetRotation % 360) - (startRotation % 360);
         if (diff > 180) diff -= 360;
         if (diff < -180) diff += 360;
         
         const endRotation = startRotation + diff;
-        animateRotation(startRotation, endRotation, 1500); // Slightly longer animation for a graceful return
+        animateRotation(startRotation, endRotation, 1500);
       }
     }
 
-    // Set a new timer to enter idle mode
     idleTimerRef.current = window.setTimeout(() => {
-      if (!isAudioPlayingRef.current) {
-        idleStartPositionRef.current = rotationRef.current; // Capture position before starting idle tick
-        setIsIdle(true);
-      } else {
-        // If audio is playing, just reset the timer to check again later
-        resetIdleTimer();
-      }
-    }, 15000); // 15-second idle timeout
-  }, [animateRotation]); // Dependency array is minimal, making the function stable.
+      if (!isIdleAnimationEnabled) return; // Double-check before starting
+      idleStartPositionRef.current = rotationRef.current;
+      setIsIdle(true);
+    }, 15000);
+  }, [animateRotation, isIdleAnimationEnabled]);
 
   useEffect(() => {
     const events: (keyof WindowEventMap)[] = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'];
-    // Use a stable handler function that calls the latest resetIdleTimer
     const stableHandler = () => resetIdleTimer();
-
-    events.forEach(event => window.addEventListener(event, stableHandler, { passive: true }));
-    resetIdleTimer(); // Start the timer on initial load
+    
+    if (isIdleAnimationEnabled) {
+      events.forEach(event => window.addEventListener(event, stableHandler, { passive: true }));
+      resetIdleTimer();
+    }
 
     return () => {
       events.forEach(event => window.removeEventListener(event, stableHandler));
@@ -120,14 +111,14 @@ const App: React.FC = () => {
       if (idleIntervalRef.current) clearInterval(idleIntervalRef.current);
       if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
     };
-  }, [resetIdleTimer]);
+  }, [resetIdleTimer, isIdleAnimationEnabled]);
 
   useEffect(() => {
-    if (isIdle) {
-      if (idleIntervalRef.current) clearInterval(idleIntervalRef.current); // Ensure no multiple intervals
+    if (isIdle && isIdleAnimationEnabled) {
+      if (idleIntervalRef.current) clearInterval(idleIntervalRef.current);
       idleIntervalRef.current = window.setInterval(() => {
         setRotation(prev => prev - (360 / TOTAL_SLICES));
-      }, 1000); // Tick every second
+      }, 1000);
     } else {
       if (idleIntervalRef.current) {
         clearInterval(idleIntervalRef.current);
@@ -140,8 +131,11 @@ const App: React.FC = () => {
         idleIntervalRef.current = null;
       }
     };
-  }, [isIdle]);
+  }, [isIdle, isIdleAnimationEnabled]);
 
+  const handleToggleIdleAnimation = () => {
+    setIsIdleAnimationEnabled(prev => !prev);
+  };
 
   const loadSurahInFinder = async (surahNumber: number) => {
     setIsVerseFinderVisible(true);
@@ -241,13 +235,23 @@ const App: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
+           <button 
+            onClick={handleToggleIdleAnimation}
+            className={`w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50 hover:border-cyan-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 ${isIdleAnimationEnabled ? 'text-cyan-400' : 'text-gray-600'}`}
+            title={isIdleAnimationEnabled ? "Disable Idle Animation" : "Enable Idle Animation"}
+            aria-label="Toggle Idle Animation"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </button>
         </div>
         <VerseFinder 
           isVisible={isVerseFinderVisible}
           setIsVisible={setIsVerseFinderVisible}
           content={verseFinderContent}
           setContent={setVerseFinderContent}
-          setIsAudioPlaying={setIsAudioPlaying}
+          setIsAudioPlaying={() => { /* This prop is no longer needed for idle logic */ }}
         />
       </div>
 
