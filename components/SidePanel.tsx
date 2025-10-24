@@ -160,10 +160,10 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   const handleWatchSequence = (type: PlaylistType) => {
     const orderedPoints = [
       TRIANGLE_POINTS[1].points[0], // ▼ Downward 3- Wave
-      TRIANGLE_POINTS[0].points[1], // ▲ Upward 6- Purify
+      TRIANGLE_POINTS[1].points[1], // ▼ Downward 6- Particle
       TRIANGLE_POINTS[1].points[2], // ▼ Downward 9 Vibration
       TRIANGLE_POINTS[0].points[0], // ▲ Upward 3- Repent
-      TRIANGLE_POINTS[1].points[1], // ▼ Downward 6- Particle
+      TRIANGLE_POINTS[0].points[1], // ▲ Upward 6- Purify
       TRIANGLE_POINTS[0].points[2], // ▲ Upward 9- Energy
     ];
     const chapterIds = orderedPoints.map(point => getSliceAtPoint(point.value, rotation).id);
