@@ -1,4 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
+type CurrentlyPlaying = {
+  surah: number;
+  ayah: number;
+} | null;
 
 interface VerseResult {
   numberInSurah: number;
@@ -10,6 +15,7 @@ interface VerseResult {
   transliteration: string;
   englishText: string;
   banglaText: string;
+  fullVerseAudioUrl: string;
 }
 
 interface VerseFinderProps {
@@ -17,21 +23,86 @@ interface VerseFinderProps {
   setIsVisible: (visible: boolean) => void;
 }
 
+const PlayIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+  </svg>
+);
+
+const PauseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V8a1 1 0 00-1-1H8zm4 0a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V8a1 1 0 00-1-1h-1z" clipRule="evenodd" />
+  </svg>
+);
+
 const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible }) => {
   const [query, setQuery] = useState('');
   const [verses, setVerses] = useState<VerseResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  
+  const [currentlyPlaying, setCurrentlyPlaying] = useState<CurrentlyPlaying>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(new Audio());
 
   useEffect(() => {
-    // Reset state when finder is hidden
-    if (!isVisible) {
-        setQuery('');
-        setVerses([]);
-        setError(null);
-        setIsLoading(false);
+    const audio = audioRef.current;
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
+    const onEnded = () => {
+      setIsPlaying(false);
+      setCurrentlyPlaying(null);
+    };
+
+    audio.addEventListener('play', onPlay);
+    audio.addEventListener('pause', onPause);
+    audio.addEventListener('ended', onEnded);
+
+    return () => {
+      audio.removeEventListener('play', onPlay);
+      audio.removeEventListener('pause', onPause);
+      audio.removeEventListener('ended', onEnded);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isVisible) {
+      const timerId = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timerId);
+    } else {
+      audioRef.current.pause();
+      audioRef.current.src = '';
+      setCurrentlyPlaying(null);
+      setIsPlaying(false);
+      setQuery('');
+      setVerses([]);
+      setError(null);
+      setIsLoading(false);
     }
   }, [isVisible]);
+
+  const isSameAudio = (a: CurrentlyPlaying, b: CurrentlyPlaying) => {
+    if (!a || !b) return false;
+    return a.surah === b.surah && a.ayah === b.ayah;
+  };
+
+  const handlePlayToggle = (newRequest: CurrentlyPlaying, url: string) => {
+    const audio = audioRef.current;
+    if (isSameAudio(currentlyPlaying, newRequest)) {
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play().catch(e => console.error("Audio playback failed:", e));
+      }
+    } else {
+      audio.src = url;
+      audio.play().catch(e => console.error("Audio playback failed:", e));
+      setCurrentlyPlaying(newRequest);
+    }
+  };
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -39,6 +110,8 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible }) =>
     setIsLoading(true);
     setError(null);
     setVerses([]);
+    audioRef.current.pause();
+    setCurrentlyPlaying(null);
 
     const verseQueries = query
       .split(',')
@@ -64,6 +137,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible }) =>
         }
 
         const verseData = json.data;
+        const absoluteAyahNumber = verseData[0].number;
         const result: VerseResult = {
           numberInSurah: verseData[0].numberInSurah,
           surah: {
@@ -74,6 +148,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible }) =>
           transliteration: verseData.find(v => v.edition.identifier === 'en.transliteration')?.text || 'N/A',
           englishText: verseData.find(v => v.edition.identifier === 'en.sahih')?.text || 'N/A',
           banglaText: verseData.find(v => v.edition.identifier === 'bn.bengali')?.text || 'N/A',
+          fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`
         };
         return result;
       });
@@ -113,6 +188,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible }) =>
       <div className="p-3">
         <div className="flex items-center gap-2">
             <input
+                ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -133,15 +209,32 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible }) =>
         {error && <p className="text-red-400 text-center p-2 bg-red-900/30 rounded">{error}</p>}
         {verses.length > 0 && (
             <div className="space-y-4">
-                {verses.map((verse, index) => (
-                    <div key={index} className="p-3 bg-gray-900/50 border border-gray-700 rounded-md">
-                        <h4 className="font-bold text-cyan-400 mb-2">{verse.surah.englishName} [{verse.surah.number}:{verse.numberInSurah}]</h4>
-                        <p className="text-xl text-right font-serif text-white mb-2" dir="rtl">{verse.arabicText}</p>
-                        <p className="italic text-gray-400 mb-2">{verse.transliteration}</p>
-                        <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 mb-2">{verse.englishText}</p>
-                        <p className="text-cyan-200 border-l-2 border-cyan-500/50 pl-2">{verse.banglaText}</p>
-                    </div>
-                ))}
+                {verses.map((verse, index) => {
+                    const verseIdentifier = { surah: verse.surah.number, ayah: verse.numberInSurah };
+                    const isThisVersePlaying = isSameAudio(currentlyPlaying, verseIdentifier);
+
+                    return (
+                        <div key={index} className="p-3 bg-gray-900/50 border border-gray-700 rounded-md">
+                            <div className="flex justify-between items-center mb-2">
+                                <h4 className="font-bold text-cyan-400">{verse.surah.englishName} [{verse.surah.number}:{verse.numberInSurah}]</h4>
+                                <button
+                                  onClick={() => handlePlayToggle(verseIdentifier, verse.fullVerseAudioUrl)}
+                                  className={`transition-colors ${isThisVersePlaying ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}`}
+                                  aria-label={`Play or pause audio for verse ${verse.surah.number}:${verse.numberInSurah}`}
+                                  title="Play/Pause full verse audio"
+                                >
+                                    {isThisVersePlaying && isPlaying ? <PauseIcon /> : <PlayIcon />}
+                                </button>
+                            </div>
+                            <div className="text-xl text-right font-serif text-white mb-2" dir="rtl">
+                               {verse.arabicText}
+                            </div>
+                            <p className="italic text-gray-400 mb-2">{verse.transliteration}</p>
+                            <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 mb-2">{verse.englishText}</p>
+                            <p className="text-cyan-200 border-l-2 border-cyan-500/50 pl-2">{verse.banglaText}</p>
+                        </div>
+                    );
+                })}
             </div>
         )}
       </div>

@@ -59,30 +59,35 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation }) => {
       { ...TRIANGLE_POINTS[0].points[2], color: TRIANGLE_POINTS[0].color }, // ▲ 9 – Energy
     ];
 
-    const items: MarqueeVerse[] = orderedPoints.map(point => {
-      const surahId = getSliceIdAtPoint(point.value, rotation);
-      const sliceInfo = SLICE_DATA.find(s => s.id === surahId);
-      const verseCount = sliceInfo ? sliceInfo.blockCount : 0;
-      
-      if (verseCount > 0) {
-        const verseData = getVerse(surahId, verseCount);
-        const chapterInfo = CHAPTER_DETAILS.find(c => c.number === surahId);
+    const fetchMarqueeItems = async () => {
+      const promises = orderedPoints.map(async (point) => {
+        const surahId = getSliceIdAtPoint(point.value, rotation);
+        const sliceInfo = SLICE_DATA.find(s => s.id === surahId);
+        const verseCount = sliceInfo ? sliceInfo.blockCount : 0;
         
-        if (verseData && chapterInfo && !verseData.englishText.startsWith('Could not load')) {
-          return {
-            surah: surahId,
-            verse: verseCount,
-            englishText: verseData.englishText,
-            banglaText: verseData.banglaText,
-            chapterEnglishName: chapterInfo.englishName,
-            color: point.color,
-          };
+        if (verseCount > 0) {
+          const verseData = await getVerse(surahId, verseCount);
+          const chapterInfo = CHAPTER_DETAILS.find(c => c.number === surahId);
+          
+          if (verseData && chapterInfo && !verseData.englishText.startsWith('Could not load')) {
+            return {
+              surah: surahId,
+              verse: verseCount,
+              englishText: verseData.englishText,
+              banglaText: verseData.banglaText,
+              chapterEnglishName: chapterInfo.englishName,
+              color: point.color,
+            };
+          }
         }
-      }
-      return null;
-    }).filter((item): item is MarqueeVerse => item !== null);
+        return null;
+      });
 
-    setMarqueeItems(items);
+      const items = (await Promise.all(promises)).filter((item): item is MarqueeVerse => item !== null);
+      setMarqueeItems(items);
+    };
+    
+    fetchMarqueeItems();
   }, [rotation]);
   
   useEffect(() => {

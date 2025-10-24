@@ -49,8 +49,8 @@ const App: React.FC = () => {
     }
   };
 
-  const showVerseTooltip = useCallback((event: React.MouseEvent, surah: number, verse: number, color: string) => {
-    const { englishText, banglaText } = getVerse(surah, verse);
+  const showVerseTooltip = useCallback(async (event: React.MouseEvent, surah: number, verse: number, color: string) => {
+    const { englishText, banglaText } = await getVerse(surah, verse);
     const tooltipData: VerseTooltipContent = {
       type: 'verse',
       surah,
