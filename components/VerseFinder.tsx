@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { VerseFinderContent, VerseResult, SurahData, SurahVerse } from '../types.ts';
 import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
 import { SLICE_DATA } from '../constants.ts';
+import { processInBatches } from '../utils.ts';
 
 type CurrentlyPlaying = {
   surah: number;
@@ -269,11 +270,15 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                 const ayahNumber = parseInt(q.substring(1), 10);
                 if (isNaN(ayahNumber) || ayahNumber < 1) return [];
 
-                const versePromises = SLICE_DATA
-                    .filter(slice => slice.blockCount >= ayahNumber)
-                    .map(slice => getVerseDetails(slice.id, ayahNumber));
+                const surahsToFetch = SLICE_DATA
+                    .filter(slice => slice.blockCount >= ayahNumber);
                 
-                const results = await Promise.all(versePromises);
+                const results = await processInBatches(
+                    surahsToFetch,
+                    (slice) => getVerseDetails(slice.id, ayahNumber),
+                    5 // Process in batches of 5 to avoid rate limiting
+                );
+                
                 return results.filter((v): v is VerseResult => v !== null);
             }
             
@@ -292,8 +297,11 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                     verseIdentifiers.push({ surah, ayah: i });
                 }
                 
-                const versePromises = verseIdentifiers.map(({ surah, ayah }) => getVerseDetails(surah, ayah));
-                const results = await Promise.all(versePromises);
+                const results = await processInBatches(
+                    verseIdentifiers,
+                    ({ surah, ayah }) => getVerseDetails(surah, ayah),
+                    5 // Process in batches of 5
+                );
                 return results.filter((v): v is VerseResult => v !== null);
             }
 
@@ -355,8 +363,8 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     if (versesToCopy.length === 0) return;
 
     const textToCopy = versesToCopy.map(v => {
-        const surahNumber = 'surah' in v ? v.surah.number : content.data.number;
-        const surahName = 'surah' in v ? v.surah.englishName : content.data.englishName;
+        const surahNumber = 'surah' in v ? v.surah.number : (content as SurahData).number;
+        const surahName = 'surah' in v ? v.surah.englishName : (content as SurahData).englishName;
 
         return `${surahName} [${surahNumber}:${v.numberInSurah}]\n` +
                `----------------------------------------\n` +

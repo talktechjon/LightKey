@@ -43,3 +43,26 @@ export const getSliceAtPoint = (pointValue: number, rotation: number): SliceData
 export const getSliceIdAtPoint = (pointValue: number, rotation: number): number => {
     return getSliceAtPoint(pointValue, rotation).id;
 };
+
+/**
+ * Processes an array of items by applying an async function to them in batches.
+ * This helps to avoid sending too many concurrent requests.
+ * @param items The array of items to process.
+ * @param asyncFn The async function to apply to each item.
+ * @param batchSize The number of items to process in each batch.
+ * @returns A promise that resolves to an array of results.
+ */
+export async function processInBatches<T, R>(
+  items: T[],
+  asyncFn: (item: T) => Promise<R>,
+  batchSize: number
+): Promise<R[]> {
+  let results: R[] = [];
+  for (let i = 0; i < items.length; i += batchSize) {
+    const batchItems = items.slice(i, i + batchSize);
+    const batchPromises = batchItems.map(asyncFn);
+    const batchResults = await Promise.all(batchPromises);
+    results = [...results, ...batchResults];
+  }
+  return results;
+}
