@@ -133,7 +133,12 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     
     const onError = () => {
         const failedRequest = lastPlayedRef.current || currentlyPlaying;
-        setError(`Audio failed to load for [${failedRequest?.surah}:${failedRequest?.ayah}]`);
+        if (failedRequest) {
+            setError(`Audio failed to load for [${failedRequest.surah}:${failedRequest.ayah}]`);
+        } else {
+            // Fallback for unexpected errors before a track is selected
+            setError('Audio playback failed. The source might be unavailable.');
+        }
         onEnded(); // Treat error as 'ended' to advance the playlist
     };
 
@@ -168,9 +173,16 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
         return () => clearTimeout(timerId);
     }
     if (!isVisible) {
-        audioRef.current.pause();
-        audioRef.current.src = '';
-        setCurrentlyPlaying(null); setIsPlaying(false); setIsPlaylistPlaying(false);
+        const audio = audioRef.current;
+        audio.pause();
+        // Resetting src to '' can cause an error. A safer way is to remove the attribute and call load().
+        if (audio.src) {
+            audio.removeAttribute('src');
+            audio.load();
+        }
+        setCurrentlyPlaying(null); 
+        setIsPlaying(false); 
+        setIsPlaylistPlaying(false);
     }
   }, [isVisible, content.type]);
 
