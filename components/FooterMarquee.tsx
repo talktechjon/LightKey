@@ -3,7 +3,7 @@ import { TRIANGLE_POINTS, SLICE_DATA, TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CH
 import { getSliceIdAtPoint } from '../utils.ts';
 import { getVerse } from '../data/verseData.ts';
 
-type LocalTranslationData = Record<string, Record<string, string>> | null;
+type LocalTranslationData = Record<string, string[]> | null;
 
 interface MarqueeVerse {
   surah: number;
@@ -158,7 +158,7 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
         <span className="ml-3 text-gray-300 italic">
           "{item.englishText}"
         </span>
-        {item.banglaText && item.banglaText !== '(Local file)' && (
+        {item.banglaText && (
             <span className="ml-3 text-cyan-200 italic">
                 "{item.banglaText}"
             </span>

@@ -110,9 +110,9 @@ const Tooltip: React.FC<TooltipProps> = ({ visible, content, position }) => {
                 {content.englishText}
                 </p>
             </div>
-            {content.banglaText && content.banglaText !== '(Local file)' && (
+            {content.banglaText && (
                 <div className="mt-3 pt-3 border-t border-gray-700">
-                    <h4 className="font-semibold text-cyan-400/90 mb-1">Bangla</h4>
+                    <h4 className="font-semibold text-cyan-400/90 mb-1">Secondary</h4>
                     <p className="text-gray-200 pl-2 border-l-2 border-cyan-400/50">
                     {content.banglaText}
                     </p>

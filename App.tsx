@@ -10,7 +10,7 @@ import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterToolti
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
 import { getVerse, getFullSurah } from './data/verseData.ts';
 
-type LocalTranslationData = Record<string, Record<string, string>> | null;
+type LocalTranslationData = Record<string, string[]> | null;
 
 const App: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);

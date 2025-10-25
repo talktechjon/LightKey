@@ -4,7 +4,7 @@ import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
 import { SLICE_DATA } from '../constants.ts';
 import { processInBatches } from '../utils.ts';
 
-type LocalTranslationData = Record<string, Record<string, string>> | null;
+type LocalTranslationData = Record<string, string[]> | null;
 
 type CurrentlyPlaying = {
   surah: number;
@@ -374,7 +374,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                `----------------------------------------\n` +
                `Arabic: ${v.arabicText}\n` +
                `Translation: ${v.englishText}\n` +
-               (v.banglaText && v.banglaText !== '(Local file)' ? `Bangla: ${v.banglaText}\n` : '') +
+               (v.banglaText ? `Secondary: ${v.banglaText}\n` : '') +
                `Transliteration: ${v.transliteration}`;
     }).join('\n\n');
 
@@ -413,7 +413,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                                 <div className="text-xl text-right font-serif text-white mb-2" dir="rtl">{verse.arabicText}</div>
                                 <p className="italic text-gray-400 mb-2">{verse.transliteration}</p>
                                 <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 mb-2">{verse.englishText}</p>
-                                {verse.banglaText && verse.banglaText !== '(Local file)' && (
+                                {verse.banglaText && (
                                     <p className="text-cyan-200 border-l-2 border-cyan-500/50 pl-2">{verse.banglaText}</p>
                                 )}
                             </div>
@@ -448,7 +448,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                                    </div>
                                    <div className="text-2xl text-right font-serif text-white mb-3" dir="rtl">{verse.arabicText}</div>
                                    <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 mb-2">{verse.englishText}</p>
-                                    {verse.banglaText && verse.banglaText !== '(Local file)' && (
+                                    {verse.banglaText && (
                                         <p className="text-cyan-200 border-l-2 border-cyan-500/50 pl-2">{verse.banglaText}</p>
                                     )}
                                </div>

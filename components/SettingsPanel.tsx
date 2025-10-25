@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 
-type LocalTranslationData = Record<string, Record<string, string>> | null;
+type LocalTranslationData = Record<string, string[]> | null;
 
 interface SettingsPanelProps {
   isVisible: boolean;
@@ -25,19 +25,32 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
       try {
         const text = e.target?.result;
         if (typeof text !== 'string') throw new Error("File could not be read.");
-        const data = JSON.parse(text);
+        const rawData = JSON.parse(text);
         
-        // Basic validation of the JSON structure
-        if (typeof data !== 'object' || data === null || Array.isArray(data)) {
-            throw new Error("Invalid format: JSON must be an object of Surahs.");
+        if (typeof rawData !== 'object' || rawData === null || Array.isArray(rawData)) {
+          throw new Error("Invalid format: JSON must be an object with 'S:A' keys.");
         }
-        for (const surahKey in data) {
-            if (typeof data[surahKey] !== 'object' || data[surahKey] === null || Array.isArray(data[surahKey])) {
-                 throw new Error(`Invalid format in Surah ${surahKey}: Value must be an object of Ayahs.`);
+        
+        const normalizedData: Record<string, string[]> = {};
+        const keyRegex = /^\d+:\d+$/;
+
+        for (const key in rawData) {
+            if (!Object.prototype.hasOwnProperty.call(rawData, key)) continue;
+            if (!keyRegex.test(key)) {
+                throw new Error(`Invalid key format: "${key}". Must be "Surah:Ayah".`);
+            }
+            
+            const value = rawData[key];
+            if (typeof value === 'string') {
+                normalizedData[key] = [value];
+            } else if (Array.isArray(value) && value.every(item => typeof item === 'string')) {
+                normalizedData[key] = value;
+            } else {
+                throw new Error(`Invalid value for key "${key}". Must be a string or an array of strings.`);
             }
         }
         
-        onFileLoad(data, file.name);
+        onFileLoad(normalizedData, file.name);
 
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to parse JSON file.");
@@ -110,11 +123,11 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
                 <p className="font-semibold">Required JSON format:</p>
                 <pre className="mt-1 p-2 bg-gray-800/50 rounded-md overflow-x-auto">
 {`{
-  "1": {
-    "1": "Translation for 1:1",
-    "2": "Translation for 1:2"
-  },
-  "112": { ... }
+  "1:1": [
+    "Primary translation",
+    "Secondary translation"
+  ],
+  "1:2": "Single translation"
 }`}
                 </pre>
             </div>
