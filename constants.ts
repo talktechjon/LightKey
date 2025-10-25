@@ -285,7 +285,7 @@ export const TAFSIR_YOUTUBE_VIDEO_IDS: (string | null)[] = [
   'AAldTkgNzY0', // 47
   'u4GMTG_dDpw', // 48
   '600SO5gF9ts', // 49
-  'dMBxnQ9qbOo', // 50
+  'Qoy6dD8Iohk', // 50
   'nJY9Rmvki_k', // 51
   '16EWlSm4FNw', // 52
   'tU2UUTFyAGU', // 53
