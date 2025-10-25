@@ -3,6 +3,8 @@ import { TRIANGLE_POINTS, SLICE_DATA, TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CH
 import { getSliceIdAtPoint } from '../utils.ts';
 import { getVerse } from '../data/verseData.ts';
 
+type LocalTranslationData = Record<string, Record<string, string>> | null;
+
 interface MarqueeVerse {
   surah: number;
   verse: number;
@@ -14,9 +16,11 @@ interface MarqueeVerse {
 
 interface FooterMarqueeProps {
   rotation: number;
+  translationMode: 'online' | 'local';
+  localTranslationData: LocalTranslationData;
 }
 
-const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation }) => {
+const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode, localTranslationData }) => {
   const [marqueeItems, setMarqueeItems] = useState<MarqueeVerse[]>([]);
   
   const marqueeRef = useRef<HTMLDivElement>(null);
@@ -66,7 +70,7 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation }) => {
         const verseCount = sliceInfo ? sliceInfo.blockCount : 0;
         
         if (verseCount > 0) {
-          const verseData = await getVerse(surahId, verseCount);
+          const verseData = await getVerse(surahId, verseCount, translationMode, localTranslationData);
           const chapterInfo = CHAPTER_DETAILS.find(c => c.number === surahId);
           
           if (verseData && chapterInfo && !verseData.englishText.startsWith('Could not load')) {
@@ -88,7 +92,7 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation }) => {
     };
     
     fetchMarqueeItems();
-  }, [rotation]);
+  }, [rotation, translationMode, localTranslationData]);
   
   useEffect(() => {
     if (marqueeItems.length > 0) {
@@ -154,9 +158,11 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation }) => {
         <span className="ml-3 text-gray-300 italic">
           "{item.englishText}"
         </span>
-        <span className="ml-3 text-cyan-200 italic">
-          "{item.banglaText}"
-        </span>
+        {item.banglaText && item.banglaText !== '(Local file)' && (
+            <span className="ml-3 text-cyan-200 italic">
+                "{item.banglaText}"
+            </span>
+        )}
       </span>
     );
   });

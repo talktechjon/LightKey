@@ -1,5 +1,7 @@
 import { SurahData, SurahVerse, VerseResult } from '../types.ts';
 
+type LocalTranslationData = Record<string, Record<string, string>> | null;
+
 // In-memory cache for fetched verses
 interface VerseContent {
   english: string;
@@ -43,11 +45,12 @@ async function fetchWithRetry(url: string, retries = 3, delay = 200): Promise<Re
 }
 
 
-export const getVerse = async (surah: number, verse: number): Promise<FullVerseData> => {
+export const getVerse = async (surah: number, verse: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<FullVerseData> => {
   const cacheKey = `${surah}:${verse}`;
-  const cachedContent = verseCache.get(cacheKey);
-
-  if (cachedContent) {
+  
+  // If in local mode, the cache is not used to ensure local data is always fresh.
+  if (mode === 'online' && verseCache.has(cacheKey)) {
+    const cachedContent = verseCache.get(cacheKey)!;
     return {
       englishText: cachedContent.english,
       banglaText: cachedContent.bangla,
@@ -67,11 +70,19 @@ export const getVerse = async (surah: number, verse: number): Promise<FullVerseD
     }
 
     const verseData = json.data;
-    const englishText = verseData.find(v => v.edition.identifier === 'en.sahih')?.text || 'N/A';
-    const banglaText = verseData.find(v => v.edition.identifier === 'bn.bengali')?.text || 'N/A';
+    let englishText = verseData.find(v => v.edition.identifier === 'en.sahih')?.text || 'N/A';
+    let banglaText = verseData.find(v => v.edition.identifier === 'bn.bengali')?.text || 'N/A';
+    
+    if (mode === 'local' && localData?.[surah]?.[verse]) {
+        englishText = localData[surah][verse];
+        banglaText = '(Local file)';
+    }
 
-    const content = { english: englishText, bangla: banglaText };
-    verseCache.set(cacheKey, content); // Cache the result
+    // Only cache if in online mode.
+    if (mode === 'online') {
+        const content = { english: englishText, bangla: banglaText };
+        verseCache.set(cacheKey, content);
+    }
 
     return { englishText, banglaText };
 
@@ -87,8 +98,8 @@ export const getVerse = async (surah: number, verse: number): Promise<FullVerseD
 
 const surahCache = new Map<number, SurahData>();
 
-export const getFullSurah = async (surahNumber: number): Promise<SurahData | null> => {
-  if (surahCache.has(surahNumber)) {
+export const getFullSurah = async (surahNumber: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<SurahData | null> => {
+  if (mode === 'online' && surahCache.has(surahNumber)) {
     return surahCache.get(surahNumber)!;
   }
 
@@ -114,11 +125,20 @@ export const getFullSurah = async (surahNumber: number): Promise<SurahData | nul
 
     const verses: SurahVerse[] = arabicEdition.ayahs.map((ayah, index) => {
         const absoluteAyahNumber = ayah.number;
+        
+        let englishText = englishEdition.ayahs[index]?.text || 'N/A';
+        let banglaText = banglaEdition.ayahs[index]?.text || 'N/A';
+        
+        if (mode === 'local' && localData?.[surahNumber]?.[ayah.numberInSurah]) {
+            englishText = localData[surahNumber][ayah.numberInSurah];
+            banglaText = '(Local file)';
+        }
+
         return {
             numberInSurah: ayah.numberInSurah,
             arabicText: ayah.text,
-            englishText: englishEdition.ayahs[index]?.text || 'N/A',
-            banglaText: banglaEdition.ayahs[index]?.text || 'N/A',
+            englishText: englishText,
+            banglaText: banglaText,
             transliteration: transliterationEdition.ayahs[index]?.text || 'N/A',
             fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`,
         };
@@ -133,7 +153,9 @@ export const getFullSurah = async (surahNumber: number): Promise<SurahData | nul
         verses: verses
     };
     
-    surahCache.set(surahNumber, surahData);
+    if (mode === 'online') {
+        surahCache.set(surahNumber, surahData);
+    }
     return surahData;
   } catch (error) {
     console.error(`Failed to fetch surah ${surahNumber}:`, error);
@@ -141,7 +163,7 @@ export const getFullSurah = async (surahNumber: number): Promise<SurahData | nul
   }
 };
 
-export const getVerseDetails = async (surah: number, ayah: number): Promise<VerseResult | null> => {
+export const getVerseDetails = async (surah: number, ayah: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<VerseResult | null> => {
     try {
         const url = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/quran-uthmani,en.transliteration,en.sahih,bn.bengali`;
         const response = await fetchWithRetry(url);
@@ -150,12 +172,21 @@ export const getVerseDetails = async (surah: number, ayah: number): Promise<Vers
         if (json.code !== 200) throw new Error(`Invalid data for ${surah}:${ayah}`);
         const verseData = json.data;
         const absoluteAyahNumber = verseData[0].number;
+        
+        let englishText = verseData.find(v => v.edition.identifier === 'en.sahih')?.text || 'N/A';
+        let banglaText = verseData.find(v => v.edition.identifier === 'bn.bengali')?.text || 'N/A';
+        
+        if (mode === 'local' && localData?.[surah]?.[ayah]) {
+            englishText = localData[surah][ayah];
+            banglaText = '(Local file)';
+        }
+
         return {
           numberInSurah: verseData[0].numberInSurah, surah: { number: verseData[0].surah.number, englishName: verseData[0].surah.englishName },
           arabicText: verseData.find(v => v.edition.identifier === 'quran-uthmani')?.text || 'N/A',
           transliteration: verseData.find(v => v.edition.identifier === 'en.transliteration')?.text || 'N/A',
-          englishText: verseData.find(v => v.edition.identifier === 'en.sahih')?.text || 'N/A',
-          banglaText: verseData.find(v => v.edition.identifier === 'bn.bengali')?.text || 'N/A',
+          englishText: englishText,
+          banglaText: banglaText,
           fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`
         };
     } catch (e) {

@@ -4,6 +4,8 @@ import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
 import { SLICE_DATA } from '../constants.ts';
 import { processInBatches } from '../utils.ts';
 
+type LocalTranslationData = Record<string, Record<string, string>> | null;
+
 type CurrentlyPlaying = {
   surah: number;
   ayah: number;
@@ -15,6 +17,8 @@ interface VerseFinderProps {
   content: VerseFinderContent;
   setContent: (content: VerseFinderContent) => void;
   setIsAudioPlaying: (isPlaying: boolean) => void;
+  translationMode: 'online' | 'local';
+  localTranslationData: LocalTranslationData;
 }
 
 const PlayIcon = () => (
@@ -71,7 +75,7 @@ const CheckIcon = () => (
 );
 
 
-const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, content, setContent, setIsAudioPlaying }) => {
+const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, content, setContent, setIsAudioPlaying, translationMode, localTranslationData }) => {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -275,7 +279,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                 
                 const results = await processInBatches(
                     surahsToFetch,
-                    (slice) => getVerseDetails(slice.id, ayahNumber),
+                    (slice) => getVerseDetails(slice.id, ayahNumber, translationMode, localTranslationData),
                     5 // Process in batches of 5 to avoid rate limiting
                 );
                 
@@ -299,7 +303,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                 
                 const results = await processInBatches(
                     verseIdentifiers,
-                    ({ surah, ayah }) => getVerseDetails(surah, ayah),
+                    ({ surah, ayah }) => getVerseDetails(surah, ayah, translationMode, localTranslationData),
                     5 // Process in batches of 5
                 );
                 return results.filter((v): v is VerseResult => v !== null);
@@ -313,7 +317,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
 
                 if (isNaN(surah) || isNaN(ayah) || surah < 1 || surah > 114 || ayah < 1) return [];
                 
-                const verse = await getVerseDetails(surah, ayah);
+                const verse = await getVerseDetails(surah, ayah, translationMode, localTranslationData);
                 return verse ? [verse] : [];
             }
             
@@ -322,7 +326,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                 const chapterNum = parseInt(q, 10);
                 if (isNaN(chapterNum) || chapterNum < 1 || chapterNum > 114) return [];
                 
-                const surahData = await getFullSurah(chapterNum);
+                const surahData = await getFullSurah(chapterNum, translationMode, localTranslationData);
                 if (!surahData) return [];
 
                 return surahData.verses.map(v => ({
@@ -363,14 +367,14 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     if (versesToCopy.length === 0) return;
 
     const textToCopy = versesToCopy.map(v => {
-        const surahNumber = 'surah' in v ? v.surah.number : (content as SurahData).number;
-        const surahName = 'surah' in v ? v.surah.englishName : (content as SurahData).englishName;
+        const surahNumber = 'surah' in v ? v.surah.number : (content as { data: SurahData }).data.number;
+        const surahName = 'surah' in v ? v.surah.englishName : (content as { data: SurahData }).data.englishName;
 
         return `${surahName} [${surahNumber}:${v.numberInSurah}]\n` +
                `----------------------------------------\n` +
                `Arabic: ${v.arabicText}\n` +
-               `English: ${v.englishText}\n` +
-               `Bangla: ${v.banglaText}\n` +
+               `Translation: ${v.englishText}\n` +
+               (v.banglaText && v.banglaText !== '(Local file)' ? `Bangla: ${v.banglaText}\n` : '') +
                `Transliteration: ${v.transliteration}`;
     }).join('\n\n');
 
@@ -409,7 +413,9 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                                 <div className="text-xl text-right font-serif text-white mb-2" dir="rtl">{verse.arabicText}</div>
                                 <p className="italic text-gray-400 mb-2">{verse.transliteration}</p>
                                 <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 mb-2">{verse.englishText}</p>
-                                <p className="text-cyan-200 border-l-2 border-cyan-500/50 pl-2">{verse.banglaText}</p>
+                                {verse.banglaText && verse.banglaText !== '(Local file)' && (
+                                    <p className="text-cyan-200 border-l-2 border-cyan-500/50 pl-2">{verse.banglaText}</p>
+                                )}
                             </div>
                         );
                     })}
@@ -442,7 +448,9 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                                    </div>
                                    <div className="text-2xl text-right font-serif text-white mb-3" dir="rtl">{verse.arabicText}</div>
                                    <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 mb-2">{verse.englishText}</p>
-                                   <p className="text-cyan-200 border-l-2 border-cyan-500/50 pl-2">{verse.banglaText}</p>
+                                    {verse.banglaText && verse.banglaText !== '(Local file)' && (
+                                        <p className="text-cyan-200 border-l-2 border-cyan-500/50 pl-2">{verse.banglaText}</p>
+                                    )}
                                </div>
                            );
                        })}

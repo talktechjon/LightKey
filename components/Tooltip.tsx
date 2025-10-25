@@ -105,17 +105,19 @@ const Tooltip: React.FC<TooltipProps> = ({ visible, content, position }) => {
                 </a>
             </div>
             <div className="mt-3 pt-3 border-t border-gray-700">
-                <h4 className="font-semibold text-gray-400 mb-1" style={{ color: content.color, opacity: 0.8 }}>English</h4>
+                <h4 className="font-semibold text-gray-400 mb-1" style={{ color: content.color, opacity: 0.8 }}>Translation</h4>
                 <p className="text-gray-200 pl-2 border-l-2" style={{borderColor: content.color}}>
                 {content.englishText}
                 </p>
             </div>
-            <div className="mt-3 pt-3 border-t border-gray-700">
-                <h4 className="font-semibold text-cyan-400/90 mb-1">Bangla</h4>
-                <p className="text-gray-200 pl-2 border-l-2 border-cyan-400/50">
-                {content.banglaText}
-                </p>
-            </div>
+            {content.banglaText && content.banglaText !== '(Local file)' && (
+                <div className="mt-3 pt-3 border-t border-gray-700">
+                    <h4 className="font-semibold text-cyan-400/90 mb-1">Bangla</h4>
+                    <p className="text-gray-200 pl-2 border-l-2 border-cyan-400/50">
+                    {content.banglaText}
+                    </p>
+                </div>
+            )}
         </>
     )
   }

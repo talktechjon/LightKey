@@ -5,9 +5,12 @@ import FooterMarquee from './components/FooterMarquee.tsx';
 import Tooltip from './components/Tooltip.tsx';
 import StarryBackground from './components/StarryBackground.tsx';
 import VerseFinder from './components/VerseFinder.tsx';
+import SettingsPanel from './components/SettingsPanel.tsx';
 import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent, VerseFinderContent } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
 import { getVerse, getFullSurah } from './data/verseData.ts';
+
+type LocalTranslationData = Record<string, Record<string, string>> | null;
 
 const App: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);
@@ -20,6 +23,12 @@ const App: React.FC = () => {
   const [secretEmojiShift, setSecretEmojiShift] = useState(0);
   const [isVerseFinderVisible, setIsVerseFinderVisible] = useState(false);
   const [verseFinderContent, setVerseFinderContent] = useState<VerseFinderContent>({ type: 'empty' });
+
+  // --- Translation Settings State ---
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+  const [translationMode, setTranslationMode] = useState<'online' | 'local'>('online');
+  const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(null);
+  const [localFileName, setLocalFileName] = useState<string | null>(null);
 
   // --- Idle Animation State ---
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(true);
@@ -140,12 +149,18 @@ const App: React.FC = () => {
   const loadSurahInFinder = async (surahNumber: number) => {
     setIsVerseFinderVisible(true);
     setVerseFinderContent({ type: 'loading_surah', number: surahNumber });
-    const surahData = await getFullSurah(surahNumber);
+    const surahData = await getFullSurah(surahNumber, translationMode, localTranslationData);
     if (surahData) {
         setVerseFinderContent({ type: 'surah', data: surahData });
     } else {
         setVerseFinderContent({ type: 'empty' }); 
     }
+  };
+
+  const handleFileLoad = (data: LocalTranslationData, fileName: string) => {
+    setLocalTranslationData(data);
+    setLocalFileName(fileName);
+    setTranslationMode('local');
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -175,7 +190,7 @@ const App: React.FC = () => {
   };
 
   const showVerseTooltip = useCallback(async (event: React.MouseEvent, surah: number, verse: number, color: string) => {
-    const { englishText, banglaText } = await getVerse(surah, verse);
+    const { englishText, banglaText } = await getVerse(surah, verse, translationMode, localTranslationData);
     const tooltipData: VerseTooltipContent = {
       type: 'verse',
       surah,
@@ -186,7 +201,7 @@ const App: React.FC = () => {
     };
     setTooltipContent(tooltipData);
     setTooltipPosition({ x: event.clientX, y: event.clientY });
-  }, []);
+  }, [translationMode, localTranslationData]);
   
   const showChapterTooltip = useCallback((event: React.MouseEvent, sliceId: number, color: string) => {
       const chapterDetails = CHAPTER_DETAILS.find(c => c.number === sliceId);
@@ -245,13 +260,33 @@ const App: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </button>
+           <button 
+            onClick={() => setIsSettingsVisible(p => !p)}
+            className="w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50 hover:border-cyan-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+            title="Translation Settings"
+            aria-label="Open Translation Settings"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </button>
         </div>
+        <SettingsPanel
+          isVisible={isSettingsVisible}
+          setIsVisible={setIsSettingsVisible}
+          mode={translationMode}
+          setMode={setTranslationMode}
+          onFileLoad={handleFileLoad}
+          fileName={localFileName}
+        />
         <VerseFinder 
           isVisible={isVerseFinderVisible}
           setIsVisible={setIsVerseFinderVisible}
           content={verseFinderContent}
           setContent={setVerseFinderContent}
           setIsAudioPlaying={() => { /* This prop is no longer needed for idle logic */ }}
+          translationMode={translationMode}
+          localTranslationData={localTranslationData}
         />
       </div>
 
@@ -290,7 +325,7 @@ const App: React.FC = () => {
             secretEmojiShift={secretEmojiShift}
         />
       </div>
-      <FooterMarquee rotation={deferredRotation} />
+      <FooterMarquee rotation={deferredRotation} translationMode={translationMode} localTranslationData={localTranslationData} />
       <Tooltip 
         visible={!!tooltipContent}
         content={tooltipContent}
