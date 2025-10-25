@@ -9,6 +9,7 @@ import SettingsPanel from './components/SettingsPanel.tsx';
 import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent, VerseFinderContent } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
 import { getVerse, getFullSurah } from './data/verseData.ts';
+import { useIdle } from './hooks/useIdle.ts';
 
 type LocalTranslationData = Record<string, string[]> | null;
 
@@ -32,15 +33,10 @@ const App: React.FC = () => {
 
   // --- Idle Animation State ---
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(true);
-  const [isIdle, setIsIdle] = useState(false);
-  const idleTimerRef = useRef<number | null>(null);
+  const isIdle = useIdle(15000, isIdleAnimationEnabled);
   const idleIntervalRef = useRef<number | null>(null);
   const idleStartPositionRef = useRef<number | null>(null);
   const animationFrameId = useRef<number | null>(null);
-
-  // Refs to hold the latest state for stable callbacks
-  const isIdleRef = useRef(isIdle);
-  useEffect(() => { isIdleRef.current = isIdle; }, [isIdle]);
   const rotationRef = useRef(rotation);
   useEffect(() => { rotationRef.current = rotation; }, [rotation]);
   // --- End Idle Animation State ---
@@ -74,17 +70,21 @@ const App: React.FC = () => {
     animationFrameId.current = requestAnimationFrame(step);
   }, []);
 
-  const resetIdleTimer = useCallback(() => {
-    if (!isIdleAnimationEnabled) return; // Feature is disabled globally.
-
-    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-    if (idleIntervalRef.current) {
-      clearInterval(idleIntervalRef.current);
-      idleIntervalRef.current = null;
-    }
-
-    if (isIdleRef.current) {
-      setIsIdle(false);
+  useEffect(() => {
+    if (isIdle) {
+      // Went idle, start animation
+      idleStartPositionRef.current = rotationRef.current;
+      if (idleIntervalRef.current) clearInterval(idleIntervalRef.current);
+      idleIntervalRef.current = window.setInterval(() => {
+        setRotation(prev => prev - (360 / TOTAL_SLICES));
+      }, 1000);
+    } else {
+      // Became active, stop animation and return to start
+      if (idleIntervalRef.current) {
+        clearInterval(idleIntervalRef.current);
+        idleIntervalRef.current = null;
+      }
+      
       if (idleStartPositionRef.current !== null) {
         const startRotation = rotationRef.current;
         const targetRotation = idleStartPositionRef.current;
@@ -94,53 +94,16 @@ const App: React.FC = () => {
         if (diff < -180) diff += 360;
         
         const endRotation = startRotation + diff;
-        animateRotation(startRotation, endRotation, 1500);
+        animateRotation(startRotation, endRotation, 1500, () => {
+          idleStartPositionRef.current = null; // Clear start position after returning
+        });
       }
-    }
-
-    idleTimerRef.current = window.setTimeout(() => {
-      if (!isIdleAnimationEnabled) return; // Double-check before starting
-      idleStartPositionRef.current = rotationRef.current;
-      setIsIdle(true);
-    }, 15000);
-  }, [animateRotation, isIdleAnimationEnabled]);
-
-  useEffect(() => {
-    const events: (keyof WindowEventMap)[] = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'];
-    const stableHandler = () => resetIdleTimer();
-    
-    if (isIdleAnimationEnabled) {
-      events.forEach(event => window.addEventListener(event, stableHandler, { passive: true }));
-      resetIdleTimer();
     }
 
     return () => {
-      events.forEach(event => window.removeEventListener(event, stableHandler));
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
       if (idleIntervalRef.current) clearInterval(idleIntervalRef.current);
-      if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
     };
-  }, [resetIdleTimer, isIdleAnimationEnabled]);
-
-  useEffect(() => {
-    if (isIdle && isIdleAnimationEnabled) {
-      if (idleIntervalRef.current) clearInterval(idleIntervalRef.current);
-      idleIntervalRef.current = window.setInterval(() => {
-        setRotation(prev => prev - (360 / TOTAL_SLICES));
-      }, 1000);
-    } else {
-      if (idleIntervalRef.current) {
-        clearInterval(idleIntervalRef.current);
-        idleIntervalRef.current = null;
-      }
-    }
-    return () => {
-      if (idleIntervalRef.current) {
-        clearInterval(idleIntervalRef.current);
-        idleIntervalRef.current = null;
-      }
-    };
-  }, [isIdle, isIdleAnimationEnabled]);
+  }, [isIdle, animateRotation]);
 
   const handleToggleIdleAnimation = () => {
     setIsIdleAnimationEnabled(prev => !prev);
@@ -284,7 +247,6 @@ const App: React.FC = () => {
           setIsVisible={setIsVerseFinderVisible}
           content={verseFinderContent}
           setContent={setVerseFinderContent}
-          setIsAudioPlaying={() => { /* This prop is no longer needed for idle logic */ }}
           translationMode={translationMode}
           localTranslationData={localTranslationData}
         />

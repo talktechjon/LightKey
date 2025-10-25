@@ -11,6 +11,13 @@ interface SettingsPanelProps {
   fileName: string | null;
 }
 
+const DownloadIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+    </svg>
+);
+
+
 const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, mode, setMode, onFileLoad, fileName }) => {
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -99,20 +106,31 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
         {mode === 'local' && (
           <div className="pt-2 border-t border-cyan-500/20">
             <p className="text-gray-400 mb-2">Load your custom translation file.</p>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".json"
-              onChange={handleFileChange}
-              className="hidden"
-              aria-label="Upload custom translation JSON file"
-            />
-            <button
-                onClick={() => fileInputRef.current?.click()}
-                className="w-full bg-gray-700 hover:bg-cyan-700/50 text-gray-300 hover:text-white font-semibold py-2 px-4 rounded transition-colors duration-200"
-            >
-                Choose File
-            </button>
+             <div className="flex items-center space-x-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json"
+                onChange={handleFileChange}
+                className="hidden"
+                aria-label="Upload custom translation JSON file"
+              />
+              <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full bg-gray-700 hover:bg-cyan-700/50 text-gray-300 hover:text-white font-semibold py-2 px-4 rounded transition-colors duration-200"
+              >
+                  Choose File
+              </button>
+              <a
+                href="/application/quran_translation_template.json"
+                download="quran_translation_template.json"
+                className="flex-shrink-0 bg-gray-700 hover:bg-cyan-700/50 text-gray-300 hover:text-white font-semibold p-2 rounded transition-colors duration-200"
+                title="Download translation template"
+                aria-label="Download translation template"
+              >
+                <DownloadIcon />
+              </a>
+            </div>
             {fileName && (
                 <p className="text-emerald-400 mt-2 text-xs truncate">Loaded: {fileName}</p>
             )}
