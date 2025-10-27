@@ -25,7 +25,16 @@ const PRESET_SEQUENCES: Record<string, string> = {
     '8': '8, 80, 17, 71, 26, 62, 35, 53, 44',
     '9': '9, 90, 18, 81, 27, 72, 36, 63, 45, 54',
     '∞': '111, 103, 108, 110, 65, 70, 72, 27, 32, 34, 47, 52, 54, 9, 14, 16, 85, 90, 92, 112, 113, 114, 1',
+    'eye': '112, 108, 32, 70, 50, 88, 12, 111, 103, 27, 65, 45, 83, 7, 1, 110, 34, 72, 52, 90, 14',
 };
+
+const EyeIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+        <path fillRule="evenodd" d="M.458 10C3.732 4.943 7.523 3 10 3s6.268 1.943 9.542 7c-3.274 5.057-7.064 7-9.542 7S3.732 15.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+    </svg>
+);
+
 
 const CustomAnimationControls: React.FC<CustomAnimationControlsProps> = ({
     customSequence,
@@ -97,7 +106,7 @@ const CustomAnimationControls: React.FC<CustomAnimationControlsProps> = ({
                 <PlaylistButtons onWatch={handleWatchCustomSequence} disabled={!customSequence.trim()} />
             </div>
             <div className="flex items-center justify-between mt-2.5 space-x-1">
-              {['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '∞'].map((preset) => (
+              {['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '∞', 'eye'].map((preset) => (
                   <button
                       key={preset}
                       onClick={() => handlePresetClick(preset)}
@@ -105,15 +114,17 @@ const CustomAnimationControls: React.FC<CustomAnimationControlsProps> = ({
                       title={
                         preset === '0' ? 'Reset sequence' : 
                         preset === '∞' ? 'Load infinite loop sequence' : 
+                        preset === 'eye' ? 'Load eye pattern sequence' :
                         `Load preset sequence ${preset}`
                       }
                       aria-label={
                         preset === '0' ? 'Reset custom animation sequence' : 
-                        preset === '∞' ? 'Load infinite loop animation sequence' : 
+                        preset === '∞' ? 'Load infinite loop animation sequence' :
+                        preset === 'eye' ? 'Load eye pattern animation sequence' : 
                         `Load preset animation sequence ${preset}`
                       }
                   >
-                      {preset === '∞' ? <span className="text-lg leading-none">∞</span> : preset}
+                      {preset === '∞' ? <span className="text-lg leading-none">∞</span> : preset === 'eye' ? <EyeIcon /> : preset}
                   </button>
               ))}
             </div>

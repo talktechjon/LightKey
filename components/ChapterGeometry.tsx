@@ -8,12 +8,13 @@ interface ChapterGeometryProps {
     rotation: number;
     showTooltip: (e: React.MouseEvent, surah: number, verse: number, color: string) => void;
     hideTooltip: () => void;
+    isLowResourceMode: boolean;
 }
 
 type PointWithColor = TrianglePoint & { color: string };
 
 // A memoized, self-contained component for the triangle geometry groups.
-const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction, rotation, showTooltip, hideTooltip }: { points: PointWithColor[], groupColor: string, name: string, direction: 'downward' | 'upward', rotation: number, showTooltip: ChapterGeometryProps['showTooltip'], hideTooltip: ChapterGeometryProps['hideTooltip'] }) => {
+const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction, rotation, showTooltip, hideTooltip, isLowResourceMode }: { points: PointWithColor[], groupColor: string, name: string, direction: 'downward' | 'upward', rotation: number, showTooltip: ChapterGeometryProps['showTooltip'], hideTooltip: ChapterGeometryProps['hideTooltip'], isLowResourceMode: boolean }) => {
   const titleColor = direction === 'downward' ? 'text-fuchsia-300' : 'text-cyan-300';
   const titleSymbol = direction === 'downward' ? '▼' : '▲';
   
@@ -48,6 +49,7 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
                     color={point.color}
                     center={{ x: 22.5, y: 22.5 }}
                     groupOpacity={0.8}
+                    isLowResourceMode={isLowResourceMode}
                   />
               </svg>
               <div className="mt-1 text-xs leading-tight h-12 flex flex-col justify-center">
@@ -70,7 +72,7 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
   );
 });
 
-const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, showTooltip, hideTooltip }) => {
+const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, showTooltip, hideTooltip, isLowResourceMode }) => {
     
     // This is the order for the combined geometry visualization, from outer to inner
     const centralGeometryPoints = [
@@ -133,6 +135,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, showTooltip
                     strokeOpacity={strokeOpacity}
                     strokeWidth={1}
                     groupOpacity={1}
+                    isLowResourceMode={isLowResourceMode}
                 />
             );
         });
@@ -163,6 +166,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, showTooltip
                     rotation={rotation}
                     showTooltip={showTooltip}
                     hideTooltip={hideTooltip}
+                    isLowResourceMode={isLowResourceMode}
                 />
                 <TriangleGeometryGroup 
                     name="FayaQun - Truth Returns"
@@ -172,6 +176,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, showTooltip
                     rotation={rotation}
                     showTooltip={showTooltip}
                     hideTooltip={hideTooltip}
+                    isLowResourceMode={isLowResourceMode}
                 />
             </div>
         </div>

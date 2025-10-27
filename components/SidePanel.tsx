@@ -16,9 +16,10 @@ interface SidePanelProps {
   hideTooltip: () => void;
   isSecretModeActive: boolean;
   secretEmojiShift: number;
+  isLowResourceMode: boolean;
 }
 
-const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, secretEmojiShift }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, secretEmojiShift, isLowResourceMode }) => {
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -258,6 +259,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                 rotation={rotation}
                 showTooltip={showTooltip}
                 hideTooltip={hideTooltip}
+                isLowResourceMode={isLowResourceMode}
              />
 
              <MarkerAlignment 

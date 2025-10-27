@@ -18,6 +18,7 @@ interface VisualizationProps {
   showTooltip: (event: React.MouseEvent, sliceId: number, color: string) => void;
   hideTooltip: () => void;
   onSliceSelect: (sliceId: number) => void;
+  isLowResourceMode: boolean;
 }
   
 const describeDonutSlice = (x: number, y: number, innerRadius: number, outerRadius: number, startAngle: number, endAngle: number) => {
@@ -39,7 +40,7 @@ const describeDonutSlice = (x: number, y: number, innerRadius: number, outerRadi
     return d;
 };
 
-const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rotation, iconDialRotation, setRotation, isSpinning, onSpinStart, onSpinEnd, isSecretModeActive, secretEmojiShift, showTooltip, hideTooltip, onSliceSelect }, ref) => {
+const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rotation, iconDialRotation, setRotation, isSpinning, onSpinStart, onSpinEnd, isSecretModeActive, secretEmojiShift, showTooltip, hideTooltip, onSliceSelect, isLowResourceMode }, ref) => {
   const animationFrameId = useRef<number | null>(null);
   const center = SIZES.width / 2;
   const svgRef = useRef<SVGSVGElement>(null);
@@ -267,6 +268,7 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
                 strokeOpacity={strokeOpacity}
                 strokeWidth={1.5}
                 groupOpacity={1}
+                isLowResourceMode={isLowResourceMode}
             />
         );
     });

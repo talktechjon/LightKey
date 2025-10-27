@@ -25,6 +25,9 @@ const App: React.FC = () => {
   const [isVerseFinderVisible, setIsVerseFinderVisible] = useState(false);
   const [verseFinderContent, setVerseFinderContent] = useState<VerseFinderContent>({ type: 'empty' });
 
+  // --- Low Resource Mode State ---
+  const [isLowResourceMode, setIsLowResourceMode] = useState(false);
+
   // --- Translation Settings State ---
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
   const [translationMode, setTranslationMode] = useState<'online' | 'local'>('online');
@@ -32,8 +35,8 @@ const App: React.FC = () => {
   const [localFileName, setLocalFileName] = useState<string | null>(null);
 
   // --- Idle Animation State ---
-  const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(true);
-  const isIdle = useIdle(15000, isIdleAnimationEnabled);
+  const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
+  const isIdle = useIdle(15000, isIdleAnimationEnabled && !isLowResourceMode);
   const idleIntervalRef = useRef<number | null>(null);
   const idleStartPositionRef = useRef<number | null>(null);
   const animationFrameId = useRef<number | null>(null);
@@ -192,7 +195,7 @@ const App: React.FC = () => {
     <main 
       className="w-full h-screen text-gray-100 font-sans relative flex flex-col overflow-hidden"
     >
-      <StarryBackground />
+      {!isLowResourceMode && <StarryBackground />}
       <div className="absolute top-4 left-4 z-50 flex flex-col gap-y-2">
         <div className="flex gap-x-2">
           <button 
@@ -231,6 +234,18 @@ const App: React.FC = () => {
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </button>
+           <button 
+            onClick={() => setIsLowResourceMode(p => !p)}
+            className={`w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50 hover:border-cyan-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 ${isLowResourceMode ? 'text-cyan-400' : 'text-gray-600'}`}
+            title={isLowResourceMode ? "Deactivate Low Resource Mode" : "Activate Low Resource Mode"}
+            aria-label="Toggle Low Resource Mode"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9.59 4.59A2 2 0 1 1 11 8H2"/>
+              <path d="M12.59 19.41A2 2 0 1 0 14 16H2"/>
+              <path d="M19.59 11.41A2 2 0 1 0 21 8H2"/>
             </svg>
           </button>
         </div>
@@ -274,6 +289,7 @@ const App: React.FC = () => {
             showTooltip={showChapterTooltip}
             hideTooltip={hideTooltip}
             onSliceSelect={loadSurahInFinder}
+            isLowResourceMode={isLowResourceMode}
           />
         </div>
         <SidePanel 
@@ -285,9 +301,10 @@ const App: React.FC = () => {
             hideTooltip={hideTooltip}
             isSecretModeActive={isSecretModeActive}
             secretEmojiShift={secretEmojiShift}
+            isLowResourceMode={isLowResourceMode}
         />
       </div>
-      <FooterMarquee rotation={deferredRotation} translationMode={translationMode} localTranslationData={localTranslationData} />
+      {!isLowResourceMode && <FooterMarquee rotation={deferredRotation} translationMode={translationMode} localTranslationData={localTranslationData} />}
       <Tooltip 
         visible={!!tooltipContent}
         content={tooltipContent}

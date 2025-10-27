@@ -16,6 +16,7 @@ interface VersePolygonProps {
     strokeOpacity?: number;
     strokeWidth?: number;
     groupOpacity?: number;
+    isLowResourceMode?: boolean;
 }
 
 const VersePolygon: React.FC<VersePolygonProps> = ({
@@ -27,6 +28,7 @@ const VersePolygon: React.FC<VersePolygonProps> = ({
     strokeOpacity = 1,
     strokeWidth = 1.25,
     groupOpacity = 1,
+    isLowResourceMode = false,
 }) => {
     const gRef = useRef<SVGGElement>(null);
 
@@ -52,7 +54,9 @@ const VersePolygon: React.FC<VersePolygonProps> = ({
         if (!gRef.current) return;
 
         const g = d3.select(gRef.current);
-        const transition = d3.transition().duration(400).ease(d3.easeLinear);
+        const transition = isLowResourceMode 
+            ? d3.transition().duration(0) 
+            : d3.transition().duration(400).ease(d3.easeLinear);
 
         const pathStrokeColor = d3.color(color)?.copy({ opacity: strokeOpacity })?.toString() || color;
         const pathFillColor = verseCount > 2 ? d3.color(color)?.copy({ opacity: fillOpacity })?.toString() || 'none' : 'none';
@@ -106,7 +110,7 @@ const VersePolygon: React.FC<VersePolygonProps> = ({
             .transition(transition)
             .style('opacity', 1);
 
-    }, [points, pathD, color, verseCount, fillOpacity, strokeOpacity, strokeWidth, groupOpacity]);
+    }, [points, pathD, color, verseCount, fillOpacity, strokeOpacity, strokeWidth, groupOpacity, isLowResourceMode]);
 
     return (
         <g ref={gRef} aria-hidden="true" />
