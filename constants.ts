@@ -118,6 +118,35 @@ export const SECRET_EMOJI_PATTERN: SecretIconData[] = [
     { id: 'p8', position: 9, chapter: 102, emoji: '🐟', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐟%3C/text%3E%3C/svg%3E", description: 'Position 9: Fish' },
 ];
 
+// New constants for Kathara Clock feature
+export const KATHARA_CLOCK_POINTS = [1, 11, 20, 30, 39, 49, 58, 68, 77, 87, 96, 106];
+
+export const KATHARA_GRID_NODES = [
+  { id: 1,  x: 60, y: 170, r: 8, color: '#dc2626' }, // red-600
+  { id: 2,  x: 60, y: 150, r: 8, color: '#f97316' }, // orange-500
+  { id: 3,  x: 30, y: 130, r: 8, color: '#facc15' }, // yellow-400
+  { id: 4,  x: 90, y: 130, r: 8, color: '#4ade80' }, // green-400
+  { id: 5,  x: 60, y: 110, r: 8, color: '#3b82f6' }, // blue-500
+  { id: 6,  x: 30, y: 90,  r: 8, color: '#8b5cf6' }, // violet-500
+  { id: 7,  x: 90, y: 90,  r: 8, color: '#a855f7' }, // purple-500
+  { id: 8,  x: 60, y: 70,  r: 8, color: '#eab308' }, // yellow-600
+  { id: 9,  x: 30, y: 50,  r: 8, color: '#a1a1aa' }, // zinc-400
+  { id: 10, x: 90, y: 50,  r: 8, color: '#1e3a8a' }, // blue-900
+  { id: 11, x: 60, y: 30,  r: 8, color: '#404040' }, // neutral-700
+  { id: 12, x: 60, y: 10,  r: 8, color: '#f5f5f5' }, // neutral-100
+];
+
+export const KATHARA_GRID_LINES = [
+  { from: 1, to: 2 }, { from: 2, to: 3 }, { from: 2, to: 4 }, { from: 2, to: 5 },
+  { from: 3, to: 5 }, { from: 3, to: 6 }, { from: 4, to: 5 }, { from: 4, to: 7 },
+  { from: 5, to: 6 }, { from: 5, to: 7 }, { from: 5, to: 8 },
+  { from: 6, to: 8 }, { from: 6, to: 9 }, { from: 7, to: 8 }, { from: 7, to: 10 },
+  { from: 8, to: 9 }, { from: 8, to: 10 }, { from: 8, to: 11 },
+  { from: 9, to: 11 }, { from: 9, to: 12 }, { from: 10, to: 11 }, { from: 10, to: 12 },
+  { from: 11, to: 12 },
+];
+
+
 export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 1, englishName: 'The Key', transliteration: 'Al-Fātiḥah', arabicName: 'ٱلْفَاتِحَة', revelationType: 'Makki', juz: '1' },
     { number: 2, englishName: 'The Heifer', transliteration: 'Al-Baqarah', arabicName: 'البَقَرَة', revelationType: 'Madani', juz: '1-3' },
@@ -469,4 +498,4 @@ export const RECITATION_YOUTUBE_VIDEO_IDS: (string | null)[] = [
   "BxKPCVAUfKY"
 ];
 
-export const ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS: (string | null)[] = ["-PqP0BCiTlE","Z5zh5QCsjYY","_w2yG1bDJfo","0lMNMwTB5M8","w4uUvBMrVjc","jOfjatghBoI","0oL-AXH4CIw","eTcU3Zf0sY8","o8oghQgLJgY","We3rtNjBm7Q","OAnFuUtaC2k","iR611FNDTKM","lQDY7mSAk8M","g6Eb5HmxGLY","GEEWx8bGPXE","JmjP3wUqg74","6duZhHezK6A","QD9aNjDU9Ho","OwUZ6nN2gv4","ysW3-rcGjYc","MQETxncZBQY","RY7ivFuATrs","fXP00EBYbVI","NT9RaJhqVCQ","q3-gqFBLRpo","3WzT7JEPBVQ","4SMZ6rqTtaU","e9HzPCQcguY","pmTOuvsymY8","P8gj_sCH4sE","K7bYPrYb0jE","VVJrEkmB_iU","lqvtmMdHeZc","crH60rJRu3w","iGrKeuHIpIo","KRg6zxfw6ns","oNWAAu2l-jA","p9jG4auFA1c","L1e0GN87B8Y","Q7bw4bEFHuY","uL6LOHcpHzA","IzIUkwvf3kM","t_ICtiBEpqQ","WvGx6jvJ-RE","GC1ljIit6Xk","LIoF_gpNqTs","SnMxbUqhawY","94-DZBhWtK8","VaZPoBgSV3k","NdvaajwtUgs","-99kdKRhsnc","PL-G52U_wPI","d6uljCqZWlg","VzHSH5IaMM8","SBAuCo3d2cc","kG7J7XstEfY","z-HiFEzPYNw","e9JirdzSp_o","zwKlCQc3h18","hom0ZSH8ee8","V1SgL56qjd0","pNgp-Z0_xQQ","1RU0nYAl55Y","zAHxnSBWtXE","PSqVjqPa9sg","cUxdRRoVXQg","X7ItppxzaNw","-Rl5gaxlV2E","tWElN-OMMGM","bfVRJORl5Hw","1Exhv58tUwo","CnPm9jJOujI","harISWO2tJU","LmeZsukNq4c","t7RJnE9-AXU","FEgyzqrU5rE","ailp_ms37CM","uprYj4MZ3lE","QIJ5H8M0SKU","ChQ9io6uumg","StvXVPBbZQs","19Mp6pSvR0c","zpqOOtu9Qf0","CpwqV1H9ZPVo","z3V6-fGaH9c","VzFsp8dbfdw","02S3jnoAY2k","SKuFg8kt1EI","ZwVSFJsjNlE","SzGtLMf3xJY","a77YrcF3QNg","HJM994cn1Fs","ICgxYb1X9I0","XoaQvMIXXf8","S4RN6imMO8Y","2R30TkTj1tY","Abr1lkUweTU","Mbkz_olg0Qw","XunR9qLCaco","Fa4qJZsXkcc","gWhVvANWOQs","R8D7rztcLkY","hbLAXTzKokU","O_H8_-OK5bI","Y2sfUdJ4e6o","-I2wz7rof0k","j4nxAfTOtdo","9JqOsNS8c8w","YPH1OZ0Zcow","tvznSJbFQ7M","ruZgKdhE1Os","R3t9ePIzleU","OS5PTyEB4gQ","AcVtT2d8-kk"];
+export const ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS: (string | null)[] = ["-PqP0BCiTlE","Z5zh5QCsjYY","_w2yG1bDJfo","0lMNMwTB5M8","w4uUvBMrVjc","jOfjatghBoI","0oL-AXH4CIw","eTcU3Zf0sY8","o8oghQgLJgY","We3rtNjBm7Q","OAnFuUtaC2k","iR611FNDTKM","lQDY7mSAk8M","g6Eb5HmxGLY","GEEWx8bGPXE","JmjP3wUqg74","6duZhHezK6A","QD9aNjDU9Ho","OwUZ6nN2gv4","ysW3-rcGjYc","MQETxncZBQY","RY7ivFuATrs","fXP00EBYbVI","NT9RaJhqVCQ","q3-gqFBLRpo","3WzT7JEPBVQ","4SMZ6rqTtaU","e9HzPCQcguY","pmTOuvsymY8","P8gj_sCH4sE","K7bYPrYb0jE","VVJrEkmB_iU","lqvtmMdHeZc","crH60rJRu3w","iGrKeuHIpIo","KRg6zxfw6ns","oNWAAu2l-jA","p9jG4auFA1c","L1e0GN87B8Y","Q7bw4bEFHuY","uL6LOHcpHzA","IzIUkwvf3kM","t_ICtiBEpqQ","WvGx6jvJ-RE","GC1ljIit6Xk","LIoF_gpNqTs","SnMxbUqhawY","94-DZBhWtK8","VaZPoBgSV3k","NdvaajwtUgs","-99kdKRhsnc","PL-G52U_wPI","d6uljCqZWlg","VzHSH5IaMM8","SBAuCo3d2cc","kG7J7XstEfY","z-HiFEzPYNw","e9JirdzSp_o","zwKlCQc3h18","hom0ZSH8ee8","V1SgL56qjd0","pNgp-Z0_xQQ","1RU0nYAl55Y","zAHxnSBWtXE","PSqVjqPa9sg","cUxdRRoVXQg","X7ItppxzaNw","-Rl5gaxlV2E","tWElN-OMMGM","bfVRJORl5Hw","1Exhv58tUwo","CnPm9jJOujI","harISWO2tJU","LmeZsukNq4c","t7RJnE9-AXU","FEgyzqrU5rE","ailp_ms37CM","uprYj4MZ3lE","QIJ5H8M0SKU","ChQ9io6uumg","StvXVPBbZQs","19Mp6pSvR0c","zpqOOtu9Qf0","CpwqV1H9ZVo","z3V6-fGaH9c","VzFsp8dbfdw","02S3jnoAY2k","SKuFg8kt1EI","ZwVSFJsjNlE","SzGtLMf3xJY","a77YrcF3QNg","HJM994cn1Fs","ICgxYb1X9I0","XoaQvMIXXf8","S4RN6imMO8Y","2R30TkTj1tY","Abr1lkUweTU","Mbkz_olg0Qw","XunR9qLCaco","Fa4qJZsXkcc","gWhVvANWOQs","R8D7rztcLkY","hbLAXTzKokU","O_H8_-OK5bI","Y2sfUdJ4e6o","-I2wz7rof0k","j4nxAfTOtdo","9JqOsNS8c8w","YPH1OZ0Zcow","tvznSJbFQ7M","ruZgKdhE1Os","R3t9ePIzleU","OS5PTyEB4gQ","AcVtT2d8-kk"];

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { SLICE_DATA, TRIANGLE_POINTS, TOTAL_SLICES, CHAPTER_DETAILS, SECRET_EMOJI_PATTERN, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, TAFSIR_YOUTUBE_VIDEO_IDS, RECITATION_YOUTUBE_VIDEO_IDS, ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
+import { TRIANGLE_POINTS, TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, TAFSIR_YOUTUBE_VIDEO_IDS, RECITATION_YOUTUBE_VIDEO_IDS, ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
 import { getSliceAtPoint } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
 import CustomAnimationControls from './CustomAnimationControls.tsx';
 import ChapterGeometry from './ChapterGeometry.tsx';
 import MarkerAlignment from './MarkerAlignment.tsx';
+import KatharaClockAlignment from './SecretPatternAnimation.tsx';
 
 interface SidePanelProps {
   rotation: number;
@@ -272,6 +273,12 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                 setAnimationMode={setAnimationMode}
                 createPlaylist={createPlaylist}
              />
+             {isSecretModeActive && (
+                <KatharaClockAlignment
+                    rotation={rotation}
+                    createPlaylist={createPlaylist}
+                />
+             )}
           </div>
       </div>
     </aside>

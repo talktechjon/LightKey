@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TRIANGLE_POINTS, SLICE_DATA, TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS } from '../constants.ts';
+import { TRIANGLE_POINTS, SLICE_DATA, CHAPTER_DETAILS, MUQATTAT_CHAPTERS } from '../constants.ts';
 import { getSliceIdAtPoint } from '../utils.ts';
 import { getVerse } from '../data/verseData.ts';
 
