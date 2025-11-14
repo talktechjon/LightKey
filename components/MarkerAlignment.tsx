@@ -1,6 +1,6 @@
 import React from 'react';
 import { ICON_DIAL_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
-import { getSliceAtPoint } from '../utils.ts';
+import { getSliceAtPoint, colorScale } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
 
@@ -102,14 +102,15 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                     const isMuqattat = MUQATTAT_CHAPTERS.has(slice.id);
                     const muqattatLetters = MUQATTAT_LETTERS.get(slice.id);
                     const iconSrc = chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
+                    const chapterColor = colorScale(slice.id);
                     
                     return (
                         <div key={marker.id} className="flex items-center gap-x-3 overflow-hidden">
                         <span className="text-lg w-6 text-center">{emojiData.emoji}</span>
                         <div className="flex items-baseline gap-x-3 min-w-0">
-                            <span className="truncate flex items-center gap-1.5" title={`${slice.id}: ${chapterInfo.englishName}`}>
+                            <span className="truncate flex items-center gap-1.5" title={`${slice.id}: ${chapterInfo.englishName}`} style={{ color: chapterColor }}>
                                 <img src={iconSrc} alt={chapterInfo.revelationType} className="w-3.5 h-3.5 flex-shrink-0" />
-                                <span className={`font-semibold text-gray-300 ${isMuqattat ? 'muqattat-glow' : ''}`}>{slice.id}:</span> {chapterInfo.englishName}
+                                <span className={`font-semibold ${isMuqattat ? 'muqattat-glow' : ''}`}>{slice.id}:</span> {chapterInfo.englishName}
                             </span>
                             {muqattatLetters && (
                                 <span 

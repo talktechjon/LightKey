@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
+import * as d3 from 'd3';
 import { KATHARA_CLOCK_POINTS, KATHARA_GRID_NODES, KATHARA_GRID_LINES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
-import { getSliceAtPoint } from '../utils.ts';
+import { getSliceAtPoint, colorScale } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
 
@@ -50,10 +51,14 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                         })}
                     </g>
                     {KATHARA_GRID_NODES.map((node, index) => {
-                        const chapterId = alignedChapters[index]?.slice.id;
+                        const chapterData = alignedChapters[index];
+                        const chapterId = chapterData?.slice.id;
+                        const chapterColor = chapterId ? colorScale(chapterId) : node.color;
+                        const textColor = d3.lab(chapterColor).l < 60 ? 'white' : 'black';
+
                         return (
                             <g key={node.id}>
-                                <circle cx={node.x} cy={node.y} r={node.r} fill={node.color} stroke="#1f2937" strokeWidth="0.5" />
+                                <circle cx={node.x} cy={node.y} r={node.r} fill={chapterColor} stroke="#1f2937" strokeWidth="0.5" />
                                 <text 
                                     x={node.x} 
                                     y={node.y} 
@@ -61,7 +66,7 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                                     dy=".3em" 
                                     fontSize="8" 
                                     fontWeight="bold" 
-                                    fill={node.id === 12 || node.id === 3 || node.id === 8 || node.id === 4 || node.id === 9 ? 'black' : 'white'}>
+                                    fill={textColor}>
                                     {chapterId}
                                 </text>
                             </g>
@@ -71,23 +76,26 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
             </div>
 
             <div className="text-sm text-gray-400 mt-3 space-y-2">
-                {alignedChapters.map((chapterData, index) => (
-                    <div key={index} className="flex items-center gap-x-3 overflow-hidden">
-                        <span className="font-mono text-xs text-gray-500 w-6 text-center flex-shrink-0">{index + 1}.</span>
-                        <div className="flex items-baseline gap-x-3 min-w-0">
-                            <span className="truncate flex items-center gap-1.5" title={`${chapterData.slice.id}: ${chapterData.chapterInfo.englishName}`}>
-                                <img src={chapterData.iconSrc} alt={chapterData.chapterInfo.revelationType} className="w-3.5 h-3.5 flex-shrink-0" />
-                                <span className={`font-semibold text-gray-300 ${chapterData.isMuqattat ? 'muqattat-glow' : ''}`}>{chapterData.slice.id}:</span>
-                                {chapterData.chapterInfo.englishName}
-                            </span>
-                            {chapterData.muqattatLetters && (
-                                <span className="font-mono text-lg muqattat-glow flex-shrink-0" dir="rtl">
-                                    {chapterData.muqattatLetters.join(' ')}
+                {alignedChapters.map((chapterData, index) => {
+                    const chapterColor = colorScale(chapterData.slice.id);
+                    return (
+                        <div key={index} className="flex items-center gap-x-3 overflow-hidden">
+                            <span className="font-mono text-xs text-gray-500 w-6 text-center flex-shrink-0">{index + 1}.</span>
+                            <div className="flex items-baseline gap-x-3 min-w-0">
+                                <span className="truncate flex items-center gap-1.5" title={`${chapterData.slice.id}: ${chapterData.chapterInfo.englishName}`} style={{ color: chapterColor }}>
+                                    <img src={chapterData.iconSrc} alt={chapterData.chapterInfo.revelationType} className="w-3.5 h-3.5 flex-shrink-0" />
+                                    <span className={`font-semibold ${chapterData.isMuqattat ? 'muqattat-glow' : ''}`}>{chapterData.slice.id}:</span>
+                                    {chapterData.chapterInfo.englishName}
                                 </span>
-                            )}
+                                {chapterData.muqattatLetters && (
+                                    <span className="font-mono text-lg muqattat-glow flex-shrink-0" dir="rtl">
+                                        {chapterData.muqattatLetters.join(' ')}
+                                    </span>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

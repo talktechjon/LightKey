@@ -1,6 +1,5 @@
 import React from 'react';
 import { TOTAL_SLICES } from '../constants.ts';
-import { getSliceAtPoint } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
 import { EyeIconSimple, PlayButtonIcon, PauseButtonIcon } from './Icons.tsx';
@@ -12,7 +11,6 @@ interface CustomAnimationControlsProps {
     setAnimationMode: (mode: 'play' | 'step' | 'off') => void;
     setAnimationIndex: (index: number) => void;
     createPlaylist: (type: PlaylistType, chapterIds: number[]) => void;
-    rotation: number;
 }
 
 const PRESET_SEQUENCES: Record<string, string> = {

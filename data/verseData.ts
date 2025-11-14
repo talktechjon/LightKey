@@ -2,12 +2,8 @@ import { SurahData, SurahVerse, VerseResult } from '../types.ts';
 
 type LocalTranslationData = Record<string, string[]> | null;
 
-// In-memory cache for fetched verses
-interface VerseContent {
-  english: string;
-  bangla: string;
-}
-const verseCache = new Map<string, VerseContent>();
+// In-memory cache for fetched surahs
+const surahCache = new Map<number, SurahData>();
 
 interface FullVerseData {
   englishText: string;
@@ -44,60 +40,6 @@ async function fetchWithRetry(url: string, retries = 3, delay = 200): Promise<Re
   throw new Error("Fetch failed after multiple retries");
 }
 
-
-export const getVerse = async (surah: number, verse: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<FullVerseData> => {
-  const cacheKey = `${surah}:${verse}`;
-  
-  if (mode === 'online' && verseCache.has(cacheKey)) {
-    const cachedContent = verseCache.get(cacheKey)!;
-    return {
-      englishText: cachedContent.english,
-      banglaText: cachedContent.bangla,
-    };
-  }
-
-  // Handle local data first
-  if (mode === 'local' && localData?.[cacheKey]) {
-    const localTranslations = localData[cacheKey];
-    return {
-      englishText: localTranslations[0] || 'N/A',
-      banglaText: localTranslations[1] || '', // Use second translation or empty string
-    };
-  }
-  
-  // Fallback to online API if not in local mode or local data not found
-  try {
-    const url = `https://api.alquran.cloud/v1/ayah/${surah}:${verse}/editions/en.sahih,bn.bengali`;
-    const response = await fetchWithRetry(url);
-    if (!response.ok) {
-        throw new Error(`API error! status: ${response.status}`);
-    }
-    
-    const json = await response.json();
-    if (json.code !== 200 || !json.data || json.data.length < 2) {
-      throw new Error(`Invalid data received for ${surah}:${verse}`);
-    }
-
-    const verseData = json.data;
-    const englishText = verseData.find(v => v.edition.identifier === 'en.sahih')?.text || 'N/A';
-    const banglaText = verseData.find(v => v.edition.identifier === 'bn.bengali')?.text || 'N/A';
-    
-    if (mode === 'online') {
-        verseCache.set(cacheKey, { english: englishText, bangla: banglaText });
-    }
-
-    return { englishText, banglaText };
-
-  } catch (error) {
-    console.error(`Failed to fetch verse ${surah}:${verse}:`, error);
-    return {
-      englishText: `Could not load verse ${surah}:${verse}.`,
-      banglaText: `আয়াত ${surah}:${verse} লোড করা যায়নি।`,
-    };
-  }
-};
-
-const surahCache = new Map<number, SurahData>();
 
 export const getFullSurah = async (surahNumber: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<SurahData | null> => {
   if (mode === 'online' && surahCache.has(surahNumber)) {
@@ -166,47 +108,63 @@ export const getFullSurah = async (surahNumber: number, mode: 'online' | 'local'
   }
 };
 
+export const getVerse = async (surah: number, verse: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<FullVerseData> => {
+  // Use local data first if available, as it's fastest and doesn't require a network call.
+  if (mode === 'local' && localData?.[`${surah}:${verse}`]) {
+    const localTranslations = localData[`${surah}:${verse}`];
+    return {
+      englishText: localTranslations[0] || 'N/A',
+      banglaText: localTranslations[1] || '',
+    };
+  }
+
+  try {
+    const surahData = await getFullSurah(surah, mode, localData);
+    if (!surahData) {
+      throw new Error(`Surah ${surah} data could not be loaded.`);
+    }
+
+    const verseData = surahData.verses.find(v => v.numberInSurah === verse);
+    if (!verseData) {
+      throw new Error(`Verse ${surah}:${verse} not found in surah data. The surah has ${surahData.numberOfAyahs} verses.`);
+    }
+
+    return {
+      englishText: verseData.englishText,
+      banglaText: verseData.banglaText,
+    };
+  } catch (error) {
+    console.error(`Failed to get verse ${surah}:${verse}:`, error);
+    return {
+      englishText: `Could not load verse ${surah}:${verse}.`,
+      banglaText: `আয়াত ${surah}:${verse} লোড করা যায়নি।`,
+    };
+  }
+};
+
 export const getVerseDetails = async (surah: number, ayah: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<VerseResult | null> => {
     try {
-        const key = `${surah}:${ayah}`;
-        if (mode === 'local' && localData?.[key]) {
-          // If local data exists, construct a partial response first
-          // We still need the API for Arabic, transliteration, etc.
-          const response = await fetchWithRetry(`https://api.alquran.cloud/v1/ayah/${key}/editions/quran-uthmani,en.transliteration`);
-          if (!response.ok) throw new Error(`HTTP error for ${key}!`);
-          const json = await response.json();
-          if (json.code !== 200) throw new Error(`Invalid data for ${key}`);
-          const verseData = json.data;
-          
-          const localTranslations = localData[key];
-          const englishText = localTranslations[0] || 'N/A';
-          const banglaText = localTranslations[1] || '';
-
-          return {
-            numberInSurah: verseData[0].numberInSurah, surah: { number: verseData[0].surah.number, englishName: verseData[0].surah.englishName },
-            arabicText: verseData.find(v => v.edition.identifier === 'quran-uthmani')?.text || 'N/A',
-            transliteration: verseData.find(v => v.edition.identifier === 'en.transliteration')?.text || 'N/A',
-            englishText: englishText,
-            banglaText: banglaText,
-            fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${verseData[0].number}.mp3`
-          };
+        const surahData = await getFullSurah(surah, mode, localData);
+        if (!surahData) {
+            throw new Error(`Could not load data for Surah ${surah}.`);
         }
 
-        // Standard online fetch
-        const url = `https://api.alquran.cloud/v1/ayah/${key}/editions/quran-uthmani,en.transliteration,en.sahih,bn.bengali`;
-        const response = await fetchWithRetry(url);
-        if (!response.ok) throw new Error(`HTTP error for ${key}!`);
-        const json = await response.json();
-        if (json.code !== 200) throw new Error(`Invalid data for ${key}`);
-        const verseData = json.data;
-        
+        const verseData = surahData.verses.find(v => v.numberInSurah === ayah);
+        if (!verseData) {
+            throw new Error(`Could not find verse ${ayah} in Surah ${surah}.`);
+        }
+
         return {
-          numberInSurah: verseData[0].numberInSurah, surah: { number: verseData[0].surah.number, englishName: verseData[0].surah.englishName },
-          arabicText: verseData.find(v => v.edition.identifier === 'quran-uthmani')?.text || 'N/A',
-          transliteration: verseData.find(v => v.edition.identifier === 'en.transliteration')?.text || 'N/A',
-          englishText: verseData.find(v => v.edition.identifier === 'en.sahih')?.text || 'N/A',
-          banglaText: verseData.find(v => v.edition.identifier === 'bn.bengali')?.text || 'N/A',
-          fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${verseData[0].number}.mp3`
+            numberInSurah: verseData.numberInSurah,
+            surah: {
+                number: surahData.number,
+                englishName: surahData.englishName,
+            },
+            arabicText: verseData.arabicText,
+            transliteration: verseData.transliteration,
+            englishText: verseData.englishText,
+            banglaText: verseData.banglaText,
+            fullVerseAudioUrl: verseData.fullVerseAudioUrl,
         };
     } catch (e) {
         console.error(`Failed to fetch verse details for ${surah}:${ayah}:`, e);

@@ -1,5 +1,6 @@
 import { TOTAL_SLICES, SLICE_DATA } from './constants.ts';
 import type { SliceData } from './types.ts';
+import * as d3 from 'd3';
 
 /**
  * Converts polar coordinates (radius, angle) to Cartesian coordinates (x, y).
@@ -66,3 +67,8 @@ export async function processInBatches<T, R>(
   }
   return results;
 }
+
+export const colorScale = d3.scaleLinear<string>()
+    .domain([1, TOTAL_SLICES * 0.25, TOTAL_SLICES * 0.5, TOTAL_SLICES * 0.75, TOTAL_SLICES * 0.875, TOTAL_SLICES])
+    .range(['#87CEFA', '#4682B4', '#FFD700', '#FF4500', '#483D8B', '#87CEFA'])
+    .interpolate(d3.interpolateHcl);

@@ -252,7 +252,6 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
              setAnimationMode={setAnimationMode}
              setAnimationIndex={setAnimationIndex}
              createPlaylist={createPlaylist}
-             rotation={rotation}
           />
 
           <div className="pt-4 space-y-6">
