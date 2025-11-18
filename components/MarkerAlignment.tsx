@@ -3,6 +3,7 @@ import { ICON_DIAL_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_CHAPTER
 import { getSliceAtPoint, colorScale } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
+import { LoadSequenceIcon } from './Icons.tsx';
 
 interface MarkerAlignmentProps {
     isSecretModeActive: boolean;
@@ -68,7 +69,7 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                             aria-label="Load secret pattern into custom sequence"
                             title="Load secret pattern into custom sequence"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M14 10H2v2h12v-2zm0-4H2v2h12V6zM2 16h8v-2H2v2zm19-4v-3h-2v3h-3v2h3v3h2v-3h3v-2h-3z"></path></svg>
+                            <LoadSequenceIcon />
                         </button>
                         <PlaylistButtons onWatch={handleWatchSecretSequence} />
                     </div>

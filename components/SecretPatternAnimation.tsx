@@ -4,13 +4,16 @@ import { KATHARA_CLOCK_POINTS, KATHARA_GRID_NODES, KATHARA_GRID_LINES, CHAPTER_D
 import { getSliceAtPoint, colorScale } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
+import { LoadSequenceIcon } from './Icons.tsx';
 
 interface KatharaClockAlignmentProps {
     rotation: number;
     createPlaylist: (type: PlaylistType, chapterIds: number[]) => void;
+    setCustomSequence: (value: string) => void;
+    setAnimationMode: (mode: 'play' | 'step' | 'off') => void;
 }
 
-const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation, createPlaylist }) => {
+const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
     const alignedChapters = useMemo(() => {
         return KATHARA_CLOCK_POINTS.map(pointValue => {
             const slice = getSliceAtPoint(pointValue, rotation);
@@ -25,6 +28,12 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
         });
     }, [rotation]);
 
+    const handleLoadKatharaSequence = () => {
+        setAnimationMode('off');
+        const chapterIds = alignedChapters.map(c => c.slice.id);
+        setCustomSequence(chapterIds.join(', '));
+    };
+
     const handleWatchKatharaSequence = (type: PlaylistType) => {
         const chapterIds = alignedChapters.map(c => c.slice.id);
         createPlaylist(type, chapterIds);
@@ -36,7 +45,17 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
         <div className="pt-4">
             <div className="flex justify-between items-center">
                 <h2 className="text-xl font-bold text-gray-200 tracking-wider">KATHARA CLOCK</h2>
-                <PlaylistButtons onWatch={handleWatchKatharaSequence} />
+                <div className="flex items-center space-x-2">
+                    <button
+                        onClick={handleLoadKatharaSequence}
+                        className="bg-gray-600 hover:bg-cyan-700 text-white font-bold p-2 rounded transition-colors duration-200 flex-shrink-0"
+                        aria-label="Load Kathara Clock sequence into custom sequence"
+                        title="Load Kathara Clock sequence into custom sequence"
+                    >
+                        <LoadSequenceIcon />
+                    </button>
+                    <PlaylistButtons onWatch={handleWatchKatharaSequence} />
+                </div>
             </div>
             <div className="w-full h-px bg-gray-500/50 mt-2"></div>
 

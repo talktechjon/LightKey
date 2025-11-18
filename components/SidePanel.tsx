@@ -276,6 +276,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                 <KatharaClockAlignment
                     rotation={rotation}
                     createPlaylist={createPlaylist}
+                    setCustomSequence={setCustomSequence}
+                    setAnimationMode={setAnimationMode}
                 />
              )}
           </div>
