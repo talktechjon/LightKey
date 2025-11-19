@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { TRIANGLE_POINTS, TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, TAFSIR_YOUTUBE_VIDEO_IDS, RECITATION_YOUTUBE_VIDEO_IDS, ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
 import { getSliceAtPoint } from '../utils.ts';
@@ -160,6 +161,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
     if (videoIds.length > 0) {
       const url = `https://www.youtube.com/watch_videos?video_ids=${videoIds.join(',')}`;
       window.open(url, '_blank', 'noopener,noreferrer');
+    } else {
+      alert("Videos for this playlist are currently unavailable.");
     }
   };
   
@@ -192,7 +195,10 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   const iconSrc = chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
 
   return (
-    <aside className="w-full lg:w-96 bg-black/30 backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 overflow-y-auto">
+    <aside 
+        id="side-panel-scroll-container"
+        className="w-full lg:w-96 bg-black/30 backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 overflow-y-auto scroll-smooth"
+    >
       <div>
         <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold text-cyan-300 tracking-wider">▼🕋▲</h2>
@@ -202,7 +208,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
       </div>
 
       <div className="space-y-4">
-          <div className="lg:static sticky top-0 z-10 bg-black/30 backdrop-blur-sm pt-1 pb-4 lg:bg-transparent lg:backdrop-blur-none lg:p-0">
+          <div className="sticky top-0 z-10 bg-black/30 backdrop-blur-sm pt-1 pb-4">
             <div className="flex justify-between items-start min-h-[80px]">
               <label htmlFor="rotation-slider" className="font-semibold text-gray-200 pr-2">
                   <div className="flex items-baseline gap-x-2">

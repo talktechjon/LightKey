@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 
 interface Star {
@@ -33,8 +34,9 @@ const StarryBackground: React.FC = () => {
     const ctx = ctxRef.current;
     if (!ctx) return;
 
-    const STAR_DENSITY = 0.2;
-    const MAX_STARS = 500;
+    // Optimized parameters
+    const STAR_DENSITY = 0.1; // Reduced density
+    const MAX_STARS = 200; // Capped at 200 stars for better performance
 
     const init = () => {
       canvas.width = window.innerWidth;
@@ -51,13 +53,13 @@ const StarryBackground: React.FC = () => {
           y: Math.random() * canvas.height,
           radius: Math.random() * 1.5 + 0.5,
           alpha: Math.random(),
-          velocity: Math.random() * 0.01 // Reduced velocity for slower twinkling
+          velocity: Math.random() * 0.005 // Slower velocity for less visual noise
         });
       }
     };
 
-    const MAX_COMETS = 3; // Increased for more shooting stars
-    const COMET_SPAWN_CHANCE = 0.001; // Increased for more frequent shooting stars
+    const MAX_COMETS = 2; // Reduced max comets
+    const COMET_SPAWN_CHANCE = 0.002; 
 
     const createComet = (): Comet => {
       const side = Math.floor(Math.random() * 4);
@@ -87,28 +89,27 @@ const StarryBackground: React.FC = () => {
     };
     
     const animate = () => {
-      // Spawn a new comet
-      if (cometsRef.current.length < MAX_COMETS && Math.random() < COMET_SPAWN_CHANCE) {
-        cometsRef.current.push(createComet());
-      }
-      
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Draw stars
+      ctx.fillStyle = 'white';
       starsRef.current.forEach(star => {
         star.alpha += star.velocity;
         if (star.alpha > 1 || star.alpha < 0) {
           star.velocity = -star.velocity;
         }
         ctx.globalAlpha = star.alpha;
-        ctx.fillStyle = 'white';
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
         ctx.fill();
       });
       ctx.globalAlpha = 1;
 
-      // Draw and update comets
+      // Spawn and Draw comets
+      if (cometsRef.current.length < MAX_COMETS && Math.random() < COMET_SPAWN_CHANCE) {
+        cometsRef.current.push(createComet());
+      }
+
       for (let i = cometsRef.current.length - 1; i >= 0; i--) {
         const comet = cometsRef.current[i];
         
@@ -116,7 +117,7 @@ const StarryBackground: React.FC = () => {
         const tailY = comet.y - comet.len * comet.dy;
         
         const gradient = ctx.createLinearGradient(comet.x, comet.y, tailX, tailY);
-        gradient.addColorStop(0, `rgba(255, 255, 255, 0.8)`);
+        gradient.addColorStop(0, `rgba(255, 255, 255, 0.6)`);
         gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
         
         ctx.strokeStyle = gradient;
@@ -142,16 +143,16 @@ const StarryBackground: React.FC = () => {
     };
     
     const handleResize = () => {
-        // A simple debounce to prevent rapid re-initialization on resize.
+        // Debounce resize
         let timeout: number;
         clearTimeout(timeout);
         timeout = window.setTimeout(() => {
             init();
-        }, 250);
+        }, 200);
     };
 
     init();
-    animate(); // Start the animation loop
+    animate();
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -160,7 +161,7 @@ const StarryBackground: React.FC = () => {
         window.cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, []); // Empty dependency array ensures this runs only once.
+  }, []);
 
   return <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, #1b2735 0%, #090a0f 100%)' }}/>;
 };

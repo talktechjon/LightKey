@@ -1,5 +1,6 @@
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { createPortal } from 'react-dom';
 import * as d3 from 'd3';
 import { KATHARA_CLOCK_POINTS, KATHARA_GRID_NODES, KATHARA_GRID_LINES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG, SLICE_DATA } from '../constants.ts';
 import { getSliceAtPoint, colorScale } from '../utils.ts';
@@ -15,6 +16,74 @@ interface KatharaClockAlignmentProps {
 }
 
 const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
+    const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1024 : false);
+    const listRef = useRef<HTMLDivElement>(null);
+    const floatingRef = useRef<HTMLDivElement>(null);
+    const portalRoot = typeof document !== 'undefined' ? document.getElementById('kathara-portal-root') : null;
+
+    useEffect(() => {
+        const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Logic to track the list position and update the diagram's position instantly (Sticker behavior)
+    useLayoutEffect(() => {
+        if (!isDesktop) return;
+
+        const updatePosition = () => {
+            const listEl = listRef.current;
+            const floatingEl = floatingRef.current;
+            const scrollContainer = document.getElementById('side-panel-scroll-container');
+
+            if (listEl && floatingEl && scrollContainer) {
+                const listRect = listEl.getBoundingClientRect();
+                const containerRect = scrollContainer.getBoundingClientRect();
+
+                // 1. Dynamic Positioning: 
+                // Calculate X based on Side Panel's left edge (border) to avoid going too deep inside.
+                // 240 is the diagram width. +12 makes it overlap the border slightly for a "sticker" effect.
+                const diagramWidth = 240;
+                const x = containerRect.left - diagramWidth + 12;
+                const y = listRect.top;
+
+                // 2. GPU Accelerated Movement:
+                // Use transform instead of top/left for jitter-free scrolling
+                floatingEl.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                
+                // 3. Match Height:
+                // Stretch diagram to match list height exactly
+                floatingEl.style.height = `${listRect.height}px`;
+                floatingEl.style.width = `${diagramWidth}px`;
+
+                // 4. Masking: 
+                // Check visibility relative to scroll container
+                const isVisible = 
+                    listRect.bottom > containerRect.top + 50 && 
+                    listRect.top < containerRect.bottom - 50;
+
+                floatingEl.style.opacity = isVisible ? '1' : '0';
+            }
+        };
+
+        const scrollContainer = document.getElementById('side-panel-scroll-container');
+        let rafId: number;
+        
+        // Use a continuous loop to ensure perfect sync with scroll compositor
+        const loop = () => {
+            updatePosition();
+            rafId = requestAnimationFrame(loop);
+        };
+
+        if (scrollContainer) {
+            rafId = requestAnimationFrame(loop);
+        }
+        
+        return () => {
+            cancelAnimationFrame(rafId);
+        };
+    }, [isDesktop, rotation]);
+
     const alignedChapters = useMemo(() => {
         return KATHARA_CLOCK_POINTS.map((pointValue, index) => {
             const slice = getSliceAtPoint(pointValue, rotation);
@@ -86,6 +155,88 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
 
     const nodeMap = useMemo(() => new Map(KATHARA_GRID_NODES.map(node => [node.id, node])), []);
 
+    const renderDiagram = () => (
+        <div className="flex justify-center w-full h-full">
+            {/* Removed fixed dimensions to allow stretching */}
+            <svg viewBox="0 0 150 280" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true">
+                <g stroke="#4b5563" strokeWidth="1.5">
+                    {KATHARA_GRID_LINES.map((line, index) => {
+                        const fromNode = nodeMap.get(line.from);
+                        const toNode = nodeMap.get(line.to);
+                        if (!fromNode || !toNode) return null;
+                        return <line key={index} x1={fromNode.x} y1={fromNode.y} x2={toNode.x} y2={toNode.y} />;
+                    })}
+                </g>
+                {KATHARA_GRID_NODES.map((node, index) => {
+                    let label = '';
+                    let emoji = '';
+                    let isStaticNode = false;
+                    let fillColor = node.color;
+
+                    if (node.id > 12) {
+                        isStaticNode = true;
+                        label = node.staticLabel || '';
+                        if (node.shape === 'volcano') emoji = '🌋';
+                        if (node.shape === 'fish') emoji = '🐟';
+                        if (node.shape === 'palm') emoji = '🌴';
+                    } else {
+                        const chapterData = alignedChapters[index];
+                        if (chapterData) {
+                            label = chapterData.slice.id.toString();
+                            fillColor = colorScale(chapterData.slice.id);
+                        }
+                    }
+                    
+                    const textColor = d3.lab(fillColor).l < 60 ? 'white' : 'black';
+
+                    return (
+                        <g key={node.id}>
+                            {isStaticNode ? (
+                                <g>
+                                    <text 
+                                        x={node.x} 
+                                        y={node.y} 
+                                        textAnchor="middle" 
+                                        dominantBaseline="middle"
+                                        fontSize="22"
+                                    >
+                                        {emoji}
+                                    </text>
+                                    <text
+                                        x={node.x + 16}
+                                        y={node.y}
+                                        textAnchor="start"
+                                        dominantBaseline="middle"
+                                        fontSize="10"
+                                        fontWeight="bold"
+                                        fill="white"
+                                        style={{ textShadow: '0 0 3px black' }}
+                                    >
+                                        {label}
+                                    </text>
+                                </g>
+                            ) : (
+                                <g>
+                                    <circle cx={node.x} cy={node.y} r={node.r} fill={fillColor} stroke="#1f2937" strokeWidth="0.5" />
+                                    <text 
+                                        x={node.x} 
+                                        y={node.y} 
+                                        textAnchor="middle" 
+                                        dy=".3em" 
+                                        fontSize="10" 
+                                        fontWeight="bold" 
+                                        fill={textColor}>
+                                        {label}
+                                    </text>
+                                </g>
+                            )}
+                        </g>
+                    );
+                })}
+            </svg>
+        </div>
+    );
+
     return (
         <div className="pt-4">
             <div className="flex justify-between items-center">
@@ -104,90 +255,33 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
             </div>
             <div className="w-full h-px bg-gray-500/50 mt-2"></div>
 
-            <div className="flex justify-center my-4">
-                <svg viewBox="0 0 150 280" width="250" height="420" aria-hidden="true">
-                    <g stroke="#4b5563" strokeWidth="1.5">
-                        {KATHARA_GRID_LINES.map((line, index) => {
-                            const fromNode = nodeMap.get(line.from);
-                            const toNode = nodeMap.get(line.to);
-                            if (!fromNode || !toNode) return null;
-                            return <line key={index} x1={fromNode.x} y1={fromNode.y} x2={toNode.x} y2={toNode.y} />;
-                        })}
-                    </g>
-                    {KATHARA_GRID_NODES.map((node, index) => {
-                        // For the first 12 nodes (indices 0-11), use aligned chapters. 
-                        // For nodes 13, 14, 15, use their static definition.
-                        let label = '';
-                        let emoji = '';
-                        let isStaticNode = false;
-                        let fillColor = node.color;
+            {/* Diagram Rendering Logic */}
+            {!isDesktop ? (
+                <div className="my-4 h-[420px]">
+                    {renderDiagram()}
+                </div>
+            ) : (
+                portalRoot && createPortal(
+                    <div 
+                        ref={floatingRef}
+                        style={{ 
+                            position: 'fixed', 
+                            top: 0,
+                            left: 0,
+                            zIndex: 5, 
+                            pointerEvents: 'none',
+                            opacity: 0,
+                            willChange: 'transform, height', // Optimization for browser compositor
+                        }}
+                    >
+                        {renderDiagram()}
+                    </div>,
+                    portalRoot
+                )
+            )}
 
-                        if (node.id > 12) {
-                            // Static nodes
-                            isStaticNode = true;
-                            label = node.staticLabel || '';
-                            if (node.shape === 'volcano') emoji = '🌋';
-                            if (node.shape === 'fish') emoji = '🐟';
-                            if (node.shape === 'palm') emoji = '🌴';
-                        } else {
-                            // Dynamic nodes
-                            const chapterData = alignedChapters[index]; // index matches node.id - 1 for first 12
-                            if (chapterData) {
-                                label = chapterData.slice.id.toString();
-                                fillColor = colorScale(chapterData.slice.id);
-                            }
-                        }
-                        
-                        const textColor = d3.lab(fillColor).l < 60 ? 'white' : 'black';
-
-                        return (
-                            <g key={node.id}>
-                                {isStaticNode ? (
-                                    <g>
-                                       <text 
-                                            x={node.x} 
-                                            y={node.y} 
-                                            textAnchor="middle" 
-                                            dominantBaseline="middle"
-                                            fontSize="22"
-                                        >
-                                            {emoji}
-                                        </text>
-                                        <text
-                                            x={node.x + 16}
-                                            y={node.y}
-                                            textAnchor="start"
-                                            dominantBaseline="middle"
-                                            fontSize="10"
-                                            fontWeight="bold"
-                                            fill="white"
-                                            style={{ textShadow: '0 0 3px black' }}
-                                        >
-                                            {label}
-                                        </text>
-                                    </g>
-                                ) : (
-                                    <g>
-                                        <circle cx={node.x} cy={node.y} r={node.r} fill={fillColor} stroke="#1f2937" strokeWidth="0.5" />
-                                        <text 
-                                            x={node.x} 
-                                            y={node.y} 
-                                            textAnchor="middle" 
-                                            dy=".3em" 
-                                            fontSize="10" 
-                                            fontWeight="bold" 
-                                            fill={textColor}>
-                                            {label}
-                                        </text>
-                                    </g>
-                                )}
-                            </g>
-                        );
-                    })}
-                </svg>
-            </div>
-
-            <div className="text-sm text-gray-400 mt-3 space-y-2">
+            {/* List always renders in normal flow, ref is attached to this container */}
+            <div ref={listRef} className="text-sm text-gray-400 mt-3 space-y-2">
                 {displayChapters.map((chapterData, index) => {
                     if (!chapterData) return null;
                     const chapterColor = colorScale(chapterData.slice.id);

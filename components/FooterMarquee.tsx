@@ -113,14 +113,12 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
       if (isSecretModeActive) {
           // Interleave static items
           const combinedItems: MarqueeItem[] = [...items];
-          // Insert in reverse order to maintain indices
-          // 110 at end (index 9-ish), 103 at mid (index 6-ish), 108 at start (index 3-ish)
-          // Kathara clock has 12 points.
-          // Insert 108 after index 3 (between 3rd and 4th clock point)
+          // Insert in reverse order to maintain indices or just carefully index
+          // 108 between 3rd and 4th (index 3)
           combinedItems.splice(3, 0, { type: 'static', text: '🌋 108- Bounty / Respite', color: '#06b6d4' });
-          // Insert 103 after index 7 (previously 6, +1 inserted)
+          // 103 between 6th and 7th. Originally index 6. Now pushed by 1 to index 7.
           combinedItems.splice(7, 0, { type: 'static', text: '🐟 103- Trial / Sacrifice', color: '#06b6d4' });
-           // Insert 110 after index 11 (previously 9, +2 inserted)
+           // 110 between 9th and 10th. Originally index 9. Now pushed by 2 to index 11.
           combinedItems.splice(11, 0, { type: 'static', text: '🌴 110- Resurrect / Repent', color: '#06b6d4' });
           
           setMarqueeItems(combinedItems);

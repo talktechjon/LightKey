@@ -370,6 +370,9 @@ const App: React.FC = () => {
       >
         <span className="text-xl font-bold">?</span>
       </a>
+      
+      {/* Portal Root for Kathara Diagram on Desktop - z-index lowered to sit behind main content but above background */}
+      <div id="kathara-portal-root" className="fixed inset-0 z-[5] pointer-events-none hidden lg:block" />
 
     </main>
   );
