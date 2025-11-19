@@ -283,6 +283,238 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 114, englishName: 'People', transliteration: 'An-Nās', arabicName: 'النَّاس', revelationType: 'Makki', juz: '30' }
 ];
 
-export const TAFSIR_YOUTUBE_VIDEO_IDS: string[] = Array(114).fill('');
-export const RECITATION_YOUTUBE_VIDEO_IDS: string[] = Array(114).fill('');
-export const ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS: string[] = Array(114).fill('');
+export const TAFSIR_YOUTUBE_VIDEO_IDS: (string | null)[] = [
+  'zE_WFiHnSlY', // 1
+  'uRxyu_IoXJk', // 2
+  'HUt0yOQ1G7I', // 3
+  'LinJ2c2p10w', // 4
+  '9Z2cbMsDnig', // 5
+  '26OuAh4F4JM', // 6
+  'kANt948lz-U', // 7
+  'VXq8IoYLThA', // 8
+  'lPlbDdDMFRQ', // 9
+  'DwpNZqwyFYY', // 10
+  '_rg7nLkgapI', // 11
+  'KPbhRmyN1HM', // 12
+  'fW4zWnKhxRo', // 13
+  'Q77DT6cD_CY', // 14
+  'PeASD3ZvPPo', // 15
+  'G0-AhA8CfSc', // 16
+  'qA6GsjuHYg0', // 17
+  'Io0WdUNVZPc', // 18
+  'hN73EbvBnZA', // 19
+  '9t41Kbz0BNk', // 20
+  'lWf9U5Aibao', // 21
+  'kYgorM75UQc', // 22
+  'udDESiugUu4', // 23
+  'vEL9MlABLw4', // 24
+  'pm8HtCEIPdI', // 25
+  'Ovc9Ho4kwpk', // 26
+  '40s7VOSKne0', // 27
+  'lKX6S0jioB0', // 28
+  'vUz3k6GHaOw', // 29
+  'Z5pr6S_dl30', // 30
+  'fMTJ3Ah9RUs', // 31
+  'pVX71-tAjxQ', // 32
+  'EbaZzVIg7Lw', // 33
+  '4gGqPGHFK90', // 34
+  '6Us3Fyjvj88', // 35
+  'DJgLWmaIW6I', // 36
+  'FZ8F_dmEN6E', // 37
+  '4B9H7VxAKsg', // 38
+  'rdXy9SWe5-g', // 39
+  '8JChVV2bq6Q', // 40
+  'WBc3IxbtQ1s', // 41
+  'hQrV9UMlYuo', // 42
+  'nGa1txHmV4U', // 43
+  'CydFdttjlkQ', // 44
+  '8DATnFWn8wE', // 45
+  'eYNhuFsD_iA', // 46
+  'AAldTkgNzY0', // 47
+  'u4GMTG_dDpw', // 48
+  '600SO5gF9ts', // 49
+  'Qoy6dD8Iohk', // 50
+  'nJY9Rmvki_k', // 51
+  '16EWlSm4FNw', // 52
+  'tU2UUTFyAGU', // 53
+  'ZYlJnZ9hYiE', // 54
+  'OOVDppL7wQs', // 55
+  'YLkXsn98tLE', // 56
+  'WHaD71jpRlI', // 57
+  'R0jhcmgcWrU', // 58
+  'ukpgUQc6ERE', // 59
+  '5gicjcmA60o', // 60
+  'vppEUNsG150', // 61
+  '9F1C3C-Jv6w', // 62
+  'PfKgReTRoTc', // 63
+  'SPKG6zifhOs', // 64
+  'WmlhJNgnVhI', // 65
+  'WSIUgcs3xjo', // 66
+  '4JxAn7d37PE', // 67
+  '6URt9CLENyU', // 68
+  'UfmIZSt83rs', // 69
+  'giiHJ3s74Jo', // 70
+  'K2jsIYfP9pw', // 71
+  'ruvNPsgjADQ', // 72
+  'vGDmnYVKVLI', // 73
+  'ZSiHnXBor1k', // 74
+  'LRQcawa4u_I', // 75
+  'tWu3G26B1WA', // 76
+  'hve0b58Ap6s', // 77
+  'NOQw3wqovE8', // 78
+  'awloGGBgYu0', // 79
+  'sBSg0TGQ6D4', // 80
+  'DZJKvnoA6ko', // 81
+  'hFK1E69gFYk', // 82
+  'wUS8-Z1cZT8', // 83
+  'ssoRzBaCm3A', // 84
+  'iaSiS4Nxtmk', // 85
+  't3ZEawjTZ8I', // 86
+  'uG6DK0ocg6I', // 87
+  'x5C8BJ2xMPk', // 88
+  'jm9mkPS97uI', // 89
+  'ZlYJIhjAIUM', // 90
+  'O85TsGrQ0C4', // 91
+  'rDP0Tt7Mptg', // 92
+  'Ud0p98T6W5I', // 93
+  'z8650MHKmkI', // 94
+  'FgZ41ZD9vrY', // 95
+  'jyvxnLmGG6U', // 96
+  'LmlRwmgeY2Q', // 97
+  'Nn7i29QrHkM', // 98
+  'Mda-1DO7XUM', // 99
+  'Me94_pWewsg', // 100
+  '9iO2n5CLUKc', // 101
+  'PwBsIsvZo78', // 102
+  '-fXHT_Jo_5s', // 103
+  'AD2FTfde3gs', // 104
+  'e-q9W3mHai0', // 105
+  'EMKO5k_xiRE', // 106
+  'h_fRlrH1ucI', // 107
+  'ifq6UO66g78', // 108
+  '-yStryGMqk0', // 109
+  'GnOmpk-XFww', // 110
+  'DLgZo1aazoY', // 111
+  'UcxK4qDRMxk', // 112
+  'l6NeK6nXgpo', // 113
+  'EnRhAvlb9a4'  // 114
+];
+
+export const RECITATION_YOUTUBE_VIDEO_IDS: (string | null)[] = [
+  "7Fvtzc5UROM",
+  "JZ2E-ZTol-Y",
+  "Wm8v3qytyoM",
+  "j9bxF8TFr_E",
+  "Hgg8GaZk8Cc",
+  "FpSvOtVJDmk",
+  "j9F8ruNHT_g",
+  "k8sqL6FxFSI",
+  "wbVzwKRIIJg",
+  "1iIODTN3XyY",
+  "lr4HP_NI71U",
+  "0R1_dDZtOVE",
+  "fz68eNJ_TgA",
+  "XszewGqchow",
+  "Iaz0oLHCQyc",
+  "TEznTRHIaqI",
+  "fpQkmla417I",
+  "p9ao_uu_DL8",
+  "MlCXPjpTVZk",
+  "9ovoJSIjLCM",
+  "gTF6RUYXtO4",
+  "t4kSpJzR05o",
+  "UyYmI5MJ2n0",
+  "uIJuXmBVuCU",
+  "rCBFZeZXUJM",
+  "3KRJNPCAAFg",
+  "o8xMIaUcuCQ",
+  "GvlG9KQDkzg",
+  "oq5UxEeS9Nk",
+  "8cFM_KHfgDg",
+  "oLynUnPFFL4",
+  "Ejwq6JdxQFM",
+  "YhWOmxUZZp0",
+  "xmy7lwF3gxY",
+  "6P8xKoNd334",
+  "b1T08QyiJtQ",
+  "3hKGmZjxAwI",
+  "DarUkg7J69c",
+  "iAQzbk1V4HU",
+  "1i6S-wsaZnI",
+  "7ZUV4i3JOL4",
+  "TeUyzKXhebE",
+  "LfOaXupGBJk",
+  "I9x4q3ebXg0",
+  "eRCEC535onw",
+  "nZnFCqVjqM4",
+  "0znbSzyMJeE",
+  "6gDeA4lE5sI",
+  "ggBhj5ZSdhU",
+  "xaWtBQplVD0",
+  "pgQ60MZ0do0",
+  "tpUp0PthIpM",
+  "IuwbcscwV4Q",
+  "_HtgfvQjw6M",
+  "sHDmxMrCfCw",
+  "Kx-YYcL7XBw",
+  "NrzQO3OWho4",
+  "pKG5vrLNr8Y",
+  "5GIauUkxTMM",
+  "j_5h7T5-k0E",
+  "TL8veAEwD90",
+  "39QKHlaQ0Oo",
+  "9rr_n6OeIwA",
+  "YqBEP0ZRDIA",
+  "30ncGPJ0isI",
+  "chuGOJMmyYI",
+  "lg1CMBElIRs",
+  "3iG7OFiOF38",
+  "-UAUqrHMscQ",
+  "HyOcwHmSCTk",
+  "ETsrw9k6omM",
+  "81rZBp2dnkM",
+  "PaA7uidkWTU",
+  "pnmeUHAZcKQ",
+  "t9Fr-JdvvFg",
+  "Oq41HF6lhRg",
+  "NzFcy8hH5vE",
+  "Twrc1tKVC64",
+  "azRV6zSEXvo",
+  "Phjr_A4R0xA",
+  "GqnrxXEapQE",
+  "_UM7QJPaDOA",
+  "vQLeVg9LIbQ",
+  "EtIURK77xm0",
+  "bKgH3qgZWME",
+  "TH40BHw3JYM",
+  "r4nuD16_3YI",
+  "-EaJLJLvLxw",
+  "VutDTBFE4SI",
+  "pb8C6GLmEdQ",
+  "RsuHTp62Ke0",
+  "0PrWqEiTx2M",
+  "RPrXBJFubfU",
+  "drLcGby2sfg",
+  "VEdGz0eiFho",
+  "GTVz0Vz9xD0",
+  "Ucr37sCgVDc",
+  "fyXVBc-VBcA",
+  "I18D74K1nwg",
+  "yvYHXexHJXk",
+  "y1mLFgYKHlU",
+  "BGLRVtKYYEc",
+  "fTxL90nLaa8",
+  "mvtYbov_i6Y",
+  "buEKayiLA68",
+  "1Tp5XQqTuf4",
+  "JeB2Jvav7BM",
+  "V6ytr2Hwt3E",
+  "0_MptIoOxTY",
+  "O20UYue1evw",
+  "B38aIm0rKXI",
+  "mBAuwORZ6hU",
+  "gwh4qpalsS4",
+  "BxKPCVAUfKY"
+];
+
+export const ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS: (string | null)[] = ["-PqP0BCiTlE","Z5zh5QCsjYY","_w2yG1bDJfo","0lMNMwTB5M8","w4uUvBMrVjc","jOfjatghBoI","0oL-AXH4CIw","eTcU3Zf0sY8","o8oghQgLJgY","We3rtNjBm7Q","OAnFuUtaC2k","iR611FNDTKM","lQDY7mSAk8M","g6Eb5HmxGLY","GEEWx8bGPXE","JmjP3wUqg74","6duZhHezK6A","QD9aNjDU9Ho","OwUZ6nN2gv4","ysW3-rcGjYc","MQETxncZBQY","RY7ivFuATrs","fXP00EBYbVI","NT9RaJhqVCQ","q3-gqFBLRpo","3WzT7JEPBVQ","4SMZ6rqTtaU","e9HzPCQcguY","pmTOuvsymY8","P8gj_sCH4sE","K7bYPrYb0jE","VVJrEkmB_iU","lqvtmMdHeZc","crH60rJRu3w","iGrKeuHIpIo","KRg6zxfw6ns","oNWAAu2l-jA","p9jG4auFA1c","L1e0GN87B8Y","Q7bw4bEFHuY","uL6LOHcpHzA","IzIUkwvf3kM","t_ICtiBEpqQ","WvGx6jvJ-RE","GC1ljIit6Xk","LIoF_gpNqTs","SnMxbUqhawY","94-DZBhWtK8","VaZPoBgSV3k","NdvaajwtUgs","-99kdKRhsnc","PL-G52U_wPI","d6uljCqZWlg","VzHSH5IaMM8","SBAuCo3d2cc","kG7J7XstEfY","z-HiFEzPYNw","e9JirdzSp_o","zwKlCQc3h18","hom0ZSH8ee8","V1SgL56qjd0","pNgp-Z0_xQQ","1RU0nYAl55Y","zAHxnSBWtXE","PSqVjqPa9sg","cUxdRRoVXQg","X7ItppxzaNw","-Rl5gaxlV2E","tWElN-OMMGM","bfVRJORl5Hw","1Exhv58tUwo","CnPm9jJOujI","harISWO2tJU","LmeZsukNq4c","t7RJnE9-AXU","FEgyzqrU5rE","ailp_ms37CM","uprYj4MZ3lE","QIJ5H8M0SKU","ChQ9io6uumg","StvXVPBbZQs","19Mp6pSvR0c","zpqOOtu9Qf0","CpwqV1H9ZVo","z3V6-fGaH9c","VzFsp8dbfdw","02S3jnoAY2k","SKuFg8kt1EI","ZwVSFJsjNlE","SzGtLMf3xJY","a77YrcF3QNg","HJM994cn1Fs","ICgxYb1X9I0","XoaQvMIXXf8","S4RN6imMO8Y","2R30TkTj1tY","Abr1lkUweTU","Mbkz_olg0Qw","XunR9qLCaco","Fa4qJZsXkcc","gWhVvANWOQs","R8D7rztcLkY","hbLAXTzKokU","O_H8_-OK5bI","Y2sfUdJ4e6o","-I2wz7rof0k","j4nxAfTOtdo","9JqOsNS8c8w","YPH1OZ0Zcow","tvznSJbFQ7M","ruZgKdhE1Os","R3t9ePIzleU","OS5PTyEB4gQ","AcVtT2d8-kk"];

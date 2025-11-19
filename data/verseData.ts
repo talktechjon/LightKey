@@ -3,41 +3,11 @@ import { SurahData, SurahVerse, VerseResult, LocalTranslationData } from '../typ
 
 // In-memory cache for fetched surahs
 const surahCache = new Map<number, SurahData>();
-// In-memory cache for in-flight requests to prevent duplicates
-const surahPromises = new Map<number, Promise<SurahData | null>>();
 
 interface FullVerseData {
   englishText: string;
   banglaText: string;
 }
-
-class RequestLimiter {
-    private queue: (() => void)[] = [];
-    private activeCount = 0;
-    private maxConcurrent: number;
-
-    constructor(maxConcurrent: number = 3) {
-        this.maxConcurrent = maxConcurrent;
-    }
-
-    async schedule<T>(task: () => Promise<T>): Promise<T> {
-        if (this.activeCount >= this.maxConcurrent) {
-            await new Promise<void>(resolve => this.queue.push(resolve));
-        }
-        this.activeCount++;
-        try {
-            return await task();
-        } finally {
-            this.activeCount--;
-            if (this.queue.length > 0) {
-                const next = this.queue.shift();
-                if (next) next();
-            }
-        }
-    }
-}
-
-const limiter = new RequestLimiter(3);
 
 /**
  * A wrapper around fetch that retries the request with exponential backoff.
@@ -46,7 +16,7 @@ const limiter = new RequestLimiter(3);
  * @param delay The initial delay in milliseconds.
  * @returns A Promise that resolves to the Response object.
  */
-async function fetchWithRetry(url: string, retries = 3, delay = 500): Promise<Response> {
+async function fetchWithRetry(url: string, retries = 3, delay = 200): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     try {
       const response = await fetch(url);
@@ -71,88 +41,74 @@ async function fetchWithRetry(url: string, retries = 3, delay = 500): Promise<Re
 
 
 export const getFullSurah = async (surahNumber: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<SurahData | null> => {
-  if (surahCache.has(surahNumber)) {
+  if (mode === 'online' && surahCache.has(surahNumber)) {
     return surahCache.get(surahNumber)!;
   }
 
-  if (surahPromises.has(surahNumber)) {
-      return surahPromises.get(surahNumber)!;
-  }
+  try {
+    const url = `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/quran-uthmani,en.sahih,bn.bengali,en.transliteration`;
+    const response = await fetchWithRetry(url);
+    if (!response.ok) throw new Error(`API error! status: ${response.status}`);
+    
+    const json = await response.json();
+    if (json.code !== 200 || !json.data || json.data.length < 4) {
+      throw new Error(`Invalid data received for surah ${surahNumber}`);
+    }
 
-  const fetchLogic = async (): Promise<SurahData | null> => {
-      try {
-        const url = `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/quran-uthmani,en.sahih,bn.bengali,en.transliteration`;
-        const response = await limiter.schedule(() => fetchWithRetry(url));
+    const editions = json.data;
+    const arabicEdition = editions.find(e => e.edition.identifier === 'quran-uthmani');
+    const englishEdition = editions.find(e => e.edition.identifier === 'en.sahih');
+    const banglaEdition = editions.find(e => e.edition.identifier === 'bn.bengali');
+    const transliterationEdition = editions.find(e => e.edition.identifier === 'en.transliteration');
+
+    if (!arabicEdition || !englishEdition || !banglaEdition || !transliterationEdition) {
+        throw new Error('One or more required editions are missing.');
+    }
+
+    const verses: SurahVerse[] = arabicEdition.ayahs.map((ayah, index) => {
+        const absoluteAyahNumber = ayah.number;
+        const key = `${surahNumber}:${ayah.numberInSurah}`;
         
-        if (!response.ok) throw new Error(`API error! status: ${response.status}`);
+        let englishText = englishEdition.ayahs[index]?.text || 'N/A';
+        let banglaText = banglaEdition.ayahs[index]?.text || 'N/A';
         
-        const json = await response.json();
-        if (json.code !== 200 || !json.data || json.data.length < 4) {
-          throw new Error(`Invalid data received for surah ${surahNumber}`);
+        if (mode === 'local' && localData?.[key]) {
+            const localTranslations = localData[key];
+            englishText = localTranslations[0] || 'N/A';
+            banglaText = localTranslations[1] || '';
         }
-    
-        const editions = json.data;
-        const arabicEdition = editions.find((e: any) => e.edition.identifier === 'quran-uthmani');
-        const englishEdition = editions.find((e: any) => e.edition.identifier === 'en.sahih');
-        const banglaEdition = editions.find((e: any) => e.edition.identifier === 'bn.bengali');
-        const transliterationEdition = editions.find((e: any) => e.edition.identifier === 'en.transliteration');
-    
-        if (!arabicEdition || !englishEdition || !banglaEdition || !transliterationEdition) {
-            throw new Error('One or more required editions are missing.');
-        }
-    
-        const verses: SurahVerse[] = arabicEdition.ayahs.map((ayah: any, index: number) => {
-            const absoluteAyahNumber = ayah.number;
-            const key = `${surahNumber}:${ayah.numberInSurah}`;
-            
-            let englishText = englishEdition.ayahs[index]?.text || 'N/A';
-            let banglaText = banglaEdition.ayahs[index]?.text || 'N/A';
-            
-            if (mode === 'local' && localData?.[key]) {
-                const localTranslations = localData[key];
-                englishText = localTranslations[0] || 'N/A';
-                banglaText = localTranslations[1] || '';
-            }
-    
-            return {
-                numberInSurah: ayah.numberInSurah,
-                arabicText: ayah.text,
-                englishText: englishText,
-                banglaText: banglaText,
-                transliteration: transliterationEdition.ayahs[index]?.text || 'N/A',
-                fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`,
-            };
-        });
-        
-        const surahData: SurahData = {
-            number: arabicEdition.number,
-            englishName: arabicEdition.englishName,
-            arabicName: arabicEdition.name,
-            revelationType: arabicEdition.revelationType,
-            numberOfAyahs: arabicEdition.numberOfAyahs,
-            verses: verses
+
+        return {
+            numberInSurah: ayah.numberInSurah,
+            arabicText: ayah.text,
+            englishText: englishText,
+            banglaText: banglaText,
+            transliteration: transliterationEdition.ayahs[index]?.text || 'N/A',
+            fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`,
         };
-        
+    });
+    
+    const surahData: SurahData = {
+        number: arabicEdition.number,
+        englishName: arabicEdition.englishName,
+        arabicName: arabicEdition.name,
+        revelationType: arabicEdition.revelationType,
+        numberOfAyahs: arabicEdition.numberOfAyahs,
+        verses: verses
+    };
+    
+    if (mode === 'online') {
         surahCache.set(surahNumber, surahData);
-        return surahData;
-      } catch (error) {
-        console.error(`Failed to fetch surah ${surahNumber}:`, error);
-        return null;
-      } finally {
-        surahPromises.delete(surahNumber);
-      }
-  };
-
-  const promise = fetchLogic();
-  surahPromises.set(surahNumber, promise);
-  return promise;
+    }
+    return surahData;
+  } catch (error) {
+    console.error(`Failed to fetch surah ${surahNumber}:`, error);
+    return null;
+  }
 };
 
 export const getVerse = async (surah: number, verse: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<FullVerseData> => {
-  // Use local data first if available, as it's fastest and doesn't require a network call
-  // IF we assume getFullSurah has run. But here we are fetching on demand.
-  // If we have localData, we might still need the structure if getFullSurah wasn't called?
-  // Actually, for marquee we just need text.
+  // Use local data first if available, as it's fastest and doesn't require a network call.
   if (mode === 'local' && localData?.[`${surah}:${verse}`]) {
     const localTranslations = localData[`${surah}:${verse}`];
     return {

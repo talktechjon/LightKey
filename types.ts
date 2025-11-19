@@ -1,3 +1,5 @@
+
+// Fix: Replaced incorrect content with actual type definitions.
 export interface SliceData {
   id: number;
   blockCount: number;
@@ -104,8 +106,3 @@ export type VerseFinderContent =
 export type PlaylistType = 'recitation' | 'tafsir' | 'englishRecitation';
 
 export type LocalTranslationData = Record<string, string[]> | null;
-
-export interface ActiveVideo {
-  src: string;
-  originalLink: string;
-}

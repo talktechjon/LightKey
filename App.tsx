@@ -7,8 +7,7 @@ import Tooltip from './components/Tooltip.tsx';
 import StarryBackground from './components/StarryBackground.tsx';
 import VerseFinder from './components/VerseFinder.tsx';
 import SettingsPanel from './components/SettingsPanel.tsx';
-import VideoModal from './components/VideoModal.tsx';
-import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent, VerseFinderContent, LocalTranslationData, ActiveVideo, VerseResult } from './types.ts';
+import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent, VerseFinderContent, LocalTranslationData } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
 import { getVerse, getFullSurah, getVerseDetails } from './data/verseData.ts';
 import { useIdle } from './hooks/useIdle.ts';
@@ -25,6 +24,7 @@ const App: React.FC = () => {
   const [secretEmojiShift, setSecretEmojiShift] = useState(0);
   const [isVerseFinderVisible, setIsVerseFinderVisible] = useState(false);
   const [verseFinderContent, setVerseFinderContent] = useState<VerseFinderContent>({ type: 'empty' });
+  const [verseFinderQuery, setVerseFinderQuery] = useState('');
 
   // --- Low Resource Mode State ---
   const [isLowResourceMode, setIsLowResourceMode] = useState(false);
@@ -44,9 +44,6 @@ const App: React.FC = () => {
   const rotationRef = useRef(rotation);
   useEffect(() => { rotationRef.current = rotation; }, [rotation]);
   // --- End Idle Animation State ---
-  
-  // --- Video/Playlist Modal State ---
-  const [activeVideo, setActiveVideo] = useState<ActiveVideo | null>(null);
 
   // Defer updates to the most expensive, off-screen component (Footer)
   const deferredRotation = useDeferredValue(rotation);
@@ -118,6 +115,7 @@ const App: React.FC = () => {
 
   const loadSurahInFinder = async (surahNumber: number) => {
     setIsVerseFinderVisible(true);
+    setVerseFinderQuery(surahNumber.toString());
     setVerseFinderContent({ type: 'loading_surah', number: surahNumber });
     const surahData = await getFullSurah(surahNumber, translationMode, localTranslationData);
     if (surahData) {
@@ -131,6 +129,30 @@ const App: React.FC = () => {
     setLocalTranslationData(data);
     setLocalFileName(fileName);
     setTranslationMode('local');
+  };
+
+  const handleMarqueeExport = async (verseIds: string[]) => {
+      setIsVerseFinderVisible(true);
+      setVerseFinderContent({ type: 'loading' });
+      setVerseFinderQuery(verseIds.join(', '));
+
+      const verseRequests = verseIds.map(id => {
+          const [surah, ayah] = id.split(':').map(Number);
+          return { surah, ayah };
+      });
+
+      try {
+          const results = await processInBatches(
+              verseRequests,
+              ({ surah, ayah }) => getVerseDetails(surah, ayah, translationMode, localTranslationData),
+              5
+          );
+          const validResults = results.filter((v): v is NonNullable<typeof v> => v !== null);
+          setVerseFinderContent({ type: 'search', verses: validResults });
+      } catch (error) {
+          console.error("Error exporting marquee verses:", error);
+          setVerseFinderContent({ type: 'empty' });
+      }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -194,44 +216,6 @@ const App: React.FC = () => {
   const hideTooltip = useCallback(() => {
     setTooltipContent(null);
   }, []);
-
-  const handlePlayPlaylist = (videoIds: string[]) => {
-    if (videoIds.length > 0) {
-        const origin = window.location.origin;
-        const baseUrl = "https://www.youtube.com/embed/";
-        const firstId = videoIds[0];
-        const restIds = videoIds.slice(1).join(',');
-        const playlistParam = restIds ? `&playlist=${restIds}` : '';
-        // Add mute=1 to enable autoplay in some browsers, rel=0 for related videos from same channel
-        const src = `${baseUrl}${firstId}?autoplay=1&mute=1&rel=0&origin=${origin}${playlistParam}`;
-        
-        setActiveVideo({
-            src,
-            originalLink: `https://www.youtube.com/watch_videos?video_ids=${videoIds.join(',')}`
-        });
-    }
-  };
-
-  const handleMarqueeExport = async (verses: { surah: number; verse: number }[]) => {
-    if (verses.length === 0) return;
-    
-    setIsVerseFinderVisible(true);
-    setVerseFinderContent({ type: 'loading' });
-
-    try {
-        // Fetch full details for each verse to populate the Verse Finder playlist
-        const results = await processInBatches(
-            verses,
-            (v) => getVerseDetails(v.surah, v.verse, translationMode, localTranslationData),
-            5
-        );
-        const validResults = results.filter((v): v is VerseResult => v !== null);
-        setVerseFinderContent({ type: 'search', verses: validResults });
-    } catch (e) {
-        console.error("Error exporting verses:", e);
-        setVerseFinderContent({ type: 'empty' });
-    }
-  };
 
   return (
     <main 
@@ -318,6 +302,8 @@ const App: React.FC = () => {
           setContent={setVerseFinderContent}
           translationMode={translationMode}
           localTranslationData={localTranslationData}
+          query={verseFinderQuery}
+          onQueryChange={setVerseFinderQuery}
         />
       </div>
 
@@ -356,20 +342,21 @@ const App: React.FC = () => {
             isSecretModeActive={isSecretModeActive}
             secretEmojiShift={secretEmojiShift}
             isLowResourceMode={isLowResourceMode}
-            onPlayPlaylist={handlePlayPlaylist}
         />
       </div>
-      {!isLowResourceMode && <FooterMarquee rotation={deferredRotation} translationMode={translationMode} localTranslationData={localTranslationData} isSecretModeActive={isSecretModeActive} onExport={handleMarqueeExport} />}
+      {!isLowResourceMode && (
+        <FooterMarquee 
+            rotation={deferredRotation} 
+            translationMode={translationMode} 
+            localTranslationData={localTranslationData} 
+            isSecretModeActive={isSecretModeActive}
+            onExport={handleMarqueeExport}
+        />
+      )}
       <Tooltip 
         visible={!!tooltipContent}
         content={tooltipContent}
         position={tooltipPosition}
-      />
-      
-      {/* Modal for playing videos/playlists */}
-      <VideoModal 
-        activeVideo={activeVideo}
-        onClose={() => setActiveVideo(null)}
       />
 
       {/* Introduction Video Button (Link) */}

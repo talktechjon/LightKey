@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect, useRef } from 'react';
 import { VerseFinderContent, VerseResult, SurahData, SurahVerse, LocalTranslationData } from '../types.ts';
 import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
@@ -22,10 +21,11 @@ interface VerseFinderProps {
   setContent: (content: VerseFinderContent) => void;
   translationMode: 'online' | 'local';
   localTranslationData: LocalTranslationData;
+  query: string;
+  onQueryChange: (query: string) => void;
 }
 
-const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, content, setContent, translationMode, localTranslationData }) => {
-  const [query, setQuery] = useState('');
+const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, content, setContent, translationMode, localTranslationData, query, onQueryChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
@@ -146,7 +146,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
 
 
   useEffect(() => {
-    if (isVisible && content.type !== 'surah' && content.type !== 'loading_surah' && content.type !== 'loading') {
+    if (isVisible && content.type !== 'surah' && content.type !== 'loading_surah') {
         const timerId = setTimeout(() => { inputRef.current?.focus(); }, 100);
         return () => clearTimeout(timerId);
     }
@@ -333,8 +333,8 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
 
   const renderContent = () => {
     switch (content.type) {
-        case 'loading_surah': return <p className="text-center text-gray-400 p-4">Loading Surah {content.number}...</p>;
         case 'loading': return <p className="text-center text-gray-400 p-4">Loading verses...</p>;
+        case 'loading_surah': return <p className="text-center text-gray-400 p-4">Loading Surah {content.number}...</p>;
         case 'empty': return <p className="text-center text-gray-400 p-4">Search for a verse or click a chapter on the dial.</p>;
         case 'search':
             return (
@@ -459,7 +459,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
       <div className="p-3">
         <div className="flex items-center gap-2">
             <input
-                ref={inputRef} type="text" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleKeyDown}
+                ref={inputRef} type="text" value={query} onChange={(e) => onQueryChange(e.target.value)} onKeyDown={handleKeyDown}
                 placeholder="e.g., 2:255, 112, 97:1-5, :7"
                 className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-sm text-white placeholder-gray-500 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
             />

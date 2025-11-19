@@ -16,7 +16,7 @@ interface KatharaClockAlignmentProps {
 
 const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
     const alignedChapters = useMemo(() => {
-        return KATHARA_CLOCK_POINTS.map(pointValue => {
+        return KATHARA_CLOCK_POINTS.map((pointValue, index) => {
             const slice = getSliceAtPoint(pointValue, rotation);
             const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
             return {
@@ -24,56 +24,53 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                 chapterInfo,
                 isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
                 muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
-                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG
+                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                clockIndex: index + 1
             };
         });
     }, [rotation]);
 
     const displayChapters = useMemo(() => {
-        const createStaticRow = (id: number, emoji: string, label: string) => {
-             const chapterInfo = CHAPTER_DETAILS[id - 1];
-             const sliceData = SLICE_DATA.find(sd => sd.id === id) || { id: id, blockCount: 0 };
+        const chapters = [...alignedChapters];
+        
+        // Get static data for special chapters
+        const getStaticChapterData = (id: number, label: string, emoji: string) => {
+            const slice = SLICE_DATA.find(s => s.id === id);
+            const chapterInfo = CHAPTER_DETAILS.find(c => c.number === id);
+            if (!slice || !chapterInfo) return null;
              return {
-                slice: sliceData,
-                chapterInfo: { ...chapterInfo, englishName: label },
-                isMuqattat: MUQATTAT_CHAPTERS.has(id),
-                muqattatLetters: MUQATTAT_LETTERS.get(id),
+                slice,
+                chapterInfo,
+                isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
+                muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
                 iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
-                customMarker: emoji,
+                staticLabel: label,
+                staticEmoji: emoji,
                 isStatic: true
             };
         };
 
-        const static112Start = createStaticRow(112, '∞', 'Beginning');
-        const static108 = createStaticRow(108, '🌋', 'Bounty / Respite');
-        const static103 = createStaticRow(103, '🐟', 'Trial / Sacrifice');
-        const static110 = createStaticRow(110, '🌴', 'Resurrect / Repent');
-        const static112End = createStaticRow(112, '∞', 'Repeat');
-
-        const result = [];
+        const static108 = getStaticChapterData(108, 'Bounty / Respite', '🌋');
+        const static103 = getStaticChapterData(103, 'Trial / Sacrifice', '🐟');
+        const static110 = getStaticChapterData(110, 'Resurrect / Repent', '🌴');
         
-        // Insert 112 Start
-        result.push(static112Start);
+        const static112Start = {
+             ...getStaticChapterData(112, 'Beginning', '∞')!,
+             staticEmoji: '∞'
+        };
+         const static112End = {
+             ...getStaticChapterData(112, 'Repeat', '∞')!,
+             staticEmoji: '∞'
+        };
 
-        let clockCounter = 1;
 
-        for (let i = 0; i < alignedChapters.length; i++) {
-            result.push({ ...alignedChapters[i], clockIndex: clockCounter++ });
-            
-            // Insert 108 between 3 and 4 (after index 2)
-            if (i === 2) result.push(static108);
-            
-            // Insert 103 between 6 and 7 (after index 5)
-            if (i === 5) result.push(static103);
-            
-            // Insert 110 between 9 and 10 (after index 8)
-            if (i === 8) result.push(static110);
-        }
+        // Insert at specific positions
+        if (static108) chapters.splice(3, 0, static108); // After 3rd
+        if (static103) chapters.splice(7, 0, static103); // After 6th (now 7th item)
+        if (static110) chapters.splice(11, 0, static110); // After 9th (now 11th item)
         
-        // Insert 112 End
-        result.push(static112End);
+        return [static112Start, ...chapters, static112End];
 
-        return result;
     }, [alignedChapters]);
 
     const handleLoadKatharaSequence = () => {
@@ -109,7 +106,7 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
 
             <div className="flex justify-center my-4">
                 <svg viewBox="0 0 150 280" width="250" height="420" aria-hidden="true">
-                    <g stroke="#4b5563" strokeWidth="1">
+                    <g stroke="#4b5563" strokeWidth="1.5">
                         {KATHARA_GRID_LINES.map((line, index) => {
                             const fromNode = nodeMap.get(line.from);
                             const toNode = nodeMap.get(line.to);
@@ -118,64 +115,72 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                         })}
                     </g>
                     {KATHARA_GRID_NODES.map((node, index) => {
-                        // Handle static nodes (Eumbi, AzurA, Rajna)
-                        if ('shape' in node && 'staticLabel' in node) {
-                             const shapeNode = node as any;
-                             let emoji = '';
-                             if (shapeNode.shape === 'volcano') emoji = '🌋';
-                             else if (shapeNode.shape === 'fish') emoji = '🐟';
-                             else if (shapeNode.shape === 'palm') emoji = '🌴';
+                        // For the first 12 nodes (indices 0-11), use aligned chapters. 
+                        // For nodes 13, 14, 15, use their static definition.
+                        let label = '';
+                        let emoji = '';
+                        let isStaticNode = false;
+                        let fillColor = node.color;
 
-                             return (
-                                <g key={node.id}>
-                                    <text 
-                                        x={node.x} 
-                                        y={node.y} 
-                                        textAnchor="middle" 
-                                        dominantBaseline="central" 
-                                        fontSize="22" 
-                                        fill={node.color}
-                                        style={{ filter: shapeNode.shape === 'volcano' ? 'drop-shadow(0 0 2px rgba(255,255,255,0.5))' : 'none' }}
-                                    >
-                                        {emoji}
-                                    </text>
-                                    <text 
-                                        x={node.x + 16} 
-                                        y={node.y + 1} 
-                                        textAnchor="start" 
-                                        dominantBaseline="central" 
-                                        fontSize="10" 
-                                        fontWeight="bold" 
-                                        fill="white"
-                                        style={{ textShadow: '0 0 2px black' }}
-                                    >
-                                        {shapeNode.staticLabel}
-                                    </text>
-                                </g>
-                             );
+                        if (node.id > 12) {
+                            // Static nodes
+                            isStaticNode = true;
+                            label = node.staticLabel || '';
+                            if (node.shape === 'volcano') emoji = '🌋';
+                            if (node.shape === 'fish') emoji = '🐟';
+                            if (node.shape === 'palm') emoji = '🌴';
+                        } else {
+                            // Dynamic nodes
+                            const chapterData = alignedChapters[index]; // index matches node.id - 1 for first 12
+                            if (chapterData) {
+                                label = chapterData.slice.id.toString();
+                                fillColor = colorScale(chapterData.slice.id);
+                            }
                         }
-
-                        const chapterData = alignedChapters[index];
-                        // Safety check if we iterate more nodes than alignedChapters
-                        if (!chapterData) return null;
-
-                        const chapterId = chapterData.slice.id;
-                        const chapterColor = chapterId ? colorScale(chapterId) : node.color;
-                        const textColor = d3.lab(chapterColor).l < 60 ? 'white' : 'black';
+                        
+                        const textColor = d3.lab(fillColor).l < 60 ? 'white' : 'black';
 
                         return (
                             <g key={node.id}>
-                                <circle cx={node.x} cy={node.y} r={node.r} fill={chapterColor} stroke="#1f2937" strokeWidth="0.5" />
-                                <text 
-                                    x={node.x} 
-                                    y={node.y} 
-                                    textAnchor="middle" 
-                                    dy=".3em" 
-                                    fontSize="10" 
-                                    fontWeight="bold" 
-                                    fill={textColor}>
-                                    {chapterId}
-                                </text>
+                                {isStaticNode ? (
+                                    <g>
+                                       <text 
+                                            x={node.x} 
+                                            y={node.y} 
+                                            textAnchor="middle" 
+                                            dominantBaseline="middle"
+                                            fontSize="22"
+                                        >
+                                            {emoji}
+                                        </text>
+                                        <text
+                                            x={node.x + 16}
+                                            y={node.y}
+                                            textAnchor="start"
+                                            dominantBaseline="middle"
+                                            fontSize="10"
+                                            fontWeight="bold"
+                                            fill="white"
+                                            style={{ textShadow: '0 0 3px black' }}
+                                        >
+                                            {label}
+                                        </text>
+                                    </g>
+                                ) : (
+                                    <g>
+                                        <circle cx={node.x} cy={node.y} r={node.r} fill={fillColor} stroke="#1f2937" strokeWidth="0.5" />
+                                        <text 
+                                            x={node.x} 
+                                            y={node.y} 
+                                            textAnchor="middle" 
+                                            dy=".3em" 
+                                            fontSize="10" 
+                                            fontWeight="bold" 
+                                            fill={textColor}>
+                                            {label}
+                                        </text>
+                                    </g>
+                                )}
                             </g>
                         );
                     })}
@@ -184,26 +189,22 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
 
             <div className="text-sm text-gray-400 mt-3 space-y-2">
                 {displayChapters.map((chapterData, index) => {
+                    if (!chapterData) return null;
                     const chapterColor = colorScale(chapterData.slice.id);
-                    const isStatic = 'isStatic' in chapterData && (chapterData as any).isStatic;
+                    const isStatic = 'isStatic' in chapterData;
                     
                     return (
-                        <div 
-                            key={index} 
-                            className={`flex items-center gap-x-3 overflow-hidden ${isStatic ? 'border border-gray-600/60 rounded px-2 py-1 bg-gray-800/30 my-1' : ''}`}
-                        >
+                        <div key={index} className={`flex items-center gap-x-3 overflow-hidden ${isStatic ? 'border border-gray-600 rounded p-1 bg-gray-900/30' : ''}`}>
                             <span className="font-mono text-xs text-gray-500 w-6 text-center flex-shrink-0">
-                                {isStatic ? (
-                                    <span className="text-base text-gray-300">{(chapterData as any).customMarker}</span>
-                                ) : (
-                                    `${(chapterData as any).clockIndex}.`
-                                )}
+                                {isStatic ? (chapterData as any).staticEmoji : `${(chapterData as any).clockIndex}.`}
                             </span>
                             <div className="flex items-baseline gap-x-3 min-w-0">
                                 <span className="truncate flex items-center gap-1.5" title={`${chapterData.slice.id}: ${chapterData.chapterInfo.englishName}`} style={{ color: chapterColor }}>
                                     <img src={chapterData.iconSrc} alt={chapterData.chapterInfo.revelationType} className="w-3.5 h-3.5 flex-shrink-0" />
-                                    <span className={`font-semibold ${chapterData.isMuqattat ? 'muqattat-glow' : ''}`}>{chapterData.slice.id}:</span>
-                                    {chapterData.chapterInfo.englishName}
+                                    <span className={`font-semibold ${chapterData.isMuqattat ? 'muqattat-glow' : ''}`}>
+                                        {isStatic ? (chapterData as any).staticEmoji : ''}{chapterData.slice.id}:
+                                    </span>
+                                    {isStatic ? (chapterData as any).staticLabel : chapterData.chapterInfo.englishName}
                                 </span>
                                 {chapterData.muqattatLetters && (
                                     <span className="font-mono text-lg muqattat-glow flex-shrink-0" dir="rtl">
