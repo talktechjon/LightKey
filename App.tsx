@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useCallback, useDeferredValue, useEffect } from 'react';
 import Visualization from './components/Visualization.tsx';
 import SidePanel from './components/SidePanel.tsx';
@@ -6,12 +7,12 @@ import Tooltip from './components/Tooltip.tsx';
 import StarryBackground from './components/StarryBackground.tsx';
 import VerseFinder from './components/VerseFinder.tsx';
 import SettingsPanel from './components/SettingsPanel.tsx';
-import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent, VerseFinderContent } from './types.ts';
+import VideoModal from './components/VideoModal.tsx';
+import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent, VerseFinderContent, LocalTranslationData, ActiveVideo, VerseResult } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
-import { getVerse, getFullSurah } from './data/verseData.ts';
+import { getVerse, getFullSurah, getVerseDetails } from './data/verseData.ts';
 import { useIdle } from './hooks/useIdle.ts';
-
-type LocalTranslationData = Record<string, string[]> | null;
+import { processInBatches } from './utils.ts';
 
 const App: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);
@@ -43,6 +44,9 @@ const App: React.FC = () => {
   const rotationRef = useRef(rotation);
   useEffect(() => { rotationRef.current = rotation; }, [rotation]);
   // --- End Idle Animation State ---
+  
+  // --- Video/Playlist Modal State ---
+  const [activeVideo, setActiveVideo] = useState<ActiveVideo | null>(null);
 
   // Defer updates to the most expensive, off-screen component (Footer)
   const deferredRotation = useDeferredValue(rotation);
@@ -191,6 +195,44 @@ const App: React.FC = () => {
     setTooltipContent(null);
   }, []);
 
+  const handlePlayPlaylist = (videoIds: string[]) => {
+    if (videoIds.length > 0) {
+        const origin = window.location.origin;
+        const baseUrl = "https://www.youtube.com/embed/";
+        const firstId = videoIds[0];
+        const restIds = videoIds.slice(1).join(',');
+        const playlistParam = restIds ? `&playlist=${restIds}` : '';
+        // Add mute=1 to enable autoplay in some browsers, rel=0 for related videos from same channel
+        const src = `${baseUrl}${firstId}?autoplay=1&mute=1&rel=0&origin=${origin}${playlistParam}`;
+        
+        setActiveVideo({
+            src,
+            originalLink: `https://www.youtube.com/watch_videos?video_ids=${videoIds.join(',')}`
+        });
+    }
+  };
+
+  const handleMarqueeExport = async (verses: { surah: number; verse: number }[]) => {
+    if (verses.length === 0) return;
+    
+    setIsVerseFinderVisible(true);
+    setVerseFinderContent({ type: 'loading' });
+
+    try {
+        // Fetch full details for each verse to populate the Verse Finder playlist
+        const results = await processInBatches(
+            verses,
+            (v) => getVerseDetails(v.surah, v.verse, translationMode, localTranslationData),
+            5
+        );
+        const validResults = results.filter((v): v is VerseResult => v !== null);
+        setVerseFinderContent({ type: 'search', verses: validResults });
+    } catch (e) {
+        console.error("Error exporting verses:", e);
+        setVerseFinderContent({ type: 'empty' });
+    }
+  };
+
   return (
     <main 
       className="w-full h-screen text-gray-100 font-sans relative flex flex-col overflow-hidden"
@@ -314,14 +356,34 @@ const App: React.FC = () => {
             isSecretModeActive={isSecretModeActive}
             secretEmojiShift={secretEmojiShift}
             isLowResourceMode={isLowResourceMode}
+            onPlayPlaylist={handlePlayPlaylist}
         />
       </div>
-      {!isLowResourceMode && <FooterMarquee rotation={deferredRotation} translationMode={translationMode} localTranslationData={localTranslationData} />}
+      {!isLowResourceMode && <FooterMarquee rotation={deferredRotation} translationMode={translationMode} localTranslationData={localTranslationData} isSecretModeActive={isSecretModeActive} onExport={handleMarqueeExport} />}
       <Tooltip 
         visible={!!tooltipContent}
         content={tooltipContent}
         position={tooltipPosition}
       />
+      
+      {/* Modal for playing videos/playlists */}
+      <VideoModal 
+        activeVideo={activeVideo}
+        onClose={() => setActiveVideo(null)}
+      />
+
+      {/* Introduction Video Button (Link) */}
+      <a
+        href="https://www.youtube.com/watch?v=ytKuGS85pZE"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-4 left-4 z-50 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50 hover:border-cyan-400 hover:scale-110 shadow-[0_0_10px_rgba(0,255,255,0.2)]"
+        title="Watch Introduction"
+        aria-label="Watch Introduction Video"
+      >
+        <span className="text-xl font-bold">?</span>
+      </a>
+
     </main>
   );
 };

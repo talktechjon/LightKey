@@ -1,5 +1,7 @@
+
+
 import React, { useState, useEffect, useRef } from 'react';
-import { VerseFinderContent, VerseResult, SurahData, SurahVerse } from '../types.ts';
+import { VerseFinderContent, VerseResult, SurahData, SurahVerse, LocalTranslationData } from '../types.ts';
 import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
 import { SLICE_DATA } from '../constants.ts';
 import { processInBatches } from '../utils.ts';
@@ -7,8 +9,6 @@ import {
   PlayIcon, PauseIcon, PlaylistPlayIcon, PlaylistPauseIcon, RepeatIcon, ShuffleIcon,
   MaximizeIcon, MinimizeIcon, CopyIcon, CheckIcon
 } from './Icons.tsx';
-
-type LocalTranslationData = Record<string, string[]> | null;
 
 type CurrentlyPlaying = {
   surah: number;
@@ -146,7 +146,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
 
 
   useEffect(() => {
-    if (isVisible && content.type !== 'surah' && content.type !== 'loading_surah') {
+    if (isVisible && content.type !== 'surah' && content.type !== 'loading_surah' && content.type !== 'loading') {
         const timerId = setTimeout(() => { inputRef.current?.focus(); }, 100);
         return () => clearTimeout(timerId);
     }
@@ -334,6 +334,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
   const renderContent = () => {
     switch (content.type) {
         case 'loading_surah': return <p className="text-center text-gray-400 p-4">Loading Surah {content.number}...</p>;
+        case 'loading': return <p className="text-center text-gray-400 p-4">Loading verses...</p>;
         case 'empty': return <p className="text-center text-gray-400 p-4">Search for a verse or click a chapter on the dial.</p>;
         case 'search':
             return (

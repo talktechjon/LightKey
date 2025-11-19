@@ -1,6 +1,7 @@
+
 import React, { useMemo } from 'react';
 import * as d3 from 'd3';
-import { KATHARA_CLOCK_POINTS, KATHARA_GRID_NODES, KATHARA_GRID_LINES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
+import { KATHARA_CLOCK_POINTS, KATHARA_GRID_NODES, KATHARA_GRID_LINES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG, SLICE_DATA } from '../constants.ts';
 import { getSliceAtPoint, colorScale } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
@@ -27,6 +28,44 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
             };
         });
     }, [rotation]);
+
+    const displayChapters = useMemo(() => {
+        const createStaticRow = (id: number, emoji: string, label: string) => {
+             const chapterInfo = CHAPTER_DETAILS[id - 1];
+             const sliceData = SLICE_DATA.find(sd => sd.id === id) || { id: id, blockCount: 0 };
+             return {
+                slice: sliceData,
+                chapterInfo: { ...chapterInfo, englishName: label },
+                isMuqattat: MUQATTAT_CHAPTERS.has(id),
+                muqattatLetters: MUQATTAT_LETTERS.get(id),
+                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                customMarker: emoji,
+                isStatic: true
+            };
+        };
+
+        const static108 = createStaticRow(108, '△', 'Bounty / Respite');
+        const static103 = createStaticRow(103, '💥', 'Trial / Sacrifice');
+        const static110 = createStaticRow(110, '🕋', 'Return / Repent');
+
+        const result = [];
+        let clockCounter = 1;
+
+        for (let i = 0; i < alignedChapters.length; i++) {
+            result.push({ ...alignedChapters[i], clockIndex: clockCounter++ });
+            
+            // Insert 108 between 3 and 4 (after index 2)
+            if (i === 2) result.push(static108);
+            
+            // Insert 103 between 6 and 7 (after index 5)
+            if (i === 5) result.push(static103);
+            
+            // Insert 110 between 9 and 10 (after index 8)
+            if (i === 8) result.push(static110);
+        }
+
+        return result;
+    }, [alignedChapters]);
 
     const handleLoadKatharaSequence = () => {
         setAnimationMode('off');
@@ -60,7 +99,7 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
             <div className="w-full h-px bg-gray-500/50 mt-2"></div>
 
             <div className="flex justify-center my-4">
-                <svg viewBox="0 0 120 180" width="180" height="270" aria-hidden="true">
+                <svg viewBox="0 0 150 280" width="250" height="420" aria-hidden="true">
                     <g stroke="#4b5563" strokeWidth="1">
                         {KATHARA_GRID_LINES.map((line, index) => {
                             const fromNode = nodeMap.get(line.from);
@@ -70,8 +109,48 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                         })}
                     </g>
                     {KATHARA_GRID_NODES.map((node, index) => {
+                        // Handle static nodes (Eumbi, AzurA, Rajna)
+                        if ('shape' in node && 'staticLabel' in node) {
+                             const shapeNode = node as any;
+                             let emoji = '';
+                             if (shapeNode.shape === 'triangle') emoji = '△';
+                             else if (shapeNode.shape === 'flame') emoji = '💥';
+                             else if (shapeNode.shape === 'square') emoji = '🕋';
+
+                             return (
+                                <g key={node.id}>
+                                    <text 
+                                        x={node.x} 
+                                        y={node.y} 
+                                        textAnchor="middle" 
+                                        dominantBaseline="central" 
+                                        fontSize="22" 
+                                        fill={node.color}
+                                        style={{ filter: shapeNode.shape === 'triangle' ? 'drop-shadow(0 0 2px rgba(255,255,255,0.5))' : 'none' }}
+                                    >
+                                        {emoji}
+                                    </text>
+                                    <text 
+                                        x={node.x + 16} 
+                                        y={node.y + 1} 
+                                        textAnchor="start" 
+                                        dominantBaseline="central" 
+                                        fontSize="10" 
+                                        fontWeight="bold" 
+                                        fill="white"
+                                        style={{ textShadow: '0 0 2px black' }}
+                                    >
+                                        {shapeNode.staticLabel}
+                                    </text>
+                                </g>
+                             );
+                        }
+
                         const chapterData = alignedChapters[index];
-                        const chapterId = chapterData?.slice.id;
+                        // Safety check if we iterate more nodes than alignedChapters
+                        if (!chapterData) return null;
+
+                        const chapterId = chapterData.slice.id;
                         const chapterColor = chapterId ? colorScale(chapterId) : node.color;
                         const textColor = d3.lab(chapterColor).l < 60 ? 'white' : 'black';
 
@@ -83,7 +162,7 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                                     y={node.y} 
                                     textAnchor="middle" 
                                     dy=".3em" 
-                                    fontSize="8" 
+                                    fontSize="10" 
                                     fontWeight="bold" 
                                     fill={textColor}>
                                     {chapterId}
@@ -95,11 +174,22 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
             </div>
 
             <div className="text-sm text-gray-400 mt-3 space-y-2">
-                {alignedChapters.map((chapterData, index) => {
+                {displayChapters.map((chapterData, index) => {
                     const chapterColor = colorScale(chapterData.slice.id);
+                    const isStatic = 'isStatic' in chapterData && (chapterData as any).isStatic;
+                    
                     return (
-                        <div key={index} className="flex items-center gap-x-3 overflow-hidden">
-                            <span className="font-mono text-xs text-gray-500 w-6 text-center flex-shrink-0">{index + 1}.</span>
+                        <div 
+                            key={index} 
+                            className={`flex items-center gap-x-3 overflow-hidden ${isStatic ? 'border border-gray-600/60 rounded px-2 py-1 bg-gray-800/30 my-1' : ''}`}
+                        >
+                            <span className="font-mono text-xs text-gray-500 w-6 text-center flex-shrink-0">
+                                {isStatic ? (
+                                    <span className="text-base text-gray-300">{(chapterData as any).customMarker}</span>
+                                ) : (
+                                    `${(chapterData as any).clockIndex}.`
+                                )}
+                            </span>
                             <div className="flex items-baseline gap-x-3 min-w-0">
                                 <span className="truncate flex items-center gap-1.5" title={`${chapterData.slice.id}: ${chapterData.chapterInfo.englishName}`} style={{ color: chapterColor }}>
                                     <img src={chapterData.iconSrc} alt={chapterData.chapterInfo.revelationType} className="w-3.5 h-3.5 flex-shrink-0" />

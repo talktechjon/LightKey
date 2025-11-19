@@ -18,9 +18,10 @@ interface SidePanelProps {
   isSecretModeActive: boolean;
   secretEmojiShift: number;
   isLowResourceMode: boolean;
+  onPlayPlaylist: (videoIds: string[]) => void;
 }
 
-const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, secretEmojiShift, isLowResourceMode }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, secretEmojiShift, isLowResourceMode, onPlayPlaylist }) => {
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -154,12 +155,16 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
         ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS;
     
     const videoIds = chapterIds
-      .map(id => videoSource[id - 1])
-      .filter(id => id);
+      .map(id => {
+          if (typeof videoSource[id - 1] === 'string') {
+              return videoSource[id - 1];
+          }
+          return undefined;
+      })
+      .filter((id): id is string => typeof id === 'string' && id.length > 0);
 
     if (videoIds.length > 0) {
-      const url = `https://www.youtube.com/watch_videos?video_ids=${videoIds.join(',')}`;
-      window.open(url, '_blank', 'noopener,noreferrer');
+      onPlayPlaylist(videoIds);
     }
   };
   
@@ -257,8 +262,6 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
           <div className="pt-4 space-y-6">
              <ChapterGeometry 
                 rotation={rotation}
-                showTooltip={showTooltip}
-                hideTooltip={hideTooltip}
                 isLowResourceMode={isLowResourceMode}
              />
 

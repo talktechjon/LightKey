@@ -1,7 +1,7 @@
+
 import React, { useState, useRef } from 'react';
 import { DownloadIcon } from './Icons.tsx';
-
-type LocalTranslationData = Record<string, string[]> | null;
+import { LocalTranslationData } from '../types.ts';
 
 interface SettingsPanelProps {
   isVisible: boolean;

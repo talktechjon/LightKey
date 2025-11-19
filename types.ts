@@ -1,4 +1,3 @@
-// Fix: Replaced incorrect content with actual type definitions.
 export interface SliceData {
   id: number;
   blockCount: number;
@@ -97,8 +96,16 @@ export interface VerseResult {
 
 export type VerseFinderContent = 
   | { type: 'empty' }
+  | { type: 'loading' }
   | { type: 'loading_surah'; number: number }
   | { type: 'surah'; data: SurahData }
   | { type: 'search'; verses: VerseResult[] };
   
 export type PlaylistType = 'recitation' | 'tafsir' | 'englishRecitation';
+
+export type LocalTranslationData = Record<string, string[]> | null;
+
+export interface ActiveVideo {
+  src: string;
+  originalLink: string;
+}
