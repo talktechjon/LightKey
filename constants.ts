@@ -136,9 +136,9 @@ export const KATHARA_GRID_NODES = [
   { id: 11, x: 75, y: 50,  r: 9, color: '#404040' }, // neutral-700
   { id: 12, x: 75, y: 20,  r: 9, color: '#f5f5f5' }, // neutral-100
   // New Static Nodes (Eumbi, AzurA, Rajna)
-  { id: 13, x: 75, y: 200, r: 8, color: '#06b6d4', staticLabel: '108', shape: 'triangle' }, // Eumbi (Pyramid)
-  { id: 14, x: 75, y: 140, r: 8, color: '#f97316', staticLabel: '103', shape: 'flame' },    // AzurA (Flame)
-  { id: 15, x: 75, y: 80, r: 8, color: '#000000', staticLabel: '110', shape: 'square' },   // Rajna (Kaaba)
+  { id: 13, x: 75, y: 200, r: 8, color: '#06b6d4', staticLabel: '108', shape: 'volcano' }, // Eumbi (Volcano)
+  { id: 14, x: 75, y: 140, r: 8, color: '#f97316', staticLabel: '103', shape: 'star' },    // AzurA (Star)
+  { id: 15, x: 75, y: 80, r: 8, color: '#15803d', staticLabel: '110', shape: 'palm' },    // Rajna (Palm)
 ];
 
 export const KATHARA_GRID_LINES = [

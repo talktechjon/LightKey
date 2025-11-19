@@ -44,11 +44,17 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
             };
         };
 
-        const static108 = createStaticRow(108, '△', 'Bounty / Respite');
-        const static103 = createStaticRow(103, '💥', 'Trial / Sacrifice');
-        const static110 = createStaticRow(110, '🕋', 'Return / Repent');
+        const static112Start = createStaticRow(112, '∞', 'Beginning');
+        const static108 = createStaticRow(108, '🌋', 'Bounty / Respite');
+        const static103 = createStaticRow(103, '✡', 'Trial / Sacrifice');
+        const static110 = createStaticRow(110, '🌴', 'Resurrect / Repent');
+        const static112End = createStaticRow(112, '∞', 'Repeat');
 
         const result = [];
+        
+        // Insert 112 Start
+        result.push(static112Start);
+
         let clockCounter = 1;
 
         for (let i = 0; i < alignedChapters.length; i++) {
@@ -63,6 +69,9 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
             // Insert 110 between 9 and 10 (after index 8)
             if (i === 8) result.push(static110);
         }
+        
+        // Insert 112 End
+        result.push(static112End);
 
         return result;
     }, [alignedChapters]);
@@ -113,9 +122,9 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                         if ('shape' in node && 'staticLabel' in node) {
                              const shapeNode = node as any;
                              let emoji = '';
-                             if (shapeNode.shape === 'triangle') emoji = '△';
-                             else if (shapeNode.shape === 'flame') emoji = '💥';
-                             else if (shapeNode.shape === 'square') emoji = '🕋';
+                             if (shapeNode.shape === 'volcano') emoji = '🌋';
+                             else if (shapeNode.shape === 'star') emoji = '✡';
+                             else if (shapeNode.shape === 'palm') emoji = '🌴';
 
                              return (
                                 <g key={node.id}>
@@ -126,7 +135,7 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                                         dominantBaseline="central" 
                                         fontSize="22" 
                                         fill={node.color}
-                                        style={{ filter: shapeNode.shape === 'triangle' ? 'drop-shadow(0 0 2px rgba(255,255,255,0.5))' : 'none' }}
+                                        style={{ filter: shapeNode.shape === 'volcano' ? 'drop-shadow(0 0 2px rgba(255,255,255,0.5))' : 'none' }}
                                     >
                                         {emoji}
                                     </text>
