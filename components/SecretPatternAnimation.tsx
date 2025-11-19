@@ -247,13 +247,13 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
     return (
         <div className="pt-4">
             <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gray-200 tracking-wider">KATHARA CLOCK</h2>
+                <h2 className="text-xl font-bold text-gray-200 tracking-wider">Tree of Life</h2>
                 <div className="flex items-center space-x-2">
                     <button
                         onClick={handleLoadKatharaSequence}
                         className="bg-gray-600 hover:bg-cyan-700 text-white font-bold p-2 rounded transition-colors duration-200 flex-shrink-0"
-                        aria-label="Load Kathara Clock sequence into custom sequence"
-                        title="Load Kathara Clock sequence into custom sequence"
+                        aria-label="Load Tree of Life sequence into custom sequence"
+                        title="Load Tree of Life sequence into custom sequence"
                     >
                         <LoadSequenceIcon />
                     </button>

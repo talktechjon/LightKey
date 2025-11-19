@@ -100,7 +100,7 @@ export const ICON_DIAL_DATA: IconData[] = [
 
 export const SECRET_EMOJI_PATTERN: SecretIconData[] = [
     // Position 9
-    { id: 'p9', position: 9, chapter: 1, emoji: '⭐', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⭐%3C/text%3E%3C/svg%3E", description: 'Position 9: Star' },
+    { id: 'p9', position: 9, chapter: 1, emoji: '🌕', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌕%3C/text%3E%3C/svg%3E", description: 'Position 9: Full Moon' },
     // Position 1
     { id: 'p1', position: 1, chapter: 14, emoji: '🔥', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🔥%3C/text%3E%3C/svg%3E", description: 'Position 1: Fire' },
     // Position 2
@@ -112,11 +112,11 @@ export const SECRET_EMOJI_PATTERN: SecretIconData[] = [
     // Position 5
     { id: 'p5', position: 5, chapter: 64, emoji: '🌋', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌋%3C/text%3E%3C/svg%3E", description: 'Position 5: Volcano' },
     // Position 6
-    { id: 'p6', position: 6, chapter: 77, emoji: '⭐', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⭐%3C/text%3E%3C/svg%3E", description: 'Position 6: Star' },
+    { id: 'p6', position: 6, chapter: 77, emoji: '🌍', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌍%3C/text%3E%3C/svg%3E", description: 'Position 6: Earth' },
     // Position 7
     { id: 'p7', position: 7, chapter: 90, emoji: '🐄', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐄%3C/text%3E%3C/svg%3E", description: 'Position 7: Cow' },
     // Position 8
-    { id: 'p8', position: 8, chapter: 102, emoji: '🔆', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🔆%3C/text%3E%3C/svg%3E", description: 'Position 8: Sun' },
+    { id: 'p8', position: 8, chapter: 102, emoji: '⚡', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⚡%3C/text%3E%3C/svg%3E", description: 'Position 8: Lightning' },
 ];
 
 // New constants for Kathara Clock feature
