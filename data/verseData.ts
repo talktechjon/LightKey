@@ -3,11 +3,57 @@ import { SurahData, SurahVerse, VerseResult, LocalTranslationData } from '../typ
 
 // In-memory cache for fetched surahs
 const surahCache = new Map<number, SurahData>();
+// In-flight requests to prevent duplicate fetches for the same surah
+const surahPromises = new Map<number, Promise<SurahData | null>>();
 
 interface FullVerseData {
   englishText: string;
   banglaText: string;
 }
+
+// Simple concurrency limiter to prevent overwhelming the API
+class RequestLimiter {
+  private queue: (() => void)[] = [];
+  private activeCount = 0;
+  private maxConcurrent: number;
+
+  constructor(maxConcurrent: number) {
+    this.maxConcurrent = maxConcurrent;
+  }
+
+  async add<T>(fn: () => Promise<T>): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      const run = async () => {
+        this.activeCount++;
+        try {
+          const result = await fn();
+          resolve(result);
+        } catch (err) {
+          reject(err);
+        } finally {
+          this.activeCount--;
+          this.next();
+        }
+      };
+
+      if (this.activeCount < this.maxConcurrent) {
+        run();
+      } else {
+        this.queue.push(run);
+      }
+    });
+  }
+
+  private next() {
+    if (this.activeCount < this.maxConcurrent && this.queue.length > 0) {
+      const nextFn = this.queue.shift();
+      if (nextFn) nextFn();
+    }
+  }
+}
+
+// Limit to 3 concurrent requests to respect API limits and network stability
+const requestLimiter = new RequestLimiter(3);
 
 /**
  * A wrapper around fetch that retries the request with exponential backoff.
@@ -16,19 +62,18 @@ interface FullVerseData {
  * @param delay The initial delay in milliseconds.
  * @returns A Promise that resolves to the Response object.
  */
-async function fetchWithRetry(url: string, retries = 3, delay = 200): Promise<Response> {
+async function fetchWithRetry(url: string, retries = 3, delay = 500): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     try {
       const response = await fetch(url);
       if (response.ok) return response;
 
-      // Only retry on server errors (5xx) or network errors that throw.
-      // Client errors (4xx) are not retried.
-      if (response.status >= 500 && response.status < 600) {
-        throw new Error(`Server error: ${response.status}`);
+      // Retry on 429 (Too Many Requests) and 5xx (Server Errors)
+      if (response.status === 429 || (response.status >= 500 && response.status < 600)) {
+        throw new Error(`Request failed with status ${response.status}`);
       }
       
-      return response; // Return the response for 4xx errors without retrying.
+      return response; // Return 4xx errors (except 429) without retrying.
     } catch (error) {
       if (i === retries - 1) throw error; // Rethrow the error on the last attempt.
       // Wait with exponential backoff before the next retry.
@@ -41,70 +86,88 @@ async function fetchWithRetry(url: string, retries = 3, delay = 200): Promise<Re
 
 
 export const getFullSurah = async (surahNumber: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<SurahData | null> => {
-  if (mode === 'online' && surahCache.has(surahNumber)) {
-    return surahCache.get(surahNumber)!;
+  if (mode === 'online') {
+    if (surahCache.has(surahNumber)) {
+      return surahCache.get(surahNumber)!;
+    }
+    if (surahPromises.has(surahNumber)) {
+      return surahPromises.get(surahNumber)!;
+    }
   }
 
-  try {
-    const url = `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/quran-uthmani,en.sahih,bn.bengali,en.transliteration`;
-    const response = await fetchWithRetry(url);
-    if (!response.ok) throw new Error(`API error! status: ${response.status}`);
-    
-    const json = await response.json();
-    if (json.code !== 200 || !json.data || json.data.length < 4) {
-      throw new Error(`Invalid data received for surah ${surahNumber}`);
+  const fetchPromise = (async () => {
+    try {
+      const url = `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/quran-uthmani,en.sahih,bn.bengali,en.transliteration`;
+      
+      // Use request limiter for online fetches
+      const response = await requestLimiter.add(() => fetchWithRetry(url));
+      
+      if (!response.ok) throw new Error(`API error! status: ${response.status}`);
+      
+      const json = await response.json();
+      if (json.code !== 200 || !json.data || json.data.length < 4) {
+        throw new Error(`Invalid data received for surah ${surahNumber}`);
+      }
+
+      const editions = json.data;
+      const arabicEdition = editions.find((e: any) => e.edition.identifier === 'quran-uthmani');
+      const englishEdition = editions.find((e: any) => e.edition.identifier === 'en.sahih');
+      const banglaEdition = editions.find((e: any) => e.edition.identifier === 'bn.bengali');
+      const transliterationEdition = editions.find((e: any) => e.edition.identifier === 'en.transliteration');
+
+      if (!arabicEdition || !englishEdition || !banglaEdition || !transliterationEdition) {
+          throw new Error('One or more required editions are missing.');
+      }
+
+      const verses: SurahVerse[] = arabicEdition.ayahs.map((ayah: any, index: number) => {
+          const absoluteAyahNumber = ayah.number;
+          const key = `${surahNumber}:${ayah.numberInSurah}`;
+          
+          let englishText = englishEdition.ayahs[index]?.text || 'N/A';
+          let banglaText = banglaEdition.ayahs[index]?.text || 'N/A';
+          
+          if (mode === 'local' && localData?.[key]) {
+              const localTranslations = localData[key];
+              englishText = localTranslations[0] || 'N/A';
+              banglaText = localTranslations[1] || '';
+          }
+
+          return {
+              numberInSurah: ayah.numberInSurah,
+              arabicText: ayah.text,
+              englishText: englishText,
+              banglaText: banglaText,
+              transliteration: transliterationEdition.ayahs[index]?.text || 'N/A',
+              fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`,
+          };
+      });
+      
+      const surahData: SurahData = {
+          number: arabicEdition.number,
+          englishName: arabicEdition.englishName,
+          arabicName: arabicEdition.name,
+          revelationType: arabicEdition.revelationType,
+          numberOfAyahs: arabicEdition.numberOfAyahs,
+          verses: verses
+      };
+      
+      if (mode === 'online') {
+          surahCache.set(surahNumber, surahData);
+          surahPromises.delete(surahNumber); // Clean up promise
+      }
+      return surahData;
+    } catch (error) {
+      console.error(`Failed to fetch surah ${surahNumber}:`, error);
+      surahPromises.delete(surahNumber); // Clean up promise on error too
+      return null;
     }
+  })();
 
-    const editions = json.data;
-    const arabicEdition = editions.find(e => e.edition.identifier === 'quran-uthmani');
-    const englishEdition = editions.find(e => e.edition.identifier === 'en.sahih');
-    const banglaEdition = editions.find(e => e.edition.identifier === 'bn.bengali');
-    const transliterationEdition = editions.find(e => e.edition.identifier === 'en.transliteration');
-
-    if (!arabicEdition || !englishEdition || !banglaEdition || !transliterationEdition) {
-        throw new Error('One or more required editions are missing.');
-    }
-
-    const verses: SurahVerse[] = arabicEdition.ayahs.map((ayah, index) => {
-        const absoluteAyahNumber = ayah.number;
-        const key = `${surahNumber}:${ayah.numberInSurah}`;
-        
-        let englishText = englishEdition.ayahs[index]?.text || 'N/A';
-        let banglaText = banglaEdition.ayahs[index]?.text || 'N/A';
-        
-        if (mode === 'local' && localData?.[key]) {
-            const localTranslations = localData[key];
-            englishText = localTranslations[0] || 'N/A';
-            banglaText = localTranslations[1] || '';
-        }
-
-        return {
-            numberInSurah: ayah.numberInSurah,
-            arabicText: ayah.text,
-            englishText: englishText,
-            banglaText: banglaText,
-            transliteration: transliterationEdition.ayahs[index]?.text || 'N/A',
-            fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`,
-        };
-    });
-    
-    const surahData: SurahData = {
-        number: arabicEdition.number,
-        englishName: arabicEdition.englishName,
-        arabicName: arabicEdition.name,
-        revelationType: arabicEdition.revelationType,
-        numberOfAyahs: arabicEdition.numberOfAyahs,
-        verses: verses
-    };
-    
-    if (mode === 'online') {
-        surahCache.set(surahNumber, surahData);
-    }
-    return surahData;
-  } catch (error) {
-    console.error(`Failed to fetch surah ${surahNumber}:`, error);
-    return null;
+  if (mode === 'online') {
+    surahPromises.set(surahNumber, fetchPromise);
   }
+
+  return fetchPromise;
 };
 
 export const getVerse = async (surah: number, verse: number, mode: 'online' | 'local', localData: LocalTranslationData): Promise<FullVerseData> => {

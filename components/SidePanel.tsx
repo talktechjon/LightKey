@@ -263,8 +263,6 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
           <div className="pt-4 space-y-6">
              <ChapterGeometry 
                 rotation={rotation}
-                showTooltip={showTooltip}
-                hideTooltip={hideTooltip}
                 isLowResourceMode={isLowResourceMode}
              />
 

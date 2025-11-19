@@ -157,8 +157,15 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
 
     const renderDiagram = () => (
         <div className="flex justify-center w-full h-full">
-            {/* Removed fixed dimensions to allow stretching */}
-            <svg viewBox="0 0 150 280" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true">
+            <svg 
+                viewBox="0 0 150 280" 
+                // On desktop, allow stretching to match list height (sticker effect).
+                // On mobile, preserve aspect ratio to prevent distortion.
+                preserveAspectRatio={isDesktop ? "none" : "xMidYMid meet"} 
+                width="100%" 
+                height="100%" 
+                aria-hidden="true"
+            >
                 <g stroke="#4b5563" strokeWidth="1.5">
                     {KATHARA_GRID_LINES.map((line, index) => {
                         const fromNode = nodeMap.get(line.from);

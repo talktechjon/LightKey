@@ -1,5 +1,4 @@
 
-// Fix: Replaced incorrect content with actual type definitions.
 export interface SliceData {
   id: number;
   blockCount: number;

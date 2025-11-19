@@ -1,3 +1,4 @@
+
 import React, { useRef, useImperativeHandle, forwardRef, useMemo, useEffect, useState } from 'react';
 import { SliceData, VisualizationHandle } from '../types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SIZES, TRIANGLE_POINTS, COLORS, ICON_DIAL_DATA, SECRET_EMOJI_PATTERN, MUQATTAT_CHAPTERS } from '../constants.ts';
@@ -47,6 +48,8 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
   const iconRotatingGroupRef = useRef<SVGGElement>(null);
   
   const SPIN_DURATION_MS = 4000;
+  const sliceAngle = 360 / TOTAL_SLICES;
+  const FONT_SIZE_BAR = 12;
 
   // State to track rotation for the core animation, updated on every animation frame for smoothness.
   const [animationRotation, setAnimationRotation] = useState(rotation);
@@ -156,7 +159,6 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
     onSpinStart();
 
     const randomSlice = Math.floor(Math.random() * TOTAL_SLICES) + 1;
-    const sliceAngle = 360 / TOTAL_SLICES;
     const targetRotationForSlice = -(randomSlice - 1) * sliceAngle;
     const numSpins = 4 + Math.random() * 3;
     const currentFullSpins = Math.floor(rotation / 360);
@@ -170,7 +172,6 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
     onSpinStart();
     onSliceSelect(sliceId);
 
-    const sliceAngle = 360 / TOTAL_SLICES;
     const targetRotation = -(sliceId - 1) * sliceAngle;
     
     const startRotation = rotation;
@@ -192,9 +193,39 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
     spin: handleSpin,
   }));
 
-  const sliceAngle = 360 / TOTAL_SLICES;
-  const maxBlockCount = Math.max(...SLICE_DATA.map(s => s.blockCount));
-  const iconRadius = SIZES.layer1OuterRadius + (SIZES.layer2InnerRadius - SIZES.layer1OuterRadius) / 2;
+  // Memoize static slice data to avoid recalculating geometry on every render
+  const staticSliceData = useMemo(() => {
+    const maxBlockCount = Math.max(...SLICE_DATA.map(s => s.blockCount));
+    
+    return SLICE_DATA.map((slice, index) => {
+      const startAngle = index * sliceAngle;
+      const endAngle = (index + 1) * sliceAngle;
+      const midAngle = startAngle + sliceAngle / 2;
+      const sliceColor = colorScale(slice.id);
+      const slicePath = describeDonutSlice(center, center, SIZES.layer1InnerRadius, SIZES.layer1OuterRadius, startAngle, endAngle);
+      const sliceTextPos = polarToCartesian(center, center, (SIZES.layer1InnerRadius + SIZES.layer1OuterRadius) / 2, midAngle);
+      const heightRatio = slice.blockCount / maxBlockCount;
+      const barOuterRadius = SIZES.layer2InnerRadius + (SIZES.layer2OuterRadius - SIZES.layer2InnerRadius) * heightRatio;
+      const barPath = describeDonutSlice(center, center, SIZES.layer2InnerRadius, barOuterRadius, startAngle, endAngle);
+      const barHeight = barOuterRadius - SIZES.layer2InnerRadius;
+      const textFitsInBar = barHeight > FONT_SIZE_BAR + 4;
+      const barTextRadius = textFitsInBar ? SIZES.layer2InnerRadius + barHeight / 2 : barOuterRadius + 8;
+      const barTextColor = textFitsInBar ? '#111' : '#fff';
+      const barTextPos = polarToCartesian(center, center, barTextRadius, midAngle);
+      const isMuqattat = MUQATTAT_CHAPTERS.has(slice.id);
+
+      return {
+        ...slice,
+        sliceColor,
+        slicePath,
+        sliceTextPos,
+        barPath,
+        barTextColor,
+        barTextPos,
+        isMuqattat
+      };
+    });
+  }, [center, sliceAngle]);
 
   const renderTriangle = (triangleDef: typeof TRIANGLE_POINTS[0]) => {
     const pointCoords = triangleDef.points.map((p) => {
@@ -223,8 +254,6 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
       </g>
     );
   };
-  
-  const FONT_SIZE_BAR = 12;
 
   const renderCorePolygons = () => {
     const NUM_LAYERS = 6;
@@ -270,6 +299,7 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
 
   const renderIconLayer = () => {
       const iconSize = 30;
+      const iconRadius = SIZES.layer1OuterRadius + (SIZES.layer2InnerRadius - SIZES.layer1OuterRadius) / 2;
 
       if (isSecretModeActive) {
           const patternSize = SECRET_EMOJI_PATTERN.length;
@@ -356,43 +386,25 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
         </g>
         
         <g ref={rotatingGroupRef} className={`slice-container ${isSpinning ? 'is-spinning' : ''}`}>
-          {SLICE_DATA.map((slice, index) => {
-            const startAngle = index * sliceAngle;
-            const endAngle = (index + 1) * sliceAngle;
-            const midAngle = startAngle + sliceAngle / 2;
-            const sliceColor = colorScale(slice.id);
-            const slicePath = describeDonutSlice(center, center, SIZES.layer1InnerRadius, SIZES.layer1OuterRadius, startAngle, endAngle);
-            const sliceTextPos = polarToCartesian(center, center, (SIZES.layer1InnerRadius + SIZES.layer1OuterRadius) / 2, midAngle);
-            const heightRatio = slice.blockCount / maxBlockCount;
-            const barOuterRadius = SIZES.layer2InnerRadius + (SIZES.layer2OuterRadius - SIZES.layer2InnerRadius) * heightRatio;
-            const barPath = describeDonutSlice(center, center, SIZES.layer2InnerRadius, barOuterRadius, startAngle, endAngle);
-            const barHeight = barOuterRadius - SIZES.layer2InnerRadius;
-            const textFitsInBar = barHeight > FONT_SIZE_BAR + 4;
-            const barTextRadius = textFitsInBar ? SIZES.layer2InnerRadius + barHeight / 2 : barOuterRadius + 8;
-            const barTextColor = textFitsInBar ? '#111' : '#fff';
-            const barTextPos = polarToCartesian(center, center, barTextRadius, midAngle);
-            const isMuqattat = MUQATTAT_CHAPTERS.has(slice.id);
-            
-            return (
+          {staticSliceData.map((slice) => (
               <g
                 key={slice.id}
                 className="slice-group"
                 onClick={() => handleSliceClick(slice.id)}
-                onMouseEnter={(e) => showTooltip(e, slice.id, sliceColor)}
-                onMouseMove={(e) => showTooltip(e, slice.id, sliceColor)}
+                onMouseEnter={(e) => showTooltip(e, slice.id, slice.sliceColor)}
+                onMouseMove={(e) => showTooltip(e, slice.id, slice.sliceColor)}
                 onMouseLeave={hideTooltip}
               >
-                <path d={slicePath} fill={sliceColor} stroke="#1a1a1a" strokeWidth={1} />
-                <text x={sliceTextPos.x} y={sliceTextPos.y} textAnchor="middle" dominantBaseline="middle" fill="#111" fontSize="10" fontWeight="bold" className={`counter-rotate-text ${isMuqattat ? 'muqattat-glow-svg-text' : ''}`} transform={`rotate(${-rotation} ${sliceTextPos.x} ${sliceTextPos.y})`} style={{pointerEvents: 'none'}}>
+                <path d={slice.slicePath} fill={slice.sliceColor} stroke="#1a1a1a" strokeWidth={1} />
+                <text x={slice.sliceTextPos.x} y={slice.sliceTextPos.y} textAnchor="middle" dominantBaseline="middle" fill="#111" fontSize="10" fontWeight="bold" className={`counter-rotate-text ${slice.isMuqattat ? 'muqattat-glow-svg-text' : ''}`} transform={`rotate(${-rotation} ${slice.sliceTextPos.x} ${slice.sliceTextPos.y})`} style={{pointerEvents: 'none'}}>
                   {slice.id}
                 </text>
-                <path d={barPath} fill={sliceColor} stroke="#1a1a1a" strokeWidth={1} />
-                <text x={barTextPos.x} y={barTextPos.y} textAnchor="middle" dominantBaseline="middle" fill={barTextColor} fontSize={FONT_SIZE_BAR} fontWeight="medium" className={`counter-rotate-text ${isMuqattat ? 'muqattat-glow-svg-text' : ''}`} transform={`rotate(${-rotation} ${barTextPos.x} ${barTextPos.y})`} style={{pointerEvents: 'none'}}>
+                <path d={slice.barPath} fill={slice.sliceColor} stroke="#1a1a1a" strokeWidth={1} />
+                <text x={slice.barTextPos.x} y={slice.barTextPos.y} textAnchor="middle" dominantBaseline="middle" fill={slice.barTextColor} fontSize={FONT_SIZE_BAR} fontWeight="medium" className={`counter-rotate-text ${slice.isMuqattat ? 'muqattat-glow-svg-text' : ''}`} transform={`rotate(${-rotation} ${slice.barTextPos.x} ${slice.barTextPos.y})`} style={{pointerEvents: 'none'}}>
                     {slice.blockCount}
                 </text>
               </g>
-            );
-          })}
+          ))}
         </g>
 
         <g ref={iconRotatingGroupRef}>

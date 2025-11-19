@@ -99,24 +99,24 @@ export const ICON_DIAL_DATA: IconData[] = [
 ];
 
 export const SECRET_EMOJI_PATTERN: SecretIconData[] = [
-    // Position 1
-    { id: 'p3', position: 1, chapter: 1, emoji: '⭐', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⭐%3C/text%3E%3C/svg%3E", description: 'Position 1: Star' },
-    // Position 2
-    { id: 'p1', position: 2, chapter: 14, emoji: '🌴', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌴%3C/text%3E%3C/svg%3E", description: 'Position 2: Tree' },
-    // Position 3
-    { id: 'p2', position: 3, chapter: 26, emoji: '🔆', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🔆%3C/text%3E%3C/svg%3E", description: 'Position 3: Sun' },
-    // Position 4
-    { id: 'p6', position: 4, chapter: 39, emoji: '⭐', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⭐%3C/text%3E%3C/svg%3E", description: 'Position 4: Star' },
-    // Position 5
-    { id: 'p4', position: 5, chapter: 52, emoji: '🔥', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🔥%3C/text%3E%3C/svg%3E", description: 'Position 5: Fire' },
-    // Position 6
-    { id: 'p5', position: 6, chapter: 64, emoji: '🌋', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌋%3C/text%3E%3C/svg%3E", description: 'Position 6: Volcano' },
-    // Position 7
-    { id: 'p9', position: 7, chapter: 77, emoji: '⭐', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⭐%3C/text%3E%3C/svg%3E", description: 'Position 7: Star' },
-    // Position 8
-    { id: 'p7', position: 8, chapter: 90, emoji: '🐄', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐄%3C/text%3E%3C/svg%3E", description: 'Position 8: Cow' },
     // Position 9
-    { id: 'p8', position: 9, chapter: 102, emoji: '🐟', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐟%3C/text%3E%3C/svg%3E", description: 'Position 9: Fish' },
+    { id: 'p9', position: 9, chapter: 1, emoji: '⭐', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⭐%3C/text%3E%3C/svg%3E", description: 'Position 9: Star' },
+    // Position 1
+    { id: 'p1', position: 1, chapter: 14, emoji: '🔥', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🔥%3C/text%3E%3C/svg%3E", description: 'Position 1: Fire' },
+    // Position 2
+    { id: 'p2', position: 2, chapter: 26, emoji: '🐟', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐟%3C/text%3E%3C/svg%3E", description: 'Position 2: Fish' },
+    // Position 3
+    { id: 'p3', position: 3, chapter: 39, emoji: '⭐', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⭐%3C/text%3E%3C/svg%3E", description: 'Position 3: Star' },
+    // Position 4
+    { id: 'p4', position: 4, chapter: 52, emoji: '🌴', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌴%3C/text%3E%3C/svg%3E", description: 'Position 4: Palm Tree' },
+    // Position 5
+    { id: 'p5', position: 5, chapter: 64, emoji: '🌋', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌋%3C/text%3E%3C/svg%3E", description: 'Position 5: Volcano' },
+    // Position 6
+    { id: 'p6', position: 6, chapter: 77, emoji: '⭐', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⭐%3C/text%3E%3C/svg%3E", description: 'Position 6: Star' },
+    // Position 7
+    { id: 'p7', position: 7, chapter: 90, emoji: '🐄', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐄%3C/text%3E%3C/svg%3E", description: 'Position 7: Cow' },
+    // Position 8
+    { id: 'p8', position: 8, chapter: 102, emoji: '🔆', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🔆%3C/text%3E%3C/svg%3E", description: 'Position 8: Sun' },
 ];
 
 // New constants for Kathara Clock feature
@@ -176,7 +176,7 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 7, englishName: 'The Purgatory', transliteration: 'Al-Aʿrāf', arabicName: 'الأَعْرَاف', revelationType: 'Makki', juz: '8-9' },
     { number: 8, englishName: 'The Spoils of War', transliteration: 'Al-Anfāl', arabicName: 'الأَنْفَال', revelationType: 'Madani', juz: '9-10' },
     { number: 9, englishName: 'Ultimatum', transliteration: 'Barāʾah', arabicName: 'التَّوْبَة', revelationType: 'Madani', juz: '10-11' },
-    { number: 10, englishName: 'Jonah', transliteration: 'Yūnus', arabicName: 'يُونُس', revelationType: 'Makki', juz: '11' },
+    { number: 10, englishName: 'Jonah', transliteration: 'Yūnus', arabicName: 'يُونُс', revelationType: 'Makki', juz: '11' },
     { number: 11, englishName: 'Hūd', transliteration: 'Hūd', arabicName: 'هُود', revelationType: 'Makki', juz: '11-12' },
     { number: 12, englishName: 'Joseph', transliteration: 'Yūsuf', arabicName: 'يُوسُف', revelationType: 'Makki', juz: '12-13' },
     { number: 13, englishName: 'Thunder', transliteration: 'Ar-Raʿd', arabicName: 'الرَّعْد', revelationType: 'Madani', juz: '13' },
@@ -507,7 +507,7 @@ export const RECITATION_YOUTUBE_VIDEO_IDS: (string | null)[] = [
   "mvtYbov_i6Y",
   "buEKayiLA68",
   "1Tp5XQqTuf4",
-  "JeB2Jvav7BM",
+  "JeB2Jvavav7BM",
   "V6ytr2Hwt3E",
   "0_MptIoOxTY",
   "O20UYue1evw",
