@@ -46,7 +46,7 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
 
         const static112Start = createStaticRow(112, '∞', 'Beginning');
         const static108 = createStaticRow(108, '🌋', 'Bounty / Respite');
-        const static103 = createStaticRow(103, '✡', 'Trial / Sacrifice');
+        const static103 = createStaticRow(103, '🐟', 'Trial / Sacrifice');
         const static110 = createStaticRow(110, '🌴', 'Resurrect / Repent');
         const static112End = createStaticRow(112, '∞', 'Repeat');
 
@@ -123,7 +123,7 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                              const shapeNode = node as any;
                              let emoji = '';
                              if (shapeNode.shape === 'volcano') emoji = '🌋';
-                             else if (shapeNode.shape === 'star') emoji = '✡';
+                             else if (shapeNode.shape === 'fish') emoji = '🐟';
                              else if (shapeNode.shape === 'palm') emoji = '🌴';
 
                              return (
