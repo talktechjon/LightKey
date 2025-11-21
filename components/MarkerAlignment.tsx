@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ICON_DIAL_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
 import { getSliceAtPoint, colorScale, polarToCartesian } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
@@ -20,14 +20,6 @@ interface MarkerAlignmentProps {
 const EnneagramDiagram: React.FC = () => {
     const radius = 80;
     const center = { x: 100, y: 100 };
-    
-    // Enneagram points are spaced by 40 degrees (360/9)
-    // Point 9 is at top (0 degrees in our polarToCartesian which assumes 0 is Top)
-    // We map the index i (0-8) to values.
-    // i=0 -> Top (0 deg) -> Value 9
-    // i=1 -> 40deg -> Value 1
-    // i=2 -> 80deg -> Value 2
-    // ...
     
     const points = Array.from({ length: 9 }).map((_, i) => {
         const value = i === 0 ? 9 : i;
@@ -72,6 +64,12 @@ const EnneagramDiagram: React.FC = () => {
     );
 };
 
+const POSITION_LABELS: Record<number, string> = {
+    3: 'Book - Sign - كتاب [Āyāt]',
+    6: 'Prophet - Faith - نبي [Hidāyah]',
+    9: 'Word - Knowledge - كلمة [Hayāt]'
+};
+
 const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({ 
     isSecretModeActive, 
     rotation, 
@@ -83,6 +81,18 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
     createPlaylist
 }) => {
 
+    // Determine current chapter context
+    const currentSlice = getSliceAtPoint(1, rotation);
+    const currentChapter = CHAPTER_DETAILS[currentSlice.id - 1];
+    const isMakki = currentChapter.revelationType === 'Makki';
+
+    // Define sequences based on revelation type
+    // Makki: 9 (Current) - 3 - 1 - 2 - 4 - 8 - 7 - 5 - 6
+    // Madani: 3 - 1 - 2 - 4 - 8 - 7 - 5 - 6 - 9 (Current)
+    const sequenceConfig = useMemo(() => isMakki 
+        ? [9, 3, 1, 2, 4, 8, 7, 5, 6]
+        : [3, 1, 2, 4, 8, 7, 5, 6, 9], [isMakki]);
+
     const handleWatchEmojiSequence = (type: PlaylistType) => {
         const clockwiseChapterPoints = [1, 19, 39, 57, 77, 95];
         const relativeRotation = rotation - iconDialRotation;
@@ -92,38 +102,27 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
         createPlaylist(type, chapterIds);
     };
       
-    const handleWatchSecretSequence = (type: PlaylistType) => {
-        // Playlist order: 9-6-3 (Stars) then 1-2-4-8-7-5 (Doubling sequence)
-        const sequenceOrder = [9, 6, 3, 1, 2, 4, 8, 7, 5];
-        
-        const chapterIds = sequenceOrder.map(pos => {
-             const marker = SECRET_EMOJI_PATTERN.find(m => m.position === pos);
+    const getChapterIdsForSequence = () => {
+        return sequenceConfig.map(item => {
+             const marker = SECRET_EMOJI_PATTERN.find(m => m.position === item);
              if (!marker) return null;
              return getSliceAtPoint(marker.chapter, rotation).id;
         }).filter((id): id is number => id !== null);
+    };
 
+    const handleWatchSecretSequence = (type: PlaylistType) => {
+        const chapterIds = getChapterIdsForSequence();
         createPlaylist(type, chapterIds);
     };
 
     const handleLoadSecretSequence = () => {
         setAnimationMode('off');
-        // Load order: 9-6-3 (Stars) then 1-2-4-8-7-5 (Doubling sequence)
-        const sequenceOrder = [9, 6, 3, 1, 2, 4, 8, 7, 5];
-
-        const chapterIds = sequenceOrder.map(pos => {
-             const marker = SECRET_EMOJI_PATTERN.find(m => m.position === pos);
-             if (!marker) return null;
-             return getSliceAtPoint(marker.chapter, rotation).id;
-        }).filter((id): id is number => id !== null);
-        
+        const chapterIds = getChapterIdsForSequence();
         setCustomSequence(chapterIds.join(', '));
     };
 
-    const downwardMarkersData = ICON_DIAL_DATA.slice(0, 3);
-    const upwardMarkersData = ICON_DIAL_DATA.slice(3, 6);
-
-    // Display order starting with 9, 6, 3 (Stars), then 1-2-4-8-7-5
-    const displayOrder = [9, 6, 3, 1, 2, 4, 8, 7, 5];
+    const downwardMarkersData = useMemo(() => ICON_DIAL_DATA.slice(0, 3), []);
+    const upwardMarkersData = useMemo(() => ICON_DIAL_DATA.slice(3, 6), []);
 
     return (
         <div>
@@ -164,44 +163,67 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
             {isSecretModeActive ? (
                 <>
                     <EnneagramDiagram />
+                    <div className="text-center mb-2">
+                        <span className={`text-xs font-mono px-2 py-1 rounded ${isMakki ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-500/30' : 'bg-amber-900/30 text-amber-400 border border-amber-500/30'}`}>
+                            {isMakki ? 'MAKKI SEQUENCE (9 Start)' : 'MADANI SEQUENCE (9 End)'}
+                        </span>
+                    </div>
                     <div className="text-sm text-gray-400 mt-3 space-y-2" aria-label="Secret pattern markers">
-                    {displayOrder.map((pos) => {
-                        // Find original marker by position
-                        const marker = SECRET_EMOJI_PATTERN.find(m => m.position === pos);
-                        if (!marker) return null;
-
-                        // Calculate index for shifted pattern logic
-                        // We need to find the index of this marker in the original array to apply shift
-                        const originalIndex = SECRET_EMOJI_PATTERN.indexOf(marker);
+                    {sequenceConfig.map((item, idx) => {
+                        const data = SECRET_EMOJI_PATTERN.find(m => m.position === item);
+                        if (!data) return null;
+                        
+                        const { position } = data;
+                        
+                        // We'll maintain the emoji shift logic for the "marker" types to keep the dial sync visual
                         const patternSize = SECRET_EMOJI_PATTERN.length;
+                        const originalIndex = SECRET_EMOJI_PATTERN.indexOf(data);
                         const shiftedIndex = (originalIndex - secretEmojiShift + patternSize) % patternSize;
                         const emojiData = SECRET_EMOJI_PATTERN[shiftedIndex];
-                        
-                        const slice = getSliceAtPoint(marker.chapter, rotation);
-                        const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
+                        const finalEmoji = emojiData.emoji;
+
+                        const slice = getSliceAtPoint(data.chapter, rotation);
+                        const sliceId = slice.id;
                         const isMuqattat = MUQATTAT_CHAPTERS.has(slice.id);
                         const muqattatLetters = MUQATTAT_LETTERS.get(slice.id);
-                        const iconSrc = chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
+                        const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
                         const chapterColor = colorScale(slice.id);
-                        
+                        const iconSrc = chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
+
+                        // Highlight 3, 6, 9
+                        const isHighlighted = [3, 6, 9].includes(position);
+                        const label = POSITION_LABELS[position];
+
                         return (
-                            <div key={marker.id} className="flex items-center gap-x-3 overflow-hidden">
-                                <span className="font-mono text-xs text-gray-500 w-4 text-center flex-shrink-0">{marker.position}</span>
-                                <span className="text-lg w-6 text-center">{emojiData.emoji}</span>
-                                <div className="flex items-baseline gap-x-3 min-w-0">
-                                    <span className="truncate flex items-center gap-1.5" title={`${slice.id}: ${chapterInfo.englishName}`} style={{ color: chapterColor }}>
-                                        <img src={iconSrc} alt={chapterInfo.revelationType} className="w-3.5 h-3.5 flex-shrink-0" />
-                                        <span className={`font-semibold ${isMuqattat ? 'muqattat-glow' : ''}`}>{slice.id}:</span> {chapterInfo.englishName}
-                                    </span>
-                                    {muqattatLetters && (
-                                        <span 
-                                            className="font-mono text-lg muqattat-glow flex-shrink-0"
-                                            dir="rtl"
-                                        >
-                                            {muqattatLetters.join(' ⊙ ')}
+                            <div 
+                                key={`marker-${idx}`} 
+                                className={`flex flex-col relative ${isHighlighted ? 'border border-fuchsia-500/60 rounded-lg p-2 bg-fuchsia-900/10 mb-3' : 'mb-1 pl-2'}`}
+                            >
+                                <div className="flex items-center gap-x-3 overflow-hidden">
+                                    <span className={`font-mono text-xs w-4 text-center flex-shrink-0 ${isHighlighted ? 'text-fuchsia-300 font-bold' : 'text-gray-500'}`}>{position}</span>
+                                    <span className="text-lg w-6 text-center">{finalEmoji}</span>
+                                    <div className="flex items-baseline gap-x-3 min-w-0">
+                                        <span className="truncate flex items-center gap-1.5" title={`${sliceId}: ${chapterInfo.englishName}`} style={{ color: chapterColor }}>
+                                            <img src={iconSrc} alt={chapterInfo.revelationType} className="w-3.5 h-3.5 flex-shrink-0" />
+                                            <span className={`font-semibold ${isMuqattat ? 'muqattat-glow' : ''}`}>{sliceId}:</span> {chapterInfo.englishName}
                                         </span>
-                                    )}
+                                        {muqattatLetters && (
+                                            <span 
+                                                className="font-mono text-lg muqattat-glow flex-shrink-0"
+                                                dir="rtl"
+                                            >
+                                                {muqattatLetters.join(' ⊙ ')}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
+                                {isHighlighted && label && (
+                                    <div className="pl-12 mt-1">
+                                         <span className="text-[11px] font-medium tracking-wide text-cyan-300 block">
+                                            {label}
+                                         </span>
+                                    </div>
+                                )}
                             </div>
                         );
                     })}
