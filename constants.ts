@@ -169,7 +169,7 @@ export const KATHARA_GRID_LINES = [
 export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 1, englishName: 'Key to Light', transliteration: 'Al-Fātiḥah', arabicName: 'ٱلْفَاتِحَة', revelationType: 'Makki', juz: '1' },
     { number: 2, englishName: 'Servant Lineage', transliteration: 'Al-Baqarah', arabicName: 'البَقَرَة', revelationType: 'Madani', juz: '1-3' },
-    { number: 3, englishName: 'Faith Lineage', transliteration: 'Āl-ʿImrān', arabicName: 'آلِ عِمْرَان', revelationType: 'Madani', juz: '3-4' },
+    { number: 3, englishName: 'Chosen Lineage', transliteration: 'Āl-ʿImrān', arabicName: 'آلِ عِمْرَان', revelationType: 'Madani', juz: '3-4' },
     { number: 4, englishName: 'The Women', transliteration: 'An-Nisāʾ', arabicName: 'النِّسَاء', revelationType: 'Madani', juz: '4-6' },
     { number: 5, englishName: 'The Offering', transliteration: 'Al-Māʾidah', arabicName: 'المَائِدَة', revelationType: 'Madani', juz: '6-7' },
     { number: 6, englishName: 'The Purity', transliteration: 'Al-Anʿām', arabicName: 'الأَنْعَام', revelationType: 'Makki', juz: '7-8' },
@@ -188,7 +188,7 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 19, englishName: 'Chrysalis', transliteration: 'Maryam', arabicName: 'مَرْيَم', revelationType: 'Makki', juz: '16' },
     { number: 20, englishName: 'Chosen', transliteration: 'Ṭā Hā', arabicName: 'طه', revelationType: 'Makki', juz: '16' },
     { number: 21, englishName: 'Prophet', transliteration: 'Al-Anbiyāʾ', arabicName: 'الأَنْبِيَاء', revelationType: 'Makki', juz: '17' },
-    { number: 22, englishName: 'Return to Innocence', transliteration: 'Al-Ḥajj', arabicName: 'الْحَجّ', revelationType: 'Madani', juz: '17' },
+    { number: 22, englishName: 'Pilgrimage', transliteration: 'Al-Ḥajj', arabicName: 'الْحَجّ', revelationType: 'Madani', juz: '17' },
     { number: 23, englishName: 'Believer', transliteration: 'Al-Muʾminūn', arabicName: 'المُؤْمِنُون', revelationType: 'Makki', juz: '18' },
     { number: 24, englishName: 'Light (Ayat-Hayat-Haq)', transliteration: 'An-Nūr', arabicName: 'النُّور', revelationType: 'Madani', juz: '18' },
     { number: 25, englishName: 'Separator', transliteration: 'Al-Furqān', arabicName: 'الْفُرْقَان', revelationType: 'Makki', juz: '18-19' },
