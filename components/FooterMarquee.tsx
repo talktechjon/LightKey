@@ -67,14 +67,56 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
 
   useEffect(() => {
     const fetchMarqueeItems = async () => {
-      let pointsToFetch: { value: number, color: string }[] = [];
+      type Instruction = 
+        | { type: 'verse'; surah: number; verse: number | 'last'; color: string }
+        | { type: 'static'; text: string; color: string };
+
+      let instructions: Instruction[] = [];
 
       if (isSecretModeActive) {
-          // In secret mode, fetch last verse of Kathara clock points
-          pointsToFetch = KATHARA_CLOCK_POINTS.map(val => ({ value: val, color: '#06b6d4' })); // Cyan for all
+          const CYAN = '#06b6d4';
+          const getSurahId = (pointIndex: number) => getSliceIdAtPoint(KATHARA_CLOCK_POINTS[pointIndex], rotation);
+          
+          instructions = [
+              // Start Constant
+              { type: 'static', text: '112 The Beginning ∞', color: CYAN },
+              
+              // Set 1: Action, Inspiration, Guidance (First Verses)
+              { type: 'verse', surah: getSurahId(0), verse: 1, color: CYAN },
+              { type: 'verse', surah: getSurahId(1), verse: 1, color: CYAN },
+              { type: 'verse', surah: getSurahId(2), verse: 1, color: CYAN },
+              
+              // Static 108
+              { type: 'static', text: 'Decision △  108 🔥Execution', color: CYAN },
+              
+              // Set 2: Cleanse, Righteous, Faith (Last Verses)
+              { type: 'verse', surah: getSurahId(3), verse: 'last', color: CYAN },
+              { type: 'verse', surah: getSurahId(4), verse: 'last', color: CYAN },
+              { type: 'verse', surah: getSurahId(5), verse: 'last', color: CYAN },
+              
+              // Static 103
+              { type: 'static', text: 'Transgression🔥 103 🐟 Reflection', color: CYAN },
+              
+              // Set 3: Blessing, Servant, Submission (First Verses)
+              { type: 'verse', surah: getSurahId(6), verse: 1, color: CYAN },
+              { type: 'verse', surah: getSurahId(7), verse: 1, color: CYAN },
+              { type: 'verse', surah: getSurahId(8), verse: 1, color: CYAN },
+              
+              // Static 110
+              { type: 'static', text: 'Respite 🐟 110 🌳Devotion', color: CYAN },
+              
+              // Set 4: Sacrifice, Truth, Light (Last Verses)
+              { type: 'verse', surah: getSurahId(9), verse: 'last', color: CYAN },
+              { type: 'verse', surah: getSurahId(10), verse: 'last', color: CYAN },
+              { type: 'verse', surah: getSurahId(11), verse: 'last', color: CYAN },
+              
+              // End Constant
+              { type: 'static', text: '112 Repeat ∞', color: CYAN },
+          ];
+
       } else {
           // Default triangle points
-          pointsToFetch = [
+          const points = [
             { ...TRIANGLE_POINTS[1].points[0], color: TRIANGLE_POINTS[1].color }, // ▼ 3
             { ...TRIANGLE_POINTS[1].points[1], color: TRIANGLE_POINTS[1].color }, // ▼ 6
             { ...TRIANGLE_POINTS[1].points[2], color: TRIANGLE_POINTS[1].color }, // ▼ 9
@@ -82,12 +124,33 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
             { ...TRIANGLE_POINTS[0].points[1], color: TRIANGLE_POINTS[0].color }, // ▲ 6
             { ...TRIANGLE_POINTS[0].points[2], color: TRIANGLE_POINTS[0].color }, // ▲ 9
           ];
+          
+          instructions = points.map(p => ({
+              type: 'verse',
+              surah: getSliceIdAtPoint(p.value, rotation),
+              verse: 'last',
+              color: p.color
+          }));
       }
 
-      const promises = pointsToFetch.map(async (point) => {
-        const surahId = getSliceIdAtPoint(point.value, rotation);
+      const promises = instructions.map(async (item) => {
+        if (item.type === 'static') {
+            return {
+                type: 'static' as const,
+                text: item.text,
+                color: item.color
+            };
+        }
+
+        const surahId = item.surah;
         const sliceInfo = SLICE_DATA.find(s => s.id === surahId);
-        const verseCount = sliceInfo ? sliceInfo.blockCount : 0;
+        
+        let verseCount = 0;
+        if (typeof item.verse === 'number') {
+            verseCount = item.verse;
+        } else if (item.verse === 'last' && sliceInfo) {
+            verseCount = sliceInfo.blockCount;
+        }
         
         if (verseCount > 0) {
           const verseData = await getVerse(surahId, verseCount, translationMode, localTranslationData);
@@ -101,30 +164,15 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
               englishText: verseData.englishText,
               banglaText: verseData.banglaText,
               chapterEnglishName: chapterInfo.englishName,
-              color: point.color,
+              color: item.color,
             };
           }
         }
         return null;
       });
 
-      const items = (await Promise.all(promises)).filter((item): item is VerseItem => item !== null);
-      
-      if (isSecretModeActive) {
-          // Interleave static items
-          const combinedItems: MarqueeItem[] = [...items];
-          // Insert in reverse order to maintain indices or just carefully index
-          // 108 between 3rd and 4th (index 3)
-          combinedItems.splice(3, 0, { type: 'static', text: '🌋 108- Bounty / Respite', color: '#06b6d4' });
-          // 103 between 6th and 7th. Originally index 6. Now pushed by 1 to index 7.
-          combinedItems.splice(7, 0, { type: 'static', text: '🐟 103- Trial / Sacrifice', color: '#06b6d4' });
-           // 110 between 9th and 10th. Originally index 9. Now pushed by 2 to index 11.
-          combinedItems.splice(11, 0, { type: 'static', text: '🌴 110- Resurrect / Repent', color: '#06b6d4' });
-          
-          setMarqueeItems(combinedItems);
-      } else {
-          setMarqueeItems(items);
-      }
+      const items = (await Promise.all(promises)).filter((item): item is MarqueeItem => item !== null);
+      setMarqueeItems(items);
     };
     
     fetchMarqueeItems();
