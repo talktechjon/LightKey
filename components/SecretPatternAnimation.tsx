@@ -108,7 +108,7 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
 
     const alignedChapters: AlignedChapter[] = useMemo(() => {
         const labels = [
-            'Action', 'Inspiration', 'Guidance', 
+            'Inspiration', 'Action', 'Guidance', 
             'Cleanse', 'Righteous', 'Faith', 
             'Blessing', 'Servant', 'Submission', 
             'Sacrifice', 'Truth', 'Light'
