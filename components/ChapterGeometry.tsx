@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { TRIANGLE_POINTS, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
+import { TRIANGLE_POINTS, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
 import { TrianglePoint } from '../types.ts';
 import { getSliceAtPoint } from '../utils.ts';
 import VersePolygon from './VersePolygon.tsx';
@@ -26,6 +26,7 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
         {points.map((point, i) => {
           const slice = getSliceAtPoint(point.value, rotation);
           const isMuqattat = MUQATTAT_CHAPTERS.has(slice.id);
+          const muqattatLetters = MUQATTAT_LETTERS.get(slice.id);
           
           const typeParts = point.type.split(' ');
           const number = typeParts[0].replace('-', '');
@@ -49,7 +50,7 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
                     isLowResourceMode={isLowResourceMode}
                   />
               </svg>
-              <div className="mt-1 text-xs leading-tight h-12 flex flex-col justify-center">
+              <div className="mt-1 text-xs leading-tight flex flex-col justify-center w-full">
                 <p className="font-mono text-white truncate w-full" title={point.type}>
                   {number}- {pointName}
                 </p>
@@ -60,6 +61,15 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
                     <img src={iconSrc} alt={chapterInfo.revelationType} className="w-3 h-3" />
                     <span className="truncate">{chapterInfo.englishName}</span>
                 </p>
+                <div className="h-4 flex items-center justify-center w-full overflow-hidden mt-0.5">
+                    {muqattatLetters ? (
+                        <span className="font-mono text-[10px] muqattat-glow text-cyan-100 opacity-90" dir="rtl">
+                            {muqattatLetters.join(' ')}
+                        </span>
+                    ) : (
+                        <span className="w-full h-px bg-transparent"></span>
+                    )}
+                </div>
               </div>
             </div>
           );
@@ -71,17 +81,8 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
 
 const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResourceMode }) => {
     
-    // This is the order for the combined geometry visualization, from outer to inner
-    const centralGeometryPoints = [
-        TRIANGLE_POINTS[1].points[0].value, // ▼ Downward 3- Wave
-        TRIANGLE_POINTS[1].points[1].value, // ▼ Downward 6- Particle
-        TRIANGLE_POINTS[1].points[2].value, // ▼ Downward 9 Vibration/Fall
-        TRIANGLE_POINTS[0].points[0].value, // ▲ Upward 3- Repent
-        TRIANGLE_POINTS[0].points[1].value, // ▲ Upward 6- Purify
-        TRIANGLE_POINTS[0].points[2].value, // ▲ Upward 9- Energy/Return
-    ];
-    
-    const centralVerseCounts = centralGeometryPoints.map(pointValue => {
+    // Use the shared central geometry points
+    const centralVerseCounts = CENTRAL_GEOMETRY_POINTS.map(pointValue => {
         const slice = getSliceAtPoint(pointValue, rotation);
         return slice.blockCount;
     });

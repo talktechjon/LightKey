@@ -1,7 +1,7 @@
 
 import React, { useRef, useImperativeHandle, forwardRef, useMemo, useEffect, useState } from 'react';
 import { SliceData, VisualizationHandle } from '../types.ts';
-import { TOTAL_SLICES, SLICE_DATA, SIZES, TRIANGLE_POINTS, COLORS, ICON_DIAL_DATA, SECRET_EMOJI_PATTERN, MUQATTAT_CHAPTERS } from '../constants.ts';
+import { TOTAL_SLICES, SLICE_DATA, SIZES, TRIANGLE_POINTS, COLORS, ICON_DIAL_DATA, SECRET_EMOJI_PATTERN, MUQATTAT_CHAPTERS, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
 import { getSliceAtPoint, polarToCartesian, colorScale } from '../utils.ts';
 import VersePolygon from './VersePolygon.tsx';
 import CentralAnimation from './CentralAnimation.tsx';
@@ -59,18 +59,8 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
     setAnimationRotation(rotation);
   }, [rotation]);
 
-
-  const specialChapterPoints = useMemo(() => [
-    TRIANGLE_POINTS[1].points[0].value, // Downward 3- Wave
-    TRIANGLE_POINTS[1].points[1].value, // Downward 6- Particle
-    TRIANGLE_POINTS[1].points[2].value, // Downward 9 Vibration
-    TRIANGLE_POINTS[0].points[0].value, // Upward 3- Repent
-    TRIANGLE_POINTS[0].points[1].value, // Upward 6- Purify
-    TRIANGLE_POINTS[0].points[2].value, // Upward 9- Energy
-  ], []);
-
   const calculateTargetVerseCounts = (currentRotation: number) => {
-    return specialChapterPoints.map(pointValue => {
+    return CENTRAL_GEOMETRY_POINTS.map(pointValue => {
         const slice = getSliceAtPoint(pointValue, currentRotation);
         return slice.blockCount;
     });

@@ -78,7 +78,8 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
           const getSurahId = (pointIndex: number) => getSliceIdAtPoint(KATHARA_CLOCK_POINTS[pointIndex], rotation);
           
           instructions = [
-              // Start Constant
+              // Start: Verse 112:1 + Text
+              { type: 'verse', surah: 112, verse: 1, color: CYAN },
               { type: 'static', text: '112 The Beginning ∞', color: CYAN },
               
               // Set 1: Action, Inspiration, Guidance (First Verses)
@@ -86,32 +87,39 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
               { type: 'verse', surah: getSurahId(1), verse: 1, color: CYAN },
               { type: 'verse', surah: getSurahId(2), verse: 1, color: CYAN },
               
-              // Static 108
+              // Junction 1: 108:1 + Text + 108:2
+              { type: 'verse', surah: 108, verse: 1, color: CYAN },
               { type: 'static', text: 'Decision △  108 🔥Execution', color: CYAN },
+              { type: 'verse', surah: 108, verse: 2, color: CYAN },
               
               // Set 2: Cleanse, Righteous, Faith (Last Verses)
               { type: 'verse', surah: getSurahId(3), verse: 'last', color: CYAN },
               { type: 'verse', surah: getSurahId(4), verse: 'last', color: CYAN },
               { type: 'verse', surah: getSurahId(5), verse: 'last', color: CYAN },
               
-              // Static 103
+              // Junction 2: 103:3 + Text + 108:1
+              { type: 'verse', surah: 103, verse: 3, color: CYAN },
               { type: 'static', text: 'Transgression🔥 103 🐟 Reflection', color: CYAN },
+              { type: 'verse', surah: 108, verse: 1, color: CYAN },
               
               // Set 3: Blessing, Servant, Submission (First Verses)
               { type: 'verse', surah: getSurahId(6), verse: 1, color: CYAN },
               { type: 'verse', surah: getSurahId(7), verse: 1, color: CYAN },
               { type: 'verse', surah: getSurahId(8), verse: 1, color: CYAN },
               
-              // Static 110
+              // Junction 3: 110:1 + Text + 110:3
+              { type: 'verse', surah: 110, verse: 1, color: CYAN },
               { type: 'static', text: 'Respite 🐟 110 🌳Devotion', color: CYAN },
+              { type: 'verse', surah: 110, verse: 3, color: CYAN },
               
               // Set 4: Sacrifice, Truth, Light (Last Verses)
               { type: 'verse', surah: getSurahId(9), verse: 'last', color: CYAN },
               { type: 'verse', surah: getSurahId(10), verse: 'last', color: CYAN },
               { type: 'verse', surah: getSurahId(11), verse: 'last', color: CYAN },
               
-              // End Constant
+              // End: Text + 112:4
               { type: 'static', text: '112 Repeat ∞', color: CYAN },
+              { type: 'verse', surah: 112, verse: 4, color: CYAN },
           ];
 
       } else {

@@ -87,6 +87,15 @@ export const TRIANGLE_POINTS: TriangleDefinition[] = [
     }
 ];
 
+export const CENTRAL_GEOMETRY_POINTS = [
+    TRIANGLE_POINTS[1].points[0].value, // Downward 3- Wave
+    TRIANGLE_POINTS[1].points[1].value, // Downward 6- Particle
+    TRIANGLE_POINTS[1].points[2].value, // Downward 9 Vibration
+    TRIANGLE_POINTS[0].points[0].value, // Upward 3- Repent
+    TRIANGLE_POINTS[0].points[1].value, // Upward 6- Purify
+    TRIANGLE_POINTS[0].points[2].value, // Upward 9- Energy
+];
+
 export const ICON_DIAL_DATA: IconData[] = [
     // Downward Triangle points
     { id: 'wave', chapter: 1, emoji: '🌴', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌴%3C/text%3E%3C/svg%3E", description: '3- Wave: 🌴' },
@@ -227,7 +236,7 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 58, englishName: 'Who Disputes', transliteration: 'Al-Mujādalah', arabicName: 'الْمُجَادِلَة', revelationType: 'Madani', juz: '28' },
     { number: 59, englishName: 'The Banishment', transliteration: 'Al-Ḥashr', arabicName: 'الْحَشْر', revelationType: 'Madani', juz: '28' },
     { number: 60, englishName: 'The Trial', transliteration: 'Al-Mumtaḥanah', arabicName: 'الْمُمْتَحَنَة', revelationType: 'Madani', juz: '28' },
-    { number: 61, englishName: 'The Rank', transliteration: 'As-Ṣaff', arabicName: 'الصَّفّ', revelationType: 'Madani', juz: '28' },
+    { number: 61, englishName: 'The Rank', transliteration: 'As-Ṣaff', arabicName: 'الصَّফ্ফ', revelationType: 'Madani', juz: '28' },
     { number: 62, englishName: 'The Assembly', transliteration: 'Al-Jumuʿah', arabicName: 'الْجُمُعَة', revelationType: 'Madani', juz: '28' },
     { number: 63, englishName: 'The Hypocrites', transliteration: 'Al-Munāfiqūn', arabicName: 'الْمُنَافِقُون', revelationType: 'Madani', juz: '28' },
     { number: 64, englishName: 'Mutual Blaming', transliteration: 'At-Taghābun', arabicName: 'التَّغَابُن', revelationType: 'Madani', juz: '28' },
