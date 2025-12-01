@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { TRIANGLE_POINTS, TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, TAFSIR_YOUTUBE_VIDEO_IDS, RECITATION_YOUTUBE_VIDEO_IDS, ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
+import { TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, TAFSIR_YOUTUBE_VIDEO_IDS, RECITATION_YOUTUBE_VIDEO_IDS, ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS, MAKKI_ICON_SVG, MADANI_ICON_SVG, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
 import { getSliceAtPoint } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
@@ -167,15 +167,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   };
   
   const handleWatchSequence = (type: PlaylistType) => {
-    const orderedPoints = [
-      TRIANGLE_POINTS[1].points[0], // ▼ Downward 3- Wave
-      TRIANGLE_POINTS[1].points[1], // ▼ Downward 6- Particle
-      TRIANGLE_POINTS[1].points[2], // ▼ Downward 9 Vibration
-      TRIANGLE_POINTS[0].points[0], // ▲ Upward 3- Repent
-      TRIANGLE_POINTS[0].points[1], // ▲ Upward 6- Purify
-      TRIANGLE_POINTS[0].points[2], // ▲ Upward 9- Energy
-    ];
-    const chapterIds = orderedPoints.map(point => getSliceAtPoint(point.value, rotation).id);
+    // Use the central geometry points shared with Visualization and ChapterGeometry
+    const chapterIds = CENTRAL_GEOMETRY_POINTS.map(pointValue => getSliceAtPoint(pointValue, rotation).id);
     createPlaylist(type, chapterIds);
   };
   

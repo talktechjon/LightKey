@@ -89,7 +89,7 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
               
               // Junction 1: 108:1 + Text + 108:2
               { type: 'verse', surah: 108, verse: 1, color: CYAN },
-              { type: 'static', text: 'Decision △  108 🔥Execution', color: CYAN },
+              { type: 'static', text: 'Nomination △  108 🔥Trial', color: CYAN },
               { type: 'verse', surah: 108, verse: 2, color: CYAN },
               
               // Set 2: Cleanse, Righteous, Faith (Last Verses)
@@ -99,7 +99,7 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
               
               // Junction 2: 103:3 + Text + 108:1
               { type: 'verse', surah: 103, verse: 3, color: CYAN },
-              { type: 'static', text: 'Transgression🔥 103 🐟 Reflection', color: CYAN },
+              { type: 'static', text: 'Endurance 🔥 103 🐟 Patience', color: CYAN },
               { type: 'verse', surah: 108, verse: 1, color: CYAN },
               
               // Set 3: Blessing, Servant, Submission (First Verses)
