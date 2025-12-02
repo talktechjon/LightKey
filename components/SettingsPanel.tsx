@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { DownloadIcon } from './Icons.tsx';
 import { LocalTranslationData } from '../types.ts';
 
@@ -15,6 +15,23 @@ interface SettingsPanelProps {
 const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, mode, setMode, onFileLoad, fileName }) => {
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Generate the download URL dynamically to ensure it works in all environments
+  const templateDownloadUrl = useMemo(() => {
+      const templateData = {
+          "1:1": [
+              "In the name of Allah, the Entirely Merciful, the Especially Merciful",
+              "Primary Translation Example"
+          ],
+          "1:2": [
+              "[All] praise is [due] to Allah, Lord of the worlds",
+              "Secondary Translation Example"
+          ],
+          "112:1": "Say, He is Allah, [who is] One"
+      };
+      const blob = new Blob([JSON.stringify(templateData, null, 2)], { type: 'application/json' });
+      return URL.createObjectURL(blob);
+  }, []);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -116,7 +133,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
                   Choose File
               </button>
               <a
-                href="/application/quran_translation_template.json"
+                href={templateDownloadUrl}
                 download="quran_translation_template.json"
                 className="flex-shrink-0 bg-gray-700 hover:bg-cyan-700/50 text-gray-300 hover:text-white font-semibold p-2 rounded transition-colors duration-200"
                 title="Download translation template"

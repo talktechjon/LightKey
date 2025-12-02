@@ -149,12 +149,12 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
             };
         };
 
-        // 108: Nomination △  Makki 108: 🔥Trial
-        const static108 = getStaticChapterData(108, '🔥Trial', 'Nomination △');
-        // 103: Endurance 🔥 Makki 103: 🐟 Patience
-        const static103 = getStaticChapterData(103, '🐟 Patience', 'Endurance 🔥');
-        // 110: Respite 🐟 Madani 110:🌳Devotion
-        const static110 = getStaticChapterData(110, '🌳Devotion', 'Respite 🐟');
+        // 108: Nomination △  Makki 108: 🔥Promise
+        const static108 = getStaticChapterData(108, '🔥Promise', 'Nomination △');
+        // 103: Uproot 🔥 Makki 103: 🐟 Protection
+        const static103 = getStaticChapterData(103, '🐟 Protection', 'Uproot 🔥');
+        // 110: Reward 🐟 Madani 110:🌳Return
+        const static110 = getStaticChapterData(110, '🌳Return', 'Reward 🐟');
         
         // 112 Start: ∞Makki 112: The Beginning ∞
         const static112Start = getStaticChapterData(112, 'The Beginning ∞', '∞');
