@@ -51,13 +51,25 @@ const App: React.FC = () => {
   
   // URL Deep Linking Logic
   useEffect(() => {
-    const path = window.location.pathname.slice(1); // remove leading slash
-    const decodedPath = decodeURIComponent(path);
+    let query = '';
+
+    // 1. Check Hash (Universal compatibility: kahf.day/#39:45)
+    // This works on any server without configuration because the hash isn't sent to the server.
+    if (window.location.hash && window.location.hash.length > 1) {
+        query = window.location.hash.slice(1);
+    } 
+    // 2. Check Pathname (Server-configured: kahf.day/39:45)
+    // This requires server rewrite rules (like _redirects) to avoid 404s.
+    else if (window.location.pathname.length > 1) {
+        query = window.location.pathname.slice(1);
+    }
+
+    const decodedQuery = decodeURIComponent(query);
     
     // Check if the path looks like a verse query (digits, colons, commas, dashes, spaces)
     // and excludes common file extensions or empty paths
-    if (decodedPath && /^[0-9:,\- ]+$/.test(decodedPath)) {
-        setVerseFinderQuery(decodedPath);
+    if (decodedQuery && /^[0-9:,\- ]+$/.test(decodedQuery)) {
+        setVerseFinderQuery(decodedQuery);
         setIsVerseFinderVisible(true);
         setIsLowResourceMode(true);
         setShouldAutoSearch(true);
