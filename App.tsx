@@ -25,6 +25,7 @@ const App: React.FC = () => {
   const [isVerseFinderVisible, setIsVerseFinderVisible] = useState(false);
   const [verseFinderContent, setVerseFinderContent] = useState<VerseFinderContent>({ type: 'empty' });
   const [verseFinderQuery, setVerseFinderQuery] = useState('');
+  const [shouldAutoSearch, setShouldAutoSearch] = useState(false);
 
   // --- Low Resource Mode State ---
   const [isLowResourceMode, setIsLowResourceMode] = useState(false);
@@ -48,6 +49,21 @@ const App: React.FC = () => {
   // Defer updates to the most expensive, off-screen component (Footer)
   const deferredRotation = useDeferredValue(rotation);
   
+  // URL Deep Linking Logic
+  useEffect(() => {
+    const path = window.location.pathname.slice(1); // remove leading slash
+    const decodedPath = decodeURIComponent(path);
+    
+    // Check if the path looks like a verse query (digits, colons, commas, dashes, spaces)
+    // and excludes common file extensions or empty paths
+    if (decodedPath && /^[0-9:,\- ]+$/.test(decodedPath)) {
+        setVerseFinderQuery(decodedPath);
+        setIsVerseFinderVisible(true);
+        setIsLowResourceMode(true);
+        setShouldAutoSearch(true);
+    }
+  }, []);
+
   const animateRotation = useCallback((start: number, end: number, duration: number, onComplete?: () => void) => {
     if (animationFrameId.current) {
       cancelAnimationFrame(animationFrameId.current);
@@ -304,6 +320,8 @@ const App: React.FC = () => {
           localTranslationData={localTranslationData}
           query={verseFinderQuery}
           onQueryChange={setVerseFinderQuery}
+          shouldAutoSearch={shouldAutoSearch}
+          onAutoSearchHandled={() => setShouldAutoSearch(false)}
         />
       </div>
 

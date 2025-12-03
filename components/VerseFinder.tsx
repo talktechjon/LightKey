@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { VerseFinderContent, VerseResult, SurahData, SurahVerse, LocalTranslationData } from '../types.ts';
 import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
 import { SLICE_DATA } from '../constants.ts';
@@ -23,9 +23,11 @@ interface VerseFinderProps {
   localTranslationData: LocalTranslationData;
   query: string;
   onQueryChange: (query: string) => void;
+  shouldAutoSearch?: boolean;
+  onAutoSearchHandled?: () => void;
 }
 
-const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, content, setContent, translationMode, localTranslationData, query, onQueryChange }) => {
+const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, content, setContent, translationMode, localTranslationData, query, onQueryChange, shouldAutoSearch, onAutoSearchHandled }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
@@ -199,7 +201,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     setPlaylistIndex(0);
   };
 
-  const handleSearch = async () => {
+  const handleSearch = useCallback(async () => {
     if (!query.trim()) return;
     setIsLoading(true); setError(null); audioRef.current.pause(); setCurrentlyPlaying(null);
     
@@ -297,10 +299,18 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
         }
     } catch (e) { setError(e instanceof Error ? e.message : 'An unknown error occurred.');
     } finally { setIsLoading(false); }
-  };
+  }, [query, translationMode, localTranslationData, setContent]);
   
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => { if (event.key === 'Enter') handleSearch(); };
   
+  // Effect for Auto-Search trigger
+  useEffect(() => {
+    if (isVisible && shouldAutoSearch && onAutoSearchHandled) {
+        handleSearch();
+        onAutoSearchHandled();
+    }
+  }, [isVisible, shouldAutoSearch, onAutoSearchHandled, handleSearch]);
+
   const handleCopyAll = () => {
     if (content.type !== 'search' && content.type !== 'surah') return;
 
