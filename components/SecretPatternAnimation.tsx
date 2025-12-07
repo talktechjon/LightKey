@@ -33,6 +33,7 @@ interface AlignedChapter extends BaseChapterData {
 interface StaticChapter extends BaseChapterData {
     staticLabel: string;
     staticEmoji: string;
+    staticRightText?: string;
     contentEmoji?: string;
     isStatic: true;
 }
@@ -513,67 +514,66 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
             });
         });
 
-        if (zeroNode) {
-            if (activeTab === 'zakkum' && currentConfig.point0) {
-                const slice = getSliceAtPoint(currentConfig.point0, rotation);
-                const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
-                map.set(0, {
-                    slice,
-                    chapterInfo,
-                    isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
-                    muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
-                    iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
-                    clockIndex: 0,
-                    clockLabel: zeroNode.label,
-                    nodeColor: zeroNode.color
-                });
-            } else {
-                // Date Palm Node 0 -> Map to Chapter 112
-                const slice112 = SLICE_DATA.find(s => s.id === 112)!;
-                const info112 = CHAPTER_DETAILS.find(c => c.number === 112)!;
-                
-                map.set(0, {
-                    isStatic: true,
-                    staticLabel: `${zeroNode.label} ∞`, // Repeat ∞
-                    staticEmoji: '0',
-                    slice: slice112,
-                    chapterInfo: info112,
-                    isMuqattat: MUQATTAT_CHAPTERS.has(112),
-                    muqattatLetters: MUQATTAT_LETTERS.get(112),
-                    iconSrc: info112.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG
-                });
-            }
+        if (zeroNode && currentConfig.point0) {
+            const slice = getSliceAtPoint(currentConfig.point0, rotation);
+            const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
+            map.set(0, {
+                slice,
+                chapterInfo,
+                isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
+                muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
+                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                clockIndex: 0,
+                clockLabel: zeroNode.label,
+                nodeColor: zeroNode.color
+            });
         }
         return map;
     }, [rotation, currentConfig, activeTab]);
 
     const displayChapters: (AlignedChapter | StaticChapter)[] = useMemo(() => {
-        let chapters: (AlignedChapter | StaticChapter)[] = [];
+        const chapters: (AlignedChapter | StaticChapter)[] = [];
         
+        const getStaticChapterData = (id: number, leftLabel: string, rightText: string, emoji: string): StaticChapter | null => {
+            const slice = SLICE_DATA.find(s => s.id === id);
+            const chapterInfo = CHAPTER_DETAILS.find(c => c.number === id);
+            if (!slice || !chapterInfo) return null;
+             return {
+                slice,
+                chapterInfo,
+                isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
+                muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
+                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                staticLabel: leftLabel,
+                staticRightText: rightText,
+                staticEmoji: emoji,
+                isStatic: true
+            };
+        };
+
         if (activeTab === 'zakkum') {
-            const order = [1, 9, 8, 7, 6, 0, 2, 3, 4, 5];
-            chapters = order.map(id => generatedChaptersMap.get(id)).filter((c): c is AlignedChapter | StaticChapter => !!c);
-            
-            // Append 112
-            const slice112 = SLICE_DATA.find(s => s.id === 112);
-            const info112 = CHAPTER_DETAILS.find(c => c.number === 112);
-            if (slice112 && info112) {
-                chapters.push({
-                    slice: slice112,
-                    chapterInfo: info112,
-                    isMuqattat: MUQATTAT_CHAPTERS.has(112),
-                    muqattatLetters: MUQATTAT_LETTERS.get(112),
-                    iconSrc: info112.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
-                    staticLabel: 'Beginning ∞',
-                    staticEmoji: '', // No serial numbering
-                    contentEmoji: '112',
-                    isStatic: true
-                });
-            }
+            // Sequence: Beginning | Truth Always Wins (110) > 1 > 9 > 8 > 7 > 6 > Trial | Reflection (103) > 0 > 2 > 3 > 4 > 5 > Restoration | Bounty (108)
+            const static110 = getStaticChapterData(110, 'Beginning', 'Truth Always Wins (110)', '');
+            const static103 = getStaticChapterData(103, 'Trial', 'Reflection (103)', '');
+            const static108 = getStaticChapterData(108, 'Restoration', 'Bounty (108)', '');
+
+            if (static110) chapters.push(static110);
+            [1, 9, 8, 7, 6].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
+            if (static103) chapters.push(static103);
+            [0, 2, 3, 4, 5].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
+            if (static108) chapters.push(static108);
+
         } else {
-            // Date Palm: 1-10, then 0
-            const order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0];
-            chapters = order.map(id => generatedChaptersMap.get(id)).filter((c): c is AlignedChapter | StaticChapter => !!c);
+            // Date Palm: Blessing | Bounty (108) > 1 > 2 > 3 > 4 > 5 > Patience | Time (103) > 6 > 7 > 8 > 9 > 10 > Triumph | The Absolute Truth (112)
+            const static108 = getStaticChapterData(108, 'Blessing', 'Bounty (108)', '');
+            const static103 = getStaticChapterData(103, 'Patience', 'Time (103)', '');
+            const static112 = getStaticChapterData(112, 'Triumph', 'The Absolute Truth (112)', '');
+
+            if (static108) chapters.push(static108);
+            [1, 2, 3, 4, 5].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
+            if (static103) chapters.push(static103);
+            [6, 7, 8, 9, 10].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
+            if (static112) chapters.push(static112);
         }
         return chapters;
     }, [generatedChaptersMap, activeTab]);
@@ -581,7 +581,6 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
     const handleLoadSequence = () => {
         setAnimationMode('off');
         const chapterIds = displayChapters
-            .filter((c) => !('isStatic' in c) || (c.slice && c.slice.id > 0))
             .map(c => c.slice.id)
             .filter(id => id > 0);
         setCustomSequence(chapterIds.join(', '));
@@ -589,7 +588,6 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
 
     const handleWatchSequence = (type: PlaylistType) => {
         const chapterIds = displayChapters
-            .filter((c) => !('isStatic' in c) || (c.slice && c.slice.id > 0))
             .map(c => c.slice.id)
             .filter(id => id > 0);
         createPlaylist(type, chapterIds);
@@ -629,15 +627,16 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
                     let label = '';
                     let fillColor = node.color;
                     
+                    // We only display numbers for nodes that exist in our generated map
+                    // Since datePalm Node 0 is now effectively handled by the static 112 at the end of the list,
+                    // we might want to still show it in the diagram if it exists in the config.
                     const chapterData = generatedChaptersMap.get(node.id);
                     
-                    if (chapterData) {
-                        if ('isStatic' in chapterData) {
-                             if (chapterData.slice.id > 0) label = chapterData.slice.id.toString();
-                             else if (activeTab === 'datePalm' && node.isZero) label = '0';
-                        } else {
-                             label = (chapterData as AlignedChapter).slice.id.toString();
-                        }
+                    if (chapterData && !('isStatic' in chapterData)) {
+                         label = (chapterData as AlignedChapter).slice.id.toString();
+                    } else if (node.isZero && activeTab === 'datePalm') {
+                        // Special case for DatePalm Node 0 in diagram
+                        label = '∞';
                     }
                     
                     const textColor = d3.lab(fillColor).l < 60 ? 'white' : 'black';
@@ -696,13 +695,13 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
                     onClick={() => setActiveTab('zakkum')}
                     className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'zakkum' ? 'bg-red-900/50 text-red-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
                 >
-                    Fruit of Zakkum
+                    Zakkum
                 </button>
                 <button
                     onClick={() => setActiveTab('datePalm')}
                     className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'datePalm' ? 'bg-emerald-900/50 text-emerald-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
                 >
-                    Fruit of Date-Palm
+                    Date-Palm
                 </button>
             </div>
 
@@ -735,37 +734,39 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
 
             <div ref={listRef} className="text-sm text-gray-400 mt-3 space-y-1">
                 {displayChapters.map((chapterData, index) => {
-                    // Check if it's a special static entry that needs aesthetic styling (Chapter 112)
-                    // This applies to both the Zakkum appended 112 and the Date Palm Node 0 mapped to 112
+                    // Check if it's a special static entry
                     if ('isStatic' in chapterData) {
                         const staticC = chapterData as StaticChapter;
-                        const is112 = staticC.chapterInfo.number === 112;
-
-                        if (is112) {
-                             const chapterColor = colorScale(112);
-                             return (
-                                <div 
-                                    key={index} 
-                                    className="grid grid-cols-[5.5rem_1fr] gap-x-2 items-center bg-gray-800/50 rounded px-2 py-1.5 transition-colors border border-gray-700/50 mt-2"
-                                >
-                                    {/* Left Column: Serial . Label */}
-                                    <div className="flex flex-col items-end pr-2 border-r border-gray-700/50">
-                                        <span className="font-mono text-sm text-cyan-400 font-bold tracking-tighter shadow-cyan-500/20 drop-shadow-sm truncate whitespace-nowrap">
-                                            {staticC.staticEmoji ? `${staticC.staticEmoji}. ` : ''}{staticC.staticLabel}
+                        const chapterColor = colorScale(staticC.slice.id);
+                        
+                        return (
+                        <div 
+                            key={index} 
+                            className="grid grid-cols-[5.5rem_1fr] gap-x-2 items-center bg-gray-800/50 rounded px-2 py-1.5 transition-colors border border-gray-700/50 mt-2"
+                        >
+                            {/* Left Column: Static Label */}
+                            <div className="flex flex-col items-end pr-2 border-r border-gray-700/50">
+                                <span className="font-mono text-[10px] text-cyan-400 font-bold tracking-tighter shadow-cyan-500/20 drop-shadow-sm truncate whitespace-nowrap">
+                                    {staticC.staticEmoji ? `${staticC.staticEmoji}. ` : ''}{staticC.staticLabel}
+                                </span>
+                            </div>
+                            {/* Right Column: Content */}
+                            <div className="flex items-center min-w-0 pl-1">
+                                {staticC.staticRightText ? (
+                                    <span className="truncate font-semibold text-sm" style={{ color: chapterColor }}>
+                                        {staticC.staticRightText}
+                                    </span>
+                                ) : (
+                                    <div className="flex items-center gap-1">
+                                        <img src={staticC.iconSrc} alt={staticC.chapterInfo.revelationType} className="w-3 h-3" />
+                                        <span className="truncate font-semibold text-sm" style={{ color: chapterColor }}>
+                                            {staticC.slice.id}: {staticC.chapterInfo.englishName}
                                         </span>
                                     </div>
-                                    {/* Right Column: Content */}
-                                    <div className="flex items-center min-w-0 pl-1">
-                                        <div className="flex items-center gap-1">
-                                            <img src={staticC.iconSrc} alt={staticC.chapterInfo.revelationType} className="w-3 h-3" />
-                                            <span className="truncate font-semibold text-sm" style={{ color: chapterColor }}>
-                                                112: {staticC.chapterInfo.englishName}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                             )
-                        }
+                                )}
+                            </div>
+                        </div>
+                        )
                     }
 
                     const cData = chapterData as AlignedChapter;
