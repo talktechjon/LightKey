@@ -31,7 +31,7 @@ export const MUQATTAT_LETTERS: Map<number, string[]> = new Map([
     [10, ['الٓر']],
     [11, ['الٓر']],
     [12, ['الٓر']],
-    [13, ['الٓمٓر']],
+    [13, ['الٓمٓর']],
     [14, ['الٓر']],
     [15, ['الٓر']],
     [19, ['كٓهيعٓصٓ']],
@@ -128,7 +128,7 @@ export const SECRET_EMOJI_PATTERN: SecretIconData[] = [
     { id: 'p8', position: 8, chapter: 102, emoji: '⚡', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⚡%3C/text%3E%3C/svg%3E", description: 'Position 8: Lightning' },
 ];
 
-// New constants for Kathara Clock feature
+// Kathara Clock feature
 export const KATHARA_CLOCK_POINTS = [1, 11, 20, 30, 39, 49, 58, 68, 77, 87, 96, 106];
 
 export const KATHARA_GRID_NODES = [
@@ -173,6 +173,70 @@ export const KATHARA_GRID_LINES = [
   { from: 9, to: 11 }, { from: 9, to: 12 }, { from: 10, to: 11 }, { from: 10, to: 12 },
   { from: 11, to: 12 },
 ];
+
+// Sephirot (Kabbalah) Tree of Life Feature - Dual Trees: Zakkum & Date Palm
+
+export const SEPHIROT_BASE_POINTS = [1, 12, 24, 35, 47, 58, 70, 81, 93, 104]; // Standard 1-10 Progression
+
+export const ZAKKUM_CONFIG = {
+    points: [114, 113, 112, 111, 110, 109, 108, 107, 106], // Nodes 1-9 (Reverse)
+    point0: 105, // Node 0 (Punishment)
+    nodes: [
+        { id: 1, label: 'Denial', x: 100, y: 30, color: '#1a1a1a' }, // Crown
+        { id: 2, label: 'Whisper', x: 170, y: 70, color: '#3f3f46' }, // Wisdom
+        { id: 3, label: 'Conjecture', x: 30, y: 70, color: '#1e3a8a' }, // Binah
+        { id: 4, label: 'Tyranny', x: 170, y: 130, color: '#991b1b' }, // Chesed
+        { id: 5, label: 'Oppression', x: 30, y: 130, color: '#7f1d1d' }, // Geburah
+        { id: 6, label: 'Fire', x: 100, y: 180, color: '#ea580c' }, // Tifereth
+        { id: 7, label: 'Falsehood', x: 170, y: 230, color: '#581c87' }, // Netzach
+        { id: 8, label: 'Collapse', x: 30, y: 230, color: '#451a03' }, // Hod
+        { id: 9, label: 'Fall', x: 100, y: 260, color: '#14532d' }, // Yesod
+        // Node 0 - Daath Position
+        { id: 0, label: 'Punishment', x: 100, y: 100, color: '#be123c', isZero: true }, 
+    ],
+    lines: [
+        { from: 1, to: 2 }, { from: 1, to: 3 }, { from: 1, to: 0 },
+        { from: 2, to: 3 }, { from: 2, to: 4 }, { from: 2, to: 0 },
+        { from: 3, to: 5 }, { from: 3, to: 0 },
+        { from: 6, to: 0 },
+        { from: 4, to: 5 }, { from: 4, to: 6 }, { from: 4, to: 7 },
+        { from: 5, to: 6 }, { from: 5, to: 8 },
+        { from: 6, to: 7 }, { from: 6, to: 8 }, { from: 6, to: 9 },
+        { from: 7, to: 8 }, { from: 7, to: 9 },
+        { from: 8, to: 9 },
+    ]
+};
+
+export const DATE_PALM_CONFIG = {
+    points: SEPHIROT_BASE_POINTS, // Nodes 1-10
+    point0: null, // Node 0 (Death) - Static
+    nodes: [
+        { id: 1, label: 'Light', x: 100, y: 30, color: '#FFFFFF' }, // Kether
+        { id: 2, label: 'Mercy', x: 170, y: 70, color: '#22d3ee' }, // Chokmah
+        { id: 3, label: 'Balance', x: 30, y: 70, color: '#facc15' }, // Binah
+        { id: 4, label: 'Root', x: 170, y: 130, color: '#854d0e' }, // Chesed
+        { id: 5, label: 'Branch', x: 30, y: 130, color: '#22c55e' }, // Geburah
+        { id: 6, label: 'Repentance', x: 100, y: 180, color: '#3b82f6' }, // Tifereth
+        { id: 7, label: 'Kingdom', x: 170, y: 230, color: '#a855f7' }, // Netzach
+        { id: 8, label: 'Sacrifice', x: 30, y: 230, color: '#ef4444' }, // Hod
+        { id: 9, label: 'Return', x: 100, y: 260, color: '#8b5cf6' }, // Yesod
+        { id: 10, label: 'Ascension', x: 100, y: 310, color: '#f59e0b' }, // Malkuth
+        // Node 0 - Daath Position
+        { id: 0, label: 'Death', x: 100, y: 100, color: '#000000', isZero: true, stroke: '#333' }, 
+    ],
+    lines: [
+        { from: 1, to: 2 }, { from: 1, to: 3 }, { from: 1, to: 0 },
+        { from: 2, to: 3 }, { from: 2, to: 4 }, { from: 2, to: 0 },
+        { from: 3, to: 5 }, { from: 3, to: 0 },
+        { from: 6, to: 0 },
+        { from: 4, to: 5 }, { from: 4, to: 6 }, { from: 4, to: 7 },
+        { from: 5, to: 6 }, { from: 5, to: 8 },
+        { from: 6, to: 7 }, { from: 6, to: 8 }, { from: 6, to: 9 },
+        { from: 7, to: 8 }, { from: 7, to: 9 },
+        { from: 8, to: 9 },
+        { from: 9, to: 10 }
+    ]
+};
 
 
 export const CHAPTER_DETAILS: ChapterDetails[] = [

@@ -2,13 +2,13 @@
 import React, { useMemo, useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import * as d3 from 'd3';
-import { KATHARA_CLOCK_POINTS, KATHARA_GRID_NODES, KATHARA_GRID_LINES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG, SLICE_DATA } from '../constants.ts';
+import { KATHARA_CLOCK_POINTS, KATHARA_GRID_NODES, KATHARA_GRID_LINES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG, SLICE_DATA, ZAKKUM_CONFIG, DATE_PALM_CONFIG } from '../constants.ts';
 import { getSliceAtPoint, colorScale } from '../utils.ts';
 import { PlaylistType, SliceData, ChapterDetails } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
 import { LoadSequenceIcon } from './Icons.tsx';
 
-interface KatharaClockAlignmentProps {
+interface AlignmentProps {
     rotation: number;
     createPlaylist: (type: PlaylistType, chapterIds: number[]) => void;
     setCustomSequence: (value: string) => void;
@@ -26,6 +26,8 @@ interface BaseChapterData {
 interface AlignedChapter extends BaseChapterData {
     clockIndex: number;
     clockLabel: string;
+    subLabel?: string;
+    nodeColor?: string;
 }
 
 interface StaticChapter extends BaseChapterData {
@@ -37,7 +39,7 @@ interface StaticChapter extends BaseChapterData {
 
 type DisplayChapter = AlignedChapter | StaticChapter;
 
-const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
+export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
     const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1024 : false);
     const listRef = useRef<HTMLDivElement>(null);
     const floatingRef = useRef<HTMLDivElement>(null);
@@ -49,7 +51,6 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Logic to track the list position and update the diagram's position instantly (Sticker behavior)
     useLayoutEffect(() => {
         if (!isDesktop) return;
 
@@ -62,24 +63,14 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                 const listRect = listEl.getBoundingClientRect();
                 const containerRect = scrollContainer.getBoundingClientRect();
 
-                // 1. Dynamic Positioning: 
-                // Calculate X based on Side Panel's left edge (border) to avoid going too deep inside.
-                // 240 is the diagram width. +12 makes it overlap the border slightly for a "sticker" effect.
                 const diagramWidth = 240;
                 const x = containerRect.left - diagramWidth + 12;
                 const y = listRect.top;
 
-                // 2. GPU Accelerated Movement:
-                // Use transform instead of top/left for jitter-free scrolling
                 floatingEl.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-                
-                // 3. Match Height:
-                // Stretch diagram to match list height exactly
                 floatingEl.style.height = `${listRect.height}px`;
                 floatingEl.style.width = `${diagramWidth}px`;
 
-                // 4. Masking: 
-                // Check visibility relative to scroll container
                 const isVisible = 
                     listRect.bottom > containerRect.top + 50 && 
                     listRect.top < containerRect.bottom - 50;
@@ -91,7 +82,6 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
         const scrollContainer = document.getElementById('side-panel-scroll-container');
         let rafId: number;
         
-        // Use a continuous loop to ensure perfect sync with scroll compositor
         const loop = () => {
             updatePosition();
             rafId = requestAnimationFrame(loop);
@@ -131,7 +121,6 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
     const displayChapters: DisplayChapter[] = useMemo(() => {
         const chapters: DisplayChapter[] = [...alignedChapters];
         
-        // Get static data for special chapters
         const getStaticChapterData = (id: number, label: string, bulletEmoji: string, contentEmoji?: string): StaticChapter | null => {
             const slice = SLICE_DATA.find(s => s.id === id);
             const chapterInfo = CHAPTER_DETAILS.find(c => c.number === id);
@@ -149,23 +138,15 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
             };
         };
 
-        // 108: Nomination △  Makki 108: 🔥Promise
         const static108 = getStaticChapterData(108, '🔥Promise', 'Nomination △');
-        // 103: Uproot 🔥 Makki 103: 🐟 Protection
         const static103 = getStaticChapterData(103, '🐟 Protection', 'Uproot 🔥');
-        // 110: Reward 🐟 Madani 110:🌳Return
         const static110 = getStaticChapterData(110, '🌳Return', 'Reward 🐟');
-        
-        // 112 Start: ∞Makki 112: The Beginning ∞
         const static112Start = getStaticChapterData(112, 'The Beginning ∞', '∞');
-        // 112 End: ∞Makki 112: Repeat ∞
         const static112End = getStaticChapterData(112, 'Repeat ∞', '∞');
 
-
-        // Insert at specific positions
-        if (static108) chapters.splice(3, 0, static108); // After 3rd
-        if (static103) chapters.splice(7, 0, static103); // After 6th (now 7th item)
-        if (static110) chapters.splice(11, 0, static110); // After 9th (now 11th item)
+        if (static108) chapters.splice(3, 0, static108);
+        if (static103) chapters.splice(7, 0, static103);
+        if (static110) chapters.splice(11, 0, static110);
         
         const result: DisplayChapter[] = [];
         if (static112Start) result.push(static112Start);
@@ -184,7 +165,6 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
     };
 
     const handleWatchKatharaSequence = (type: PlaylistType) => {
-        // Exclude the first item (112 Start) from the playlist
         const chapterIds = displayChapters
             .slice(1) 
             .map(c => c.slice.id);
@@ -195,15 +175,7 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
 
     const getVerticalWavePath = (x1: number, y1: number, x2: number, y2: number) => {
         const dy = y2 - y1;
-        const amp = 7; // Increased amplitude for better visibility
-        
-        // Create a multi-cycle wave (2 full S-curves)
-        // M start 
-        // Q cp1 mid1 (First bump right)
-        // T mid2 (First bump left)
-        // T mid3 (Second bump right)
-        // T end (Second bump left)
-        
+        const amp = 7;
         return `M ${x1} ${y1} 
                 Q ${x1 + amp} ${y1 + dy * 0.125} ${x1} ${y1 + dy * 0.25} 
                 T ${x1} ${y1 + dy * 0.5} 
@@ -215,8 +187,6 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
         <div className="flex justify-center w-full h-full">
             <svg 
                 viewBox="0 0 150 280" 
-                // On desktop, allow stretching to match list height (sticker effect).
-                // On mobile, preserve aspect ratio to prevent distortion.
                 preserveAspectRatio={isDesktop ? "none" : "xMidYMid meet"} 
                 width="100%" 
                 height="100%" 
@@ -228,58 +198,40 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                         const toNode = nodeMap.get(line.to);
                         if (!fromNode || !toNode) return null;
 
-                        // Line coloring logic based on source node groups
                         let lineStyle: React.CSSProperties = { stroke: '#4b5563', filter: 'none' };
                         const f = line.from;
                         
-                        // Group 1: Action (Nodes 1-4, 13) -> Blue with white glow
                         const isG1 = [1, 2, 3, 4, 13].includes(f);
-                        // Group 2: Cleanse (Nodes 5-7, 14) -> White with orange glow
                         const isG2 = [5, 6, 7, 14].includes(f);
-                        // Group 3: Blessing (Nodes 8-10, 15) -> Orange with white glow
                         const isG3 = [8, 9, 10, 15].includes(f);
-                        // Group 4: Sacrifice (Nodes 11-12) -> White with green glow
                         const isG4 = [11, 12].includes(f);
 
-                        if (isG1) {
-                            lineStyle = { stroke: '#60a5fa', filter: 'drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.6))' };
-                        } else if (isG2) {
-                            lineStyle = { stroke: '#e2e8f0', filter: 'drop-shadow(0 0 1.5px rgba(249, 115, 22, 0.8))' };
-                        } else if (isG3) {
-                            lineStyle = { stroke: '#fb923c', filter: 'drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.6))' };
-                        } else if (isG4) {
-                            lineStyle = { stroke: '#ffffff', filter: 'drop-shadow(0 0 1.5px rgba(74, 222, 128, 0.8))' };
-                        }
+                        if (isG1) lineStyle = { stroke: '#60a5fa', filter: 'drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.6))' };
+                        else if (isG2) lineStyle = { stroke: '#e2e8f0', filter: 'drop-shadow(0 0 1.5px rgba(249, 115, 22, 0.8))' };
+                        else if (isG3) lineStyle = { stroke: '#fb923c', filter: 'drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.6))' };
+                        else if (isG4) lineStyle = { stroke: '#ffffff', filter: 'drop-shadow(0 0 1.5px rgba(74, 222, 128, 0.8))' };
 
-                        // Identify specific verse lines for styling
-                        const is112_1 = (line.from === 3 && line.to === 6) || (line.from === 6 && line.to === 3); // Left Lower
-                        const is112_3 = (line.from === 6 && line.to === 9) || (line.from === 9 && line.to === 6); // Left Upper
-                        const is112_4 = (line.from === 4 && line.to === 7) || (line.from === 7 && line.to === 4); // Right Lower
-                        const is112_2 = (line.from === 7 && line.to === 10) || (line.from === 10 && line.to === 7); // Right Upper
+                        const is112_1 = (line.from === 3 && line.to === 6) || (line.from === 6 && line.to === 3);
+                        const is112_3 = (line.from === 6 && line.to === 9) || (line.from === 9 && line.to === 6);
+                        const is112_4 = (line.from === 4 && line.to === 7) || (line.from === 7 && line.to === 4);
+                        const is112_2 = (line.from === 7 && line.to === 10) || (line.from === 10 && line.to === 7);
 
                         let renderedLine;
                         if (is112_2) {
-                            // 112:2 - Sinuous wave like river
                             renderedLine = <path key={index} d={getVerticalWavePath(fromNode.x, fromNode.y, toNode.x, toNode.y)} fill="none" style={lineStyle} />;
                         } else if (is112_3 || is112_4) {
-                            // 112:3 and 112:4 - Dotted line
                             const dottedStyle = { ...lineStyle, strokeDasharray: '1 3', strokeLinecap: 'round' as const, strokeWidth: 2 };
                             renderedLine = <line key={index} x1={fromNode.x} y1={fromNode.y} x2={toNode.x} y2={toNode.y} style={dottedStyle} />;
                         } else {
                             renderedLine = <line key={index} x1={fromNode.x} y1={fromNode.y} x2={toNode.x} y2={toNode.y} style={lineStyle} />;
                         }
 
-                        // Render Labels
                         let label = null;
                         if (is112_1 || is112_2 || is112_3 || is112_4) {
                             const midX = (fromNode.x + toNode.x) / 2;
                             const midY = (fromNode.y + toNode.y) / 2;
                             const text = is112_1 ? "112:1" : is112_2 ? "112:2" : is112_3 ? "112:3" : "112:4";
-                            
-                            // Offset for text placement next to the line
                             const offsetX = (is112_1 || is112_3) ? -12 : 12;
-                            
-                            // Calculate text position
                             const textX = midX + offsetX;
                             const textY = midY;
 
@@ -390,7 +342,6 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                     <button
                         onClick={handleLoadKatharaSequence}
                         className="bg-gray-600 hover:bg-cyan-700 text-white font-bold p-2 rounded transition-colors duration-200 flex-shrink-0"
-                        aria-label="Load Tree of Life sequence into custom sequence"
                         title="Load Tree of Life sequence into custom sequence"
                     >
                         <LoadSequenceIcon />
@@ -400,7 +351,6 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
             </div>
             <div className="w-full h-px bg-gray-500/50 mt-2"></div>
 
-            {/* Diagram Rendering Logic */}
             {!isDesktop ? (
                 <div className="my-4 h-[420px]">
                     {renderDiagram()}
@@ -416,7 +366,7 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                             zIndex: 5, 
                             pointerEvents: 'none',
                             opacity: 0,
-                            willChange: 'transform, height', // Optimization for browser compositor
+                            willChange: 'transform, height',
                         }}
                     >
                         {renderDiagram()}
@@ -425,7 +375,6 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                 )
             )}
 
-            {/* List always renders in normal flow, ref is attached to this container */}
             <div ref={listRef} className="text-sm text-gray-400 mt-3 space-y-1">
                 {displayChapters.map((chapterData, index) => {
                     const chapterColor = colorScale(chapterData.slice.id);
@@ -438,19 +387,10 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                         labelClass += " text-right pr-1 text-gray-500 tracking-tighter";
                     } else {
                         const idx = (chapterData as AlignedChapter).clockIndex;
-                        if (idx >= 1 && idx <= 3) {
-                            // 1-3: Blue text with whitish glow
-                            labelStyle = { color: '#60a5fa', textShadow: '0 0 5px rgba(255, 255, 255, 0.6)' };
-                        } else if (idx >= 4 && idx <= 6) {
-                            // 4-6: White-ish text with Fire-Orange glow
-                            labelStyle = { color: '#e2e8f0', textShadow: '0 0 5px rgba(249, 115, 22, 0.7)' };
-                        } else if (idx >= 7 && idx <= 9) {
-                            // 7-9: Orange text with white-ish glow
-                            labelStyle = { color: '#fb923c', textShadow: '0 0 5px rgba(255, 255, 255, 0.6)' };
-                        } else if (idx >= 10 && idx <= 12) {
-                            // 10-12: White text with greenish glow
-                            labelStyle = { color: '#ffffff', textShadow: '0 0 5px rgba(74, 222, 128, 0.8)' };
-                        }
+                        if (idx >= 1 && idx <= 3) labelStyle = { color: '#60a5fa', textShadow: '0 0 5px rgba(255, 255, 255, 0.6)' };
+                        else if (idx >= 4 && idx <= 6) labelStyle = { color: '#e2e8f0', textShadow: '0 0 5px rgba(249, 115, 22, 0.7)' };
+                        else if (idx >= 7 && idx <= 9) labelStyle = { color: '#fb923c', textShadow: '0 0 5px rgba(255, 255, 255, 0.6)' };
+                        else if (idx >= 10 && idx <= 12) labelStyle = { color: '#ffffff', textShadow: '0 0 5px rgba(74, 222, 128, 0.8)' };
                     }
 
                     return (
@@ -461,45 +401,358 @@ const KatharaClockAlignment: React.FC<KatharaClockAlignmentProps> = ({ rotation,
                                 ${isStatic ? 'bg-gray-800/50 border border-gray-700/50' : 'hover:bg-white/5 border border-transparent'}
                             `}
                         >
-                            {/* Column 1: Label (Action/Clock Index) */}
-                            <span 
-                                className={labelClass}
-                                style={labelStyle}
-                            >
+                            <span className={labelClass} style={labelStyle}>
                                 {isStatic 
                                     ? (chapterData as StaticChapter).staticEmoji 
                                     : `${(chapterData as AlignedChapter).clockIndex} ${(chapterData as AlignedChapter).clockLabel}:`
                                 }
                             </span>
-
-                            {/* Column 2: Content (Icon + Text + Muqattat) */}
                             <div className="flex items-center min-w-0">
                                 <div className="w-5 flex-shrink-0 flex justify-center mr-1">
-                                    <img 
-                                        src={chapterData.iconSrc} 
-                                        alt={chapterData.chapterInfo.revelationType} 
-                                        className="w-3.5 h-3.5" 
-                                    />
+                                    <img src={chapterData.iconSrc} alt={chapterData.chapterInfo.revelationType} className="w-3.5 h-3.5" />
                                 </div>
-                                
                                 <div className="flex items-baseline min-w-0 flex-1 gap-x-2">
-                                    <span 
-                                        className="truncate flex-1 flex items-center gap-1" 
-                                        title={`${chapterData.slice.id}: ${chapterData.chapterInfo.englishName}`} 
-                                        style={{ color: chapterColor }}
-                                    >
+                                    <span className="truncate flex-1 flex items-center gap-1" title={`${chapterData.slice.id}: ${chapterData.chapterInfo.englishName}`} style={{ color: chapterColor }}>
                                         <span className={`font-semibold flex-shrink-0 ${chapterData.isMuqattat ? 'muqattat-glow' : ''}`}>
                                             {(isStatic && (chapterData as StaticChapter).contentEmoji) ? (chapterData as StaticChapter).contentEmoji : ''}
                                             {chapterData.slice.id}:
                                         </span>
+                                        <span className="truncate">{isStatic ? (chapterData as StaticChapter).staticLabel : chapterData.chapterInfo.englishName}</span>
+                                    </span>
+                                    {chapterData.muqattatLetters && (
+                                        <span className="font-mono text-xs muqattat-glow flex-shrink-0 opacity-80" dir="rtl">{chapterData.muqattatLetters.join(' ')}</span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
+export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
+    const [activeTab, setActiveTab] = useState<'zakkum' | 'datePalm'>('zakkum');
+    const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1024 : false);
+    const listRef = useRef<HTMLDivElement>(null);
+    const floatingRef = useRef<HTMLDivElement>(null);
+    const portalRoot = typeof document !== 'undefined' ? document.getElementById('kathara-portal-root') : null;
+
+    const currentConfig = activeTab === 'zakkum' ? ZAKKUM_CONFIG : DATE_PALM_CONFIG;
+
+    useEffect(() => {
+        const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useLayoutEffect(() => {
+        if (!isDesktop) return;
+
+        const updatePosition = () => {
+            const listEl = listRef.current;
+            const floatingEl = floatingRef.current;
+            const scrollContainer = document.getElementById('side-panel-scroll-container');
+
+            if (listEl && floatingEl && scrollContainer) {
+                const listRect = listEl.getBoundingClientRect();
+                const containerRect = scrollContainer.getBoundingClientRect();
+
+                const diagramWidth = 240;
+                const x = containerRect.left - diagramWidth + 12;
+                const y = listRect.top;
+
+                floatingEl.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                floatingEl.style.height = `${listRect.height}px`;
+                floatingEl.style.width = `${diagramWidth}px`;
+
+                const isVisible = 
+                    listRect.bottom > containerRect.top + 50 && 
+                    listRect.top < containerRect.bottom - 50;
+
+                floatingEl.style.opacity = isVisible ? '1' : '0';
+            }
+        };
+
+        const scrollContainer = document.getElementById('side-panel-scroll-container');
+        let rafId: number;
+        
+        const loop = () => {
+            updatePosition();
+            rafId = requestAnimationFrame(loop);
+        };
+
+        if (scrollContainer) {
+            rafId = requestAnimationFrame(loop);
+        }
+        
+        return () => {
+            cancelAnimationFrame(rafId);
+        };
+    }, [isDesktop, rotation, activeTab]); // Dependencies include activeTab to reset position on switch
+
+    const alignedChapters: (AlignedChapter | StaticChapter)[] = useMemo(() => {
+        const standardNodes = currentConfig.nodes.filter(n => !n.isZero).sort((a,b) => a.id - b.id);
+        const zeroNode = currentConfig.nodes.find(n => n.isZero);
+
+        const chapters: (AlignedChapter | StaticChapter)[] = standardNodes.map((node, index) => {
+            // point index is 0-based for node 1
+            const pointValue = currentConfig.points[index];
+            const slice = getSliceAtPoint(pointValue, rotation);
+            const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
+            return {
+                slice,
+                chapterInfo,
+                isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
+                muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
+                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                clockIndex: node.id,
+                clockLabel: node.label,
+                nodeColor: node.color
+            };
+        });
+
+        // Add Node 0 (Punishment/Death)
+        if (zeroNode) {
+            if (activeTab === 'zakkum' && currentConfig.point0) {
+                // Zakkum Node 0 is dynamic (Ch 105)
+                const slice = getSliceAtPoint(currentConfig.point0, rotation);
+                const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
+                chapters.push({
+                    slice,
+                    chapterInfo,
+                    isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
+                    muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
+                    iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                    clockIndex: 0,
+                    clockLabel: zeroNode.label,
+                    nodeColor: zeroNode.color
+                });
+            } else {
+                // Date Palm Node 0 is static (Death)
+                chapters.push({
+                    isStatic: true,
+                    staticLabel: zeroNode.label,
+                    staticEmoji: '0',
+                    slice: { id: 0, blockCount: 0 },
+                    chapterInfo: { number: 0, englishName: zeroNode.label, transliteration: '', arabicName: '', revelationType: 'Makki', juz: '' },
+                    isMuqattat: false,
+                    muqattatLetters: undefined,
+                    iconSrc: MAKKI_ICON_SVG
+                });
+            }
+        }
+
+        return chapters;
+    }, [rotation, currentConfig, activeTab]);
+
+    const handleLoadSequence = () => {
+        setAnimationMode('off');
+        const chapterIds = alignedChapters
+            .filter((c): c is AlignedChapter => !('isStatic' in c))
+            .map(c => c.slice.id);
+        setCustomSequence(chapterIds.join(', '));
+    };
+
+    const handleWatchSequence = (type: PlaylistType) => {
+        const chapterIds = alignedChapters
+            .filter((c): c is AlignedChapter => !('isStatic' in c))
+            .map(c => c.slice.id);
+        createPlaylist(type, chapterIds);
+    };
+
+    const nodeMap = useMemo(() => new Map(currentConfig.nodes.map(node => [node.id, node] as [number, typeof node])), [currentConfig]);
+
+    const renderDiagram = () => (
+        <div className="flex justify-center w-full h-full">
+            <svg 
+                viewBox="0 0 200 320" 
+                preserveAspectRatio={isDesktop ? "none" : "xMidYMid meet"} 
+                width="100%" 
+                height="100%" 
+                aria-hidden="true"
+            >
+                <g strokeWidth="1.5">
+                    {currentConfig.lines.map((line, index) => {
+                        const fromNode = nodeMap.get(line.from);
+                        const toNode = nodeMap.get(line.to);
+                        if (!fromNode || !toNode) return null;
+                        
+                        return (
+                            <line 
+                                key={index} 
+                                x1={fromNode.x} 
+                                y1={fromNode.y} 
+                                x2={toNode.x} 
+                                y2={toNode.y} 
+                                stroke="#4b5563" 
+                                style={{ stroke: activeTab === 'datePalm' ? '#60a5fa' : '#7f1d1d', opacity: 0.5 }} 
+                            />
+                        );
+                    })}
+                </g>
+                {currentConfig.nodes.map((node, index) => {
+                    let label = '';
+                    let fillColor = node.color;
+                    const isZero = node.isZero;
+
+                    if (isZero && activeTab === 'datePalm') {
+                        // Static Death Node
+                        label = '0';
+                    } else {
+                        // Find data for this node
+                        const chapterData = alignedChapters.find(c => !('isStatic' in c) && c.clockIndex === node.id);
+                        if (chapterData) {
+                            label = (chapterData as AlignedChapter).slice.id.toString();
+                        } else if (isZero && activeTab === 'zakkum') {
+                             // Fallback if not found in main list (though it should be)
+                             label = '105';
+                        }
+                    }
+                    
+                    const textColor = d3.lab(fillColor).l < 60 ? 'white' : 'black';
+
+                    return (
+                        <g key={node.id}>
+                            <circle cx={node.x} cy={node.y} r="10" fill={fillColor} stroke="#1f2937" strokeWidth="1" />
+                            <text 
+                                x={node.x} 
+                                y={node.y} 
+                                textAnchor="middle" 
+                                dy=".3em" 
+                                fontSize="10" 
+                                fontWeight="bold" 
+                                fill={textColor}>
+                                {label}
+                            </text>
+                            {/* Node Label */}
+                            <text x={node.x} y={node.y - 14} textAnchor="middle" fontSize="6" fontWeight="bold" fill={fillColor} style={{ textShadow: '0 0 2px black' }}>
+                                {node.label}
+                            </text>
+                        </g>
+                    );
+                })}
+            </svg>
+        </div>
+    );
+
+    return (
+        <div className="pt-6">
+            <div className="flex justify-between items-center">
+                <h2 className="text-xl font-bold text-gray-200 tracking-wider">Sephirot Alignment</h2>
+                <div className="flex items-center space-x-2">
+                    <button
+                        onClick={handleLoadSequence}
+                        className="bg-gray-600 hover:bg-cyan-700 text-white font-bold p-2 rounded transition-colors duration-200 flex-shrink-0"
+                        title="Load current sequence into custom sequence"
+                    >
+                        <LoadSequenceIcon />
+                    </button>
+                    <PlaylistButtons onWatch={handleWatchSequence} />
+                </div>
+            </div>
+            
+            {/* Tab Switcher */}
+            <div className="flex space-x-1 mt-3 mb-2 bg-gray-900/50 p-1 rounded-lg">
+                <button
+                    onClick={() => setActiveTab('zakkum')}
+                    className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'zakkum' ? 'bg-red-900/50 text-red-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
+                >
+                    Fruit of Zakkum
+                </button>
+                <button
+                    onClick={() => setActiveTab('datePalm')}
+                    className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'datePalm' ? 'bg-emerald-900/50 text-emerald-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
+                >
+                    Fruit of Date-Palm
+                </button>
+            </div>
+
+            <div className="w-full h-px bg-gray-500/50 mb-2"></div>
+
+            {/* Diagram Rendering */}
+            {!isDesktop ? (
+                <div className="my-4 h-[420px]">
+                    {renderDiagram()}
+                </div>
+            ) : (
+                portalRoot && createPortal(
+                    <div 
+                        ref={floatingRef}
+                        style={{ 
+                            position: 'fixed', 
+                            top: 0,
+                            left: 0,
+                            zIndex: 5, 
+                            pointerEvents: 'none',
+                            opacity: 0,
+                            willChange: 'transform, height',
+                        }}
+                    >
+                        {renderDiagram()}
+                    </div>,
+                    portalRoot
+                )
+            )}
+
+            <div ref={listRef} className="text-sm text-gray-400 mt-3 space-y-1">
+                {alignedChapters.map((chapterData, index) => {
+                    if ('isStatic' in chapterData) {
+                        // Static Node (Date Palm Death)
+                        return (
+                            <div key={index} className="grid grid-cols-[7rem_1fr] gap-x-1 items-center bg-gray-900/30 rounded px-2 py-2 border border-gray-800">
+                                <div className="flex flex-col items-end pr-2 border-r border-gray-700/50">
+                                    <span className="font-mono text-xs font-bold text-gray-500">0</span>
+                                    <span className="text-[9px] text-gray-600">{(chapterData as StaticChapter).staticLabel}</span>
+                                </div>
+                                <div className="pl-2 font-mono text-gray-500 font-bold tracking-widest text-xs">
+                                    DEATH
+                                </div>
+                            </div>
+                        );
+                    }
+
+                    const cData = chapterData as AlignedChapter;
+                    const chapterColor = colorScale(cData.slice.id);
+                    const nodeColor = cData.nodeColor;
+
+                    return (
+                        <div 
+                            key={index} 
+                            className="grid grid-cols-[7rem_1fr] gap-x-1 items-center hover:bg-white/5 rounded px-2 py-2 transition-colors border border-transparent"
+                        >
+                            {/* Column 1: Label */}
+                            <div className="flex flex-col items-end pr-2 border-r border-gray-700/50">
+                                <span className="font-mono text-xs font-bold" style={{ color: nodeColor }}>{cData.clockLabel}</span>
+                                <span className="text-[9px] text-gray-500 font-mono opacity-70">{cData.clockIndex}</span>
+                            </div>
+
+                            {/* Column 2: Content */}
+                            <div className="flex items-center min-w-0 pl-1">
+                                <div className="w-5 flex-shrink-0 flex justify-center mr-1">
+                                    <img 
+                                        src={cData.iconSrc} 
+                                        alt={cData.chapterInfo.revelationType} 
+                                        className="w-3.5 h-3.5" 
+                                    />
+                                </div>
+                                <div className="flex items-baseline min-w-0 flex-1 gap-x-2">
+                                    <span 
+                                        className="truncate flex-1 flex items-center gap-1" 
+                                        title={`${cData.slice.id}: ${cData.chapterInfo.englishName}`} 
+                                        style={{ color: chapterColor }}
+                                    >
+                                        <span className={`font-semibold flex-shrink-0 ${cData.isMuqattat ? 'muqattat-glow' : ''}`}>
+                                            {cData.slice.id}:
+                                        </span>
                                         <span className="truncate">
-                                            {isStatic ? (chapterData as StaticChapter).staticLabel : chapterData.chapterInfo.englishName}
+                                            {cData.chapterInfo.englishName}
                                         </span>
                                     </span>
-                                    
-                                    {chapterData.muqattatLetters && (
+                                    {cData.muqattatLetters && (
                                         <span className="font-mono text-xs muqattat-glow flex-shrink-0 opacity-80" dir="rtl">
-                                            {chapterData.muqattatLetters.join(' ')}
+                                            {cData.muqattatLetters.join(' ')}
                                         </span>
                                     )}
                                 </div>

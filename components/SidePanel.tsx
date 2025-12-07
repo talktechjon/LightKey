@@ -7,7 +7,7 @@ import PlaylistButtons from './PlaylistButtons.tsx';
 import CustomAnimationControls from './CustomAnimationControls.tsx';
 import ChapterGeometry from './ChapterGeometry.tsx';
 import MarkerAlignment from './MarkerAlignment.tsx';
-import KatharaClockAlignment from './SecretPatternAnimation.tsx';
+import { KatharaClockAlignment, SephirotAlignment } from './SecretPatternAnimation.tsx';
 
 interface SidePanelProps {
   rotation: number;
@@ -270,12 +270,20 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                 createPlaylist={createPlaylist}
              />
              {isSecretModeActive && (
-                <KatharaClockAlignment
-                    rotation={rotation}
-                    createPlaylist={createPlaylist}
-                    setCustomSequence={setCustomSequence}
-                    setAnimationMode={setAnimationMode}
-                />
+                <>
+                    <KatharaClockAlignment
+                        rotation={rotation}
+                        createPlaylist={createPlaylist}
+                        setCustomSequence={setCustomSequence}
+                        setAnimationMode={setAnimationMode}
+                    />
+                    <SephirotAlignment
+                        rotation={rotation}
+                        createPlaylist={createPlaylist}
+                        setCustomSequence={setCustomSequence}
+                        setAnimationMode={setAnimationMode}
+                    />
+                </>
              )}
           </div>
       </div>
