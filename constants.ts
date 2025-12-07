@@ -179,20 +179,20 @@ export const KATHARA_GRID_LINES = [
 export const SEPHIROT_BASE_POINTS = [1, 12, 24, 35, 47, 58, 70, 81, 93, 104]; // Standard 1-10 Progression
 
 export const ZAKKUM_CONFIG = {
-    points: [114, 113, 112, 111, 110, 109, 108, 107, 106], // Nodes 1-9 (Reverse)
-    point0: 105, // Node 0 (Punishment)
+    points: [57, 56, 55, 54, 53, 52, 51, 50, 49], // Nodes 1-9 (Start from 57 Reverse)
+    point0: 48, // Node 0 (Nothingness)
     nodes: [
-        { id: 1, label: 'Denial', x: 100, y: 30, color: '#1a1a1a' }, // Crown
-        { id: 2, label: 'Whisper', x: 170, y: 70, color: '#3f3f46' }, // Wisdom
-        { id: 3, label: 'Conjecture', x: 30, y: 70, color: '#1e3a8a' }, // Binah
-        { id: 4, label: 'Tyranny', x: 170, y: 130, color: '#991b1b' }, // Chesed
-        { id: 5, label: 'Oppression', x: 30, y: 130, color: '#7f1d1d' }, // Geburah
-        { id: 6, label: 'Fire', x: 100, y: 180, color: '#ea580c' }, // Tifereth
-        { id: 7, label: 'Falsehood', x: 170, y: 230, color: '#581c87' }, // Netzach
-        { id: 8, label: 'Collapse', x: 30, y: 230, color: '#451a03' }, // Hod
-        { id: 9, label: 'Fall', x: 100, y: 260, color: '#14532d' }, // Yesod
+        { id: 1, label: 'Denial', x: 100, y: 30, color: '#fca5a5' }, // Crown (Red-300)
+        { id: 2, label: 'Whisper', x: 170, y: 70, color: '#fdba74' }, // Wisdom (Orange-300)
+        { id: 3, label: 'Conjecture', x: 30, y: 70, color: '#93c5fd' }, // Binah (Blue-300)
+        { id: 4, label: 'Disobedient', x: 170, y: 130, color: '#ef4444' }, // Chesed (Red-500)
+        { id: 5, label: 'Transgress', x: 30, y: 130, color: '#f87171' }, // Geburah (Red-400)
+        { id: 6, label: 'Fire', x: 100, y: 180, color: '#f97316' }, // Tifereth (Orange-500)
+        { id: 7, label: 'Falsehood', x: 170, y: 230, color: '#c084fc' }, // Netzach (Purple-400)
+        { id: 8, label: 'Collapse', x: 30, y: 230, color: '#a8a29e' }, // Hod (Stone-400)
+        { id: 9, label: 'Fall', x: 100, y: 260, color: '#86efac' }, // Yesod (Green-300)
         // Node 0 - Daath Position
-        { id: 0, label: 'Punishment', x: 100, y: 100, color: '#be123c', isZero: true }, 
+        { id: 0, label: 'Nothingness', x: 100, y: 100, color: '#fb7185', isZero: true }, // Rose-400
     ],
     lines: [
         { from: 1, to: 2 }, { from: 1, to: 3 }, { from: 1, to: 0 },
@@ -209,7 +209,7 @@ export const ZAKKUM_CONFIG = {
 
 export const DATE_PALM_CONFIG = {
     points: SEPHIROT_BASE_POINTS, // Nodes 1-10
-    point0: null, // Node 0 (Death) - Static
+    point0: null, // Node 0 (Repeat) - Static
     nodes: [
         { id: 1, label: 'Light', x: 100, y: 30, color: '#FFFFFF' }, // Kether
         { id: 2, label: 'Mercy', x: 170, y: 70, color: '#22d3ee' }, // Chokmah
@@ -222,7 +222,7 @@ export const DATE_PALM_CONFIG = {
         { id: 9, label: 'Return', x: 100, y: 260, color: '#8b5cf6' }, // Yesod
         { id: 10, label: 'Ascension', x: 100, y: 310, color: '#f59e0b' }, // Malkuth
         // Node 0 - Daath Position
-        { id: 0, label: 'Death', x: 100, y: 100, color: '#000000', isZero: true, stroke: '#333' }, 
+        { id: 0, label: 'Repeat', x: 100, y: 100, color: '#9ca3af', isZero: true, stroke: '#4b5563' }, // Visible Gray, Label Repeat
     ],
     lines: [
         { from: 1, to: 2 }, { from: 1, to: 3 }, { from: 1, to: 0 },
