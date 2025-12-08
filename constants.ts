@@ -222,7 +222,7 @@ export const DATE_PALM_CONFIG = {
         { id: 9, label: 'Return', x: 100, y: 260, color: '#8b5cf6' }, // Yesod
         { id: 10, label: 'Ascension', x: 100, y: 310, color: '#f59e0b' }, // Malkuth
         // Node 0 - Daath Position
-        { id: 0, label: 'Repeat', x: 100, y: 100, color: '#9ca3af', isZero: true, stroke: '#4b5563' }, // Visible Gray, Label Repeat
+        { id: 0, label: 'Emergence', x: 100, y: 100, color: '#9ca3af', isZero: true, stroke: '#4b5563' }, // Visible Gray, Label Emergence
     ],
     lines: [
         { from: 1, to: 2 }, { from: 1, to: 3 }, { from: 1, to: 0 },

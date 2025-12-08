@@ -564,10 +564,10 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
             if (static108) chapters.push(static108);
 
         } else {
-            // Date Palm: Blessing | Bounty (108) > 1 > 2 > 3 > 4 > 5 > Patience | Time (103) > 6 > 7 > 8 > 9 > 10 > Triumph | The Absolute Truth (112)
+            // Date Palm: Blessing | Bounty (108) > 1 > 2 > 3 > 4 > 5 > Patience | Time (103) > 6 > 7 > 8 > 9 > 10 > Emergence | The Absolute Truth (112)
             const static108 = getStaticChapterData(108, 'Blessing', 'Bounty (108)', '');
             const static103 = getStaticChapterData(103, 'Patience', 'Time (103)', '');
-            const static112 = getStaticChapterData(112, 'Triumph', 'The Absolute Truth (112)', '');
+            const static112 = getStaticChapterData(112, 'Emergence', 'The Absolute Truth (112)', '');
 
             if (static108) chapters.push(static108);
             [1, 2, 3, 4, 5].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
