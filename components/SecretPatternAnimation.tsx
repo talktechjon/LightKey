@@ -552,13 +552,13 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
         };
 
         if (activeTab === 'zakkum') {
-            // Sequence: Beginning | Truth Always Wins (110) > 1 > 9 > 8 > 7 > 6 > Trial | Reflection (103) > 0 > 2 > 3 > 4 > 5 > Restoration | Bounty (108)
+            // Sequence: Beginning | Truth Always Wins (110) > 6 > 1 > 9 > 8 > 7 > Trial | Reflection (103) > 0 > 2 > 3 > 4 > 5 > Restoration | Bounty (108)
             const static110 = getStaticChapterData(110, 'Beginning', 'Truth Always Wins (110)', '');
             const static103 = getStaticChapterData(103, 'Trial', 'Reflection (103)', '');
             const static108 = getStaticChapterData(108, 'Restoration', 'Bounty (108)', '');
 
             if (static110) chapters.push(static110);
-            [1, 9, 8, 7, 6].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
+            [6, 1, 9, 8, 7].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
             if (static103) chapters.push(static103);
             [0, 2, 3, 4, 5].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
             if (static108) chapters.push(static108);
