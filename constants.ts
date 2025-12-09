@@ -213,7 +213,7 @@ export const DATE_PALM_CONFIG = {
     nodes: [
         { id: 1, label: 'Light', x: 100, y: 30, color: '#FFFFFF' }, // Kether
         { id: 2, label: 'Mercy', x: 170, y: 70, color: '#22d3ee' }, // Chokmah
-        { id: 3, label: 'Balance', x: 30, y: 70, color: '#facc15' }, // Binah
+        { id: 3, label: 'Earth', x: 30, y: 70, color: '#facc15' }, // Binah
         { id: 4, label: 'Root', x: 170, y: 130, color: '#854d0e' }, // Chesed
         { id: 5, label: 'Branch', x: 30, y: 130, color: '#22c55e' }, // Geburah
         { id: 6, label: 'Repentance', x: 100, y: 180, color: '#3b82f6' }, // Tifereth

@@ -695,13 +695,13 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
                     onClick={() => setActiveTab('zakkum')}
                     className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'zakkum' ? 'bg-red-900/50 text-red-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
                 >
-                    Zakkum
+                    Zakkum (Left)
                 </button>
                 <button
                     onClick={() => setActiveTab('datePalm')}
                     className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'datePalm' ? 'bg-emerald-900/50 text-emerald-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
                 >
-                    Date-Palm
+                    Date-Palm (Right)
                 </button>
             </div>
 
