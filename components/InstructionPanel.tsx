@@ -207,9 +207,22 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
              <div className="grid md:grid-cols-2 gap-6">
                <div className="bg-black/40 p-8 rounded-2xl border border-emerald-500/20 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1 shadow-[0_0_20px_rgba(16,185,129,0.05)] hover:shadow-[0_0_30px_rgba(16,185,129,0.1)]">
                  <h4 className="text-emerald-400 font-bold mb-3 tracking-wide uppercase text-sm">It enters the heart</h4>
-                 <p className="text-gray-300 leading-relaxed">
-                   The heart becomes <strong className="text-white">Āsiyah</strong> (faith under Taghūt), and action becomes <strong className="text-white">ʿĪsā</strong> — living knowledge that revives.
-                 </p>
+                 <div className="text-gray-300 leading-relaxed space-y-2">
+                   <p>The heart becomes <strong className="text-white">Āsiyah</strong> (faith under Taghūt),</p>
+                   <p>The hand becomes <strong className="text-white">Musa-Haroon</strong> (Sound of Truth) and <strong className="text-white">Muhammad-Ali</strong> (Silence of Truth)</p>
+                   <p>Preaching the Knowledge of <strong className="text-white">Isa</strong>, The Word of Allah.</p>
+                   
+                   <div className="py-2 pl-3 border-l-2 border-emerald-500/30 my-1 bg-emerald-950/10 rounded-r">
+                     <p className="text-emerald-200 font-medium">Hence Quran is the Living Messenger in form of Knowledge!</p>
+                   </div>
+
+                   <p>And With Quran — You become <strong className="text-white">Ahmed</strong> with Eyes and Hands of <strong className="text-white">Ibrahim</strong> (Witness of Truth)</p>
+                   
+                   <div className="pt-3 mt-2 border-t border-emerald-500/30 text-emerald-100 space-y-1">
+                     <p className="font-medium">That is — YOU become <strong className="text-white">Ahmed</strong>... Waiting to return to the Stone.</p>
+                     <p className="text-sm opacity-80">In Quran <strong className="text-white">Lut</strong> is in Reader's Position!</p>
+                   </div>
+                 </div>
                </div>
                <div className="bg-black/40 p-8 rounded-2xl border border-red-500/20 hover:border-red-500/50 transition-all duration-300 hover:-translate-y-1 shadow-[0_0_20px_rgba(239,68,68,0.05)] hover:shadow-[0_0_30px_rgba(239,68,68,0.1)]">
                  <h4 className="text-red-400 font-bold mb-3 tracking-wide uppercase text-sm">It is ignored</h4>
