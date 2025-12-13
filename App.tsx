@@ -7,6 +7,7 @@ import Tooltip from './components/Tooltip.tsx';
 import StarryBackground from './components/StarryBackground.tsx';
 import VerseFinder from './components/VerseFinder.tsx';
 import SettingsPanel from './components/SettingsPanel.tsx';
+import InstructionPanel from './components/InstructionPanel.tsx';
 import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent, VerseFinderContent, LocalTranslationData } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
 import { getVerse, getFullSurah, getVerseDetails } from './data/verseData.ts';
@@ -35,6 +36,9 @@ const App: React.FC = () => {
   const [translationMode, setTranslationMode] = useState<'online' | 'local'>('online');
   const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(null);
   const [localFileName, setLocalFileName] = useState<string | null>(null);
+  
+  // --- Instruction Panel State ---
+  const [isInstructionVisible, setIsInstructionVisible] = useState(false);
 
   // --- Idle Animation State ---
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
@@ -250,6 +254,13 @@ const App: React.FC = () => {
       className="w-full h-screen text-gray-100 font-sans relative flex flex-col overflow-hidden"
     >
       {!isLowResourceMode && <StarryBackground />}
+      
+      {/* Instruction Overlay */}
+      <InstructionPanel 
+        isVisible={isInstructionVisible} 
+        onClose={() => setIsInstructionVisible(false)} 
+      />
+
       <div className="absolute top-4 left-4 z-50 flex flex-col gap-y-2">
         <div className="flex gap-x-2">
           <a
@@ -391,16 +402,14 @@ const App: React.FC = () => {
 
       {/* Bottom Left Buttons: Intro & Knowledge Base */}
       <div className="fixed bottom-4 left-4 z-50 flex items-center gap-3">
-        <a
-          href="https://www.youtube.com/watch?v=ytKuGS85pZE"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={() => setIsInstructionVisible(true)}
           className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50 hover:border-cyan-400 hover:scale-110 shadow-[0_0_10px_rgba(0,255,255,0.2)]"
-          title="Watch Introduction"
-          aria-label="Watch Introduction Video"
+          title="How to Reflect (Protocol of Light)"
+          aria-label="Open Instruction Panel"
         >
           <span className="text-xl font-bold">?</span>
-        </a>
+        </button>
         
         <a
           href="https://notebooklm.google.com/notebook/4eedddbb-3085-4132-bce5-83d8e94dc815?authuser=5"
