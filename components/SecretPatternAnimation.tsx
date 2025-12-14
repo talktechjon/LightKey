@@ -135,9 +135,9 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
             };
         };
 
-        const static108 = getStaticChapterData(108, '🔥Promise', 'Nomination △');
+        const static108 = getStaticChapterData(108, '⚡Promise', 'Nomination △');
         const static103 = getStaticChapterData(103, '🐟 Protection', 'Uproot 🔥');
-        const static110 = getStaticChapterData(110, '🌳Return', 'Reward 🐟');
+        const static110 = getStaticChapterData(110, '🌳Return', 'Witness ⚫');
         const static112Start = getStaticChapterData(112, 'The Beginning ∞', '∞');
         const static112End = getStaticChapterData(112, 'Repeat ∞', '∞');
 
@@ -229,9 +229,9 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                     let label = '', staticContent = '', isStaticNode = false, fillColor = node.color, subLabel = '';
                     if (node.id > 12) {
                         isStaticNode = true;
-                        if (node.shape === 'volcano') staticContent = '△ 108 🔥';
+                        if (node.shape === 'volcano') staticContent = '△ 108 ⚡';
                         if (node.shape === 'fish') staticContent = '🔥 103 🐟';
-                        if (node.shape === 'palm') staticContent = '🐟 110 🌳';
+                        if (node.shape === 'palm') staticContent = '⚫ 110 🌳';
                     } else {
                         const chapterData = alignedChapters[index];
                         if (chapterData) {
