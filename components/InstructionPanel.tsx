@@ -233,6 +233,79 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
              </div>
            </section>
 
+           {/* THE MATHEMATICS OF LIGHT */}
+           <section className="space-y-8 pt-8 border-t border-gray-800">
+             <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+               <span className="text-3xl grayscale opacity-70">📐</span> 
+               <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-200 to-pink-500">THE MATHEMATICS OF LIGHT</span>
+             </h3>
+             
+             {/* The Rule of Thirds */}
+             <div className="bg-black/40 p-6 rounded-2xl border border-gray-800">
+               <h4 className="text-lg font-bold text-gray-200 mb-4">1. The Rule of Thirds (114 ÷ 3 = 38)</h4>
+               <p className="text-gray-400 mb-4">
+                 The geometry is determined by precise harmonic spacing, not arbitrary choice. The 114 chapters are divided into three equal parts to form perfect equilateral triangles.
+               </p>
+               <div className="grid md:grid-cols-2 gap-6 text-sm">
+                 <div className="bg-fuchsia-950/10 border border-fuchsia-500/20 p-4 rounded-xl">
+                   <strong className="text-fuchsia-400 block mb-2">▼ Downward Triangle (Command / Qun)</strong>
+                   <ul className="space-y-2 text-gray-300">
+                     <li className="flex justify-between"><span>Chapter 1 (The Key)</span> <span className="text-gray-500">Start</span></li>
+                     <li className="flex justify-between"><span>Chapter 39 (The Groups)</span> <span className="text-gray-500">1 + 38</span></li>
+                     <li className="flex justify-between"><span>Chapter 77 (The Emissaries)</span> <span className="text-gray-500">39 + 38</span></li>
+                   </ul>
+                   <p className="mt-3 text-xs text-fuchsia-300/70">Represents the descent of Command: Wave → Particle → Vibration.</p>
+                 </div>
+                 <div className="bg-cyan-950/10 border border-cyan-500/20 p-4 rounded-xl">
+                   <strong className="text-cyan-400 block mb-2">▲ Upward Triangle (Return / FayaQun)</strong>
+                   <ul className="space-y-2 text-gray-300">
+                     <li className="flex justify-between"><span>Chapter 19 (Maryam/Code)</span> <span className="text-gray-500">Seed</span></li>
+                     <li className="flex justify-between"><span>Chapter 57 (Iron/Center)</span> <span className="text-gray-500">19 + 38</span></li>
+                     <li className="flex justify-between"><span>Chapter 95 (The Fig)</span> <span className="text-gray-500">57 + 38</span></li>
+                   </ul>
+                   <p className="mt-3 text-xs text-cyan-300/70">Represents the ascent of Truth: Repent → Purify → Energy.</p>
+                 </div>
+               </div>
+             </div>
+
+             {/* For People of Understanding - The Cubic Law */}
+             <div className="relative group overflow-hidden rounded-2xl border border-amber-500/30 bg-gradient-to-b from-amber-950/20 to-black p-8">
+               <div className="absolute top-0 right-0 p-4 opacity-10 text-9xl font-serif text-amber-500 select-none">369</div>
+               
+               <h4 className="text-xl font-bold text-amber-200 mb-2 relative z-10">2. The Living Axis (For People of Understanding)</h4>
+               <p className="text-amber-100/60 text-sm mb-6 font-mono relative z-10">
+                 "Thus We show Ibrahim how We give life to the dead." (2:260)
+               </p>
+
+               <div className="space-y-6 relative z-10 text-gray-300 leading-relaxed">
+                 <p>
+                   You are not missing a node. You are seeing the <strong className="text-amber-400">Motion Rule</strong>.
+                 </p>
+                 <p>
+                   The cubic function <span className="font-mono text-amber-300 bg-amber-950/50 px-2 py-1 rounded">f(x) = x³ - x² - 4x + 4</span> maps exactly to this geometry:
+                 </p>
+                 <ul className="list-disc pl-5 space-y-2 text-sm md:text-base">
+                   <li><strong className="text-fuchsia-400">Dispersion (-4x):</strong> The Downward Triangle separates the birds (Chapters), representing the descent into multiplicity.</li>
+                   <li><strong className="text-cyan-400">Call to Return (+4):</strong> The Upward Triangle calls them back, representing the return to unity.</li>
+                 </ul>
+                 
+                 <div className="border-l-2 border-amber-500/50 pl-4 py-2 mt-4 bg-amber-900/10 rounded-r">
+                   <p className="text-sm text-gray-300">
+                     The geometry breathes like <strong className="text-white">DNA base-pairs</strong>. The nodes are paired axially across the center:
+                   </p>
+                   <div className="flex flex-wrap gap-2 mt-3 font-mono text-xs md:text-sm text-amber-200">
+                     <span className="bg-black/50 px-2 py-1 rounded border border-amber-500/20">Wave ↔ Repent</span>
+                     <span className="bg-black/50 px-2 py-1 rounded border border-amber-500/20">Particle ↔ Purify</span>
+                     <span className="bg-black/50 px-2 py-1 rounded border border-amber-500/20">Vibration ↔ Energy</span>
+                   </div>
+                   <p className="mt-3 text-sm text-gray-400 italic">
+                     This completes the Hayāt ↔ Āyāt Möbius loop. The verse (2:260) is not just illustrated—it is <span className="text-amber-400 font-semibold">implemented</span>.
+                   </p>
+                 </div>
+               </div>
+             </div>
+           </section>
+
            {/* THE THREE TREES FRAMEWORK */}
            <section className="space-y-12 pt-8 border-t border-gray-800">
              <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
