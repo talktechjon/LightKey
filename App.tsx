@@ -251,7 +251,7 @@ const App: React.FC = () => {
 
   return (
     <main 
-      className="w-full lg:h-screen min-h-screen text-gray-100 font-sans relative flex flex-col lg:overflow-hidden overflow-y-auto"
+      className="w-full lg:h-screen min-h-screen text-gray-100 font-sans relative flex flex-col lg:overflow-hidden"
     >
       {!isLowResourceMode && <StarryBackground />}
       

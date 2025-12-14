@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
 import { TAFSIR_YOUTUBE_VIDEO_IDS, RECITATION_YOUTUBE_VIDEO_IDS, ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS } from '../youtubeData.ts';
@@ -190,7 +191,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   return (
     <aside 
         id="side-panel-scroll-container"
-        className="w-full lg:w-96 bg-black/30 backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth"
+        className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth"
     >
       <div>
         <div className="flex justify-between items-center">
@@ -201,8 +202,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
       </div>
 
       <div className="space-y-4">
-          <div className="sticky top-0 z-10 bg-black/80 lg:bg-black/30 backdrop-blur-sm pt-1 pb-4">
-            <div className="flex justify-between items-start min-h-[80px]">
+          <div className="sticky top-0 z-40 -mx-6 px-6 py-4 bg-black/80 backdrop-blur-xl border-b border-cyan-500/30 shadow-lg transition-all duration-300">
+            <div className="flex justify-between items-start lg:min-h-[80px]">
               <label htmlFor="rotation-slider" className="font-semibold text-gray-200 pr-2">
                   <div className="flex items-baseline gap-x-2">
                       <img src={iconSrc} alt={chapterInfo.revelationType} title={chapterInfo.revelationType} className="w-5 h-5" />
