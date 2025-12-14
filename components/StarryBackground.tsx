@@ -163,7 +163,7 @@ const StarryBackground: React.FC = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, #1b2735 0%, #090a0f 100%)' }}/>;
+  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, #1b2735 0%, #090a0f 100%)' }}/>;
 };
 
 export default React.memo(StarryBackground);

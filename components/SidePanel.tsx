@@ -190,7 +190,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   return (
     <aside 
         id="side-panel-scroll-container"
-        className="w-full lg:w-96 bg-black/30 backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 overflow-y-auto scroll-smooth"
+        className="w-full lg:w-96 bg-black/30 backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth"
     >
       <div>
         <div className="flex justify-between items-center">
@@ -201,7 +201,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
       </div>
 
       <div className="space-y-4">
-          <div className="sticky top-0 z-10 bg-black/30 backdrop-blur-sm pt-1 pb-4">
+          <div className="sticky top-0 z-10 bg-black/80 lg:bg-black/30 backdrop-blur-sm pt-1 pb-4">
             <div className="flex justify-between items-start min-h-[80px]">
               <label htmlFor="rotation-slider" className="font-semibold text-gray-200 pr-2">
                   <div className="flex items-baseline gap-x-2">

@@ -251,7 +251,7 @@ const App: React.FC = () => {
 
   return (
     <main 
-      className="w-full h-screen text-gray-100 font-sans relative flex flex-col overflow-hidden"
+      className="w-full lg:h-screen min-h-screen text-gray-100 font-sans relative flex flex-col lg:overflow-hidden overflow-y-auto"
     >
       {!isLowResourceMode && <StarryBackground />}
       
@@ -349,9 +349,9 @@ const App: React.FC = () => {
       </div>
 
 
-      <div className="relative z-10 flex flex-col lg:flex-row flex-1 min-h-0">
+      <div className="relative z-10 flex flex-col lg:flex-row lg:flex-1 lg:min-h-0">
         <div 
-          className="h-1/3 lg:h-full lg:flex-1 flex items-center justify-center p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
+          className="h-[45vh] lg:h-full lg:flex-1 flex items-center justify-center p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 shrink-0"
           tabIndex={0}
           onKeyDown={handleKeyDown}
           role="application"
