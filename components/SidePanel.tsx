@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
+import { TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
 import { TAFSIR_YOUTUBE_VIDEO_IDS, RECITATION_YOUTUBE_VIDEO_IDS, ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS } from '../youtubeData.ts';
-import { getSliceAtPoint } from '../utils.ts';
+import { getSliceAtPoint, getChapterIcon } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
 import CustomAnimationControls from './CustomAnimationControls.tsx';
@@ -186,7 +185,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   const chapterInfo = CHAPTER_DETAILS[currentSliceId - 1];
   const isCurrentSliceMuqattat = MUQATTAT_CHAPTERS.has(currentSliceId);
   const muqattatLetters = MUQATTAT_LETTERS.get(currentSliceId);
-  const iconSrc = chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
+  const iconSrc = getChapterIcon(chapterInfo.revelationType);
 
   return (
     <aside 

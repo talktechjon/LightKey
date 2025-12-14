@@ -1,6 +1,6 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import { TooltipContent } from '../types.ts';
-import { MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
+import { getChapterIcon } from '../utils.ts';
 
 interface TooltipProps {
   visible: boolean;
@@ -67,7 +67,7 @@ const Tooltip: React.FC<TooltipProps> = ({ visible, content, position }) => {
   const renderContent = () => {
     if (content.type === 'chapter') {
         const { chapterDetails, verseCount, muqattat, color } = content;
-        const iconSrc = chapterDetails.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
+        const iconSrc = getChapterIcon(chapterDetails.revelationType);
         return (
             <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-3">

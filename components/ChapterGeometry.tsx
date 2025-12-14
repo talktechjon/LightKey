@@ -1,8 +1,7 @@
-
 import React from 'react';
-import { TRIANGLE_POINTS, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
+import { TRIANGLE_POINTS, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
 import { TrianglePoint } from '../types.ts';
-import { getSliceAtPoint } from '../utils.ts';
+import { getSliceAtPoint, getChapterIcon } from '../utils.ts';
 import VersePolygon from './VersePolygon.tsx';
 
 interface ChapterGeometryProps {
@@ -33,7 +32,7 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
           const pointName = typeParts.slice(1).join(' ').split('/')[0];
 
           const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
-          const iconSrc = chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
+          const iconSrc = getChapterIcon(chapterInfo.revelationType);
           return (
             <div 
               key={i} 

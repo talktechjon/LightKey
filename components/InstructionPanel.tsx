@@ -97,6 +97,51 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
              </p>
            </section>
 
+           {/* NO MAGIC, ONLY SIGNS */}
+           <section>
+             <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+               <span className="text-3xl grayscale opacity-70">⚛️</span> 
+               <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-200 to-purple-400">NO MAGIC, ONLY SIGNS</span>
+             </h3>
+             <div className="bg-gradient-to-br from-violet-950/20 to-black p-8 rounded-2xl border border-violet-500/30 shadow-[0_0_20px_rgba(139,92,246,0.05)]">
+                <p className="text-lg text-gray-200 mb-6 leading-relaxed">
+                  Words like "Magic" or "Miracle" are words for the ignorant who do not know Science or Signs.
+                </p>
+                <div className="space-y-5 text-gray-300 font-light leading-relaxed">
+                  <p>
+                    The Qur’an never frames Allah’s signs as magic or miracles for spectacle; it frames them as <strong className="text-violet-300">āyāt (signs)</strong> governed by law, permission, and wisdom—misread as “magic” only by ignorance.
+                  </p>
+                  <p>
+                    Allah explicitly separates signs from <em>siḥr</em> (2:102), calls His workings <strong className="text-violet-300">bayyināt</strong> (clear evidences) rather than marvels (2:87; 6:104), and grounds transformation in knowledge and Light (6:122), not theatrics.
+                  </p>
+                  <p>
+                    Even in ʿĪsā’s acts, the refrain <span className="text-white border-b border-violet-500/30">“by My permission”</span> (3:49; 5:110) nullifies spectacle and restores causality, order, and accountability. The Qur’an teaches <strong className="text-white">how reality works</strong>, not how to be impressed.
+                  </p>
+                  
+                  <div className="py-6 text-center">
+                    <span className="text-xl md:text-3xl font-serif text-violet-200 italic drop-shadow-md">
+                      "Science reflects the signs; ignorance invents 'miracles'."
+                    </span>
+                  </div>
+
+                  <div className="pt-5 border-t border-violet-500/20">
+                    <div className="flex flex-col md:flex-row gap-4 items-start md:items-center bg-violet-900/10 p-4 rounded-lg">
+                      <div className="p-2 bg-violet-500/20 rounded-full text-xl">⏳</div>
+                      <div>
+                        <strong className="text-violet-300 uppercase tracking-wider text-xs block mb-1">Eternity Principle</strong>
+                        <p className="text-sm text-gray-300 mb-2">
+                          The Qur’an is <strong className="text-white">Eternal</strong> (Independent of Time). It is a mistake to view it merely as a "revelation of the past". It is the Living Code, active now.
+                        </p>
+                        <p className="text-xs text-violet-200/70 italic border-l-2 border-violet-500/30 pl-2">
+                          43:30, 27:13–14, 51:52, 74:24, 5:70 — all state that calling Allah’s signs or message “magic (siḥr)” is the language of disbelief, repeated whenever eternal truth confronts resistance.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+             </div>
+           </section>
+
            {/* ĀYĀT & HAYĀT */}
            <section>
              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
@@ -124,76 +169,112 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
              </div>
            </section>
 
-           {/* THE FOUR PHASES */}
+           {/* THE FOUR PHASES OF GUIDANCE -> SŪRAH 112 ALGORITHM */}
            <section className="relative">
              <div className="absolute left-4 top-16 bottom-0 w-px bg-gradient-to-b from-gray-700 via-gray-600 to-transparent hidden md:block"></div>
              
              <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-               <span className="text-3xl grayscale opacity-70">🪜</span> 
-               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-200 to-teal-500">THE FOUR PHASES OF GUIDANCE</span>
+               <span className="text-3xl grayscale opacity-70">💎</span> 
+               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-200 to-teal-500">SŪRAH 112: THE GUIDANCE ALGORITHM</span>
              </h3>
+             
+             <p className="mb-8 text-gray-300 md:pl-12">
+               Surah 112 is not just theology — it is a <strong>guidance operator</strong> acting on the cubic cycle. Each verse performs a distinct corrective function against Taghūt (Entropy) before the system reboots.
+             </p>
 
-             <div className="space-y-8 md:pl-12">
-               {/* Phase 0 */}
-               <div className="relative group">
-                 <div className="absolute -left-[3.25rem] top-1.5 w-6 h-6 rounded-full bg-gray-800 border-2 border-red-500/50 group-hover:border-red-500 transition-colors hidden md:block shadow-[0_0_10px_rgba(239,68,68,0.2)]"></div>
-                 <div className="bg-gradient-to-r from-red-950/30 to-transparent p-6 rounded-xl border-l-2 border-red-500/50 hover:border-red-500 transition-colors">
-                   <strong className="text-red-400 block mb-2 font-mono text-sm tracking-widest">PHASE 0 — TAGHŪT (DECOHERENCE)</strong>
-                   <p className="text-gray-300 mb-3">Signs denied or abused. Life ruled by conjecture. Āyāt and Hayāt separate. Balance breaks (55:8–9).</p>
-                   <p className="text-xs text-red-300 italic">“They follow nothing but assumption…” (53:28)</p>
-                 </div>
-               </div>
-
-               {/* Phase 1 */}
+             <div className="space-y-10 md:pl-12">
+               {/* Phase 1: Ibrāhīm */}
                <div className="relative group">
                  <div className="absolute -left-[3.25rem] top-1.5 w-6 h-6 rounded-full bg-gray-800 border-2 border-amber-500/50 group-hover:border-amber-500 transition-colors hidden md:block shadow-[0_0_10px_rgba(245,158,11,0.2)]"></div>
                  <div className="bg-gradient-to-r from-amber-950/30 to-transparent p-6 rounded-xl border-l-2 border-amber-500/50 hover:border-amber-500 transition-colors">
-                   <strong className="text-amber-400 block mb-2 font-mono text-sm tracking-widest">PHASE 1 — IBRĀHĪM (FIRST COLLAPSE)</strong>
-                   <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-300 mb-2">
-                      <div><span className="text-amber-200">Wave:</span> Rushd appears unseen.</div>
-                      <div><span className="text-amber-200">Particle:</span> Action breaks idols.</div>
+                   <div className="flex justify-between items-start mb-2">
+                     <strong className="text-amber-400 font-mono text-base tracking-widest">1. IBRĀHĪM IN THE FIRE — UNITY ASSERTED</strong>
+                     <span className="text-xs font-mono text-amber-500/80 border border-amber-500/30 px-1.5 py-0.5 rounded">112:1</span>
                    </div>
-                   <p className="text-gray-400 text-sm">Fire fails to destroy truth (21:69). Truth is heard, then acted.</p>
-                 </div>
-               </div>
-
-               {/* Phase 2 */}
-               <div className="relative group">
-                 <div className="absolute -left-[3.25rem] top-1.5 w-6 h-6 rounded-full bg-gray-800 border-2 border-orange-500/50 group-hover:border-orange-500 transition-colors hidden md:block shadow-[0_0_10px_rgba(249,115,22,0.2)]"></div>
-                 <div className="bg-gradient-to-r from-orange-950/30 to-transparent p-6 rounded-xl border-l-2 border-orange-500/50 hover:border-orange-500 transition-colors">
-                   <strong className="text-orange-400 block mb-2 font-mono text-sm tracking-widest">PHASE 2 — THE FIRE LAW</strong>
-                   <p className="text-gray-300 mb-3">The universal form of Ibrāhīm vs Fire. Everyone meets Fire.</p>
-                   <p className="text-orange-200 font-medium">Fire does not destroy truth — <span className="text-white underline decoration-orange-500 decoration-2 underline-offset-2">it filters</span>.</p>
-                   <p className="text-xs text-orange-300 italic mt-3">Ref: 19:71–72</p>
-                 </div>
-               </div>
-
-               {/* Phase 3 */}
-               <div className="relative group">
-                 <div className="absolute -left-[3.25rem] top-1.5 w-6 h-6 rounded-full bg-gray-800 border-2 border-cyan-500/50 group-hover:border-cyan-500 transition-colors hidden md:block shadow-[0_0_10px_rgba(6,182,212,0.2)]"></div>
-                 <div className="bg-gradient-to-r from-cyan-950/30 to-transparent p-6 rounded-xl border-l-2 border-cyan-500/50 hover:border-cyan-500 transition-colors">
-                   <strong className="text-cyan-400 block mb-2 font-mono text-sm tracking-widest">PHASE 3 — MARYAM–ʿĪSĀ (PHASE INVERSION)</strong>
-                   <p className="text-gray-300 mb-2">The crossroad.</p>
-                   <ul className="list-disc pl-5 text-sm text-gray-300 space-y-1 mb-3">
-                     <li><span className="text-cyan-200">Āyah</span> becomes particle (embodied sign).</li>
-                     <li><span className="text-cyan-200">Hayāt</span> becomes wave (mercy spreading).</li>
+                   <p className="text-gray-200 italic mb-4 font-serif text-lg">“O fire, be coolness and safety for Ibrāhīm.” <span className="text-sm text-gray-400 not-italic">(21:69)</span></p>
+                   <ul className="list-disc pl-5 text-base text-gray-300 space-y-2 mb-4">
+                     <li>Fire = Total system stress.</li>
+                     <li>Ibrāhīm stands <strong>without intermediary</strong>.</li>
+                     <li>Truth survives by <strong className="text-amber-200">Unity (Aḥad)</strong> alone.</li>
                    </ul>
-                   <p className="text-sm text-cyan-100">ʿĪsā represents <strong>living knowledge</strong>.</p>
+                   <div className="text-sm text-amber-300/80 font-mono mt-2 pt-2 border-t border-amber-500/20">
+                     CUBIC ROLE: Collapse of false multiplicity (-x²). What cannot align with Aḥad burns away.
+                   </div>
                  </div>
                </div>
 
-               {/* Phase 4 */}
+               {/* Phase 2: Ādam */}
                <div className="relative group">
                  <div className="absolute -left-[3.25rem] top-1.5 w-6 h-6 rounded-full bg-gray-800 border-2 border-emerald-500/50 group-hover:border-emerald-500 transition-colors hidden md:block shadow-[0_0_10px_rgba(16,185,129,0.2)]"></div>
                  <div className="bg-gradient-to-r from-emerald-950/30 to-transparent p-6 rounded-xl border-l-2 border-emerald-500/50 hover:border-emerald-500 transition-colors">
-                   <strong className="text-emerald-400 block mb-2 font-mono text-sm tracking-widest">PHASE 4 — THE QUR’AN (COHERENCE RESTORED)</strong>
-                   <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-300 mb-2">
-                      <div><span className="text-emerald-200">Wave:</span> The Book propagates endlessly.</div>
-                      <div><span className="text-emerald-200">Particle:</span> The servant embodies it.</div>
+                   <div className="flex justify-between items-start mb-2">
+                     <strong className="text-emerald-400 font-mono text-base tracking-widest">2. ĀDAM & SHAYṬĀN — DEPENDENCE REALIZED</strong>
+                     <span className="text-xs font-mono text-emerald-500/80 border border-emerald-500/30 px-1.5 py-0.5 rounded">112:2</span>
                    </div>
-                   <p className="text-emerald-200 text-sm mt-2 font-serif italic">The House (Kaʿbah) anchors return.</p>
+                   <p className="text-gray-200 italic mb-4 font-serif text-lg">“Then Ādam received words from his Lord…” <span className="text-sm text-gray-400 not-italic">(2:37)</span></p>
+                   <ul className="list-disc pl-5 text-base text-gray-300 space-y-2 mb-4">
+                     <li>Shayṭān exposes weakness.</li>
+                     <li>Ādam learns <strong>return, not rebellion</strong>.</li>
+                     <li>Refuge in <strong className="text-emerald-200">Aṣ-Ṣamad</strong> (The Eternal Refuge) restores balance.</li>
+                   </ul>
+                   <div className="text-sm text-emerald-300/80 font-mono mt-2 pt-2 border-t border-emerald-500/20">
+                     CUBIC ROLE: Forced individuation (-4x). Each soul is tested alone, no cover.
+                   </div>
                  </div>
                </div>
+
+               {/* Phase 3: Maryam-Isa */}
+               <div className="relative group">
+                 <div className="absolute -left-[3.25rem] top-1.5 w-6 h-6 rounded-full bg-gray-800 border-2 border-cyan-500/50 group-hover:border-cyan-500 transition-colors hidden md:block shadow-[0_0_10px_rgba(6,182,212,0.2)]"></div>
+                 <div className="bg-gradient-to-r from-cyan-950/30 to-transparent p-6 rounded-xl border-l-2 border-cyan-500/50 hover:border-cyan-500 transition-colors">
+                   <div className="flex justify-between items-start mb-2">
+                     <strong className="text-cyan-400 font-mono text-base tracking-widest">3. MARYAM–ʿĪSĀ — NON-GENETIC TRUTH</strong>
+                     <span className="text-xs font-mono text-cyan-500/80 border border-cyan-500/30 px-1.5 py-0.5 rounded">112:3</span>
+                   </div>
+                   <p className="text-gray-200 italic mb-4 font-serif text-lg">“…you formed from clay the form of a bird by My permission…” <span className="text-sm text-gray-400 not-italic">(5:110)</span></p>
+                   <ul className="list-disc pl-5 text-base text-gray-300 space-y-2 mb-4">
+                     <li>Truth enters history <strong>without inheritance</strong>.</li>
+                     <li>Āyah becomes <strong>embodied command</strong>.</li>
+                     <li>Knowledge lives; flesh expires.</li>
+                   </ul>
+                   <div className="text-sm text-cyan-300/80 font-mono mt-2 pt-2 border-t border-cyan-500/20">
+                     CUBIC ROLE: Constant term (+4). Truth appears only by Divine permission, not human craft.
+                   </div>
+                 </div>
+               </div>
+
+               {/* Phase 4: Nuh/Cave */}
+               <div className="relative group">
+                 <div className="absolute -left-[3.25rem] top-1.5 w-6 h-6 rounded-full bg-gray-800 border-2 border-violet-500/50 group-hover:border-violet-500 transition-colors hidden md:block shadow-[0_0_10px_rgba(139,92,246,0.2)]"></div>
+                 <div className="bg-gradient-to-r from-violet-950/30 to-transparent p-6 rounded-xl border-l-2 border-violet-500/50 hover:border-violet-500 transition-colors">
+                   <div className="flex justify-between items-start mb-2">
+                     <strong className="text-violet-400 font-mono text-base tracking-widest">4. NŪḤ / THE CAVE — THE FLOATING WOMB</strong>
+                     <span className="text-xs font-mono text-violet-500/80 border border-violet-500/30 px-1.5 py-0.5 rounded">112:4</span>
+                   </div>
+                   <div className="space-y-3 mb-4">
+                     <p className="text-gray-200 italic font-serif text-lg border-l-2 border-violet-500/30 pl-3">
+                       “Our Lord, grant us mercy from Yourself and prepare for us right guidance.” <span className="text-sm text-gray-400 not-italic block mt-1">(18:10)</span>
+                     </p>
+                     <p className="text-gray-400 italic font-serif text-sm pl-3">
+                       “We carried him upon a vessel…” (54:13)
+                     </p>
+                   </div>
+                   <ul className="list-disc pl-5 text-base text-gray-300 space-y-2 mb-4">
+                     <li>Total separation from Taghūt.</li>
+                     <li>Ark / Cave = <strong>truth-preserving enclosure</strong>.</li>
+                     <li>The <strong className="text-violet-200">Sleepers of the Cave</strong> are the readers — <strong className="text-white">Ahmed</strong> separated from Taghūt.</li>
+                     <li>Isolation is not escape — it is <strong>alignment</strong>.</li>
+                   </ul>
+                   <div className="text-sm text-violet-300/80 font-mono mt-2 pt-2 border-t border-violet-500/20">
+                     CUBIC ROLE: System reset → One coherent solution remains (No rival endures).
+                   </div>
+                 </div>
+               </div>
+             </div>
+             
+             <div className="mt-8 text-center text-sm font-medium text-gray-400 border-t border-gray-800 pt-6">
+                Fire → Error → Permission → Isolation <br/>
+                <span className="text-white mt-2 inline-block">Every cycle ends with one surviving structure, then re-expands.</span>
              </div>
            </section>
 

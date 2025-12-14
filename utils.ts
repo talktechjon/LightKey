@@ -1,4 +1,4 @@
-import { TOTAL_SLICES, SLICE_DATA } from './constants.ts';
+import { TOTAL_SLICES, SLICE_DATA, MAKKI_ICON_SVG, MADANI_ICON_SVG } from './constants.ts';
 import type { SliceData } from './types.ts';
 import * as d3 from 'd3';
 
@@ -43,6 +43,15 @@ export const getSliceAtPoint = (pointValue: number, rotation: number): SliceData
  */
 export const getSliceIdAtPoint = (pointValue: number, rotation: number): number => {
     return getSliceAtPoint(pointValue, rotation).id;
+};
+
+/**
+ * Returns the appropriate SVG icon data URI based on the revelation type.
+ * @param revelationType The revelation type ('Makki' or 'Madani').
+ * @returns The SVG data URI.
+ */
+export const getChapterIcon = (revelationType: string) => {
+    return revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
 };
 
 /**

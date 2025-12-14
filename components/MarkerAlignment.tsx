@@ -1,7 +1,6 @@
-
 import React, { useMemo } from 'react';
-import { ICON_DIAL_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG } from '../constants.ts';
-import { getSliceAtPoint, colorScale, polarToCartesian } from '../utils.ts';
+import { ICON_DIAL_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS } from '../constants.ts';
+import { getSliceAtPoint, colorScale, polarToCartesian, getChapterIcon } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
 import { LoadSequenceIcon } from './Icons.tsx';
@@ -188,7 +187,7 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                         const muqattatLetters = MUQATTAT_LETTERS.get(slice.id);
                         const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
                         const chapterColor = colorScale(slice.id);
-                        const iconSrc = chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
+                        const iconSrc = getChapterIcon(chapterInfo.revelationType);
 
                         // Highlight 3, 6, 9
                         const isHighlighted = [3, 6, 9].includes(position);
@@ -238,7 +237,7 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                             const slice = getSliceAtPoint(marker.chapter, relativeRotation);
                             const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
                             const isMuqattat = MUQATTAT_CHAPTERS.has(slice.id);
-                            const iconSrc = chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
+                            const iconSrc = getChapterIcon(chapterInfo.revelationType);
                             return (
                                 <div key={`down-${marker.id}`} className="flex items-center gap-x-2 overflow-hidden">
                                     <span className="text-base">{marker.emoji}</span>
@@ -258,7 +257,7 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                             const slice = getSliceAtPoint(marker.chapter, relativeRotation);
                             const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
                             const isMuqattat = MUQATTAT_CHAPTERS.has(slice.id);
-                            const iconSrc = chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
+                            const iconSrc = getChapterIcon(chapterInfo.revelationType);
                             return (
                                 <div key={`up-${marker.id}`} className="flex items-center gap-x-2 overflow-hidden">
                                     <span className="text-base">{marker.emoji}</span>

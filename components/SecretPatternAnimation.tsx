@@ -2,8 +2,8 @@
 import React, { useMemo, useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import * as d3 from 'd3';
-import { KATHARA_CLOCK_POINTS, KATHARA_GRID_NODES, KATHARA_GRID_LINES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, MAKKI_ICON_SVG, MADANI_ICON_SVG, SLICE_DATA, ZAKKUM_CONFIG, DATE_PALM_CONFIG } from '../constants.ts';
-import { getSliceAtPoint, colorScale } from '../utils.ts';
+import { KATHARA_CLOCK_POINTS, KATHARA_GRID_NODES, KATHARA_GRID_LINES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, SLICE_DATA, ZAKKUM_CONFIG, DATE_PALM_CONFIG } from '../constants.ts';
+import { getSliceAtPoint, colorScale, getChapterIcon } from '../utils.ts';
 import { PlaylistType, SliceData, ChapterDetails } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
 import { LoadSequenceIcon } from './Icons.tsx';
@@ -40,9 +40,9 @@ interface StaticChapter extends BaseChapterData {
 
 type DisplayChapter = AlignedChapter | StaticChapter;
 
-export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
+// Shared hook for responsive portal positioning logic
+const useDiagramPortal = (listRef: React.RefObject<HTMLDivElement>) => {
     const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1024 : false);
-    const listRef = useRef<HTMLDivElement>(null);
     const floatingRef = useRef<HTMLDivElement>(null);
     const portalRoot = typeof document !== 'undefined' ? document.getElementById('kathara-portal-root') : null;
 
@@ -54,7 +54,8 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
 
     useLayoutEffect(() => {
         if (!isDesktop) return;
-
+        
+        let rafId: number;
         const updatePosition = () => {
             const listEl = listRef.current;
             const floatingEl = floatingRef.current;
@@ -63,7 +64,6 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
             if (listEl && floatingEl && scrollContainer) {
                 const listRect = listEl.getBoundingClientRect();
                 const containerRect = scrollContainer.getBoundingClientRect();
-
                 const diagramWidth = 240;
                 const x = containerRect.left - diagramWidth + 12;
                 const y = listRect.top;
@@ -71,31 +71,27 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                 floatingEl.style.transform = `translate3d(${x}px, ${y}px, 0)`;
                 floatingEl.style.height = `${listRect.height}px`;
                 floatingEl.style.width = `${diagramWidth}px`;
-
-                const isVisible = 
-                    listRect.bottom > containerRect.top + 50 && 
-                    listRect.top < containerRect.bottom - 50;
-
+                
+                const isVisible = listRect.bottom > containerRect.top + 50 && listRect.top < containerRect.bottom - 50;
                 floatingEl.style.opacity = isVisible ? '1' : '0';
             }
         };
 
-        const scrollContainer = document.getElementById('side-panel-scroll-container');
-        let rafId: number;
-        
         const loop = () => {
             updatePosition();
             rafId = requestAnimationFrame(loop);
         };
-
-        if (scrollContainer) {
-            rafId = requestAnimationFrame(loop);
-        }
         
-        return () => {
-            cancelAnimationFrame(rafId);
-        };
-    }, [isDesktop, rotation]);
+        rafId = requestAnimationFrame(loop);
+        return () => cancelAnimationFrame(rafId);
+    }, [isDesktop]);
+
+    return { isDesktop, floatingRef, portalRoot };
+};
+
+export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
+    const listRef = useRef<HTMLDivElement>(null);
+    const { isDesktop, floatingRef, portalRoot } = useDiagramPortal(listRef);
 
     const alignedChapters: AlignedChapter[] = useMemo(() => {
         const labels = [
@@ -112,7 +108,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                 chapterInfo,
                 isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
                 muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
-                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                iconSrc: getChapterIcon(chapterInfo.revelationType),
                 clockIndex: index + 1,
                 clockLabel: labels[index]
             };
@@ -131,7 +127,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                 chapterInfo,
                 isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
                 muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
-                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                iconSrc: getChapterIcon(chapterInfo.revelationType),
                 staticLabel: label,
                 staticEmoji: bulletEmoji,
                 contentEmoji: contentEmoji,
@@ -160,15 +156,12 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
 
     const handleLoadKatharaSequence = () => {
         setAnimationMode('off');
-        const chapterIds = displayChapters
-            .map(c => c.slice.id);
+        const chapterIds = displayChapters.map(c => c.slice.id);
         setCustomSequence(chapterIds.join(', '));
     };
 
     const handleWatchKatharaSequence = (type: PlaylistType) => {
-        const chapterIds = displayChapters
-            .slice(1) 
-            .map(c => c.slice.id);
+        const chapterIds = displayChapters.slice(1).map(c => c.slice.id);
         createPlaylist(type, chapterIds);
     };
 
@@ -177,22 +170,12 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
     const getVerticalWavePath = (x1: number, y1: number, x2: number, y2: number) => {
         const dy = y2 - y1;
         const amp = 7;
-        return `M ${x1} ${y1} 
-                Q ${x1 + amp} ${y1 + dy * 0.125} ${x1} ${y1 + dy * 0.25} 
-                T ${x1} ${y1 + dy * 0.5} 
-                T ${x1} ${y1 + dy * 0.75} 
-                T ${x1} ${y2}`;
+        return `M ${x1} ${y1} Q ${x1 + amp} ${y1 + dy * 0.125} ${x1} ${y1 + dy * 0.25} T ${x1} ${y1 + dy * 0.5} T ${x1} ${y1 + dy * 0.75} T ${x1} ${y2}`;
     };
 
     const renderDiagram = () => (
         <div className="flex justify-center w-full h-full">
-            <svg 
-                viewBox="0 0 150 280" 
-                preserveAspectRatio={isDesktop ? "none" : "xMidYMid meet"} 
-                width="100%" 
-                height="100%" 
-                aria-hidden="true"
-            >
+            <svg viewBox="0 0 150 280" preserveAspectRatio={isDesktop ? "none" : "xMidYMid meet"} width="100%" height="100%" aria-hidden="true">
                 <g strokeWidth="1.5">
                     {KATHARA_GRID_LINES.map((line, index) => {
                         const fromNode = nodeMap.get(line.from);
@@ -236,39 +219,14 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                             const textX = midX + offsetX;
                             const textY = midY;
 
-                            label = (
-                                <text 
-                                    key={`label-${index}`}
-                                    x={textX} 
-                                    y={textY} 
-                                    transform={`rotate(-90, ${textX}, ${textY})`}
-                                    textAnchor="middle" 
-                                    dominantBaseline="middle"
-                                    fontSize="8"
-                                    fontWeight="bold"
-                                    fill="#f0abfc"
-                                    style={{ textShadow: '0 0 4px rgba(0,0,0,0.8)' }}
-                                >
-                                    {text}
-                                </text>
-                            );
+                            label = <text key={`label-${index}`} x={textX} y={textY} transform={`rotate(-90, ${textX}, ${textY})`} textAnchor="middle" dominantBaseline="middle" fontSize="8" fontWeight="bold" fill="#f0abfc" style={{ textShadow: '0 0 4px rgba(0,0,0,0.8)' }}>{text}</text>;
                         }
 
-                        return (
-                            <React.Fragment key={index}>
-                                {renderedLine}
-                                {label}
-                            </React.Fragment>
-                        );
+                        return <React.Fragment key={index}>{renderedLine}{label}</React.Fragment>;
                     })}
                 </g>
                 {KATHARA_GRID_NODES.map((node, index) => {
-                    let label = '';
-                    let staticContent = '';
-                    let isStaticNode = false;
-                    let fillColor = node.color;
-                    let subLabel = '';
-
+                    let label = '', staticContent = '', isStaticNode = false, fillColor = node.color, subLabel = '';
                     if (node.id > 12) {
                         isStaticNode = true;
                         if (node.shape === 'volcano') staticContent = '△ 108 🔥';
@@ -282,50 +240,16 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                             subLabel = chapterData.clockLabel;
                         }
                     }
-                    
                     const textColor = d3.lab(fillColor).l < 60 ? 'white' : 'black';
-
                     return (
                         <g key={node.id}>
                             {isStaticNode ? (
-                                <text 
-                                    x={node.x} 
-                                    y={node.y} 
-                                    textAnchor="middle" 
-                                    dominantBaseline="middle"
-                                    fontSize="9"
-                                    fontWeight="bold"
-                                    fill="white"
-                                    style={{ textShadow: '0 0 3px black', letterSpacing: '-0.5px' }}
-                                >
-                                    {staticContent}
-                                </text>
+                                <text x={node.x} y={node.y} textAnchor="middle" dominantBaseline="middle" fontSize="9" fontWeight="bold" fill="white" style={{ textShadow: '0 0 3px black', letterSpacing: '-0.5px' }}>{staticContent}</text>
                             ) : (
                                 <g>
                                     <circle cx={node.x} cy={node.y} r={node.r} fill={fillColor} stroke="#1f2937" strokeWidth="0.5" />
-                                    <text 
-                                        x={node.x} 
-                                        y={node.y} 
-                                        textAnchor="middle" 
-                                        dy=".3em" 
-                                        fontSize="10" 
-                                        fontWeight="bold" 
-                                        fill={textColor}>
-                                        {label}
-                                    </text>
-                                    {subLabel && (
-                                        <text
-                                            x={node.x}
-                                            y={node.y + 13}
-                                            textAnchor="middle"
-                                            fontSize="4.5"
-                                            fill="#94a3b8"
-                                            fontWeight="normal"
-                                            style={{ textShadow: '0 0 2px black' }}
-                                        >
-                                            {subLabel}
-                                        </text>
-                                    )}
+                                    <text x={node.x} y={node.y} textAnchor="middle" dy=".3em" fontSize="10" fontWeight="bold" fill={textColor}>{label}</text>
+                                    {subLabel && <text x={node.x} y={node.y + 13} textAnchor="middle" fontSize="4.5" fill="#94a3b8" fontWeight="normal" style={{ textShadow: '0 0 2px black' }}>{subLabel}</text>}
                                 </g>
                             )}
                         </g>
@@ -340,11 +264,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
             <div className="flex justify-between items-center">
                 <h2 className="text-xl font-bold text-gray-200 tracking-wider">Tree of Life</h2>
                 <div className="flex items-center space-x-2">
-                    <button
-                        onClick={handleLoadKatharaSequence}
-                        className="bg-gray-600 hover:bg-cyan-700 text-white font-bold p-2 rounded transition-colors duration-200 flex-shrink-0"
-                        title="Load Tree of Life sequence into custom sequence"
-                    >
+                    <button onClick={handleLoadKatharaSequence} className="bg-gray-600 hover:bg-cyan-700 text-white font-bold p-2 rounded transition-colors duration-200 flex-shrink-0" title="Load Tree of Life sequence into custom sequence">
                         <LoadSequenceIcon />
                     </button>
                     <PlaylistButtons onWatch={handleWatchKatharaSequence} />
@@ -353,23 +273,10 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
             <div className="w-full h-px bg-gray-500/50 mt-2"></div>
 
             {!isDesktop ? (
-                <div className="my-4 h-[420px]">
-                    {renderDiagram()}
-                </div>
+                <div className="my-4 h-[420px]">{renderDiagram()}</div>
             ) : (
                 portalRoot && createPortal(
-                    <div 
-                        ref={floatingRef}
-                        style={{ 
-                            position: 'fixed', 
-                            top: 0,
-                            left: 0,
-                            zIndex: 5, 
-                            pointerEvents: 'none',
-                            opacity: 0,
-                            willChange: 'transform, height',
-                        }}
-                    >
+                    <div ref={floatingRef} style={{ position: 'fixed', top: 0, left: 0, zIndex: 5, pointerEvents: 'none', opacity: 0, willChange: 'transform, height' }}>
                         {renderDiagram()}
                     </div>,
                     portalRoot
@@ -380,7 +287,6 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                 {displayChapters.map((chapterData, index) => {
                     const chapterColor = colorScale(chapterData.slice.id);
                     const isStatic = 'isStatic' in chapterData;
-                    
                     let labelStyle = {};
                     let labelClass = "font-mono text-[10px] whitespace-nowrap overflow-hidden text-ellipsis tracking-tight";
 
@@ -395,18 +301,9 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                     }
 
                     return (
-                        <div 
-                            key={index} 
-                            className={`
-                                grid grid-cols-[7rem_1fr] gap-x-1 items-center rounded px-2 py-1.5 transition-colors
-                                ${isStatic ? 'bg-gray-800/50 border border-gray-700/50' : 'hover:bg-white/5 border border-transparent'}
-                            `}
-                        >
+                        <div key={index} className={`grid grid-cols-[7rem_1fr] gap-x-1 items-center rounded px-2 py-1.5 transition-colors ${isStatic ? 'bg-gray-800/50 border border-gray-700/50' : 'hover:bg-white/5 border border-transparent'}`}>
                             <span className={labelClass} style={labelStyle}>
-                                {isStatic 
-                                    ? (chapterData as StaticChapter).staticEmoji 
-                                    : `${(chapterData as AlignedChapter).clockIndex} ${(chapterData as AlignedChapter).clockLabel}:`
-                                }
+                                {isStatic ? (chapterData as StaticChapter).staticEmoji : `${(chapterData as AlignedChapter).clockIndex} ${(chapterData as AlignedChapter).clockLabel}:`}
                             </span>
                             <div className="flex items-center min-w-0">
                                 <div className="w-5 flex-shrink-0 flex justify-center mr-1">
@@ -415,14 +312,11 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                                 <div className="flex items-baseline min-w-0 flex-1 gap-x-2">
                                     <span className="truncate flex-1 flex items-center gap-1" title={`${chapterData.slice.id}: ${chapterData.chapterInfo.englishName}`} style={{ color: chapterColor }}>
                                         <span className={`font-semibold flex-shrink-0 ${chapterData.isMuqattat ? 'muqattat-glow' : ''}`}>
-                                            {(isStatic && (chapterData as StaticChapter).contentEmoji) ? (chapterData as StaticChapter).contentEmoji : ''}
-                                            {chapterData.slice.id}:
+                                            {(isStatic && (chapterData as StaticChapter).contentEmoji) ? (chapterData as StaticChapter).contentEmoji : ''}{chapterData.slice.id}:
                                         </span>
                                         <span className="truncate">{isStatic ? (chapterData as StaticChapter).staticLabel : chapterData.chapterInfo.englishName}</span>
                                     </span>
-                                    {chapterData.muqattatLetters && (
-                                        <span className="font-mono text-xs muqattat-glow flex-shrink-0 opacity-80" dir="rtl">{chapterData.muqattatLetters.join(' ')}</span>
-                                    )}
+                                    {chapterData.muqattatLetters && <span className="font-mono text-xs muqattat-glow flex-shrink-0 opacity-80" dir="rtl">{chapterData.muqattatLetters.join(' ')}</span>}
                                 </div>
                             </div>
                         </div>
@@ -434,64 +328,11 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
 };
 
 export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
-    const [activeTab, setActiveTab] = useState<'zakkum' | 'datePalm'>('zakkum');
-    const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1024 : false);
+    const [activeTab, setActiveTab] = useState<'zakkum' | 'datePalm'>('datePalm');
     const listRef = useRef<HTMLDivElement>(null);
-    const floatingRef = useRef<HTMLDivElement>(null);
-    const portalRoot = typeof document !== 'undefined' ? document.getElementById('kathara-portal-root') : null;
+    const { isDesktop, floatingRef, portalRoot } = useDiagramPortal(listRef);
 
     const currentConfig = activeTab === 'zakkum' ? ZAKKUM_CONFIG : DATE_PALM_CONFIG;
-
-    useEffect(() => {
-        const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    useLayoutEffect(() => {
-        if (!isDesktop) return;
-
-        const updatePosition = () => {
-            const listEl = listRef.current;
-            const floatingEl = floatingRef.current;
-            const scrollContainer = document.getElementById('side-panel-scroll-container');
-
-            if (listEl && floatingEl && scrollContainer) {
-                const listRect = listEl.getBoundingClientRect();
-                const containerRect = scrollContainer.getBoundingClientRect();
-
-                const diagramWidth = 240;
-                const x = containerRect.left - diagramWidth + 12;
-                const y = listRect.top;
-
-                floatingEl.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-                floatingEl.style.height = `${listRect.height}px`;
-                floatingEl.style.width = `${diagramWidth}px`;
-
-                const isVisible = 
-                    listRect.bottom > containerRect.top + 50 && 
-                    listRect.top < containerRect.bottom - 50;
-
-                floatingEl.style.opacity = isVisible ? '1' : '0';
-            }
-        };
-
-        const scrollContainer = document.getElementById('side-panel-scroll-container');
-        let rafId: number;
-        
-        const loop = () => {
-            updatePosition();
-            rafId = requestAnimationFrame(loop);
-        };
-
-        if (scrollContainer) {
-            rafId = requestAnimationFrame(loop);
-        }
-        
-        return () => {
-            cancelAnimationFrame(rafId);
-        };
-    }, [isDesktop, rotation, activeTab]);
 
     const generatedChaptersMap = useMemo(() => {
         const standardNodes = currentConfig.nodes.filter(n => !n.isZero).sort((a,b) => a.id - b.id);
@@ -507,7 +348,7 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
                 chapterInfo,
                 isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
                 muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
-                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                iconSrc: getChapterIcon(chapterInfo.revelationType),
                 clockIndex: node.id,
                 clockLabel: node.label,
                 nodeColor: node.color
@@ -522,7 +363,7 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
                 chapterInfo,
                 isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
                 muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
-                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                iconSrc: getChapterIcon(chapterInfo.revelationType),
                 clockIndex: 0,
                 clockLabel: zeroNode.label,
                 nodeColor: zeroNode.color
@@ -533,7 +374,6 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
 
     const displayChapters: (AlignedChapter | StaticChapter)[] = useMemo(() => {
         const chapters: (AlignedChapter | StaticChapter)[] = [];
-        
         const getStaticChapterData = (id: number, leftLabel: string, rightText: string, emoji: string): StaticChapter | null => {
             const slice = SLICE_DATA.find(s => s.id === id);
             const chapterInfo = CHAPTER_DETAILS.find(c => c.number === id);
@@ -543,7 +383,7 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
                 chapterInfo,
                 isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
                 muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
-                iconSrc: chapterInfo.revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG,
+                iconSrc: getChapterIcon(chapterInfo.revelationType),
                 staticLabel: leftLabel,
                 staticRightText: rightText,
                 staticEmoji: emoji,
@@ -552,23 +392,18 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
         };
 
         if (activeTab === 'zakkum') {
-            // Sequence: Beginning | Truth Always Wins (110) > 6 > 1 > 9 > 8 > 7 > Trial | Reflection (103) > 0 > 2 > 3 > 4 > 5 > Restoration | Bounty (108)
             const static110 = getStaticChapterData(110, 'Beginning', 'Truth Always Wins (110)', '');
             const static103 = getStaticChapterData(103, 'Trial', 'Reflection (103)', '');
             const static108 = getStaticChapterData(108, 'Restoration', 'Bounty (108)', '');
-
             if (static110) chapters.push(static110);
             [6, 1, 9, 8, 7].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
             if (static103) chapters.push(static103);
             [0, 2, 3, 4, 5].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
             if (static108) chapters.push(static108);
-
         } else {
-            // Date Palm: Blessing | Bounty (108) > 1 > 2 > 3 > 4 > 5 > Patience | Time (103) > 6 > 7 > 8 > 9 > 10 > Emergence | The Absolute Truth (112)
             const static108 = getStaticChapterData(108, 'Blessing', 'Bounty (108)', '');
             const static103 = getStaticChapterData(103, 'Patience', 'Time (103)', '');
             const static112 = getStaticChapterData(112, 'Emergence', 'The Absolute Truth (112)', '');
-
             if (static108) chapters.push(static108);
             [1, 2, 3, 4, 5].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
             if (static103) chapters.push(static103);
@@ -580,16 +415,12 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
 
     const handleLoadSequence = () => {
         setAnimationMode('off');
-        const chapterIds = displayChapters
-            .map(c => c.slice.id)
-            .filter(id => id > 0);
+        const chapterIds = displayChapters.map(c => c.slice.id).filter(id => id > 0);
         setCustomSequence(chapterIds.join(', '));
     };
 
     const handleWatchSequence = (type: PlaylistType) => {
-        const chapterIds = displayChapters
-            .map(c => c.slice.id)
-            .filter(id => id > 0);
+        const chapterIds = displayChapters.map(c => c.slice.id).filter(id => id > 0);
         createPlaylist(type, chapterIds);
     };
 
@@ -597,75 +428,26 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
 
     const renderDiagram = () => (
         <div className="flex justify-center w-full h-full">
-            <svg 
-                viewBox="0 0 200 320" 
-                preserveAspectRatio={isDesktop ? "none" : "xMidYMid meet"} 
-                width="100%" 
-                height="100%" 
-                aria-hidden="true"
-            >
+            <svg viewBox="0 0 200 320" preserveAspectRatio={isDesktop ? "none" : "xMidYMid meet"} width="100%" height="100%" aria-hidden="true">
                 <g strokeWidth="1.5">
                     {currentConfig.lines.map((line, index) => {
                         const fromNode = nodeMap.get(line.from);
                         const toNode = nodeMap.get(line.to);
                         if (!fromNode || !toNode) return null;
-                        
-                        return (
-                            <line 
-                                key={index} 
-                                x1={fromNode.x} 
-                                y1={fromNode.y} 
-                                x2={toNode.x} 
-                                y2={toNode.y} 
-                                stroke="#4b5563" 
-                                style={{ stroke: activeTab === 'datePalm' ? '#60a5fa' : '#ef4444', opacity: 0.5 }} 
-                            />
-                        );
+                        return <line key={index} x1={fromNode.x} y1={fromNode.y} x2={toNode.x} y2={toNode.y} stroke="#4b5563" style={{ stroke: activeTab === 'datePalm' ? '#60a5fa' : '#ef4444', opacity: 0.5 }} />;
                     })}
                 </g>
                 {currentConfig.nodes.map((node, index) => {
-                    let label = '';
-                    let fillColor = node.color;
-                    
-                    // We only display numbers for nodes that exist in our generated map
-                    // Since datePalm Node 0 is now effectively handled by the static 112 at the end of the list,
-                    // we might want to still show it in the diagram if it exists in the config.
+                    let label = '', fillColor = node.color;
                     const chapterData = generatedChaptersMap.get(node.id);
-                    
-                    if (chapterData && !('isStatic' in chapterData)) {
-                         label = (chapterData as AlignedChapter).slice.id.toString();
-                    } else if (node.isZero && activeTab === 'datePalm') {
-                        // Special case for DatePalm Node 0 in diagram
-                        label = '∞';
-                    }
-                    
+                    if (chapterData && !('isStatic' in chapterData)) label = (chapterData as AlignedChapter).slice.id.toString();
+                    else if (node.isZero && activeTab === 'datePalm') label = '∞';
                     const textColor = d3.lab(fillColor).l < 60 ? 'white' : 'black';
-
                     return (
                         <g key={node.id}>
                             <circle cx={node.x} cy={node.y} r="10" fill={fillColor} stroke="#1f2937" strokeWidth="1" />
-                            <text 
-                                x={node.x} 
-                                y={node.y} 
-                                textAnchor="middle" 
-                                dy=".3em" 
-                                fontSize="10" 
-                                fontWeight="bold" 
-                                fill={textColor}>
-                                {label}
-                            </text>
-                            {/* Node Label */}
-                            <text 
-                                x={node.x} 
-                                y={node.y - 14} 
-                                textAnchor="middle" 
-                                fontSize="8" 
-                                fontWeight="bold" 
-                                fill={fillColor} 
-                                style={{ textShadow: '0 0 3px black' }}
-                            >
-                                {node.label}
-                            </text>
+                            <text x={node.x} y={node.y} textAnchor="middle" dy=".3em" fontSize="10" fontWeight="bold" fill={textColor}>{label}</text>
+                            <text x={node.x} y={node.y - 14} textAnchor="middle" fontSize="8" fontWeight="bold" fill={fillColor} style={{ textShadow: '0 0 3px black' }}>{node.label}</text>
                         </g>
                     );
                 })}
@@ -678,54 +460,23 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
             <div className="flex justify-between items-center">
                 <h2 className="text-xl font-bold text-gray-200 tracking-wider">Sephirot Alignment</h2>
                 <div className="flex items-center space-x-2">
-                    <button
-                        onClick={handleLoadSequence}
-                        className="bg-gray-600 hover:bg-cyan-700 text-white font-bold p-2 rounded transition-colors duration-200 flex-shrink-0"
-                        title="Load current sequence into custom sequence"
-                    >
+                    <button onClick={handleLoadSequence} className="bg-gray-600 hover:bg-cyan-700 text-white font-bold p-2 rounded transition-colors duration-200 flex-shrink-0" title="Load current sequence into custom sequence">
                         <LoadSequenceIcon />
                     </button>
                     <PlaylistButtons onWatch={handleWatchSequence} />
                 </div>
             </div>
-            
-            {/* Tab Switcher */}
             <div className="flex space-x-1 mt-3 mb-2 bg-gray-900/50 p-1 rounded-lg">
-                <button
-                    onClick={() => setActiveTab('zakkum')}
-                    className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'zakkum' ? 'bg-red-900/50 text-red-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
-                >
-                    Zakkum (Left)
-                </button>
-                <button
-                    onClick={() => setActiveTab('datePalm')}
-                    className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'datePalm' ? 'bg-emerald-900/50 text-emerald-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}
-                >
-                    Date-Palm (Right)
-                </button>
+                <button onClick={() => setActiveTab('zakkum')} className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'zakkum' ? 'bg-red-900/50 text-red-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}>Zakkum (Left)</button>
+                <button onClick={() => setActiveTab('datePalm')} className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'datePalm' ? 'bg-emerald-900/50 text-emerald-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}>Date-Palm (Right)</button>
             </div>
-
             <div className="w-full h-px bg-gray-500/50 mb-2"></div>
 
-            {/* Diagram Rendering */}
             {!isDesktop ? (
-                <div className="my-4 h-[420px]">
-                    {renderDiagram()}
-                </div>
+                <div className="my-4 h-[420px]">{renderDiagram()}</div>
             ) : (
                 portalRoot && createPortal(
-                    <div 
-                        ref={floatingRef}
-                        style={{ 
-                            position: 'fixed', 
-                            top: 0,
-                            left: 0,
-                            zIndex: 5, 
-                            pointerEvents: 'none',
-                            opacity: 0,
-                            willChange: 'transform, height',
-                        }}
-                    >
+                    <div ref={floatingRef} style={{ position: 'fixed', top: 0, left: 0, zIndex: 5, pointerEvents: 'none', opacity: 0, willChange: 'transform, height' }}>
                         {renderDiagram()}
                     </div>,
                     portalRoot
@@ -734,79 +485,42 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
 
             <div ref={listRef} className="text-sm text-gray-400 mt-3 space-y-1">
                 {displayChapters.map((chapterData, index) => {
-                    // Check if it's a special static entry
                     if ('isStatic' in chapterData) {
                         const staticC = chapterData as StaticChapter;
                         const chapterColor = colorScale(staticC.slice.id);
-                        
                         return (
-                        <div 
-                            key={index} 
-                            className="grid grid-cols-[5.5rem_1fr] gap-x-2 items-center bg-gray-800/50 rounded px-2 py-1.5 transition-colors border border-gray-700/50 mt-2"
-                        >
-                            {/* Left Column: Static Label */}
+                        <div key={index} className="grid grid-cols-[5.5rem_1fr] gap-x-2 items-center bg-gray-800/50 rounded px-2 py-1.5 transition-colors border border-gray-700/50 mt-2">
                             <div className="flex flex-col items-end pr-2 border-r border-gray-700/50">
-                                <span className="font-mono text-[10px] text-cyan-400 font-bold tracking-tighter shadow-cyan-500/20 drop-shadow-sm truncate whitespace-nowrap">
-                                    {staticC.staticEmoji ? `${staticC.staticEmoji}. ` : ''}{staticC.staticLabel}
-                                </span>
+                                <span className="font-mono text-[10px] text-cyan-400 font-bold tracking-tighter shadow-cyan-500/20 drop-shadow-sm truncate whitespace-nowrap">{staticC.staticEmoji ? `${staticC.staticEmoji}. ` : ''}{staticC.staticLabel}</span>
                             </div>
-                            {/* Right Column: Content */}
                             <div className="flex items-center min-w-0 pl-1">
                                 {staticC.staticRightText ? (
-                                    <span className="truncate font-semibold text-sm" style={{ color: chapterColor }}>
-                                        {staticC.staticRightText}
-                                    </span>
+                                    <span className="truncate font-semibold text-sm" style={{ color: chapterColor }}>{staticC.staticRightText}</span>
                                 ) : (
                                     <div className="flex items-center gap-1">
                                         <img src={staticC.iconSrc} alt={staticC.chapterInfo.revelationType} className="w-3 h-3" />
-                                        <span className="truncate font-semibold text-sm" style={{ color: chapterColor }}>
-                                            {staticC.slice.id}: {staticC.chapterInfo.englishName}
-                                        </span>
+                                        <span className="truncate font-semibold text-sm" style={{ color: chapterColor }}>{staticC.slice.id}: {staticC.chapterInfo.englishName}</span>
                                     </div>
                                 )}
                             </div>
                         </div>
                         )
                     }
-
                     const cData = chapterData as AlignedChapter;
                     const chapterColor = colorScale(cData.slice.id);
-                    const nodeColor = cData.nodeColor;
-
                     return (
-                        <div 
-                            key={index} 
-                            className="grid grid-cols-[5.5rem_1fr] gap-x-2 items-center hover:bg-white/5 rounded px-2 py-2 transition-colors border border-transparent"
-                        >
-                            {/* Column 1: Serial . Label */}
+                        <div key={index} className="grid grid-cols-[5.5rem_1fr] gap-x-2 items-center hover:bg-white/5 rounded px-2 py-2 transition-colors border border-transparent">
                             <div className="flex flex-col items-end pr-2 border-r border-gray-700/50">
-                                <span className="font-mono text-sm font-bold tracking-tight whitespace-nowrap" style={{ color: nodeColor }}>
-                                    {cData.clockIndex}. {cData.clockLabel}
-                                </span>
+                                <span className="font-mono text-sm font-bold tracking-tight whitespace-nowrap" style={{ color: cData.nodeColor }}>{cData.clockIndex}. {cData.clockLabel}</span>
                             </div>
-
-                            {/* Column 2: Chapter ID: Name */}
                             <div className="flex items-center min-w-0 pl-1">
                                 <div className="flex flex-col min-w-0">
                                     <div className="flex items-baseline min-w-0 gap-x-1.5">
-                                        <img 
-                                            src={cData.iconSrc} 
-                                            alt={cData.chapterInfo.revelationType} 
-                                            className="w-3 h-3 flex-shrink-0 self-center" 
-                                        />
-                                        <span 
-                                            className="truncate text-sm font-medium" 
-                                            title={`${cData.slice.id}: ${cData.chapterInfo.englishName}`} 
-                                            style={{ color: chapterColor }}
-                                        >
-                                            <span className={`font-bold mr-1 ${cData.isMuqattat ? 'muqattat-glow' : ''}`}>{cData.slice.id}:</span>
-                                            {cData.chapterInfo.englishName}
+                                        <img src={cData.iconSrc} alt={cData.chapterInfo.revelationType} className="w-3 h-3 flex-shrink-0 self-center" />
+                                        <span className="truncate text-sm font-medium" title={`${cData.slice.id}: ${cData.chapterInfo.englishName}`} style={{ color: chapterColor }}>
+                                            <span className={`font-bold mr-1 ${cData.isMuqattat ? 'muqattat-glow' : ''}`}>{cData.slice.id}:</span>{cData.chapterInfo.englishName}
                                         </span>
-                                        {cData.muqattatLetters && (
-                                            <span className="font-mono text-[10px] muqattat-glow flex-shrink-0 opacity-80" dir="rtl">
-                                                {cData.muqattatLetters.join(' ')}
-                                            </span>
-                                        )}
+                                        {cData.muqattatLetters && <span className="font-mono text-[10px] muqattat-glow flex-shrink-0 opacity-80" dir="rtl">{cData.muqattatLetters.join(' ')}</span>}
                                     </div>
                                 </div>
                             </div>
