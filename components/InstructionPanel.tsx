@@ -415,6 +415,58 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
 
            </section>
 
+           {/* THE PHASE-PENDULUM - NEW SECTION */}
+           <section className="space-y-8 pt-8 border-t border-gray-800">
+             <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                <span className="text-3xl grayscale opacity-70">⏳</span> 
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-200 to-yellow-500">THE PHASE-PENDULUM (103–108–110)</span>
+             </h3>
+             
+             <div className="bg-gradient-to-br from-amber-950/20 to-black p-8 rounded-2xl border border-amber-500/30 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 blur-3xl rounded-full"></div>
+                
+                <div className="relative z-10 space-y-6 text-gray-300">
+                    <p className="text-lg leading-relaxed text-amber-100/90 font-medium">
+                        The system oscillates as a <strong className="text-amber-400">phase-pendulum</strong> between <strong className="text-white">108</strong> and <strong className="text-white">110</strong> around a hinge at <strong className="text-white">103</strong>.
+                    </p>
+                    
+                    <div className="grid md:grid-cols-2 gap-6 mt-6">
+                        <div className="bg-black/40 p-5 rounded-xl border-l-2 border-amber-500/50">
+                            <h4 className="text-amber-400 font-bold mb-3 uppercase tracking-wider text-sm">Mode A — Qun (Emergence)</h4>
+                            <p className="text-sm mb-2">Clockwise bias, future-directed.</p>
+                            <p className="text-white font-mono text-sm bg-amber-950/30 p-2 rounded mb-2">103 → 104 → 105 → 106 → 107 → 108</p>
+                            <div className="text-xs text-gray-400 space-y-1">
+                                <p>Twist Rule: <span className="text-amber-300">3 → 6 ← 9 →</span></p>
+                                <p className="italic">Push – Resist – Push</p>
+                            </div>
+                        </div>
+
+                        <div className="bg-black/40 p-5 rounded-xl border-l-2 border-amber-500/50">
+                            <h4 className="text-amber-400 font-bold mb-3 uppercase tracking-wider text-sm">Mode B — FayaQun (Return)</h4>
+                            <p className="text-sm mb-2">Counter-clockwise bias, past-directed.</p>
+                            <p className="text-white font-mono text-sm bg-amber-950/30 p-2 rounded mb-2">103 → 107 → 106 → 105 → 104 → 110</p>
+                            <div className="text-xs text-gray-400 space-y-1">
+                                <p>Twist Rule: <span className="text-amber-300">3 ← 6 → 9 ←</span></p>
+                                <p className="italic">Pull – Release – Pull</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 pt-6 border-t border-amber-500/20">
+                        <p className="mb-4">
+                            The triangle is the pendulum arm. It <strong className="text-amber-300">only appears at turning points</strong> (108 & 110) to mark phase inversion.
+                        </p>
+                        <blockquote className="italic text-gray-400 border-l-4 border-gray-700 pl-4 py-1">
+                            “Then call them; they will come to you alive.” (2:260)
+                        </blockquote>
+                        <p className="text-sm mt-3 text-gray-500">
+                            This matches Hayāt (forward counting) vs Āyah (backward counting). Different chirality = Life vs Sign.
+                        </p>
+                    </div>
+                </div>
+             </div>
+           </section>
+
            {/* FINAL WORD */}
            <div className="pt-16 border-t border-cyan-500/20 text-center pb-8">
              <h3 className="text-xs font-bold text-gray-400 mb-6 tracking-[0.3em] uppercase">Final Word</h3>

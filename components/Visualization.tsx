@@ -69,6 +69,11 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
   const [displayedVerseCounts, setDisplayedVerseCounts] = useState(() => calculateTargetVerseCounts(rotation));
   const wasSpinning = useRef(false);
 
+  // Phase Pendulum State Logic
+  const currentSlice = getSliceAtPoint(1, rotation);
+  const isPhaseTurningPoint = currentSlice.id === 108 || currentSlice.id === 110 || currentSlice.id === 103;
+  const phaseColor = isPhaseTurningPoint ? '#f59e0b' : null; // Amber for turning points
+
   useEffect(() => {
     // This effect ensures the imperative rotation of the SVG group stays
     // in sync with the React state, resolving conflicts from different update sources.
@@ -226,11 +231,20 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
     });
     const pointsString = pointCoords.map(pc => `${pc.x},${pc.y}`).join(' ');
     
-    const displayColor = triangleDef.name === 'Upward Triangle' ? COLORS.triangle2 : COLORS.triangle1;
+    // Override color if we are at a phase turning point (103, 108, 110)
+    const baseColor = triangleDef.name === 'Upward Triangle' ? COLORS.triangle2 : COLORS.triangle1;
+    const displayColor = phaseColor || baseColor;
+    const isGlowing = phaseColor !== null;
   
     return (
-      <g>
-        <polygon points={pointsString} fill="none" stroke={displayColor} strokeWidth="2.5" strokeOpacity="0.8" />
+      <g style={isGlowing ? { filter: 'drop-shadow(0 0 8px rgba(245,158,11,0.8))' } : {}}>
+        <polygon 
+            points={pointsString} 
+            fill="none" 
+            stroke={displayColor} 
+            strokeWidth="2.5" 
+            strokeOpacity="0.8" 
+        />
         {pointCoords.map((pc, i) => (
           <circle
             key={`${triangleDef.name}-dot-${i}`}
@@ -270,19 +284,30 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
         const fillOpacity = 0.05 + i * 0.04;
         const strokeOpacity = 0.2 + i * 0.1;
 
+        // Enhanced animation parameters for better visibility
+        // Added transformBox: 'view-box' to ensure scaling happens from the SVG center in all browsers
+        const animationStyle = !isLowResourceMode ? {
+            animation: `emergence-pulse ${8 + i * 0.5}s ease-in-out infinite alternate`,
+            animationDelay: `${i * 0.5}s`,
+            transformOrigin: 'center',
+            transformBox: 'view-box',
+            willChange: 'transform, opacity, filter'
+        } as React.CSSProperties : undefined;
+
         return (
-            <VersePolygon
-                key={`core-layer-${i}`}
-                verseCount={verseCount}
-                radius={layerRadius}
-                color={baseColor}
-                center={{ x: center, y: center }}
-                fillOpacity={fillOpacity}
-                strokeOpacity={strokeOpacity}
-                strokeWidth={1.5}
-                groupOpacity={1}
-                isLowResourceMode={isLowResourceMode}
-            />
+            <g key={`core-layer-${i}`} style={animationStyle}>
+                <VersePolygon
+                    verseCount={verseCount}
+                    radius={layerRadius}
+                    color={baseColor}
+                    center={{ x: center, y: center }}
+                    fillOpacity={fillOpacity}
+                    strokeOpacity={strokeOpacity}
+                    strokeWidth={1.5}
+                    groupOpacity={1}
+                    isLowResourceMode={isLowResourceMode}
+                />
+            </g>
         );
     });
   };
@@ -343,6 +368,11 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
   return (
     <div className="w-full h-full">
       <style>{`
+        @keyframes emergence-pulse {
+          0% { transform: scale(0.96); opacity: 0.6; filter: drop-shadow(0 0 0px rgba(6,182,212,0)); }
+          50% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 10px rgba(6,182,212,0.3)); }
+          100% { transform: scale(0.96); opacity: 0.6; filter: drop-shadow(0 0 0px rgba(6,182,212,0)); }
+        }
         .slice-group {
           transition: opacity 0.2s ease-in-out;
         }
