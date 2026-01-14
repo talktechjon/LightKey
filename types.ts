@@ -105,3 +105,8 @@ export type VerseFinderContent =
 export type PlaylistType = 'recitation' | 'tafsir' | 'englishRecitation';
 
 export type LocalTranslationData = Record<string, string[]> | null;
+
+export interface VerseAddress {
+  surah: number;
+  ayah: number;
+}

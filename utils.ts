@@ -1,14 +1,10 @@
-import { TOTAL_SLICES, SLICE_DATA, MAKKI_ICON_SVG, MADANI_ICON_SVG } from './constants.ts';
-import type { SliceData } from './types.ts';
+
+import { TOTAL_SLICES, SLICE_DATA, MAKKI_ICON_SVG, MADANI_ICON_SVG, CUMULATIVE_VERSES, TOTAL_VERSES } from './constants.ts';
+import type { SliceData, VerseAddress } from './types.ts';
 import * as d3 from 'd3';
 
 /**
  * Converts polar coordinates (radius, angle) to Cartesian coordinates (x, y).
- * @param centerX The x-coordinate of the center point.
- * @param centerY The y-coordinate of the center point.
- * @param radius The radius from the center point.
- * @param angleInDegrees The angle in degrees.
- * @returns An object with x and y properties.
  */
 export const polarToCartesian = (centerX: number, centerY: number, radius: number, angleInDegrees: number) => {
     const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
@@ -20,26 +16,17 @@ export const polarToCartesian = (centerX: number, centerY: number, radius: numbe
 
 /**
  * Calculates which slice is currently aligned with a given point on the dial.
- * @param pointValue The static point on the dial's circumference (1-114).
- * @param rotation The current rotation of the dial in degrees.
- * @returns The SliceData for the aligned slice.
  */
 export const getSliceAtPoint = (pointValue: number, rotation: number): SliceData => {
     const offset = rotation / 360 * TOTAL_SLICES;
-    // The pointValue is 1-based, so we adjust. The offset is subtracted because
-    // a positive rotation moves the slices clockwise, meaning a point aligns with a "previous" slice index.
     const effectivePoint = (pointValue - 1) - offset;
     const wrappedIndex = Math.round(effectivePoint);
-    // Modulo arithmetic to wrap around the 114 slices correctly for both positive and negative results.
     const finalIndex = ((wrappedIndex % TOTAL_SLICES) + TOTAL_SLICES) % TOTAL_SLICES;
     return SLICE_DATA[finalIndex];
 }
 
 /**
  * A convenience wrapper around getSliceAtPoint to directly get the chapter ID.
- * @param pointValue The static point on the dial's circumference (1-114).
- * @param rotation The current rotation of the dial in degrees.
- * @returns The ID of the aligned slice (chapter number).
  */
 export const getSliceIdAtPoint = (pointValue: number, rotation: number): number => {
     return getSliceAtPoint(pointValue, rotation).id;
@@ -47,8 +34,6 @@ export const getSliceIdAtPoint = (pointValue: number, rotation: number): number 
 
 /**
  * Returns the appropriate SVG icon data URI based on the revelation type.
- * @param revelationType The revelation type ('Makki' or 'Madani').
- * @returns The SVG data URI.
  */
 export const getChapterIcon = (revelationType: string) => {
     return revelationType === 'Makki' ? MAKKI_ICON_SVG : MADANI_ICON_SVG;
@@ -56,11 +41,6 @@ export const getChapterIcon = (revelationType: string) => {
 
 /**
  * Processes an array of items by applying an async function to them in batches.
- * This helps to avoid sending too many concurrent requests.
- * @param items The array of items to process.
- * @param asyncFn The async function to apply to each item.
- * @param batchSize The number of items to process in each batch.
- * @returns A promise that resolves to an array of results.
  */
 export async function processInBatches<T, R>(
   items: T[],
@@ -81,3 +61,27 @@ export const colorScale = d3.scaleLinear<string>()
     .domain([1, TOTAL_SLICES * 0.25, TOTAL_SLICES * 0.5, TOTAL_SLICES * 0.75, TOTAL_SLICES * 0.875, TOTAL_SLICES])
     .range(['#87CEFA', '#4682B4', '#FFD700', '#FF4500', '#483D8B', '#87CEFA'])
     .interpolate(d3.interpolateHcl);
+
+/**
+ * Gets the global index (1-6236) for a given Surah:Ayah address.
+ */
+export const getGlobalVerseIndex = (surah: number, ayah: number): number => {
+  if (surah < 1 || surah > 114) return 1;
+  const base = CUMULATIVE_VERSES[surah - 1];
+  return Math.min(base + ayah, TOTAL_VERSES);
+};
+
+/**
+ * Gets the Surah:Ayah address for a given global index (1-6236).
+ */
+export const getVerseAddressFromGlobalIndex = (index: number): VerseAddress => {
+  const normalizedIndex = ((index - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
+  for (let i = 0; i < CUMULATIVE_VERSES.length; i++) {
+    if (CUMULATIVE_VERSES[i] >= normalizedIndex) {
+      const surah = i;
+      const ayah = normalizedIndex - CUMULATIVE_VERSES[i - 1];
+      return { surah, ayah };
+    }
+  }
+  return { surah: 1, ayah: 1 };
+};

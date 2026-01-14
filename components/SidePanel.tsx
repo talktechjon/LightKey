@@ -9,6 +9,7 @@ import CustomAnimationControls from './CustomAnimationControls.tsx';
 import ChapterGeometry from './ChapterGeometry.tsx';
 import MarkerAlignment from './MarkerAlignment.tsx';
 import { KatharaClockAlignment, SephirotAlignment } from './SecretPatternAnimation.tsx';
+import { TreeOfVerse } from './TreeOfVerse.tsx';
 
 interface SidePanelProps {
   rotation: number;
@@ -18,11 +19,14 @@ interface SidePanelProps {
   showTooltip: (e: React.MouseEvent, surah: number, verse: number, color: string) => void;
   hideTooltip: () => void;
   isSecretModeActive: boolean;
+  isTreeOfVerseActive: boolean;
   secretEmojiShift: number;
   isLowResourceMode: boolean;
+  onVerseSelect: (surah: number, ayah: number) => void;
+  onBulkExport: (verseIds: string[]) => void;
 }
 
-const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, secretEmojiShift, isLowResourceMode }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport }) => {
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -168,7 +172,6 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   };
   
   const handleWatchSequence = (type: PlaylistType) => {
-    // Use the central geometry points shared with Visualization and ChapterGeometry
     const chapterIds = CENTRAL_GEOMETRY_POINTS.map(pointValue => getSliceAtPoint(pointValue, rotation).id);
     createPlaylist(type, chapterIds);
   };
@@ -183,7 +186,11 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   
   const currentSliceData = getSliceAtPoint(1, rotation);
   const currentSliceId = currentSliceData.id;
-  const chapterInfo = CHAPTER_DETAILS[currentSliceId - 1];
+  // Safer lookup to avoid crash if CHAPTER_DETAILS array is inconsistent
+  const chapterInfo = CHAPTER_DETAILS.find(c => c.number === currentSliceId);
+  
+  if (!chapterInfo) return <aside className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4">Loading...</aside>;
+
   const isCurrentSliceMuqattat = MUQATTAT_CHAPTERS.has(currentSliceId);
   const muqattatLetters = MUQATTAT_LETTERS.get(currentSliceId);
   const iconSrc = getChapterIcon(chapterInfo.revelationType);
@@ -204,7 +211,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
       <div className="space-y-4">
           <div className="sticky top-0 z-40 -mx-6 px-6 py-4 bg-black/80 backdrop-blur-xl border-b border-cyan-500/30 shadow-lg transition-all duration-300">
             <div className="flex justify-between items-start lg:min-h-[80px]">
-              <label htmlFor="rotation-slider" className="font-semibold text-gray-200 pr-2">
+              <div className="font-semibold text-gray-200 pr-2">
                   <div className="flex items-baseline gap-x-2">
                       <img src={iconSrc} alt={chapterInfo.revelationType} title={chapterInfo.revelationType} className="w-5 h-5" />
                       <span className={`text-lg text-cyan-300 ${isCurrentSliceMuqattat ? 'muqattat-glow' : ''}`}>
@@ -224,7 +231,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                         ({chapterInfo.transliteration})
                     </span>
                   </div>
-              </label>
+              </div>
               <button
                 onClick={() => setRotation(0)}
                 className="bg-gray-600 hover:bg-cyan-700 text-white font-bold py-1 px-3 rounded text-sm transition-colors duration-200 flex-shrink-0 mt-1"
@@ -255,35 +262,45 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
           />
 
           <div className="pt-4 space-y-6">
-             <ChapterGeometry 
-                rotation={rotation}
-                isLowResourceMode={isLowResourceMode}
-             />
-
-             <MarkerAlignment 
-                isSecretModeActive={isSecretModeActive}
-                rotation={rotation}
-                iconDialRotation={iconDialRotation}
-                setIconDialRotation={setIconDialRotation}
-                secretEmojiShift={secretEmojiShift}
-                setCustomSequence={setCustomSequence}
-                setAnimationMode={setAnimationMode}
-                createPlaylist={createPlaylist}
-             />
-             {isSecretModeActive && (
+             {isTreeOfVerseActive ? (
+                <TreeOfVerse 
+                    rotation={rotation} 
+                    onVerseSelect={onVerseSelect}
+                    onBulkExport={onBulkExport}
+                />
+             ) : (
                 <>
-                    <KatharaClockAlignment
+                    <ChapterGeometry 
                         rotation={rotation}
-                        createPlaylist={createPlaylist}
+                        isLowResourceMode={isLowResourceMode}
+                    />
+
+                    <MarkerAlignment 
+                        isSecretModeActive={isSecretModeActive}
+                        rotation={rotation}
+                        iconDialRotation={iconDialRotation}
+                        setIconDialRotation={setIconDialRotation}
+                        secretEmojiShift={secretEmojiShift}
                         setCustomSequence={setCustomSequence}
                         setAnimationMode={setAnimationMode}
-                    />
-                    <SephirotAlignment
-                        rotation={rotation}
                         createPlaylist={createPlaylist}
-                        setCustomSequence={setCustomSequence}
-                        setAnimationMode={setAnimationMode}
                     />
+                    {isSecretModeActive && (
+                        <>
+                            <KatharaClockAlignment
+                                rotation={rotation}
+                                createPlaylist={createPlaylist}
+                                setCustomSequence={setCustomSequence}
+                                setAnimationMode={setAnimationMode}
+                            />
+                            <SephirotAlignment
+                                rotation={rotation}
+                                createPlaylist={createPlaylist}
+                                setCustomSequence={setCustomSequence}
+                                setAnimationMode={setAnimationMode}
+                            />
+                        </>
+                    )}
                 </>
              )}
           </div>

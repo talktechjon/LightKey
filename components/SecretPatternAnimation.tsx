@@ -95,14 +95,18 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
 
     const alignedChapters: AlignedChapter[] = useMemo(() => {
         const labels = [
-            'Inspiration', 'Action', 'Guidance', 
-            'Cleanse', 'Righteous', 'Faith', 
-            'Blessing', 'Servant', 'Submission', 
-            'Sacrifice', 'Truth', 'Light'
+            'Awakening', 'Assertion', 'Disruption', 
+            'Constriction', 'Refinement', 'Submission', 
+            'Restoration', 'Servanthood', 'Sacrifice', 
+            'Witness', 'Ascension', 'Radiance'
         ];
         return KATHARA_CLOCK_POINTS.map((pointValue, index) => {
             const slice = getSliceAtPoint(pointValue, rotation);
             const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
+            if (!chapterInfo) {
+                // Fallback to prevent crash if index is somehow wrong
+                return null;
+            }
             return {
                 slice,
                 chapterInfo,
@@ -112,7 +116,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                 clockIndex: index + 1,
                 clockLabel: labels[index]
             };
-        });
+        }).filter((c): c is AlignedChapter => c !== null);
     }, [rotation]);
 
     const displayChapters: DisplayChapter[] = useMemo(() => {
@@ -233,7 +237,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                         if (node.shape === 'fish') staticContent = '🔥 103 🐟';
                         if (node.shape === 'palm') staticContent = '⚫ 110 🌳';
                     } else {
-                        const chapterData = alignedChapters[index];
+                        const chapterData = alignedChapters.find(c => c.clockIndex === node.id);
                         if (chapterData) {
                             label = chapterData.slice.id.toString();
                             fillColor = colorScale(chapterData.slice.id);
@@ -342,7 +346,8 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
         standardNodes.forEach((node, index) => {
             const pointValue = currentConfig.points[index];
             const slice = getSliceAtPoint(pointValue, rotation);
-            const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
+            const chapterInfo = CHAPTER_DETAILS.find(c => c.number === slice.id);
+            if (!chapterInfo) return;
             map.set(node.id, {
                 slice,
                 chapterInfo,
@@ -357,17 +362,19 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
 
         if (zeroNode && currentConfig.point0) {
             const slice = getSliceAtPoint(currentConfig.point0, rotation);
-            const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
-            map.set(0, {
-                slice,
-                chapterInfo,
-                isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
-                muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
-                iconSrc: getChapterIcon(chapterInfo.revelationType),
-                clockIndex: 0,
-                clockLabel: zeroNode.label,
-                nodeColor: zeroNode.color
-            });
+            const chapterInfo = CHAPTER_DETAILS.find(c => c.number === slice.id);
+            if (chapterInfo) {
+              map.set(0, {
+                  slice,
+                  chapterInfo,
+                  isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
+                  muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
+                  iconSrc: getChapterIcon(chapterInfo.revelationType),
+                  clockIndex: 0,
+                  clockLabel: zeroNode.label,
+                  nodeColor: zeroNode.color
+              });
+            }
         }
         return map;
     }, [rotation, currentConfig, activeTab]);
