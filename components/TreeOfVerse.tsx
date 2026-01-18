@@ -25,6 +25,9 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
     const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1024 : false);
     const portalRoot = typeof document !== 'undefined' ? document.getElementById('kathara-portal-root') : null;
 
+    // Track local input values to allow typing without immediate re-renders
+    const [localInputs, setLocalInputs] = useState<string[][]>([]);
+
     useEffect(() => {
         const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
         window.addEventListener('resize', handleResize);
@@ -62,10 +65,11 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
         return () => cancelAnimationFrame(rafId);
     }, [isDesktop]);
 
+    const verseScalingFactor = TOTAL_VERSES / TOTAL_SLICES;
+    const rotationOffset = (rotation / 360) * TOTAL_VERSES;
+
     const trines = useMemo(() => {
         const rootIndex = getGlobalVerseIndex(rootVerse.surah, rootVerse.ayah);
-        const verseScalingFactor = TOTAL_VERSES / TOTAL_SLICES;
-        const rotationOffset = (rotation / 360) * TOTAL_VERSES;
         const baseIndex = rootIndex - rotationOffset;
 
         return KATHARA_CLOCK_POINTS.map((pointValue) => {
@@ -77,11 +81,29 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                 return getVerseAddressFromGlobalIndex(globalIdx);
             });
         });
-    }, [rootVerse, rotation]);
+    }, [rootVerse, rotation, verseScalingFactor, rotationOffset]);
 
+    // Sync local inputs when trines change (from external source like root or rotation)
     useEffect(() => {
+        setLocalInputs(trines.map(trine => trine.map(v => `${v.surah}:${v.ayah}`)));
         setAddrInput(`${rootVerse.surah}:${rootVerse.ayah}`);
-    }, [rootVerse]);
+    }, [trines, rootVerse]);
+
+    const updateRootFromTarget = (nodeIdx: number, vIdx: number, targetSurah: number, targetAyah: number) => {
+        const targetGlobalIdx = getGlobalVerseIndex(targetSurah, targetAyah);
+        const pointValue = KATHARA_CLOCK_POINTS[nodeIdx];
+        const pointOffset = (pointValue - 1) * verseScalingFactor;
+        
+        // targetGlobalIdx = rootIndex - rotationOffset + pointOffset + vIdx
+        // rootIndex = targetGlobalIdx + rotationOffset - pointOffset - vIdx
+        let calculatedRootIndex = Math.round(targetGlobalIdx + rotationOffset - pointOffset - vIdx);
+        
+        // Normalize
+        calculatedRootIndex = ((calculatedRootIndex - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
+        
+        const newRoot = getVerseAddressFromGlobalIndex(calculatedRootIndex);
+        setRootVerse(newRoot);
+    };
 
     const handleRootChange = (delta: number) => {
         const rootIndex = getGlobalVerseIndex(rootVerse.surah, rootVerse.ayah);
@@ -99,6 +121,25 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
             if (!isNaN(s) && !isNaN(a) && s >= 1 && s <= 114) {
                 const maxAyahs = BUBBLE_BLOCK_MAPPING_RAW[s as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0;
                 if (a >= 1 && a <= maxAyahs) setRootVerse({ surah: s, ayah: a });
+            }
+        }
+    };
+
+    const handleLocalInputChange = (nodeIdx: number, vIdx: number, value: string) => {
+        const newLocal = [...localInputs];
+        newLocal[nodeIdx][vIdx] = value.replace(/[^0-9:]/g, '');
+        setLocalInputs(newLocal);
+
+        // If valid, calculate new root
+        const parts = value.split(':');
+        if (parts.length === 2) {
+            const s = parseInt(parts[0], 10);
+            const a = parseInt(parts[1], 10);
+            if (!isNaN(s) && !isNaN(a) && s >= 1 && s <= 114) {
+                const maxAyahs = BUBBLE_BLOCK_MAPPING_RAW[s as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0;
+                if (a >= 1 && a <= maxAyahs) {
+                    updateRootFromTarget(nodeIdx, vIdx, s, a);
+                }
             }
         }
     };
@@ -180,14 +221,21 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                         </div>
                         <div className="grid grid-cols-3 gap-1.5">
                             {trine.map((v, vIdx) => (
-                                <button 
+                                <div 
                                     key={vIdx} 
-                                    onClick={() => onVerseSelect(v.surah, v.ayah)}
-                                    className="py-1 px-1.5 bg-black/60 border border-white/10 rounded text-[11px] font-mono text-gray-300 hover:text-white hover:border-cyan-500/50 hover:bg-cyan-900/20 transition-all flex flex-col items-center min-w-0"
+                                    className="relative flex flex-col items-center py-1 px-1.5 bg-black/60 border border-white/10 rounded group/input focus-within:border-cyan-500/50 focus-within:bg-cyan-900/10 transition-all"
                                 >
-                                    <span className="text-cyan-400 glow-text truncate w-full text-center">{v.surah}:{v.ayah}</span>
-                                    <span className="text-[7px] opacity-40 uppercase">V{vIdx + 1}</span>
-                                </button>
+                                    <input 
+                                        type="text"
+                                        value={localInputs[nodeIdx]?.[vIdx] || ''}
+                                        onChange={(e) => handleLocalInputChange(nodeIdx, vIdx, e.target.value)}
+                                        onDoubleClick={() => onVerseSelect(v.surah, v.ayah)}
+                                        className="bg-transparent border-none p-0 font-mono text-cyan-400 text-xs glow-text text-center w-full focus:ring-0 focus:outline-none cursor-text"
+                                        placeholder="S:A"
+                                        title="Double click to view verse"
+                                    />
+                                    <span className="text-[7px] opacity-40 uppercase pointer-events-none">V{vIdx + 1}</span>
+                                </div>
                             ))}
                         </div>
                     </div>
