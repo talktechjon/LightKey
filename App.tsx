@@ -8,13 +8,12 @@ import StarryBackground from './components/StarryBackground.tsx';
 import VerseFinder from './components/VerseFinder.tsx';
 import SettingsPanel from './components/SettingsPanel.tsx';
 import InstructionPanel from './components/InstructionPanel.tsx';
-import QuranicOS from './components/QuranicOS.tsx';
 import { VisualizationHandle, TooltipContent, VerseTooltipContent, ChapterTooltipContent, VerseFinderContent, LocalTranslationData } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
 import { getVerse, getFullSurah, getVerseDetails } from './data/verseData.ts';
 import { useIdle } from './hooks/useIdle.ts';
 import { processInBatches } from './utils.ts';
-import { TreeIcon, OSIcon } from './components/Icons.tsx';
+import { TreeIcon } from './components/Icons.tsx';
 
 const App: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);
@@ -36,7 +35,6 @@ const App: React.FC = () => {
   const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(null);
   const [localFileName, setLocalFileName] = useState<string | null>(null);
   const [isInstructionVisible, setIsInstructionVisible] = useState(false);
-  const [isOSVisible, setIsOSVisible] = useState(false);
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
   const isIdle = useIdle(15000, isIdleAnimationEnabled && !isLowResourceMode);
   const idleIntervalRef = useRef<number | null>(null);
@@ -161,7 +159,6 @@ const App: React.FC = () => {
     <main className="w-full lg:h-screen min-h-screen text-gray-100 font-sans relative flex flex-col lg:overflow-hidden">
       {!isLowResourceMode && <StarryBackground />}
       <InstructionPanel isVisible={isInstructionVisible} onClose={() => setIsInstructionVisible(false)} />
-      <QuranicOS isVisible={isOSVisible} onClose={() => setIsOSVisible(false)} />
       <div className="absolute top-4 left-4 z-50 flex flex-col gap-y-2">
         <div className="flex gap-x-2">
           <a href="https://github.com/talktechjon/LightKey" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50" title="GitHub"><svg className="h-5 w-5" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
@@ -185,7 +182,6 @@ const App: React.FC = () => {
       <Tooltip visible={!!tooltipContent} content={tooltipContent} position={tooltipPosition} />
       <div className="fixed bottom-4 left-4 z-50 flex items-center gap-3">
         <button onClick={() => setIsInstructionVisible(true)} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all hover:scale-110" title="Instructions"><span className="text-xl font-bold">?</span></button>
-        <button onClick={() => setIsOSVisible(true)} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-emerald-400 flex items-center justify-center transition-all hover:scale-110" title="Quranic OS"><OSIcon /></button>
         <a href="https://notebooklm.google.com/notebook/4eedddbb-3085-4132-bce5-83d8e94dc815?authuser=5" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all hover:scale-110" title="Knowledge Base"><svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg></a>
       </div>
       <div id="kathara-portal-root" className="fixed inset-0 z-[5] pointer-events-none hidden lg:block" />

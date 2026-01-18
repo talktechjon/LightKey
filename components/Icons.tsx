@@ -96,11 +96,3 @@ export const TreeIcon = () => (
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18M12 3l7 7m-7-7l-7 7M12 11l5 5m-5-5l-5 5" />
   </svg>
 );
-
-export const OSIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="3" />
-        <path d="M3 12h3m12 0h3M12 3v3m0 12v3" />
-        <path d="M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
-    </svg>
-);
