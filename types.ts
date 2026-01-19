@@ -1,4 +1,3 @@
-
 export interface SliceData {
   id: number;
   blockCount: number;
@@ -66,6 +65,7 @@ export type TooltipContent = VerseTooltipContent | ChapterTooltipContent;
 
 export interface SurahVerse {
   numberInSurah: number;
+  absoluteNumber: number;
   arabicText: string;
   englishText: string;
   banglaText: string;
@@ -84,6 +84,7 @@ export interface SurahData {
 
 export interface VerseResult {
     numberInSurah: number;
+    absoluteNumber: number;
     surah: {
         number: number;
         englishName: string;

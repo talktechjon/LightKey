@@ -8,9 +8,12 @@ import {
   MaximizeIcon, MinimizeIcon, CopyIcon, CheckIcon
 } from './Icons.tsx';
 
+const GET_ARABIC_AUDIO_URL = (abs: number) => `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${abs}.mp3`;
+
 type CurrentlyPlaying = {
   surah: number;
   ayah: number;
+  abs: number;
 } | null;
 
 interface VerseFinderProps {
@@ -31,46 +34,40 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
   const [error, setError] = useState<string | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
   const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle');
+  
   const inputRef = useRef<HTMLInputElement>(null);
   const verseElementsRef = useRef(new Map<string, HTMLDivElement>());
   
   const [currentlyPlaying, setCurrentlyPlaying] = useState<CurrentlyPlaying>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(new Audio());
-  const lastPlayedRef = useRef<CurrentlyPlaying>(null);
 
   const [isPlaylistPlaying, setIsPlaylistPlaying] = useState(false);
   const [isRepeatActive, setIsRepeatActive] = useState(false);
-  const [playlist, setPlaylist] = useState<{ surah: number; ayah: number; url: string; }[]>([]);
+  const [playlist, setPlaylist] = useState<{ surah: number; ayah: number; abs: number; }[]>([]);
   const [playlistIndex, setPlaylistIndex] = useState(0);
 
   const [rangeStart, setRangeStart] = useState('1');
   const [rangeEnd, setRangeEnd] = useState('');
 
   useEffect(() => {
-    let newPlaylist: { surah: number; ayah: number; url: string; }[] = [];
+    let newPlaylist: { surah: number; ayah: number; abs: number; }[] = [];
     if (content.type === 'search') {
         newPlaylist = content.verses.map(v => ({
-            surah: v.surah.number, ayah: v.numberInSurah, url: v.fullVerseAudioUrl
+            surah: v.surah.number, ayah: v.numberInSurah, abs: v.absoluteNumber
         }));
-        setRangeStart('1'); setRangeEnd(''); 
     } else if (content.type === 'surah') {
         const start = parseInt(rangeStart, 10) || 1;
         const end = parseInt(rangeEnd, 10) || content.data.numberOfAyahs;
-        
-        if (rangeEnd === '' && content.data.numberOfAyahs > 0) {
-            setRangeEnd(content.data.numberOfAyahs.toString());
-        }
-
         newPlaylist = content.data.verses
             .filter(v => v.numberInSurah >= start && v.numberInSurah <= end)
-            .map(v => ({ surah: content.data.number, ayah: v.numberInSurah, url: v.fullVerseAudioUrl }));
+            .map(v => ({ surah: content.data.number, ayah: v.numberInSurah, abs: v.absoluteNumber }));
     }
     
     setPlaylist(newPlaylist);
     setIsPlaylistPlaying(false);
     setPlaylistIndex(0);
-    if(audioRef.current) audioRef.current.pause();
+    audioRef.current.pause();
     setCurrentlyPlaying(null);
   }, [content, rangeStart, rangeEnd]);
 
@@ -84,31 +81,26 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     }
   }, [currentlyPlaying]);
 
+  const handlePlaybackFinish = useCallback(() => {
+    if (isPlaylistPlaying && playlistIndex + 1 < playlist.length) {
+        setPlaylistIndex(prev => prev + 1);
+    } else if (isPlaylistPlaying && isRepeatActive) {
+        setPlaylistIndex(0);
+    } else {
+        setIsPlaylistPlaying(false);
+        setCurrentlyPlaying(null);
+        setIsPlaying(false);
+    }
+  }, [isPlaylistPlaying, playlistIndex, playlist, isRepeatActive]);
+
   useEffect(() => {
     const audio = audioRef.current;
-    const onPlay = () => { setIsPlaying(true); };
-    const onPause = () => { setIsPlaying(false); };
-
-    const onEnded = () => {
-        if (isPlaylistPlaying && playlistIndex + 1 < playlist.length) {
-            setPlaylistIndex(prev => prev + 1);
-        } else if (isPlaylistPlaying && isRepeatActive) {
-            setPlaylistIndex(0);
-        } else {
-            setIsPlaylistPlaying(false);
-            setCurrentlyPlaying(null);
-            setIsPlaying(false);
-        }
-    };
-    
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
+    const onEnded = () => handlePlaybackFinish();
     const onError = () => {
-        const failedRequest = lastPlayedRef.current || currentlyPlaying;
-        if (failedRequest) {
-            setError(`Audio failed for [${failedRequest.surah}:${failedRequest.ayah}]`);
-        } else {
-            setError('Audio source unavailable.');
-        }
-        onEnded();
+        console.warn("Audio source failed, skipping...");
+        handlePlaybackFinish();
     };
 
     audio.addEventListener('play', onPlay);
@@ -122,68 +114,53 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
       audio.removeEventListener('ended', onEnded);
       audio.removeEventListener('error', onError);
     };
-  }, [isPlaylistPlaying, isRepeatActive, playlist, playlistIndex, currentlyPlaying]);
+  }, [handlePlaybackFinish]);
   
+  useEffect(() => {
+    if (currentlyPlaying && isPlaying) {
+        const url = GET_ARABIC_AUDIO_URL(currentlyPlaying.abs);
+        const audio = audioRef.current;
+        if (audio.src !== url) {
+            audio.pause();
+            audio.src = url;
+            audio.load();
+            audio.play().catch(() => handlePlaybackFinish());
+        } else if (audio.paused) {
+            audio.play().catch(() => handlePlaybackFinish());
+        }
+    } else if (!isPlaying) {
+        audioRef.current.pause();
+    }
+  }, [currentlyPlaying, isPlaying, handlePlaybackFinish]);
+
   useEffect(() => {
     if (isPlaylistPlaying && playlist.length > 0 && playlistIndex < playlist.length) {
         const track = playlist[playlistIndex];
-        handlePlayToggle({ surah: track.surah, ayah: track.ayah }, track.url, true);
-    } else if (!isPlaylistPlaying && audioRef.current && !audioRef.current.paused) {
-        audioRef.current.pause();
+        setCurrentlyPlaying({ surah: track.surah, ayah: track.ayah, abs: track.abs });
+        setIsPlaying(true);
     }
   }, [isPlaylistPlaying, playlistIndex, playlist]);
 
-
   useEffect(() => {
-    if (isVisible && content.type !== 'surah' && content.type !== 'loading_surah') {
-        const timerId = setTimeout(() => { inputRef.current?.focus(); }, 100);
-        return () => clearTimeout(timerId);
-    }
     if (!isVisible) {
-        const audio = audioRef.current;
-        audio.pause();
-        if (audio.src) {
-            audio.removeAttribute('src');
-            audio.load();
-        }
+        audioRef.current.pause();
+        audioRef.current.removeAttribute('src');
         setCurrentlyPlaying(null); 
         setIsPlaying(false); 
         setIsPlaylistPlaying(false);
+    } else if (content.type !== 'surah' && content.type !== 'loading_surah') {
+        setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isVisible, content.type]);
 
-  const isSameAudio = (a: CurrentlyPlaying, b: CurrentlyPlaying) => {
-    if (!a || !b) return false;
-    return a.surah === b.surah && a.ayah === b.ayah;
-  };
-
-  const handlePlayToggle = (newRequest: CurrentlyPlaying, url: string, isFromPlaylist = false) => {
-    if (!isFromPlaylist) { setIsPlaylistPlaying(false); }
-    if (!url) {
-        setError(`Audio unavailable for ${newRequest?.surah}:${newRequest?.ayah}`);
-        return;
-    }
-
-    const audio = audioRef.current;
-    if (isSameAudio(currentlyPlaying, newRequest)) {
-        if (isPlaying) {
-            audio.pause();
-        } else {
-            audio.play().catch(() => setError("Playback blocked."));
-        }
+  const handlePlayToggle = (verse: { surah: number; ayah: number; abs: number }) => {
+    if (isPlaylistPlaying) setIsPlaylistPlaying(false);
+    if (currentlyPlaying && currentlyPlaying.surah === verse.surah && currentlyPlaying.ayah === verse.ayah) {
+        setIsPlaying(!isPlaying);
     } else {
         setError(null);
-        lastPlayedRef.current = newRequest;
-        audio.pause();
-        audio.src = '';
-        audio.load();
-        audio.src = url;
-        audio.play().catch(() => {
-            setTimeout(() => {
-                if (audio.src === url) audio.play().catch(() => setError("Source failed."));
-            }, 150);
-        });
-        setCurrentlyPlaying(newRequest);
+        setCurrentlyPlaying(verse);
+        setIsPlaying(true);
     }
   };
 
@@ -191,9 +168,10 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     if (playlist.length === 0) return;
     if (isPlaylistPlaying) {
       setIsPlaylistPlaying(false);
-      audioRef.current.pause();
+      setIsPlaying(false);
     } else {
       setIsPlaylistPlaying(true);
+      setIsPlaying(true);
     }
   };
 
@@ -201,12 +179,22 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
 
   const handleShuffle = () => {
     if (playlist.length <= 1) return;
-    const shuffled = [...playlist].sort(() => Math.random() - 0.5);
+    
+    // Fisher-Yates Shuffle algorithm for true randomness
+    const shuffled = [...playlist];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
     setPlaylist(shuffled);
     setPlaylistIndex(0);
-    setIsPlaylistPlaying(false);
+    
+    // Reset audio and start playing from the new first item in the shuffled list
     audioRef.current.pause();
     setCurrentlyPlaying(null);
+    setIsPlaylistPlaying(true);
+    setIsPlaying(true);
   };
 
   const handleSearch = useCallback(async () => {
@@ -253,6 +241,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                 if (!surahData) return [];
                 return surahData.verses.map(v => ({
                     numberInSurah: v.numberInSurah,
+                    absoluteNumber: v.absoluteNumber,
                     surah: { number: surahData.number, englishName: surahData.englishName },
                     arabicText: v.arabicText,
                     transliteration: v.transliteration,
@@ -287,7 +276,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     const textToCopy = versesToCopy.map(v => {
         const surahNumber = 'surah' in v ? v.surah.number : (content as any).data.number;
         const surahName = 'surah' in v ? v.surah.englishName : (content as any).data.englishName;
-        return `${surahName} [${surahNumber}:${v.numberInSurah}]\nAr: ${v.arabicText}\nEn: ${v.englishText}\nTr: ${v.transliteration}`;
+        return `${surahName} [${surahNumber}:${v.numberInSurah}]\nAr: ${v.arabicText}\nEn: ${v.englishText}\nBn: ${v.banglaText}\nTr: ${v.transliteration}`;
     }).join('\n\n');
     navigator.clipboard.writeText(textToCopy).then(() => {
         setCopyStatus('copied');
@@ -304,19 +293,22 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
             return (
                 <div className="space-y-4">
                     {content.verses.map((v) => {
-                        const id = { surah: v.surah.number, ayah: v.numberInSurah };
-                        const isCurrent = isPlaying && isSameAudio(currentlyPlaying, id);
+                        const id = { surah: v.surah.number, ayah: v.numberInSurah, abs: v.absoluteNumber };
+                        const isCurrent = isPlaying && currentlyPlaying?.surah === v.surah.number && currentlyPlaying?.ayah === v.numberInSurah;
                         return (
                             <div key={`${v.surah.number}-${v.numberInSurah}`} ref={el => el ? verseElementsRef.current.set(`${v.surah.number}-${v.numberInSurah}`, el) : verseElementsRef.current.delete(`${v.surah.number}-${v.numberInSurah}`)} className="p-3 bg-gray-900/50 border border-gray-700 rounded-md">
-                                <div className="flex justify-between items-center mb-2">
+                                <div className="flex justify-between items-center mb-4">
                                     <h4 className="font-bold text-cyan-400">{v.surah.englishName} [{v.surah.number}:{v.numberInSurah}]</h4>
-                                    <button onClick={() => handlePlayToggle(id, v.fullVerseAudioUrl)} className={isCurrent ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}>
+                                    <button onClick={() => handlePlayToggle(id)} className={isCurrent ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}>
                                         {isCurrent ? <PauseIcon /> : <PlayIcon />}
                                     </button>
                                 </div>
-                                <div className="text-xl text-right font-serif text-white mb-2" dir="rtl">{v.arabicText}</div>
-                                <p className="italic text-gray-400 mb-2">{v.transliteration}</p>
-                                <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2">{v.englishText}</p>
+                                <div className="text-xl text-right font-serif text-white mb-2 leading-relaxed" dir="rtl">{v.arabicText}</div>
+                                <p className="italic text-gray-400 mb-3 text-sm">{v.transliteration}</p>
+                                <div className="space-y-2">
+                                    <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 text-sm">{v.englishText}</p>
+                                    {v.banglaText && <p className="text-cyan-200 border-l-2 border-amber-500/50 pl-2 text-sm">{v.banglaText}</p>}
+                                </div>
                             </div>
                         );
                     })}
@@ -331,18 +323,22 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                     </div>
                     <div className="space-y-4">
                        {content.data.verses.map((v) => {
-                           const id = { surah: content.data.number, ayah: v.numberInSurah };
-                           const isCurrent = isPlaying && isSameAudio(currentlyPlaying, id);
+                           const id = { surah: content.data.number, ayah: v.numberInSurah, abs: v.absoluteNumber };
+                           const isCurrent = isPlaying && currentlyPlaying?.surah === content.data.number && currentlyPlaying?.ayah === v.numberInSurah;
                            return (
                                <div key={`${content.data.number}-${v.numberInSurah}`} ref={el => el ? verseElementsRef.current.set(`${content.data.number}-${v.numberInSurah}`, el) : verseElementsRef.current.delete(`${content.data.number}-${v.numberInSurah}`)} className="p-3 bg-gray-900/50 border border-gray-700 rounded-md">
-                                   <div className="flex justify-between items-center mb-2">
+                                   <div className="flex justify-between items-center mb-4">
                                        <h4 className="font-bold text-cyan-400">{content.data.number}:{v.numberInSurah}</h4>
-                                       <button onClick={() => handlePlayToggle(id, v.fullVerseAudioUrl)} className={isCurrent ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}>
+                                       <button onClick={() => handlePlayToggle(id)} className={isCurrent ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}>
                                            {isCurrent ? <PauseIcon /> : <PlayIcon />}
                                        </button>
                                    </div>
                                    <div className="text-2xl text-right font-serif text-white mb-3" dir="rtl">{v.arabicText}</div>
-                                   <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2">{v.englishText}</p>
+                                   <p className="italic text-gray-400 mb-3 text-sm">{v.transliteration}</p>
+                                   <div className="space-y-2">
+                                       <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 text-sm">{v.englishText}</p>
+                                       {v.banglaText && <p className="text-cyan-200 border-l-2 border-amber-500/50 pl-2 text-sm">{v.banglaText}</p>}
+                                   </div>
                                </div>
                            );
                        })}
@@ -373,7 +369,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
               <input type="number" min="1" max={content.data.numberOfAyahs} value={rangeEnd} onChange={e => setRangeEnd(e.target.value)} className="w-14 bg-gray-800 border border-gray-600 rounded px-1 py-0.5 text-center" />
             </div>
         )}
-        <div className="flex items-center gap-x-2 text-gray-400">
+        <div className="flex items-center gap-x-2 text-gray-400 relative">
             <button onClick={handleShuffle} disabled={playlist.length === 0} title="Shuffle"><ShuffleIcon/></button>
             <button onClick={handleRepeatToggle} className={isRepeatActive ? 'text-cyan-300' : ''} title="Repeat"><RepeatIcon/></button>
             <button onClick={handlePlaylistPlayPause} disabled={playlist.length === 0} className={isPlaylistPlaying && isPlaying ? 'text-cyan-300' : ''} title="Play List">

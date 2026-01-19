@@ -1,4 +1,3 @@
-
 import { SurahData, SurahVerse, VerseResult, LocalTranslationData } from '../types.ts';
 
 // In-memory cache for fetched surahs
@@ -134,6 +133,7 @@ export const getFullSurah = async (surahNumber: number, mode: 'online' | 'local'
 
           return {
               numberInSurah: ayah.numberInSurah,
+              absoluteNumber: absoluteAyahNumber,
               arabicText: ayah.text,
               englishText: englishText,
               banglaText: banglaText,
@@ -218,6 +218,7 @@ export const getVerseDetails = async (surah: number, ayah: number, mode: 'online
 
         return {
             numberInSurah: verseData.numberInSurah,
+            absoluteNumber: verseData.absoluteNumber,
             surah: {
                 number: surahData.number,
                 englishName: surahData.englishName,
