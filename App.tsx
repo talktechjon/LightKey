@@ -33,7 +33,7 @@ const App: React.FC = () => {
   const [translationMode, setTranslationMode] = useState<'online' | 'local'>('online');
   const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(null);
   const [localFileName, setLocalFileName] = useState<string | null>(null);
-  const [isInstructionVisible, setIsInstructionVisible] = useState(true); // Default to true for orientation
+  const [isInstructionVisible, setIsInstructionVisible] = useState(false); // Disabled by default per user request
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
   const isIdle = useIdle(15000, isIdleAnimationEnabled && !isLowResourceMode);
   const idleIntervalRef = useRef<number | null>(null);

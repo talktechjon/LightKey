@@ -71,7 +71,15 @@ export const TRIANGLE_POINTS: TriangleDefinition[] = [
     { name: 'Downward Triangle', color: COLORS.triangle1, points: [{ type: '🌴 3 Rahim', value: 1 }, { type: '6 Rahman 🌋', value: 39 }, { type: '9 Razim 🔥', value: 77 }] }
 ];
 
-export const CENTRAL_GEOMETRY_POINTS = [TRIANGLE_POINTS[1].points[0].value, TRIANGLE_POINTS[1].points[1].value, TRIANGLE_POINTS[1].points[2].value, TRIANGLE_POINTS[0].points[0].value, TRIANGLE_POINTS[0].points[1].value, TRIANGLE_POINTS[0].points[2].value];
+// Order changed to: Rahim(1) -> Rahman(39) -> Razim(77) -> Photosynthesis(19) -> Heaven(95) -> Kingdom(57)
+export const CENTRAL_GEOMETRY_POINTS = [
+  1,   // 3 Rahim
+  39,  // 6 Rahman
+  77,  // 9 Razim
+  19,  // 9 Photosynthesis
+  95,  // 6 Heaven
+  57   // 3 Kingdom
+];
 
 export const ICON_DIAL_DATA: IconData[] = [
     { id: 'rahim', chapter: 1, emoji: '🌴', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌴%3C/text%3E%3C/svg%3E", description: '3 Rahim 🌴' },
@@ -136,7 +144,7 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 15, englishName: 'Stone of Return', transliteration: 'Al-Ḥijr', arabicName: 'الحجر', revelationType: 'Makki', juz: '14' },
     { number: 16, englishName: "Queen's Loyalty", transliteration: 'An-Naḥl', arabicName: 'النحل', revelationType: 'Makki', juz: '14' },
     { number: 17, englishName: 'Ascension', transliteration: 'Banī Isrāʾīl', arabicName: 'الإسراء', revelationType: 'Makki', juz: '15' },
-    { number: 18, englishName: 'Remember The Cave', transliteration: 'Al-Kahf', arabicName: 'الكهف', revelationType: 'Makki', juz: '15-16' },
+    { number: 18, englishName: 'Remember The Cave', transliteration: 'Al-Kahf', arabicName: 'الكهফ', revelationType: 'Makki', juz: '15-16' },
     { number: 19, englishName: 'Photosynthesis', transliteration: 'Maryam', arabicName: 'مريم', revelationType: 'Makki', juz: '16' },
     { number: 20, englishName: 'Chosen', transliteration: 'Ṭā Hā', arabicName: 'طه', revelationType: 'Makki', juz: '16' },
     { number: 21, englishName: 'Guide on Water', transliteration: 'Al-Anbiyāʾ', arabicName: 'الأنبياء', revelationType: 'Makki', juz: '17' },
@@ -182,25 +190,25 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 61, englishName: 'The Rank', transliteration: 'As-Ṣaff', arabicName: 'الصف', revelationType: 'Madani', juz: '28' },
     { number: 62, englishName: 'The Assembly', transliteration: 'Al-Jumuʿah', arabicName: 'الجمعة', revelationType: 'Madani', juz: '28' },
     { number: 63, englishName: 'The Hypocrites', transliteration: 'Al-Munāfiqūn', arabicName: 'المنافقون', revelationType: 'Madani', juz: '28' },
-    { number: 64, englishName: 'Mutual Blaming', transliteration: 'At-Taghābun', arabicName: 'التغابن', revelationType: 'Madani', juz: '28' },
+    { number: 64, englishName: 'Mutual Blaming', transliteration: 'At-Taghābun', arabicName: 'التغابন', revelationType: 'Madani', juz: '28' },
     { number: 65, englishName: 'The Divorce', transliteration: 'Aṭ-Ṭalāq', arabicName: 'الطلاق', revelationType: 'Madani', juz: '28' },
     { number: 66, englishName: 'The Restriction', transliteration: 'At-Taḥrīm', arabicName: 'التحريم', revelationType: 'Madani', juz: '28' },
     { number: 67, englishName: 'The Sovereignty', transliteration: 'Al-Mulk', arabicName: 'الملك', revelationType: 'Makki', juz: '29' },
     { number: 68, englishName: 'The Decree', transliteration: 'Al-Qalam', arabicName: 'القلم', revelationType: 'Makki', juz: '29' },
     { number: 69, englishName: 'Truth Manifested', transliteration: 'Al-Ḥāqqah', arabicName: 'الحاقة', revelationType: 'Makki', juz: '29' },
     { number: 70, englishName: 'The Glory', transliteration: 'Al-Maʿārij', arabicName: 'المعارج', revelationType: 'Makki', juz: '29' },
-    { number: 71, englishName: 'Womb on Water', transliteration: 'Nūḥ', arabicName: 'نوح', revelationType: 'Makki', juz: '29' },
+    { number: 71, englishName: 'Womb on Water', transliteration: 'Nūḥ', arabicName: 'নোয়াহ', revelationType: 'Makki', juz: '29' },
     { number: 72, englishName: 'Transgressors', transliteration: 'Al-Jinn', arabicName: 'الجن', revelationType: 'Makki', juz: '29' },
-    { number: 73, englishName: 'The Covered One', transliteration: 'Al-Muzzammil', arabicName: 'المז্মমীল', revelationType: 'Makki', juz: '29' },
+    { number: 73, englishName: 'The Covered One', transliteration: 'Al-Muzzammil', arabicName: 'المজম্মীল', revelationType: 'Makki', juz: '29' },
     { number: 74, englishName: 'The Secret One', transliteration: 'Al-Muddaththir', arabicName: 'المدثر', revelationType: 'Makki', juz: '29' },
     { number: 75, englishName: 'Raised Alive', transliteration: 'Al-Qiyāmah', arabicName: 'القيامة', revelationType: 'Makki', juz: '29' },
     { number: 76, englishName: 'The Righteous Man', transliteration: 'Al-Insān', arabicName: 'الإنسان', revelationType: 'Madani', juz: '29' },
-    { number: 77, englishName: 'The Agents', transliteration: 'Al-Mursalāt', arabicName: 'الমারসালাত', revelationType: 'Makki', juz: '29' },
+    { number: 77, englishName: 'The Agents', transliteration: 'Al-Mursalāt', arabicName: 'মারসালাত', revelationType: 'Makki', juz: '29' },
     { number: 78, englishName: 'The Event', transliteration: 'An-Nabaʾ', arabicName: 'النبأ', revelationType: 'Makki', juz: '30' },
-    { number: 79, englishName: 'The Uprooting', transliteration: 'An-Nāziʿāt', arabicName: 'الনাযিআত', revelationType: 'Makki', juz: '30' },
-    { number: 80, englishName: 'Turning Away', transliteration: 'ʿAbasa', arabicName: 'عبس', revelationType: 'Makki', juz: '30' },
+    { number: 79, englishName: 'The Uprooting', transliteration: 'An-Nāziʿāt', arabicName: 'নাযিয়াত', revelationType: 'Makki', juz: '30' },
+    { number: 80, englishName: 'Turning Away', transliteration: 'ʿAbasa', arabicName: 'عبস', revelationType: 'Makki', juz: '30' },
     { number: 81, englishName: 'Implosion of Action', transliteration: 'At-Takwīr', arabicName: 'التكوير', revelationType: 'Makki', juz: '30' },
-    { number: 82, englishName: 'Seal of Heaven', transliteration: 'Al-Infiṭār', arabicName: 'الإنফটার', revelationType: 'Makki', juz: '30' },
+    { number: 82, englishName: 'Seal of Heaven', transliteration: 'Al-Infiṭār', arabicName: 'ইনফিতার', revelationType: 'Makki', juz: '30' },
     { number: 83, englishName: 'Reductants', transliteration: 'Al-Muṭaffifīn', arabicName: 'المطففين', revelationType: 'Makki', juz: '30' },
     { number: 84, englishName: 'Quantum Threshold', transliteration: 'Al-Inshiqāq', arabicName: 'الانشقاق', revelationType: 'Makki', juz: '30' },
     { number: 85, englishName: 'Levitation of Truth', transliteration: 'Al-Burūj', arabicName: 'البروج', revelationType: 'Makki', juz: '30' },
@@ -208,12 +216,12 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 87, englishName: 'The Most High', transliteration: 'Al-Aʿlā', arabicName: 'الأعلى', revelationType: 'Makki', juz: '30' },
     { number: 88, englishName: 'The Champion', transliteration: 'Al-Ghāshiyah', arabicName: 'الغاشية', revelationType: 'Makki', juz: '30' },
     { number: 89, englishName: 'New Beginning', transliteration: 'Al-Fajr', arabicName: 'الفجر', revelationType: 'Makki', juz: '30' },
-    { number: 90, englishName: 'The Center', transliteration: 'Al-Balad', arabicName: 'البلদ', revelationType: 'Makki', juz: '30' },
+    { number: 90, englishName: 'The Center', transliteration: 'Al-Balad', arabicName: 'বিলাদ', revelationType: 'Makki', juz: '30' },
     { number: 91, englishName: 'The Sun', transliteration: 'Ash-Shams', arabicName: 'الشمس', revelationType: 'Makki', juz: '30' },
     { number: 92, englishName: 'The Covering', transliteration: 'Al-Layl', arabicName: 'الليل', revelationType: 'Makki', juz: '30' },
     { number: 93, englishName: 'Bright Light', transliteration: 'Ad-Ḍuḥā', arabicName: 'الضحى', revelationType: 'Makki', juz: '30' },
     { number: 94, englishName: 'Calmness in Fire', transliteration: 'Ash-Sharḥ', arabicName: 'الشرح', revelationType: 'Makki', juz: '30' },
-    { number: 95, englishName: 'Flesh of Purity', transliteration: 'At-Tīn', arabicName: 'التিন', revelationType: 'Makki', juz: '30' },
+    { number: 95, englishName: 'Flesh of Purity', transliteration: 'At-Tīn', arabicName: 'তীন', revelationType: 'Makki', juz: '30' },
     { number: 96, englishName: 'The Sticky Clot', transliteration: 'Al-ʿAlaq', arabicName: 'العلق', revelationType: 'Makki', juz: '30' },
     { number: 97, englishName: 'Knowledge of Signs', transliteration: 'Al-Qadr', arabicName: 'القدر', revelationType: 'Makki', juz: '30' },
     { number: 98, englishName: 'Clear Proof', transliteration: 'Al-Bayyinah', arabicName: 'البينة', revelationType: 'Madani', juz: '30' },
@@ -223,13 +231,13 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 102, englishName: 'Delusional Race', transliteration: 'At-Takāthur', arabicName: 'التكاثر', revelationType: 'Makki', juz: '30' },
     { number: 103, englishName: 'Time', transliteration: 'Al-ʿAṣr', arabicName: 'العصر', revelationType: 'Makki', juz: '30' },
     { number: 104, englishName: 'The Defamer', transliteration: 'Al-Humazah', arabicName: 'الهمزة', revelationType: 'Makki', juz: '30' },
-    { number: 105, englishName: 'Might of Ignorance', transliteration: 'Al-Fīl', arabicName: 'الفিল', revelationType: 'Makki', juz: '30' },
-    { number: 106, englishName: 'The Shark', transliteration: 'Quraysh', arabicName: 'قريশ', revelationType: 'Makki', juz: '30' },
+    { number: 105, englishName: 'Might of Ignorance', transliteration: 'Al-Fīl', arabicName: 'ফিল', revelationType: 'Makki', juz: '30' },
+    { number: 106, englishName: 'The Shark', transliteration: 'Quraysh', arabicName: 'কুরাইশ', revelationType: 'Makki', juz: '30' },
     { number: 107, englishName: 'Kindness', transliteration: 'Al-Māʿūn', arabicName: 'الماعون', revelationType: 'Makki', juz: '30' },
-    { number: 108, englishName: 'Bounty', transliteration: 'Al-Kawthar', arabicName: 'الকোثر', revelationType: 'Makki', juz: '30' },
+    { number: 108, englishName: 'Bounty', transliteration: 'Al-Kawthar', arabicName: 'কাওসার', revelationType: 'Makki', juz: '30' },
     { number: 109, englishName: 'The Disbelievers', transliteration: 'Al-Kāfirūn', arabicName: 'الكافرون', revelationType: 'Makki', juz: '30' },
     { number: 110, englishName: 'The Return', transliteration: 'An-Naṣr', arabicName: 'النصر', revelationType: 'Madani', juz: '30' },
-    { number: 111, englishName: 'Fiber of Purity', transliteration: 'Al-Masad', arabicName: 'المসদ', revelationType: 'Makki', juz: '30' },
+    { number: 111, englishName: 'Fiber of Purity', transliteration: 'Al-Masad', arabicName: 'মাসাদ', revelationType: 'Makki', juz: '30' },
     { number: 112, englishName: 'The Absolute Truth', transliteration: 'Al-Ikhlāṣ', arabicName: 'الإخلاص', revelationType: 'Makki', juz: '30' },
     { number: 113, englishName: 'Malice', transliteration: 'Al-Falaq', arabicName: 'الفلق', revelationType: 'Makki', juz: '30' },
     { number: 114, englishName: 'Temptation', transliteration: 'An-Nās', arabicName: 'الناس', revelationType: 'Makki', juz: '30' }

@@ -12,13 +12,13 @@ interface ChapterGeometryProps {
 type PointWithColor = TrianglePoint & { color: string };
 
 // A memoized, self-contained component for the triangle geometry groups.
-const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction, rotation, isLowResourceMode }: { points: PointWithColor[], groupColor: string, name: string, direction: 'downward' | 'upward', rotation: number, isLowResourceMode: boolean }) => {
+const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, isLowResourceMode }: { points: PointWithColor[], name: string, direction: 'downward' | 'upward', rotation: number, isLowResourceMode: boolean }) => {
   const titleColor = direction === 'downward' ? 'text-fuchsia-300' : 'text-cyan-300';
   const titleSymbol = direction === 'downward' ? '▼' : '▲';
   
   return (
     <div>
-      <h3 className={`font-semibold text-lg ${titleColor} mb-2`} style={{ textShadow: `0 0 5px ${groupColor}`}}>
+      <h3 className={`font-semibold text-lg ${titleColor} mb-2`} style={{ textShadow: `0 0 5px currentColor`}}>
         {titleSymbol} {name}
       </h3>
       <div className="mt-1 flex justify-around items-start space-x-2">
@@ -46,8 +46,7 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
                   />
               </svg>
               <div className="mt-1 leading-tight flex flex-col justify-center w-full">
-                {/* Labels updated for better readability and hyphen removal */}
-                <p className="font-bold text-white text-sm truncate w-full" title={point.type}>
+                <p className="font-bold text-white text-[11px] lg:text-sm truncate w-full" title={point.type}>
                   {point.type}
                 </p>
                 <p className="text-gray-300 text-sm mt-0.5">
@@ -77,32 +76,31 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
 
 const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResourceMode }) => {
     
-    // Use the shared central geometry points
-    const centralVerseCounts = CENTRAL_GEOMETRY_POINTS.map(pointValue => {
-        const slice = getSliceAtPoint(pointValue, rotation);
-        return slice.blockCount;
-    });
+    // Indices in CENTRAL_GEOMETRY_POINTS [1, 39, 77, 19, 95, 57]:
+    // 0: Rahim(1), 1: Rahman(39), 2: Razim(77), 3: Photosynthesis(19), 4: Heaven(95), 5: Kingdom(57)
 
-    // For side panel display, swap Purify and Particle, but keep their original colors.
-    const downwardPointsWithColor: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[1].points[0], color: TRIANGLE_POINTS[1].color }, // 3 Rahim
-        { ...TRIANGLE_POINTS[0].points[1], color: TRIANGLE_POINTS[0].color }, // 6 Heaven (Swapped)
-        { ...TRIANGLE_POINTS[1].points[2], color: TRIANGLE_POINTS[1].color }, // 9 Razim
+    // Side Panel Presentation Reordering (DNA Flow - INTERLEAVED):
+    // Row 1 (Downward Group Layout): Rahim(D) -> Heaven(U) -> Razim(D)
+    const dnaRow1: PointWithColor[] = [
+        { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Rahim (Pink)
+        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[0].color }, // Heaven (Cyan)
+        { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Razim (Pink)
     ];
 
-    const upwardPointsWithColor: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[0].points[0], color: TRIANGLE_POINTS[0].color }, // 3 Kingdom
-        { ...TRIANGLE_POINTS[1].points[1], color: TRIANGLE_POINTS[1].color }, // 6 Rahman (Swapped)
-        { ...TRIANGLE_POINTS[0].points[2], color: TRIANGLE_POINTS[0].color }, // 9 Earth
+    // Row 2 (Upward Group Layout): Kingdom(U) -> Rahman(D) -> Photosynthesis(U)
+    const dnaRow2: PointWithColor[] = [
+        { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Kingdom (Cyan)
+        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[1].color }, // Rahman (Pink)
+        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Photosynthesis (Cyan)
     ];
     
     const renderCombinedGeometry = () => {
         const NUM_LAYERS = 6;
         const corePolygonColors = [
+            TRIANGLE_POINTS[1].color, // Downward
             TRIANGLE_POINTS[1].color,
             TRIANGLE_POINTS[1].color,
-            TRIANGLE_POINTS[1].color,
-            TRIANGLE_POINTS[0].color,
+            TRIANGLE_POINTS[0].color, // Upward
             TRIANGLE_POINTS[0].color,
             TRIANGLE_POINTS[0].color,
         ];
@@ -112,21 +110,20 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
         const effectiveRadius = maxPolyRadius - minPolyRadius;
         const radiusStep = NUM_LAYERS > 1 ? effectiveRadius / (NUM_LAYERS - 1) : 0;
 
-        return centralVerseCounts.map((verseCount, i) => {
+        return CENTRAL_GEOMETRY_POINTS.map((pointValue, i) => {
+            const slice = getSliceAtPoint(pointValue, rotation);
             const layerRadius = maxPolyRadius - (i * radiusStep);
             const baseColor = corePolygonColors[i];
-            const fillOpacity = 0; // Set to 0 to remove fill
-            const strokeOpacity = 0.4 + i * 0.1; // Increased for better visibility
 
             return (
                 <VersePolygon
                     key={`side-panel-core-layer-${i}`}
-                    verseCount={verseCount || 0}
+                    verseCount={slice.blockCount || 0}
                     radius={layerRadius}
                     color={baseColor}
                     center={{ x: 36, y: 36 }}
-                    fillOpacity={fillOpacity}
-                    strokeOpacity={strokeOpacity}
+                    fillOpacity={0}
+                    strokeOpacity={0.4 + i * 0.1}
                     strokeWidth={1}
                     groupOpacity={1}
                     isLowResourceMode={isLowResourceMode}
@@ -148,23 +145,21 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
             </div>
             <div className="text-center mt-2 min-h-[20px]">
                 <p className="text-sm text-gray-400">
-                    Visualizing the 6 core geometries.
+                    Visualizing the DNA Flow.
                 </p>
             </div>
-            <div className="mt-4 space-y-6">
+            <div className="mt-4 space-y-8">
                 <TriangleGeometryGroup 
                     name="Qun - The Command"
                     direction="downward"
-                    points={downwardPointsWithColor}
-                    groupColor={TRIANGLE_POINTS[1].color}
+                    points={dnaRow1}
                     rotation={rotation}
                     isLowResourceMode={isLowResourceMode}
                 />
                 <TriangleGeometryGroup 
                     name="FayaQun - Truth Returns"
                     direction="upward"
-                    points={upwardPointsWithColor}
-                    groupColor={TRIANGLE_POINTS[0].color}
+                    points={dnaRow2}
                     rotation={rotation}
                     isLowResourceMode={isLowResourceMode}
                 />
