@@ -33,7 +33,7 @@ const App: React.FC = () => {
   const [translationMode, setTranslationMode] = useState<'online' | 'local'>('online');
   const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(null);
   const [localFileName, setLocalFileName] = useState<string | null>(null);
-  const [isInstructionVisible, setIsInstructionVisible] = useState(false);
+  const [isInstructionVisible, setIsInstructionVisible] = useState(true); // Default to true for orientation
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
   const isIdle = useIdle(15000, isIdleAnimationEnabled && !isLowResourceMode);
   const idleIntervalRef = useRef<number | null>(null);
@@ -55,6 +55,7 @@ const App: React.FC = () => {
         setIsVerseFinderVisible(true);
         setIsLowResourceMode(true);
         setShouldAutoSearch(true);
+        setIsInstructionVisible(false);
     }
   }, []);
 

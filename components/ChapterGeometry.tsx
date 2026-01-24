@@ -18,21 +18,17 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
   
   return (
     <div>
-      <h3 className={`font-semibold text-lg ${titleColor}`} style={{ textShadow: `0 0 5px ${groupColor}`}}>
+      <h3 className={`font-semibold text-lg ${titleColor} mb-2`} style={{ textShadow: `0 0 5px ${groupColor}`}}>
         {titleSymbol} {name}
       </h3>
-      <div className="mt-2 flex justify-around items-start space-x-2">
+      <div className="mt-1 flex justify-around items-start space-x-2">
         {points.map((point, i) => {
           const slice = getSliceAtPoint(point.value, rotation);
           const isMuqattat = MUQATTAT_CHAPTERS.has(slice.id);
           const muqattatLetters = MUQATTAT_LETTERS.get(slice.id);
-          
-          const typeParts = point.type.split(' ');
-          const number = typeParts[0].replace('-', '');
-          const pointName = typeParts.slice(1).join(' ').split('/')[0];
-
           const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
           const iconSrc = getChapterIcon(chapterInfo.revelationType);
+
           return (
             <div 
               key={i} 
@@ -49,20 +45,21 @@ const TriangleGeometryGroup = React.memo(({ points, groupColor, name, direction,
                     isLowResourceMode={isLowResourceMode}
                   />
               </svg>
-              <div className="mt-1 text-xs leading-tight flex flex-col justify-center w-full">
-                <p className="font-mono text-white truncate w-full" title={point.type}>
-                  {number}- {pointName}
+              <div className="mt-1 leading-tight flex flex-col justify-center w-full">
+                {/* Labels updated for better readability and hyphen removal */}
+                <p className="font-bold text-white text-sm truncate w-full" title={point.type}>
+                  {point.type}
                 </p>
-                <p className="text-gray-400">
-                  <span className={`font-semibold ${isMuqattat ? 'muqattat-glow' : ''}`}>{slice.id}</span>:<span className="font-light">{slice.blockCount}</span>
+                <p className="text-gray-300 text-sm mt-0.5">
+                  <span className={`font-bold ${isMuqattat ? 'muqattat-glow' : ''}`}>{slice.id}</span>:<span className="font-medium">{slice.blockCount}</span>
                 </p>
-                 <p className="text-gray-300/90 truncate w-full flex items-center justify-center gap-1" title={chapterInfo.englishName}>
+                 <p className="text-gray-400 truncate w-full flex items-center justify-center gap-1 text-[11px]" title={chapterInfo.englishName}>
                     <img src={iconSrc} alt={chapterInfo.revelationType} className="w-3 h-3" />
                     <span className="truncate">{chapterInfo.englishName}</span>
                 </p>
-                <div className="h-4 flex items-center justify-center w-full overflow-hidden mt-0.5">
+                <div className="h-5 flex items-center justify-center w-full overflow-hidden mt-0.5">
                     {muqattatLetters ? (
-                        <span className="font-mono text-[10px] muqattat-glow text-cyan-100 opacity-90" dir="rtl">
+                        <span className="font-mono text-[13px] muqattat-glow text-white" dir="rtl">
                             {muqattatLetters.join(' ')}
                         </span>
                     ) : (
@@ -88,26 +85,26 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
 
     // For side panel display, swap Purify and Particle, but keep their original colors.
     const downwardPointsWithColor: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[1].points[0], color: TRIANGLE_POINTS[1].color }, // 3- Wave (Magenta)
-        { ...TRIANGLE_POINTS[0].points[1], color: TRIANGLE_POINTS[0].color }, // 6- Purify (Cyan) - Swapped
-        { ...TRIANGLE_POINTS[1].points[2], color: TRIANGLE_POINTS[1].color }, // 9- Vibration (Magenta)
+        { ...TRIANGLE_POINTS[1].points[0], color: TRIANGLE_POINTS[1].color }, // 3 Rahim
+        { ...TRIANGLE_POINTS[0].points[1], color: TRIANGLE_POINTS[0].color }, // 6 Heaven (Swapped)
+        { ...TRIANGLE_POINTS[1].points[2], color: TRIANGLE_POINTS[1].color }, // 9 Razim
     ];
 
     const upwardPointsWithColor: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[0].points[0], color: TRIANGLE_POINTS[0].color }, // 3- Repent (Cyan)
-        { ...TRIANGLE_POINTS[1].points[1], color: TRIANGLE_POINTS[1].color }, // 6- Particle (Magenta) - Swapped
-        { ...TRIANGLE_POINTS[0].points[2], color: TRIANGLE_POINTS[0].color }, // 9- Energy (Cyan)
+        { ...TRIANGLE_POINTS[0].points[0], color: TRIANGLE_POINTS[0].color }, // 3 Kingdom
+        { ...TRIANGLE_POINTS[1].points[1], color: TRIANGLE_POINTS[1].color }, // 6 Rahman (Swapped)
+        { ...TRIANGLE_POINTS[0].points[2], color: TRIANGLE_POINTS[0].color }, // 9 Earth
     ];
     
     const renderCombinedGeometry = () => {
         const NUM_LAYERS = 6;
         const corePolygonColors = [
-            TRIANGLE_POINTS[1].color, // Wave
-            TRIANGLE_POINTS[1].color, // Particle
-            TRIANGLE_POINTS[1].color, // Vibration
-            TRIANGLE_POINTS[0].color, // Repent
-            TRIANGLE_POINTS[0].color, // Purify
-            TRIANGLE_POINTS[0].color, // Energy
+            TRIANGLE_POINTS[1].color,
+            TRIANGLE_POINTS[1].color,
+            TRIANGLE_POINTS[1].color,
+            TRIANGLE_POINTS[0].color,
+            TRIANGLE_POINTS[0].color,
+            TRIANGLE_POINTS[0].color,
         ];
 
         const maxPolyRadius = 32;
@@ -154,7 +151,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                     Visualizing the 6 core geometries.
                 </p>
             </div>
-            <div className="mt-2 space-y-2">
+            <div className="mt-4 space-y-6">
                 <TriangleGeometryGroup 
                     name="Qun - The Command"
                     direction="downward"
