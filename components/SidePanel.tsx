@@ -209,74 +209,78 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
         id="side-panel-scroll-container"
         className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth"
     >
-      {/* Conditionally hide top sections when Piece of Heifer is active */}
+      {/* Sticky identification and playlist header - Hidden in Piece of Heifer mode */}
       {!isPieceOfBakaraActive && (
-        <>
-          <div>
-            <div className="flex justify-between items-center">
+        <div className="sticky top-0 z-40 -mx-6 px-6 py-4 bg-black/85 backdrop-blur-xl border-b border-cyan-500/30 shadow-2xl transition-all duration-300">
+            {/* Top Navigation Row */}
+            <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold text-cyan-300 tracking-wider">▼🕋▲</h2>
                 <PlaylistButtons onWatch={handleWatchSequence} />
             </div>
-            <div className="w-full h-px bg-cyan-300/50 mt-2"></div>
-          </div>
+            <div className="w-full h-px bg-cyan-300/30 mb-4"></div>
 
-          <div className="space-y-4">
-              <div className="sticky top-0 z-40 -mx-6 px-6 py-4 bg-black/80 backdrop-blur-xl border-b border-cyan-500/30 shadow-lg transition-all duration-300">
-                <div className="flex justify-between items-start lg:min-h-[80px]">
-                  <div className="font-semibold text-gray-200 pr-2">
-                      <div className="flex items-baseline gap-x-2">
-                          <img src={iconSrc} alt={chapterInfo.revelationType} title={chapterInfo.revelationType} className="w-5 h-5" />
-                          <span className={`text-lg text-cyan-300 ${isCurrentSliceMuqattat ? 'muqattat-glow' : ''}`}>
-                              {chapterInfo.number}. {chapterInfo.englishName}
-                          </span>
-                          {muqattatLetters && (
-                              <span 
-                                  className={`font-mono text-xl ${isCurrentSliceMuqattat ? 'muqattat-glow' : 'text-white'}`}
-                                  dir="rtl"
-                              >
-                                  {muqattatLetters.join(' · ')}
-                              </span>
-                          )}
-                      </div>
-                      <div className="flex gap-x-2 items-center">
+            {/* Chapter Identification Info */}
+            <div className="flex justify-between items-start lg:min-h-[80px]">
+                <div className="font-semibold text-gray-200 pr-2">
+                    <div className="flex items-baseline gap-x-2">
+                        <img src={iconSrc} alt={chapterInfo.revelationType} title={chapterInfo.revelationType} className="w-5 h-5" />
+                        <span className={`text-lg text-cyan-300 ${isCurrentSliceMuqattat ? 'muqattat-glow' : ''}`}>
+                            {chapterInfo.number}. {chapterInfo.englishName}
+                        </span>
+                        {muqattatLetters && (
+                            <span 
+                                className={`font-mono text-xl ${isCurrentSliceMuqattat ? 'muqattat-glow' : 'text-white'}`}
+                                dir="rtl"
+                            >
+                                {muqattatLetters.join(' · ')}
+                            </span>
+                        )}
+                    </div>
+                    <div className="flex gap-x-2 items-center">
                         <span className="text-base font-normal italic text-gray-400">
                             ({chapterInfo.transliteration})
                         </span>
-                      </div>
-                  </div>
-                  <button
-                    onClick={() => setRotation(0)}
-                    className="bg-gray-600 hover:bg-cyan-700 text-white font-bold py-1 px-3 rounded text-sm transition-colors duration-200 flex-shrink-0 mt-1"
-                    aria-label="Reset rotation"
-                  >
-                    Reset
-                  </button>
+                    </div>
                 </div>
-                <input
-                    id="rotation-slider"
-                    type="range"
-                    min="1"
-                    max={TOTAL_SLICES}
-                    step="1"
-                    value={currentSliceId}
-                    onChange={handleSliderChange}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-3"
-                />
-              </div>
-              
-              <CustomAnimationControls 
-                 customSequence={customSequence}
-                 setCustomSequence={setCustomSequence}
-                 animationMode={animationMode}
-                 setAnimationMode={setAnimationMode}
-                 setAnimationIndex={setAnimationIndex}
-                 createPlaylist={createPlaylist}
-              />
-          </div>
-        </>
+                <button
+                    onClick={() => setRotation(0)}
+                    className="bg-gray-600 hover:bg-cyan-700 text-white font-bold py-1 px-3 rounded text-sm transition-colors duration-200 flex-shrink-0 mt-1 shadow-lg"
+                    aria-label="Reset rotation"
+                >
+                    Reset
+                </button>
+            </div>
+
+            {/* Global Chapter Slider */}
+            <input
+                id="rotation-slider"
+                type="range"
+                min="1"
+                max={TOTAL_SLICES}
+                step="1"
+                value={currentSliceId}
+                onChange={handleSliderChange}
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-4"
+            />
+        </div>
       )}
 
-      <div className={!isPieceOfBakaraActive ? "pt-4 space-y-6" : ""}>
+      {/* Non-sticky analytical components section */}
+      <div className={!isPieceOfBakaraActive ? "space-y-6 pt-2" : ""}>
+         
+         {!isPieceOfBakaraActive && (
+            <div className="mb-6">
+                <CustomAnimationControls 
+                   customSequence={customSequence}
+                   setCustomSequence={setCustomSequence}
+                   animationMode={animationMode}
+                   setAnimationMode={setAnimationMode}
+                   setAnimationIndex={setAnimationIndex}
+                   createPlaylist={createPlaylist}
+                />
+            </div>
+         )}
+
          {isTreeOfVerseActive ? (
             <TreeOfVerse 
                 rotation={rotation} 
