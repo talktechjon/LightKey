@@ -204,13 +204,15 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   const muqattatLetters = MUQATTAT_LETTERS.get(currentSliceId);
   const iconSrc = getChapterIcon(chapterInfo.revelationType);
 
+  const isAnalyticalMode = isTreeOfVerseActive || isPieceOfBakaraActive;
+
   return (
     <aside 
         id="side-panel-scroll-container"
         className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth"
     >
-      {/* Sticky identification and playlist header - Hidden in Piece of Heifer mode */}
-      {!isPieceOfBakaraActive && (
+      {/* Sticky identification and playlist header - Hidden in Piece of Heifer and Tree of Verse modes */}
+      {!isAnalyticalMode && (
         <div className="sticky top-0 z-40 -mx-6 px-6 py-4 bg-black/85 backdrop-blur-xl border-b border-cyan-500/30 shadow-2xl transition-all duration-300">
             {/* Top Navigation Row */}
             <div className="flex justify-between items-center mb-4">
@@ -266,9 +268,9 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
       )}
 
       {/* Non-sticky analytical components section */}
-      <div className={!isPieceOfBakaraActive ? "space-y-6 pt-2" : ""}>
+      <div className={!isAnalyticalMode ? "space-y-6 pt-2" : ""}>
          
-         {!isPieceOfBakaraActive && (
+         {!isAnalyticalMode && (
             <div className="mb-6">
                 <CustomAnimationControls 
                    customSequence={customSequence}

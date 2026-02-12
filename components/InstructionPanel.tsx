@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 
 interface InstructionPanelProps {
@@ -186,7 +187,7 @@ const AnimatedHarvest: React.FC = () => {
 };
 
 const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'harvest' | 'reflection' | 'cosmology' | 'vision'>('harvest');
+  const [activeTab, setActiveTab] = useState<'harvest' | 'reflection' | 'cosmology' | 'vision' | 'nafs'>('harvest');
 
   const containerClasses = isVisible 
     ? "opacity-100 pointer-events-auto scale-100" 
@@ -213,7 +214,8 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
            <div className={`absolute top-0 right-0 w-80 h-80 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none transition-colors duration-1000 ${
              activeTab === 'harvest' ? 'bg-emerald-500/20' : 
              activeTab === 'reflection' ? 'bg-cyan-500/20' : 
-             activeTab === 'cosmology' ? 'bg-amber-500/20' : 'bg-fuchsia-500/20'}`}></div>
+             activeTab === 'cosmology' ? 'bg-amber-500/20' : 
+             activeTab === 'nafs' ? 'bg-orange-500/20' : 'bg-fuchsia-500/20'}`}></div>
 
            <div className="z-10">
                <div className="space-y-3 max-w-4xl">
@@ -251,6 +253,17 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                        </div>
                    )}
 
+                   {activeTab === 'nafs' && (
+                       <div>
+                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-400 to-rose-500 tracking-tighter uppercase">
+                             Nafs & 2-3-7 Architecture
+                           </h2>
+                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
+                             The Mathematical Caustic of Existence
+                           </p>
+                       </div>
+                   )}
+
                    {activeTab === 'vision' && (
                        <div>
                            <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-100 via-fuchsia-200 to-pink-600 tracking-tighter uppercase">
@@ -277,6 +290,12 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                  className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'reflection' ? 'border-cyan-400 text-cyan-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
                >
                  The Protocol
+               </button>
+               <button 
+                 onClick={() => setActiveTab('nafs')}
+                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'nafs' ? 'border-orange-400 text-orange-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+               >
+                 Nafs & 2-3-7
                </button>
                <button 
                  onClick={() => setActiveTab('cosmology')}
@@ -365,6 +384,266 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                     </div>
                  </div>
                </section>
+            </div>
+           )}
+
+           {activeTab === 'nafs' && (
+            <div className="p-6 md:p-12 space-y-12 text-gray-200 max-w-6xl mx-auto font-light">
+                {/* 2-3-7 FORMAL FRAMEWORK */}
+                <section className="bg-black/60 border border-orange-500/20 p-8 md:p-12 rounded-[3rem] relative overflow-hidden shadow-2xl">
+                    <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-amber-400 via-orange-500 to-rose-600"></div>
+                    
+                    <div className="mb-10 text-center">
+                        <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-rose-400 mb-4 italic">
+                            The Unified 2-3-7 Architecture
+                        </h3>
+                        <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
+                            The minimal complete framework for mediated interaction between incompatible domains.
+                            Paradoxes emerge only when the <strong>dynamic balance</strong> is ignored.
+                        </p>
+                        <div className="mt-8 inline-block px-10 py-4 bg-orange-950/30 border border-orange-500/30 rounded-2xl shadow-[0_0_30px_rgba(245,158,11,0.1)]">
+                            <span className="text-2xl md:text-4xl font-mono font-black text-amber-300 tracking-tighter">
+                                WORK = MĪZĀN(ℒ ⊥ 𝒮)
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="bg-gray-800/30 p-6 rounded-2xl border border-white/5 space-y-4">
+                            <div className="text-4xl">ℒ</div>
+                            <h4 className="text-amber-400 font-bold uppercase tracking-widest text-xs">Phase 1: Binary (2)</h4>
+                            <p className="text-sm text-gray-300">
+                                <strong>Light Caustic:</strong> Timeless constraints, gauge invariants, pure information. Incompatible regimes identified (Ayat vs. Hayat).
+                            </p>
+                        </div>
+                        <div className="bg-gray-800/30 p-6 rounded-2xl border border-white/5 space-y-4">
+                            <div className="text-4xl">ℳ</div>
+                            <h4 className="text-orange-400 font-bold uppercase tracking-widest text-xs">Phase 2: Triadic (3)</h4>
+                            <p className="text-sm text-gray-300">
+                                <strong>Mīzān:</strong> The Dynamic Balance Operator. Mediated oscillation. Cyclic processing (Input → Transform → Output) allows coexistence without annihilation.
+                            </p>
+                        </div>
+                        <div className="bg-gray-800/30 p-6 rounded-2xl border border-white/5 space-y-4">
+                            <div className="text-4xl">𝒮</div>
+                            <h4 className="text-rose-400 font-bold uppercase tracking-widest text-xs">Phase 3: Resolved (7)</h4>
+                            <p className="text-sm text-gray-300">
+                                <strong>Stable Attractors:</strong> The 7 are not steps in time but <strong>stable configured outcomes</strong> produced by triadic mediation (2³ - 1).
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* DUAL CAUSTIC PATHS */}
+                <div className="grid lg:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                        <div className="bg-cyan-950/20 border border-cyan-500/30 p-8 rounded-3xl relative">
+                            <div className="absolute -top-3 -left-3 bg-cyan-500 text-black font-black px-3 py-1 rounded-lg text-xs uppercase tracking-widest shadow-lg shadow-cyan-500/20">Heaven Path</div>
+                            <h4 className="text-xl font-black text-cyan-100 uppercase tracking-tighter mb-6">Primordial 2-3-7</h4>
+                            <ul className="space-y-6 text-sm md:text-base">
+                                <li className="flex gap-4">
+                                    <span className="text-cyan-400 font-mono font-bold">4:1</span>
+                                    <div>
+                                        <strong className="text-white block mb-1 uppercase text-xs tracking-widest">Nafs Medallion</strong>
+                                        One Nafs unity before split. Mercy (Water 21:30) begins everything.
+                                    </div>
+                                </li>
+                                <li className="flex gap-4">
+                                    <span className="text-cyan-400 font-mono font-bold">P-1</span>
+                                    <div>
+                                        <strong className="text-white block mb-1 uppercase text-xs tracking-widest">Light Breaks Razim</strong>
+                                        Command enters as Light (24:35), breaking the unseen/seen barrier.
+                                    </div>
+                                </li>
+                                <li className="flex gap-4">
+                                    <span className="text-cyan-400 font-mono font-bold">2</span>
+                                    <div>
+                                        <strong className="text-white block mb-1 uppercase text-xs tracking-widest">Polarities</strong>
+                                        Righteous (Angel/Submission) vs. Not Righteous (Iblis/Arrogance).
+                                    </div>
+                                </li>
+                                <li className="flex gap-4">
+                                    <span className="text-cyan-400 font-mono font-bold">3</span>
+                                    <div>
+                                        <strong className="text-white block mb-1 uppercase text-xs tracking-widest">Oscillations</strong>
+                                        Ibrahim Pattern: Family → Son → Self. Triad of Action purification.
+                                    </div>
+                                </li>
+                                <li className="flex gap-4">
+                                    <span className="text-cyan-400 font-mono font-bold">7</span>
+                                    <div>
+                                        <strong className="text-white block mb-1 uppercase text-xs tracking-widest">Stable States</strong>
+                                        Resolves into Rooh (Command) and Mercy (Return). 7 Heavens + 1 High Ground.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="space-y-6">
+                        <div className="bg-rose-950/20 border border-rose-500/30 p-8 rounded-3xl relative">
+                            <div className="absolute -top-3 -right-3 bg-rose-500 text-black font-black px-3 py-1 rounded-lg text-xs uppercase tracking-widest shadow-lg shadow-rose-500/20">Hell Path</div>
+                            <h4 className="text-xl font-black text-rose-100 uppercase tracking-tighter mb-6">Terrestrial 2-3-7</h4>
+                            <ul className="space-y-6 text-sm md:text-base">
+                                <li className="flex gap-4">
+                                    <span className="text-rose-400 font-mono font-bold">2:30</span>
+                                    <div>
+                                        <strong className="text-white block mb-1 uppercase text-xs tracking-widest">The Champion (Khalifa)</strong>
+                                        Musa (Action/Fire) | Miriam (Purification/Water) vs. Lut (Taghut).
+                                    </div>
+                                </li>
+                                <li className="flex gap-4">
+                                    <span className="text-rose-400 font-mono font-bold">INV</span>
+                                    <div>
+                                        <strong className="text-white block mb-1 uppercase text-xs tracking-widest">Inversion Loop</strong>
+                                        Iblis frozen at "Nothing" (19:23) vs Pharaoh mummified as "False Everything" (79:25).
+                                    </div>
+                                </li>
+                                <li className="flex gap-4">
+                                    <span className="text-rose-400 font-mono font-bold">2</span>
+                                    <div>
+                                        <strong className="text-white block mb-1 uppercase text-xs tracking-widest">Terrestrial Polarities</strong>
+                                        Love (Asiya/Submission in Fire) vs. Pride (Pharaoh/Self-Deification).
+                                    </div>
+                                </li>
+                                <li className="flex gap-4">
+                                    <span className="text-rose-400 font-mono font-bold">3</span>
+                                    <div>
+                                        <strong className="text-white block mb-1 uppercase text-xs tracking-widest">Triad of Loyalty</strong>
+                                        Rushd (Guidance) vs. Hawa (Whim). Inverted test pattern.
+                                    </div>
+                                </li>
+                                <li className="flex gap-4">
+                                    <span className="text-rose-400 font-mono font-bold">7</span>
+                                    <div>
+                                        <strong className="text-white block mb-1 uppercase text-xs tracking-widest">Hell Attractors</strong>
+                                        Resolves into Curse and Rescue. 7 Hells of Fire + 1 Lower Ground (Nothing).
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                {/* THE SCIENTIFIC PARADOXES SECTION */}
+                <section className="pt-12 border-t border-white/10">
+                    <div className="flex flex-col items-center mb-12">
+                        <h3 className="text-3xl md:text-5xl font-black text-white text-center uppercase tracking-tighter italic mb-4">
+                            Paradox Resolution Matrix
+                        </h3>
+                        <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 via-orange-500 to-rose-500"></div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-10">
+                        {/* HUBBLE TENSION */}
+                        <div className="bg-gray-900/40 p-8 rounded-[2.5rem] border border-white/5 space-y-6">
+                            <div className="flex justify-between items-start">
+                                <h5 className="text-xl font-bold text-amber-300 uppercase tracking-tighter">Hubble Tension</h5>
+                                <span className="bg-amber-500/10 text-amber-400 text-[10px] font-black px-2 py-1 rounded">COSMOLOGY</span>
+                            </div>
+                            <div className="space-y-4 text-base leading-relaxed text-gray-300">
+                                <p><strong>Paradox:</strong> Two incompatible H₀ measurements (CMB vs Local Distance Ladder).</p>
+                                <p><strong>2-3-7 Resolution:</strong> Identifies two regimes (Invariant Core ℒ vs Local Entropy Projection 𝒮). The tension is proof of dual caustics mediated by Mīzān.</p>
+                                <p className="italic font-serif text-amber-200/70 border-l-2 border-amber-500/30 pl-4">
+                                    "Measure H₀ in void vs dense structure—it correlates with local entropy production."
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* PHOTOSYNTHESIS */}
+                        <div className="bg-gray-900/40 p-8 rounded-[2.5rem] border border-white/5 space-y-6">
+                            <div className="flex justify-between items-start">
+                                <h5 className="text-xl font-bold text-emerald-300 uppercase tracking-tighter">Photosynthesis</h5>
+                                <span className="bg-emerald-500/10 text-emerald-400 text-[10px] font-black px-2 py-1 rounded">BIOLOGY</span>
+                            </div>
+                            <div className="space-y-4 text-base leading-relaxed text-gray-300">
+                                <p><strong>Paradox:</strong> 90%+ quantum yield in warm, noisy environments. Coherence should collapse instantly.</p>
+                                <p><strong>2-3-7 Resolution:</strong> The chloroplast is a Mīzān engine. It slows light and partitions energy through 3 pathways simultaneously, preventing decoherence via the 39:23 iteration law.</p>
+                                <p className="italic font-serif text-emerald-200/70 border-l-2 border-emerald-500/30 pl-4">
+                                    "Earth naturally builds the buffer (wood) to enable Fire-to-Tree transformation (36:80)."
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* THREE BODY PROBLEM */}
+                        <div className="bg-gray-900/40 p-8 rounded-[2.5rem] border border-white/5 space-y-6">
+                            <div className="flex justify-between items-start">
+                                <h5 className="text-xl font-bold text-cyan-300 uppercase tracking-tighter">3-Body Problem</h5>
+                                <span className="bg-cyan-500/10 text-cyan-400 text-[10px] font-black px-2 py-1 rounded">MECHANICS</span>
+                            </div>
+                            <div className="space-y-4 text-base leading-relaxed text-gray-300">
+                                <p><strong>Paradox:</strong> Why does adding one more body shatter determinism into chaos?</p>
+                                <p><strong>2-3-7 Resolution:</strong> 2-body is a special case lacking Mīzān. The 3rd body forces ℳ-emergence as a non-pairwise energy interface. Resonance cycles (3) resolve into 7 stability classes.</p>
+                                <p className="italic font-serif text-cyan-200/70 border-l-2 border-cyan-500/30 pl-4">
+                                    "Ibrahim (2:125) represents the unique figure-8 stable orbit in the moral 3-body problem."
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* METAMORPHOSIS */}
+                        <div className="bg-gray-900/40 p-8 rounded-[2.5rem] border border-white/5 space-y-6">
+                            <div className="flex justify-between items-start">
+                                <h5 className="text-xl font-bold text-fuchsia-300 uppercase tracking-tighter">Metamorphosis</h5>
+                                <span className="bg-fuchsia-500/10 text-fuchsia-400 text-[10px] font-black px-2 py-1 rounded">IDENTITY</span>
+                            </div>
+                            <div className="space-y-4 text-base leading-relaxed text-gray-300">
+                                <p><strong>Paradox:</strong> 90% tissue liquefies in the chrysalis, yet identity and memories survive dissolution.</p>
+                                <p><strong>2-3-7 Resolution:</strong> Chrysalis is the Mīzān-chamber. 3 Oscillations: Dispersal (ℳ→𝒮) → Purification (ℒ filtering 𝒮) → Reconstitution (ℒ→ℳ). Identity is preserved blueprint (75:3-4).</p>
+                                <p className="italic font-serif text-fuchsia-200/70 border-l-2 border-fuchsia-500/30 pl-4">
+                                    "Earth is the chrysalis for humanity. Resurrection is emergence in final imago form."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* THE SECOND ZERO */}
+                <section className="bg-gradient-to-b from-gray-900/80 to-black p-10 md:p-20 rounded-[4rem] border border-white/10 text-center space-y-10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)]">
+                    <div className="space-y-4">
+                        <h4 className="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter">The Second Zero</h4>
+                        <p className="text-rose-400 font-mono tracking-widest text-xs md:text-sm uppercase">Quantum Boundaries & The Razim Constraint</p>
+                    </div>
+                    
+                    <div className="max-w-4xl mx-auto space-y-8 text-lg md:text-xl leading-relaxed text-gray-400">
+                        <p>
+                            Absolute Zero (T=0) is unreachable because the universe enforces <strong>ℒ ⊥ 𝒮</strong>. 
+                            Heisenberg uncertainty is the Razim barrier at the ground state energy level.
+                        </p>
+                        <p>
+                            True nothingness is forbidden because <strong>Mīzān (19:23)</strong> still exists as latent informational potential. 
+                            Vacuum fluctuations are the infinite ink of the Word (18:109).
+                        </p>
+                    </div>
+                </section>
+
+                {/* FAILURE MODE & PREDICTION */}
+                <section className="grid lg:grid-cols-2 gap-8">
+                    <div className="p-8 bg-red-950/10 border border-red-500/20 rounded-[2.5rem] space-y-4">
+                        <h3 className="text-lg font-black text-red-400 uppercase tracking-widest">Failure Mode</h3>
+                        <p className="text-base text-gray-300 leading-relaxed">
+                            Any model that enforces direct <strong>ℒ ↔ 𝒮</strong> interaction (constraint ↔ entropy) without <strong>Mīzān</strong> necessarily produces paradox, instability, or mathematical infinities. Paradoxes are signals that the balance has been ignored.
+                        </p>
+                    </div>
+                    <div className="p-8 bg-emerald-950/10 border border-emerald-500/20 rounded-[2.5rem] space-y-4">
+                        <h3 className="text-lg font-black text-emerald-400 uppercase tracking-widest">Testable Prediction</h3>
+                        <p className="text-base text-gray-300 leading-relaxed">
+                            Any system exhibiting sustained coherence between incompatible regimes will show (a) a <strong>triadic processing phase</strong> and (b) collapse into <strong>exactly ≤7 dominant outcome attractors</strong>. This is the 2-3-7 machine manifest.
+                        </p>
+                    </div>
+                </section>
+
+                {/* SHAYTAN ROLE */}
+                <section className="p-8 bg-orange-950/10 border border-orange-500/20 rounded-3xl">
+                    <h3 className="text-xl font-bold text-orange-300 uppercase mb-4 flex items-center gap-3">
+                        <span className="text-2xl">🔥</span> Shaytan's Tool (15:72)
+                    </h3>
+                    <p className="text-gray-300 mb-4">
+                        <strong>The Mechanism:</strong> Using thermodynamic noise and information loss (Lahjun - Frenzy) to bypass Mīzān and turn "Nothing" into an "Illusion of Everything."
+                    </p>
+                    <div className="grid md:grid-cols-2 gap-6 text-base text-gray-400">
+                        <div className="p-4 bg-black/40 rounded-xl">Pride (Pharaoh's Claim) & Desire (Hawa/Whim)</div>
+                        <div className="p-4 bg-black/40 rounded-xl">Noise (15:72) - Covering Truth with intoxication</div>
+                    </div>
+                </section>
             </div>
            )}
 
