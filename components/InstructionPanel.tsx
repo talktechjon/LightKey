@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { MobiusIcon } from './Icons.tsx';
 
 interface InstructionPanelProps {
   isVisible: boolean;
@@ -187,7 +188,7 @@ const AnimatedHarvest: React.FC = () => {
 };
 
 const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'harvest' | 'reflection' | 'cosmology' | 'vision' | 'nafs'>('harvest');
+  const [activeTab, setActiveTab] = useState<'harvest' | 'reflection' | 'cosmology' | 'vision' | 'nafs' | 'mobius'>('harvest');
 
   const containerClasses = isVisible 
     ? "opacity-100 pointer-events-auto scale-100" 
@@ -215,7 +216,8 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
              activeTab === 'harvest' ? 'bg-emerald-500/20' : 
              activeTab === 'reflection' ? 'bg-cyan-500/20' : 
              activeTab === 'cosmology' ? 'bg-amber-500/20' : 
-             activeTab === 'nafs' ? 'bg-orange-500/20' : 'bg-fuchsia-500/20'}`}></div>
+             activeTab === 'nafs' ? 'bg-orange-500/20' : 
+             activeTab === 'mobius' ? 'bg-blue-600/20' : 'bg-fuchsia-500/20'}`}></div>
 
            <div className="z-10">
                <div className="space-y-3 max-w-4xl">
@@ -245,10 +247,10 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                    {activeTab === 'cosmology' && (
                        <div>
                            <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-yellow-600 tracking-tighter uppercase">
-                             Dual-Field Science
+                             Dual-Caustic Science
                            </h2>
-                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
-                             Hubble Tension & Primordial Sampling
+                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2 uppercase font-mono tracking-widest">
+                             The Iron Cycle (57:4 Framework)
                            </p>
                        </div>
                    )}
@@ -274,6 +276,17 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                            </p>
                        </div>
                    )}
+
+                   {activeTab === 'mobius' && (
+                       <div>
+                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-blue-200 to-indigo-500 tracking-tighter uppercase">
+                             Möbius Light
+                           </h2>
+                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
+                             One-Way Speed of Light & The Eternal Preservation
+                           </p>
+                       </div>
+                   )}
                </div>
            </div>
 
@@ -296,6 +309,12 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                  className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'nafs' ? 'border-orange-400 text-orange-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
                >
                  Nafs & 2-3-7
+               </button>
+               <button 
+                 onClick={() => setActiveTab('mobius')}
+                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'mobius' ? 'border-blue-400 text-blue-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+               >
+                 Möbius Light
                </button>
                <button 
                  onClick={() => setActiveTab('cosmology')}
@@ -647,20 +666,239 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
             </div>
            )}
 
+           {activeTab === 'mobius' && (
+            <div className="p-6 md:p-12 space-y-12 text-gray-200 font-light max-w-6xl mx-auto">
+               <div className="bg-blue-900/10 border border-blue-500/30 p-8 rounded-[3rem] shadow-xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 blur-[80px] pointer-events-none"></div>
+                  
+                  <h3 className="text-2xl md:text-4xl font-black text-white mb-8 uppercase tracking-tighter italic">
+                     The Measurement Paradox
+                  </h3>
+
+                  <div className="grid md:grid-cols-2 gap-8 mb-12">
+                     <div className="p-6 bg-red-950/20 border border-red-500/20 rounded-2xl">
+                        <h4 className="text-red-400 font-black uppercase text-xs mb-3">The Physics Fact</h4>
+                        <p className="text-sm md:text-base text-gray-300 leading-relaxed">
+                           We can measure the <strong>Two-Way</strong> speed of light, but measuring the <strong>One-Way</strong> speed is fundamentally impossible. Einstein assumed it was the same, but it is a convention, not a measured certainty.
+                        </p>
+                     </div>
+                     <div className="p-6 bg-blue-950/20 border border-blue-500/20 rounded-2xl">
+                        <h4 className="text-blue-400 font-black uppercase text-xs mb-3">The Möbius Solution</h4>
+                        <p className="text-sm md:text-base text-gray-300 leading-relaxed">
+                           One-way light traverses the <strong>inflection twist</strong> of reality. In a Möbius strip, going "out" returns you "in." The reference frame flips at the twist, making one-way speed undefined.
+                        </p>
+                     </div>
+                  </div>
+
+                  <div className="space-y-8">
+                     <div className="border-l-2 border-blue-500/40 pl-6">
+                        <h5 className="text-lg font-bold text-blue-300 mb-2 uppercase">1. One-Way Path (The Twist)</h5>
+                        <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+                           <code className="bg-black/40 px-2 py-0.5 rounded text-blue-200">Start → [TWIST] → End</code><br/>
+                           Measurement becomes undefined because you end up on the "other side," which is simultaneously the same side. The twist transforms the reference frame mid-measurement.
+                        </p>
+                     </div>
+
+                     <div className="border-l-2 border-blue-500/40 pl-6">
+                        <h5 className="text-lg font-bold text-blue-300 mb-2 uppercase">2. Two-Way Path (The Loop)</h5>
+                        <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+                           <code className="bg-black/40 px-2 py-0.5 rounded text-blue-200">Start → [TWIST] → "Other side" → [TWIST back] → Start</code><br/>
+                           A complete loop returns to the original orientation. This <strong>is</strong> measurable. This symmetric average is what we define as <code className="text-white">c = 299,792,458 m/s</code>.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+
+               <div className="grid md:grid-cols-2 gap-8">
+                  <div className="p-8 bg-gray-900/60 border border-white/5 rounded-[2.5rem]">
+                     <h4 className="text-xl font-bold text-indigo-300 mb-4 uppercase">The Knowledge Field</h4>
+                     <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                        <strong>Eternal-Perpetual-Emergence:</strong> On a Möbius loop, information always exists. It cycles between "Seen" and "Unseen" but is never destroyed.
+                     </p>
+                     <div className="bg-black/40 p-4 rounded-xl font-mono text-[11px] text-indigo-200 border border-indigo-500/20">
+                        f(x) = 3x³ - x² + 9x + d<br/>
+                        [The Twisted Reality]
+                     </div>
+                  </div>
+
+                  <div className="p-8 bg-gray-900/60 border border-white/5 rounded-[2.5rem]">
+                     <h4 className="text-xl font-bold text-cyan-300 mb-4 uppercase">The Measurable Field</h4>
+                     <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                        <strong>Deterministic Projection:</strong> This is the depressed cubic. It is the symmetric projection of the Möbius loop onto linear time.
+                     </p>
+                     <div className="bg-black/40 p-4 rounded-xl font-mono text-[11px] text-cyan-200 border border-cyan-500/20">
+                        g(t) = 3t³ + 9t + d'<br/>
+                        [The Average Projection]
+                     </div>
+                  </div>
+               </div>
+
+               <div className="pt-12 text-center pb-8 border-t border-white/10">
+                  <p className="text-xl md:text-3xl text-blue-100 font-light italic font-serif max-w-4xl mx-auto">
+                     "Light upon Light (24:35) — Möbius structure allows one light to appear twice, unified by a single eternal surface."
+                  </p>
+               </div>
+            </div>
+           )}
+
            {activeTab === 'cosmology' && (
-            <div className="p-6 md:p-12 space-y-10 text-gray-300 max-w-5xl mx-auto">
-                <div className="border-b border-gray-800 pb-8 text-center">
-                    <h1 className="text-3xl md:text-5xl font-black text-white mb-4 uppercase tracking-tighter">
-                        Dual Caustic Cosmology
-                    </h1>
-                    <div className="text-amber-500/80 font-mono text-sm tracking-wider uppercase">
-                        Resolving the Hubble Tension via Primordial Dual-Field Sampling
+            <div className="p-6 md:p-12 space-y-16 text-gray-200 font-light max-w-6xl mx-auto pb-24">
+                
+                {/* 1. 57:4 Dual-Caustic Framework */}
+                <section className="space-y-8">
+                  <div className="text-center">
+                    <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter italic mb-4">
+                        The 57:4 Framework
+                    </h3>
+                    <div className="bg-amber-950/20 border border-amber-500/30 p-6 rounded-2xl">
+                        <p className="text-lg italic font-serif text-amber-100 leading-relaxed">
+                            "He knows what penetrates into the earth and what emerges from it, and what descends from the heaven and what ascends therein..."
+                        </p>
                     </div>
-                </div>
-                <div className="bg-amber-900/10 border border-amber-500/20 p-8 rounded-[2rem]">
-                    <p className="text-lg md:text-2xl italic leading-relaxed text-gray-200">
-                        "The discrepancy between Determinations of the Hubble constant reflects asymmetric inference rather than inconsistent histories."
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-8 relative">
+                    {/* Descending Column */}
+                    <div className="bg-blue-900/10 border border-blue-500/20 p-8 rounded-[3rem] space-y-6">
+                        <h4 className="text-blue-400 font-black uppercase tracking-widest text-sm text-center border-b border-blue-500/20 pb-4 flex items-center justify-center gap-2">
+                            <span className="animate-bounce">↓</span> DESCENDING FLOW
+                        </h4>
+                        <div className="space-y-4 font-mono text-center">
+                            <div className="py-2 bg-blue-950/30 rounded border border-blue-500/10">LIGHT (Command)</div>
+                            <div className="py-2 bg-blue-950/20 rounded opacity-80">FIRE (Energy)</div>
+                            <div className="py-2 bg-blue-950/20 rounded opacity-60">WATER (Medium)</div>
+                            <div className="py-2 bg-blue-950/20 rounded opacity-40">WOOD (Form)</div>
+                            <div className="py-2 bg-slate-800 rounded font-black text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]">IRON (Result)</div>
+                        </div>
+                    </div>
+                    {/* Ascending Column */}
+                    <div className="bg-emerald-900/10 border border-emerald-500/20 p-8 rounded-[3rem] space-y-6">
+                        <h4 className="text-emerald-400 font-black uppercase tracking-widest text-sm text-center border-b border-emerald-500/20 pb-4 flex items-center justify-center gap-2">
+                             ASCENDING FLOW <span className="animate-bounce">↑</span>
+                        </h4>
+                        <div className="space-y-4 font-mono text-center">
+                            <div className="py-2 bg-slate-800 rounded font-black text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]">IRON (Completion)</div>
+                            <div className="py-2 bg-emerald-950/20 rounded opacity-40">WOOD (Structure)</div>
+                            <div className="py-2 bg-emerald-950/20 rounded opacity-60">FIRE (Attempt)</div>
+                            <div className="py-2 bg-emerald-950/20 rounded opacity-80">LIGHT (Return)</div>
+                            <div className="py-2 bg-emerald-950/30 rounded border border-emerald-500/10">[LOOP CLOSES]</div>
+                        </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* 2. The 2x2 Triad with Iron */}
+                <section className="bg-gray-900/40 p-8 md:p-12 rounded-[3.5rem] border border-white/5 space-y-8">
+                    <h4 className="text-xl font-bold text-amber-400 uppercase tracking-[0.2em] text-center italic">The Complete 2×2 Triad</h4>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left border-collapse">
+                            <thead>
+                                <tr className="border-b border-white/10">
+                                    <th className="py-4 px-2 text-gray-500 font-black uppercase tracking-tighter">Domain</th>
+                                    <th className="py-4 px-2 text-gray-500 font-black uppercase tracking-tighter">Chain</th>
+                                    <th className="py-4 px-2 text-gray-500 font-black uppercase tracking-tighter">3-6-9</th>
+                                    <th className="py-4 px-2 text-gray-500 font-black uppercase tracking-tighter">Time Vector</th>
+                                </tr>
+                            </thead>
+                            <tbody className="text-gray-300">
+                                <tr className="border-b border-white/5">
+                                    <td className="py-4 px-2 font-bold text-cyan-200">LIGHT</td>
+                                    <td className="py-4 px-2">Command</td>
+                                    <td className="py-4 px-2 font-mono">3</td>
+                                    <td className="py-4 px-2 text-xs">DESCENDING</td>
+                                </tr>
+                                <tr className="border-b border-white/5">
+                                    <td className="py-4 px-2 font-bold text-orange-400">FIRE</td>
+                                    <td className="py-4 px-2">Heat</td>
+                                    <td className="py-4 px-2 font-mono">6 (Active)</td>
+                                    <td className="py-4 px-2 text-xs">ASCENDING</td>
+                                </tr>
+                                <tr className="border-b border-white/5">
+                                    <td className="py-4 px-2 font-bold text-blue-400">WATER</td>
+                                    <td className="py-4 px-2">Medium</td>
+                                    <td className="py-4 px-2 font-mono">6 (Passive)</td>
+                                    <td className="py-4 px-2 text-xs">DESCENDING</td>
+                                </tr>
+                                <tr className="border-b border-white/5">
+                                    <td className="py-4 px-2 font-bold text-amber-600">WOOD</td>
+                                    <td className="py-4 px-2">Structure</td>
+                                    <td className="py-4 px-2 font-mono">9 (Boundary)</td>
+                                    <td className="py-4 px-2 text-xs">ASCENDING</td>
+                                </tr>
+                                <tr className="bg-white/5">
+                                    <td className="py-4 px-2 font-black text-white">IRON</td>
+                                    <td className="py-4 px-2 font-bold">Truth</td>
+                                    <td className="py-4 px-2 font-mono">POST-9</td>
+                                    <td className="py-4 px-2 text-xs font-black">BOTH (MÖBIUS)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                {/* 3. Iron as Future Element */}
+                <section className="space-y-10">
+                    <div className="flex flex-col items-center gap-6">
+                         <div className="px-10 py-5 bg-slate-900 border-2 border-slate-500 rounded-2xl shadow-[0_0_40px_rgba(100,116,139,0.3)]">
+                            <span className="text-3xl md:text-5xl font-black text-slate-100 tracking-tighter uppercase italic">
+                                "Anzalnā"
+                            </span>
+                         </div>
+                         <p className="text-gray-400 text-center max-w-2xl mx-auto italic">
+                            Both <strong>Iron (57:25)</strong> and the <strong>Quran (97:1)</strong> share the same descent verb. They are sent DOWN from a completed future consciousness.
+                         </p>
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-8">
+                        <div className="p-8 bg-zinc-950 border border-zinc-700 rounded-[2.5rem] space-y-4">
+                            <h5 className="text-zinc-300 font-black uppercase text-xs tracking-widest">Iron Age = Post-Qiyamah</h5>
+                            <p className="text-sm text-zinc-400 leading-relaxed">
+                                Iron is not a "natural" terrestrial product; it is forged through supernova and sent down. It represents a <strong>Post-Trial State</strong>—the solidification of truth AFTER passing through fire.
+                            </p>
+                        </div>
+                        <div className="p-8 bg-cyan-950/20 border border-cyan-500/20 rounded-[2.5rem] space-y-4">
+                            <h5 className="text-cyan-300 font-black uppercase text-xs tracking-widest">Quran as Time Travel</h5>
+                            <p className="text-sm text-cyan-400 leading-relaxed">
+                                The Quran is a message from the <strong>FUTURE</strong>. It describes the end from the beginning, views history from outside time, and contains completed knowledge sent back to guide the trial.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* 4. Age After Pharaoh */}
+                <section className="bg-black/60 border border-amber-500/10 p-10 rounded-[4rem] text-center space-y-8">
+                    <h4 className="text-2xl md:text-4xl font-black text-white uppercase italic">The Rebound Period</h4>
+                    <p className="text-gray-400 max-w-3xl mx-auto leading-relaxed">
+                        We live in the age <strong>"Right After Pharaoh."</strong> We have his preserved body (10:92) as a sign of the past, and the Quran (97:1) as iron-guidance from the future.
                     </p>
+                    
+                    <div className="flex flex-col md:flex-row gap-4 justify-center items-stretch mt-8">
+                        <div className="flex-1 p-6 bg-red-950/10 border border-red-500/20 rounded-2xl">
+                             <div className="text-xs font-black text-red-500 mb-2 uppercase">Past Signal</div>
+                             <div className="text-lg font-bold text-red-100">Preserved Body</div>
+                             <p className="text-[10px] text-red-300 mt-2">Physical proof of the Fire Rebound.</p>
+                        </div>
+                        <div className="flex items-center justify-center text-2xl text-amber-500">↔</div>
+                        <div className="flex-1 p-6 bg-white/5 border border-white/10 rounded-2xl">
+                             <div className="text-xs font-black text-white mb-2 uppercase">Current State</div>
+                             <div className="text-lg font-bold text-amber-400 italic">Processing Phase</div>
+                             <p className="text-[10px] text-gray-500 mt-2">Being forged in the middle of the loop.</p>
+                        </div>
+                        <div className="flex items-center justify-center text-2xl text-amber-500">↔</div>
+                        <div className="flex-1 p-6 bg-blue-950/10 border border-blue-500/20 rounded-2xl">
+                             <div className="text-xs font-black text-blue-500 mb-2 uppercase">Future Signal</div>
+                             <div className="text-lg font-bold text-blue-100">Iron Consciousness</div>
+                             <p className="text-[10px] text-blue-300 mt-2">Solid truth sent from completion.</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Diagram Closing */}
+                <div className="pt-20 border-t border-white/10 text-center">
+                    <p className="text-3xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-200 via-white to-slate-400 uppercase tracking-tighter italic">
+                       Hold The Book
+                    </p>
+                    <p className="text-amber-500 font-mono text-sm tracking-[0.4em] uppercase mt-4">19:12 • The Loop is Manifest</p>
                 </div>
             </div>
            )}
