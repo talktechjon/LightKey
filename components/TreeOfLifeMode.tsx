@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { KATHARA_GRID_NODES, KATHARA_GRID_LINES, KATHARA_CLOCK_POINTS, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS } from '../constants.ts';
 import { getSliceAtPoint } from '../utils.ts';
+import { DCUExplanation } from './DCUExplanation.tsx';
 
 interface TreeOfLifeModeProps {
   rotation: number;
@@ -14,18 +15,18 @@ const PRESET_1 = [
 ];
 
 const PRESET_2 = [
-  "Ibrahim | Ahmed",
-  "Ishac | Ishmail",
-  "Heifer",
-  "Stone",
-  "Boat | Bee",
-  "Noah | Musa",
-  "Idris | Isa",
-  "Tree | Mountain",
-  "Amanah",
+  "Iblis",
+  "Righteous",
+  "Forget",
+  "Fall",
+  "Remember",
+  "Respite",
+  "Warner",
+  "Witness",
   "Return",
-  "Solomon | Dawud",
-  "Book | Yahya"
+  "Photosynthesis",
+  "Knowledge",
+  "Isa"
 ];
 
 const PRESET_3 = [
@@ -41,6 +42,21 @@ const PRESET_3 = [
   "Dawud",
   "Solomon | Death",
   "Book | Yahya"
+];
+
+const PRESET_4 = [
+  "Zalim",
+  "Iron",
+  "Dawud",
+  "Solomon",
+  "Molten Copper",
+  "Jinn",
+  "Staff",
+  "Submission",
+  "Stone",
+  "River",
+  "Comfort",
+  "Angel"
 ];
 
 interface BifurcationStage {
@@ -111,6 +127,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
     else if (num === 1) setLabels([...PRESET_1]);
     else if (num === 2) setLabels([...PRESET_2]);
     else if (num === 3) setLabels([...PRESET_3]);
+    else if (num === 4) setLabels([...PRESET_4]);
   };
 
   const updateVisuals = useCallback((offset: number) => {
@@ -196,7 +213,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
           .fire-burst { fill: #f97316; animation: blast 0.8s ease-out forwards; }
         `}</style>
 
-        <svg viewBox="-75 -20 300 320" className="kathara-svg drop-shadow-[0_0_80px_rgba(6,182,212,0.15)]">
+        <svg viewBox="0 0 150 320" style={{ overflow: 'visible' }} className="kathara-svg drop-shadow-[0_0_80px_rgba(6,182,212,0.15)]">
           <defs>
             <linearGradient id="activeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#0891b2" />
@@ -351,7 +368,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
               </span>
             </h2>
             <div className="flex flex-wrap gap-1.5 mt-2">
-               {[0, 1, 2, 3].map(n => (
+               {[0, 1, 2, 3, 4].map(n => (
                  <button key={n} onClick={() => handlePreset(n)} className={`w-8 h-8 md:w-9 md:h-9 rounded-lg border font-black text-[9px] md:text-[10px] transition-all ${n === 0 ? 'bg-white/5 border-white/10 text-gray-500' : 'bg-cyan-950/20 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500 hover:text-black'}`}>
                    {n === 0 ? 'CLR' : `P${n}`}
                  </button>
@@ -407,6 +424,8 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
             {isCycling ? 'Stop Stream' : `Animate Stream`}
           </button>
         </div>
+
+        <DCUExplanation />
       </aside>
       
       <main className="flex-1 w-full flex items-center justify-center p-4 lg:p-8 lg:h-full lg:overflow-hidden">

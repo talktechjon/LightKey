@@ -21,6 +21,7 @@ interface SidePanelProps {
   hideTooltip: () => void;
   isSecretModeActive: boolean;
   isTreeOfVerseActive: boolean;
+  setIsTreeOfVerseActive: (active: boolean) => void;
   isPieceOfBakaraActive: boolean;
   secretEmojiShift: number;
   isLowResourceMode: boolean;
@@ -30,7 +31,7 @@ interface SidePanelProps {
   setBakaraSpineIndex: (index: number) => void;
 }
 
-const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, setIsTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex }) => {
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -268,20 +269,19 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
       )}
 
       {/* Non-sticky analytical components section */}
-      <div className={!isAnalyticalMode ? "space-y-6 pt-2" : ""}>
+      <div className={!isAnalyticalMode ? "space-y-6 pt-2" : "space-y-6"}>
          
-         {!isAnalyticalMode && (
-            <div className="mb-6">
-                <CustomAnimationControls 
-                   customSequence={customSequence}
-                   setCustomSequence={setCustomSequence}
-                   animationMode={animationMode}
-                   setAnimationMode={setAnimationMode}
-                   setAnimationIndex={setAnimationIndex}
-                   createPlaylist={createPlaylist}
-                />
-            </div>
-         )}
+         <div className="mb-6">
+             <CustomAnimationControls 
+                customSequence={customSequence}
+                setCustomSequence={setCustomSequence}
+                animationMode={animationMode}
+                setAnimationMode={setAnimationMode}
+                setAnimationIndex={setAnimationIndex}
+                createPlaylist={createPlaylist}
+                onEyeClick={() => setIsTreeOfVerseActive(true)}
+             />
+         </div>
 
          {isTreeOfVerseActive ? (
             <TreeOfVerse 

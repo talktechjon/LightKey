@@ -46,7 +46,7 @@ export const TAFSIR_YOUTUBE_VIDEO_IDS: (string | null)[] = [
   'dNMlWIHE6VE', // 33
   'R3vQwpmJTYA', // 34
   '6Us3Fyjvj88', // 35
-  'QOnYh3eIio0', // 36
+  'DPttIrzp3rA', // 36
   'FZ8F_dmEN6E', // 37
   '9eufPvum8k8', // 38
   '8UmdUUdoqYU', // 39

@@ -7,6 +7,7 @@ import { getSliceAtPoint, colorScale, getChapterIcon } from '../utils.ts';
 import { PlaylistType, SliceData, ChapterDetails } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
 import { LoadSequenceIcon } from './Icons.tsx';
+import { DCUMappingTable } from './DCUMappingTable.tsx';
 
 interface AlignmentProps {
     rotation: number;
@@ -95,10 +96,10 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
 
     const alignedChapters: AlignedChapter[] = useMemo(() => {
         const labels = [
-            'Awakening', 'Assertion', 'Disruption', 
-            'Constriction', 'Refinement', 'Submission', 
-            'Restoration', 'Servanthood', 'Sacrifice', 
-            'Witness', 'Ascension', 'Radiance'
+            'Awakening', 'Assertion', 'Guidance', 
+            'Cleanse', 'Righteous', 'Faith', 
+            'Iron/Blessing', 'Servant', 'Submission', 
+            'Sacrifice', 'Truth', 'Radiance'
         ];
         return KATHARA_CLOCK_POINTS.map((pointValue, index) => {
             const slice = getSliceAtPoint(pointValue, rotation);
@@ -326,6 +327,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                         </div>
                     );
                 })}
+                <DCUMappingTable />
             </div>
         </div>
     );
