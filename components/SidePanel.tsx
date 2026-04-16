@@ -21,7 +21,6 @@ interface SidePanelProps {
   hideTooltip: () => void;
   isSecretModeActive: boolean;
   isTreeOfVerseActive: boolean;
-  setIsTreeOfVerseActive: (active: boolean) => void;
   isPieceOfBakaraActive: boolean;
   secretEmojiShift: number;
   isLowResourceMode: boolean;
@@ -31,7 +30,7 @@ interface SidePanelProps {
   setBakaraSpineIndex: (index: number) => void;
 }
 
-const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, setIsTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex }) => {
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -214,7 +213,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
     >
       {/* Sticky identification and playlist header - Hidden in Piece of Heifer and Tree of Verse modes */}
       {!isAnalyticalMode && (
-        <div className="sticky top-0 z-40 -mx-6 px-6 py-4 bg-black/85 backdrop-blur-xl border-b border-cyan-500/30 shadow-2xl transition-all duration-300">
+        <>
             {/* Top Navigation Row */}
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold text-cyan-300 tracking-wider">▼🕋▲</h2>
@@ -222,8 +221,9 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
             </div>
             <div className="w-full h-px bg-cyan-300/30 mb-4"></div>
 
-            {/* Chapter Identification Info */}
-            <div className="flex justify-between items-start lg:min-h-[80px]">
+            <div className="sticky top-0 z-40 -mx-6 px-6 py-4 bg-black/85 backdrop-blur-xl border-b border-cyan-500/30 shadow-2xl transition-all duration-300">
+                {/* Chapter Identification Info */}
+                <div className="flex justify-between items-start lg:min-h-[80px]">
                 <div className="font-semibold text-gray-200 pr-2">
                     <div className="flex items-baseline gap-x-2">
                         <img src={iconSrc} alt={chapterInfo.revelationType} title={chapterInfo.revelationType} className="w-5 h-5" />
@@ -266,22 +266,24 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                 className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-4"
             />
         </div>
+        </>
       )}
 
       {/* Non-sticky analytical components section */}
-      <div className={!isAnalyticalMode ? "space-y-6 pt-2" : "space-y-6"}>
+      <div className={!isAnalyticalMode ? "space-y-6 pt-2" : ""}>
          
-         <div className="mb-6">
-             <CustomAnimationControls 
-                customSequence={customSequence}
-                setCustomSequence={setCustomSequence}
-                animationMode={animationMode}
-                setAnimationMode={setAnimationMode}
-                setAnimationIndex={setAnimationIndex}
-                createPlaylist={createPlaylist}
-                onEyeClick={() => setIsTreeOfVerseActive(true)}
-             />
-         </div>
+         {!isAnalyticalMode && (
+            <div className="mb-6">
+                <CustomAnimationControls 
+                   customSequence={customSequence}
+                   setCustomSequence={setCustomSequence}
+                   animationMode={animationMode}
+                   setAnimationMode={setAnimationMode}
+                   setAnimationIndex={setAnimationIndex}
+                   createPlaylist={createPlaylist}
+                />
+            </div>
+         )}
 
          {isTreeOfVerseActive ? (
             <TreeOfVerse 

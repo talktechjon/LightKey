@@ -29,12 +29,12 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-12 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
-      <div className="relative w-full max-w-4xl max-h-full bg-[#06080c] border border-[#1e2010] rounded-xl shadow-2xl overflow-hidden flex flex-col">
+      <div className="relative w-full max-w-5xl max-h-full bg-[#060a10] border border-[#00c8ff]/30 rounded-xl shadow-2xl overflow-hidden flex flex-col">
         {/* Header Actions */}
         <div className="absolute top-4 right-4 z-50">
           <button
             onClick={onClose}
-            className="p-2 rounded-full bg-black/50 text-[#c9a84c] hover:text-white hover:bg-[#c9a84c]/20 transition-colors border border-[#1e2010]"
+            className="p-2 rounded-full bg-black/50 text-[#f5c842] hover:text-white hover:bg-[#f5c842]/20 transition-colors border border-[#8888aa]/30"
             aria-label="Close panel"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,26 +44,34 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
         </div>
 
         {/* Content Container */}
-        <div className="overflow-y-auto custom-scrollbar relative fcl-container">
+        <div className="overflow-y-auto custom-scrollbar relative fcl-container text-[#e8f4f8]">
           <style>{`
-            @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Rajdhani:wght@300;500;700&family=IBM+Plex+Mono:wght@300;500&display=swap');
 
             .fcl-container {
-              --gold: #c9a84c;
-              --light: #e8dfc8;
-              --dim: #8a8070;
-              --bg: #06080c;
-              --node: #10141c;
-              --accent: #4a8fc4;
-              --fire: #d05828;
-              --green: #4a8a5a;
-              --border: #1e2010;
+              font-family: 'Rajdhani', sans-serif;
+              line-height: 1.6;
+              background: #060a10;
+            }
 
-              background: var(--bg);
-              color: var(--light);
-              font-family: 'EB Garamond', serif;
-              font-size: 17px;
-              line-height: 1.8;
+            .fcl-h1 {
+              font-family: 'Cinzel Decorative', serif;
+              letter-spacing: 0.12em;
+              color: #f5c842;
+            }
+
+            .fcl-subtitle {
+              font-family: 'IBM Plex Mono', monospace;
+              color: #8888aa;
+              letter-spacing: 0.2em;
+            }
+
+            .fcl-mono {
+              font-family: 'IBM Plex Mono', monospace;
+            }
+
+            .fcl-cinzel {
+              font-family: 'Cinzel Decorative', serif;
             }
 
             .fcl-episode {
@@ -73,272 +81,249 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
             }
             .fcl-episode.visible { opacity: 1; transform: translateY(0); }
 
-            .fcl-container h1 {
-              font-family: 'Cinzel', serif;
-              font-size: 20px;
-              font-weight: 700;
-              color: var(--gold);
-              letter-spacing: 0.14em;
-              text-align: center;
-              margin-bottom: 4px;
-              text-transform: uppercase;
+            table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+            th {
+              font-family: 'IBM Plex Mono', monospace;
+              font-size: 0.75rem; letter-spacing: 0.18em;
+              padding: 12px 8px; text-transform: uppercase;
+              border-bottom: 1px solid rgba(255,255,255,0.15);
             }
+            th.col-sci { color: #77ddff; text-align: left; }
+            th.col-link { color: #f5c842; text-align: center; width: 140px; }
+            th.col-qur { color: #ffddaa; text-align: right; }
 
-            .fcl-container .sub {
-              text-align: center;
-              color: var(--dim);
-              font-style: italic;
-              font-size: 14.5px;
-              margin-bottom: 52px;
-              letter-spacing: 0.05em;
+            td {
+              padding: 16px 8px; vertical-align: top;
+              font-size: 0.95rem; line-height: 1.6; font-weight: 300;
+              border-bottom: 1px solid rgba(255,255,255,0.04);
             }
+            td.sci { color: #aaeeee; text-align: left; }
+            td.link { color: #f5c842; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 500; }
+            td.qur { color: #ffccaa; text-align: right; }
+            tr:hover td { background: rgba(255,255,255,0.03); }
 
-            .fcl-container h2 {
-              font-family: 'Cinzel', serif;
-              font-size: 11.5px;
-              font-weight: 700;
-              color: var(--gold);
-              letter-spacing: 0.22em;
-              text-transform: uppercase;
-              margin: 44px 0 14px;
-              padding-bottom: 7px;
-              border-bottom: 1px solid var(--border);
+            .animate-dash {
+              stroke-dasharray: 8 8;
+              animation: dash 20s linear infinite;
             }
-
-            .fcl-container p { margin-bottom: 15px; }
-
-            .fcl-container .v { color: var(--gold); font-weight: 600; }
-            .fcl-container .k { color: var(--accent); }
-
-            .fcl-container .eq {
-              display: block;
-              text-align: center;
-              font-family: 'Cinzel', serif;
-              font-size: 14px;
-              color: var(--accent);
-              letter-spacing: 0.1em;
-              margin: 26px 0;
-              padding: 16px 24px;
-              border: 1px solid #141c28;
-              background: #080c14;
+            @keyframes dash {
+              to { stroke-dashoffset: -200; }
             }
-
-            .fcl-container .four-nodes {
-              margin: 22px 0;
-              display: grid;
-              grid-template-columns: 1fr;
-              gap: 10px;
+            
+            .animate-pulse-slow {
+              animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
             }
-            @media (min-width: 640px) {
-              .fcl-container .four-nodes {
-                grid-template-columns: 1fr 1fr;
-              }
+            @keyframes pulse-slow {
+              0%, 100% { opacity: 1; }
+              50% { opacity: 0.5; }
             }
-
-            .fcl-container .node {
-              background: var(--node);
-              border: 1px solid var(--border);
-              padding: 14px 16px;
-            }
-
-            .fcl-container .node .arrow {
-              font-family: 'Cinzel', serif;
-              font-size: 18px;
-              color: var(--fire);
-              margin-right: 6px;
-            }
-
-            .fcl-container .node .arrow.up { color: var(--green); }
-
-            .fcl-container .node .tag {
-              font-family: 'Cinzel', serif;
-              font-size: 10px;
-              letter-spacing: 0.2em;
-              color: var(--dim);
-              text-transform: uppercase;
-              display: block;
-              margin-bottom: 5px;
-            }
-
-            .fcl-container .node p {
-              font-size: 14.5px;
-              color: var(--dim);
-              margin: 0;
-              line-height: 1.6;
-            }
-
-            .fcl-container .node p span { color: var(--light); }
-
-            .fcl-container .separator {
-              margin: 28px 0;
-              border-left: 2px solid var(--fire);
-              padding-left: 20px;
-            }
-
-            .fcl-container .separator li {
-              list-style: none;
-              margin-bottom: 12px;
-              font-size: 15.5px;
-              line-height: 1.65;
-            }
-
-            .fcl-container .separator li strong { color: var(--fire); }
-            .fcl-container .separator li.success strong { color: var(--green); }
-
-            .fcl-container table {
-              width: 100%;
-              border-collapse: collapse;
-              margin: 22px 0;
-              font-size: 14.5px;
-            }
-
-            .fcl-container th {
-              font-family: 'Cinzel', serif;
-              font-size: 10px;
-              letter-spacing: 0.18em;
-              text-transform: uppercase;
-              color: var(--gold);
-              text-align: left;
-              padding: 10px 12px;
-              border-bottom: 1px solid var(--border);
-              background: var(--node);
-            }
-
-            .fcl-container td {
-              padding: 10px 12px;
-              border-bottom: 1px solid #0e1008;
-              color: var(--dim);
-              vertical-align: top;
-            }
-
-            .fcl-container td span { color: var(--light); }
-            .fcl-container tr:hover td { background: #0c100a; }
-
-            .fcl-container .seal {
-              text-align: center;
-              margin-top: 56px;
-              padding-top: 28px;
-              border-top: 1px solid var(--border);
-              color: var(--dim);
-              font-style: italic;
-              font-size: 14.5px;
-              line-height: 2.1;
-            }
-
-            .fcl-container .seal strong { color: var(--gold); font-style: normal; }
           `}</style>
 
-          <main className="max-w-[740px] mx-auto py-16 px-8 pb-24">
-            <div className="fcl-episode">
-              <h1>The Emergence Law</h1>
-              <div className="sub">2–3–7 | Day/Night of 3–6–9 · 57:4 Decoded · Qur'an-Only Möbius Framework</div>
+          <main className="max-w-[900px] mx-auto py-16 px-6 sm:px-10">
+            
+            <header className="text-center mb-16 fcl-episode">
+              <h1 className="fcl-h1 text-3xl sm:text-4xl md:text-5xl mb-3">Dual-Caustic 3·6·9</h1>
+              <p className="fcl-subtitle text-xs sm:text-sm">SCIENCE × QUR'AN · LIGHT FIELD ↔ SOUND FIELD</p>
+            </header>
+
+            {/* SVG Animation Diagram */}
+            <div className="w-full flex justify-center mb-20 fcl-episode">
+              <svg viewBox="0 0 800 650" className="w-full h-auto max-w-3xl">
+                <defs>
+                  <linearGradient id="qunGradLeft" x1="100%" y1="0%" x2="0%" y2="0%">
+                    <stop offset="0%" stopColor="#00c8ff" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#00c8ff" stopOpacity="0.0" />
+                  </linearGradient>
+                  <linearGradient id="qunGradRight" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#00c8ff" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#00c8ff" stopOpacity="0.0" />
+                  </linearGradient>
+                  <linearGradient id="fayaGradLeft" x1="100%" y1="0%" x2="0%" y2="0%">
+                    <stop offset="0%" stopColor="#ff6a00" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#ff6a00" stopOpacity="0.0" />
+                  </linearGradient>
+                  <linearGradient id="fayaGradRight" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#ff6a00" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#ff6a00" stopOpacity="0.0" />
+                  </linearGradient>
+                  <filter id="glowQun">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                  <filter id="glowFaya">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                {/* Qun Section */}
+                <g transform="translate(400, 150)">
+                  {/* Left Triangle */}
+                  <path d="M -60 0 L -320 -120 L -320 120 Z" fill="none" stroke="#00c8ff" strokeWidth="2" filter="url(#glowQun)" className="animate-pulse-slow" />
+                  <path d="M -60 0 L -320 -120 L -320 120 Z" fill="url(#qunGradLeft)" opacity="0.15" />
+                  
+                  {/* Right Triangle */}
+                  <path d="M 60 0 L 320 -120 L 320 120 Z" fill="none" stroke="#00c8ff" strokeWidth="2" filter="url(#glowQun)" className="animate-pulse-slow" style={{ animationDelay: '2s' }} />
+                  <path d="M 60 0 L 320 -120 L 320 120 Z" fill="url(#qunGradRight)" opacity="0.15" />
+
+                  {/* Center Circle */}
+                  <circle cx="0" cy="-15" r="45" fill="#060a10" stroke="#00c8ff" strokeWidth="2" filter="url(#glowQun)" />
+                  <text x="0" y="-20" fill="#00c8ff" fontSize="16" fontFamily="IBM Plex Mono" textAnchor="middle" fontWeight="700">Light</text>
+                  <text x="0" y="0" fill="#00c8ff" fontSize="16" fontFamily="IBM Plex Mono" textAnchor="middle" fontWeight="700">Buffer</text>
+                  
+                  <text x="0" y="55" fill="#e8f4f8" fontSize="18" fontFamily="Rajdhani" textAnchor="middle" fontWeight="700">Earth</text>
+                  <text x="0" y="75" fill="#e8f4f8" fontSize="18" fontFamily="Rajdhani" textAnchor="middle" fontWeight="700">Silence</text>
+
+                  {/* Labels */}
+                  <text x="-340" y="0" fill="#00c8ff" fontSize="32" fontFamily="Cinzel Decorative" textAnchor="end" dominantBaseline="middle" fontWeight="700">Qun</text>
+                  
+                  <text x="-340" y="-60" fill="#8888aa" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="end">Photon / Wave</text>
+                  <text x="-340" y="-35" fill="#8888aa" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="end">Zero latency</text>
+                  <text x="-340" y="-10" fill="#8888aa" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="end">Light cone</text>
+
+                  <text x="340" y="-60" fill="#00c8ff" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start" fontWeight="700">** Angel/Nur **</text>
+                  <text x="340" y="-35" fill="#00c8ff" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start" fontStyle="italic">Fayakun</text>
+                  <text x="340" y="-10" fill="#00c8ff" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start" fontStyle="italic">*Instant*</text>
+                  <text x="340" y="15" fill="#00c8ff" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start" fontStyle="italic">*Silence*</text>
+                  <text x="340" y="40" fill="#00c8ff" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start">Follow</text>
+                  <text x="340" y="65" fill="#00c8ff" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start">without</text>
+                  <text x="340" y="90" fill="#00c8ff" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start">Sound</text>
+                </g>
+
+                {/* Connector */}
+                <line x1="400" y1="260" x2="400" y2="440" stroke="#8888aa" strokeWidth="2" className="animate-dash" opacity="0.5" />
+
+                {/* Fayakun Section */}
+                <g transform="translate(400, 500)">
+                  {/* Left Triangle */}
+                  <path d="M -60 0 L -320 -120 L -320 120 Z" fill="none" stroke="#ff6a00" strokeWidth="2" filter="url(#glowFaya)" className="animate-pulse-slow" style={{ animationDelay: '1s' }} />
+                  <path d="M -60 0 L -320 -120 L -320 120 Z" fill="url(#fayaGradLeft)" opacity="0.15" />
+                  
+                  {/* Right Triangle */}
+                  <path d="M 60 0 L 320 -120 L 320 120 Z" fill="none" stroke="#ff6a00" strokeWidth="2" filter="url(#glowFaya)" className="animate-pulse-slow" style={{ animationDelay: '3s' }} />
+                  <path d="M 60 0 L 320 -120 L 320 120 Z" fill="url(#fayaGradRight)" opacity="0.15" />
+
+                  {/* Center Circle */}
+                  <circle cx="0" cy="-15" r="45" fill="#060a10" stroke="#ff6a00" strokeWidth="2" filter="url(#glowFaya)" />
+                  <text x="0" y="-20" fill="#ff6a00" fontSize="16" fontFamily="IBM Plex Mono" textAnchor="middle" fontWeight="700">Sound</text>
+                  <text x="0" y="0" fill="#ff6a00" fontSize="16" fontFamily="IBM Plex Mono" textAnchor="middle" fontWeight="700">Buffer</text>
+                  
+                  <text x="0" y="55" fill="#e8f4f8" fontSize="18" fontFamily="Rajdhani" textAnchor="middle" fontWeight="700">Earth</text>
+                  <text x="0" y="75" fill="#e8f4f8" fontSize="18" fontFamily="Rajdhani" textAnchor="middle" fontWeight="700">Dark</text>
+
+                  {/* Labels */}
+                  <text x="-340" y="0" fill="#ff6a00" fontSize="32" fontFamily="Cinzel Decorative" textAnchor="end" dominantBaseline="middle" fontWeight="700">FayaKun</text>
+                  
+                  <text x="-340" y="30" fill="#8888aa" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="end">Life-Death</text>
+                  <text x="-340" y="55" fill="#8888aa" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="end" fontStyle="italic">*Time-Entropy*</text>
+                  <text x="-340" y="80" fill="#8888aa" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="end">Truth Action</text>
+                  <text x="-340" y="105" fill="#8888aa" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="end">With</text>
+                  <text x="-340" y="130" fill="#8888aa" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="end">Truth Faith/Prayer</text>
+
+                  <text x="340" y="-40" fill="#ff6a00" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start">"I am God"</text>
+                  <text x="340" y="-15" fill="#ff6a00" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start" fontStyle="italic">*Under WATER*</text>
+                  <text x="340" y="30" fill="#ff6a00" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start" fontStyle="italic">*MAX NOISE*</text>
+                  <text x="340" y="55" fill="#ff6a00" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start">Fire from</text>
+                  <text x="340" y="80" fill="#ff6a00" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start">Top [Lut's]</text>
+                  <text x="340" y="105" fill="#ff6a00" fontSize="14" fontFamily="IBM Plex Mono" textAnchor="start">Bottom [Ibrahim's]</text>
+                </g>
+              </svg>
             </div>
 
-            <div className="fcl-episode">
-              <h2>I. 57:4 — The Master Equation</h2>
-              <p><span className="v">57:4</span> encodes the complete emergence law in four movements: <em>what enters the earth</em> (↓) / <em>what emerges from it</em> (↑) / <em>what descends from sky</em> (↓) / <em>what ascends to it</em> (↑). This is not cosmology background. It is the live sovereign operation Allah runs through every emergence event — atom, prophet, universe — simultaneously.</p>
-
-              <span className="eq">Water ↓ · Wood ↑ · Stone ↓ · Stone+Iron = Turab ↑</span>
-
-              <p>Turab is not raw dust. Turab is compressed Stone fused with Iron-56 at its nucleosynthesis inflection point (<span className="v">57:25</span>) — the exact moment stellar compression peaks and reverses. <span className="v">3:59</span> confirms: Isa = Adam = Turab. Ahmed is the emergence product of Ibrahim's Wood fully burned. The particle carries the entire oscillation history of both fields.</p>
-            </div>
-
-            <div className="fcl-episode">
-              <h2>II. 3:33 — The Phase-Law Decoder</h2>
-              <p><span className="v">3:33</span> names the four selected families as the operational phase-sequence of 57:4 running through human lineage:</p>
-
-              <div className="four-nodes">
-                <div className="node">
-                  <span className="tag">Water ↓ · ℬ Descent</span>
-                  <p><span className="arrow">↓</span> <span>Noah + Yahya</span><br/>Origin-line entering density. The Book carried before the form is ready. Pure compression — Rahman entering creation.</p>
-                </div>
-                <div className="node">
-                  <span className="tag">Wood ↑ · ℒ Ascent</span>
-                  <p><span className="arrow up">↑</span> <span>Ibrahim — Hanifan + Musliman</span><br/>The wave that rises BECAUSE it surrendered completely. Not despite Fire — through it. ℒ expansion from maximum ℬ compression.</p>
-                </div>
-                <div className="node">
-                  <span className="tag">Stone ↓ · Variable Slot</span>
-                  <p><span className="arrow">↓</span> <span>Al-Imran / Imrata</span><br/>The open selection — any X Allah picks: Musa, Yunus, Yusuf, Ahmed. The wife/vessel function. Stone receives the impression before Iron enters.</p>
-                </div>
-                <div className="node">
-                  <span className="tag">Stone+Iron = Turab ↑</span>
-                  <p><span className="arrow up">↑</span> <span>7:143 — Musa, First Hybrid</span><br/>Mountain meets Heaven. Stone shatters. Musa absorbs the ℒ resonance and emerges fused. Immediately picks Haroun — every Hybrid requires a paired witness.</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="fcl-episode">
-              <h2>III. Turab Activation — The Separator Law</h2>
-              <p>Every dual factor in creation is <span className="k">Yajuj-Majuj first</span> — Iblis invented the assumption that two opposing forces are equal threats. That is the "better but not best" error. Turab resolves it by becoming the third state neither side can produce alone. The Mumin line activates when Submission makes both grounds face the same Qibla:</p>
-
-              <ul className="separator">
-                <li><strong>Higher Ground re-aligned:</strong> Solomon–Bilqis = Iron+Stone axis = ℒ field confirmed through validation (27:44)</li>
-                <li><strong>Buffer Ground re-aligned:</strong> Musa = Wood+Stone bridge = ℒ∩ℬ singularity (23:20 Olive Tree)</li>
-                <li><strong>Submission:</strong> the operator making both lines converge. 55:7–8 enforced at the human level.</li>
-                <li className="success"><strong>Turab Success = Musa</strong> — 7:143, same conditions, Submission activated. Mountain shatters, Musa rises.</li>
-                <li><strong>Turab Failure = Pharaoh</strong> — same Stone+Iron conditions available. Capacity present. Refusal is the only variable.</li>
-              </ul>
-            </div>
-
-            <div className="fcl-episode">
-              <h2>IV. 21:58 + 3:97 — Kaaba as Turab Conversion Site</h2>
-              <p>Ibrahim shattering idols in <span className="v">21:58</span> is not destruction — it is Turab activation at the <span className="k">House of Witness</span>. <span className="v">3:97</span> confirms: whoever enters is secure. The security IS the conversion guarantee — Stone of false-god broken, Iron of true-structure remaining, the fusion of both = Turab ground of Bakkah.</p>
-
-              <p><span className="v">2:260</span>'s four birds returning to Ibrahim = the four emergence movements (Water/Wood/Stone/Turab) confirmed coherent. The Kaaba is where that confirmation is physically anchored — the last piece of the loop, the Turab ground where every descent finds its ascent.</p>
-            </div>
-
-            <div className="fcl-episode">
-              <h2>V. The Three-Scale Pattern — Ahmed Against the Elephant</h2>
-              <p>The same Turab conversion operation runs at three coordinates across the timeline:</p>
-
+            {/* TABLE SECTION 1: THE 2 FIELDS */}
+            <div className="fcl-episode mb-16">
+              <h2 className="fcl-cinzel text-xl text-[#00c8ff] mb-4 pb-2 border-b border-white/10 tracking-[0.15em]">① THE TWO SEEDS — Why 2 Comes First</h2>
               <table>
                 <thead>
-                  <tr>
-                    <th>Agent</th>
-                    <th>What is Broken</th>
-                    <th>What Rises</th>
-                    <th>Scale</th>
-                  </tr>
+                  <tr><th className="col-sci">SCIENCE</th><th className="col-link">BRIDGE</th><th className="col-qur">QUR'AN</th></tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><span>Ibrahim</span></td>
-                    <td>Stone idols — 21:58</td>
-                    <td>Kaaba built — Turab origin</td>
-                    <td>Lineage opening</td>
+                    <td className="sci">Wave-particle duality. Every quantum event resolves as either propagating wave (light-like) or localized particle (mass-like).</td>
+                    <td className="link">2 modes<br/>one Source</td>
+                    <td className="qur">Qun = Light-Silence (instant). FayaKun = Sound-Dark (temporal). Both from one Word — 36:82.</td>
                   </tr>
                   <tr>
-                    <td><span>Musa</span></td>
-                    <td>Pharaoh's magic-stone system</td>
-                    <td>Tablets carried — Turab midpoint</td>
-                    <td>Lineage center</td>
-                  </tr>
-                  <tr>
-                    <td><span>Ahmed</span></td>
-                    <td>Elephant-army / Taghut — 105</td>
-                    <td>Birds carry Turab-stones</td>
-                    <td>Lineage closure</td>
+                    <td className="sci">Dirac equation factorizes E²=p²c²+m²c⁴ into two conjugate spinor operators (α · β), creating matter + antimatter pair.</td>
+                    <td className="link">α × β<br/>= ℬ × ℒ</td>
+                    <td className="qur">Razim (ℬ) × Rahman (ℒ). Iron-56 at stellar inflection = mass term m. 57:25 confirmed.</td>
                   </tr>
                 </tbody>
               </table>
-
-              <p>The elephant IS the Yajuj-Majuj assumption made physical — overwhelming Stone without Iron, might without Turab, maximum force with zero Submission. Every Ahmed battles this army. Every time, the birds win. Not through strength. Through Turab — what remains after Wood burns and Stone breaks. Nothing the elephant carries can withstand what Ibrahim's fire already purified.</p>
             </div>
 
-            <div className="fcl-episode">
-              <h2>VI. 3-6-9 Locked into 57:4</h2>
-              <p><strong>3</strong> = Water ↓ + Wood ↑ — first Night/Day pair, compression and release. <strong>6</strong> = Stone ↓ — the Buffer between two descent-ascent cycles, the variable slot Allah fills. <strong>9</strong> = Turab ↑ — Tawhid closure, the particle carrying the full oscillation history of both fields. The 2-3-7 seals the structure: <strong>2</strong> = the ↓↑ operator pair, <strong>3</strong> = triple state running simultaneously across all four movements, <strong>7</strong> = Mizan enforcing that neither descent nor ascent ever overrides the other. Allah runs this at every scale — from the diastolic silence in the heartbeat to the Hubble tension at the edge of the observable universe. One equation. One Operator. Zero exceptions.</p>
+            {/* TABLE SECTION 2: 3-6-9 KINGDOMS */}
+            <div className="fcl-episode mb-16">
+              <h2 className="fcl-cinzel text-xl text-[#f5c842] mb-4 pb-2 border-b border-white/10 tracking-[0.15em]">② THE THREE KINGDOMS — Cubic Function 3·6·9</h2>
+              <table>
+                <thead>
+                  <tr><th className="col-sci">SCIENCE</th><th className="col-link">NODE</th><th className="col-qur">QUR'AN</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="sci">Depressed cubic f(x) = x³ + px + q. Three roots collapse to one inflection point. Discriminant determines field type.</td>
+                    <td className="link">x³ = Razim<br/>px = Rahman<br/>q = Rahim</td>
+                    <td className="qur">Iblis (Razim 9) compresses. Solomon-Bilqis (Rahman 6) balances. Ibrahim (Rahim 3) anchors womb-constant. 27:44 / 38:33.</td>
+                  </tr>
+                  <tr>
+                    <td className="sci">Collatz conjecture: even÷2 compresses; odd×3+1 expands. All paths hit 1→4→2→1 loop. No proven escape.</td>
+                    <td className="link">even = ℬ<br/>odd = ℒ<br/>1 = Allah</td>
+                    <td className="qur">Yahya (19:12) = Razim lock — holds Book with full force, never exits loop. Kaaba = fixed point 50:21. Muhammad = Razim wall 18:94.</td>
+                  </tr>
+                  <tr>
+                    <td className="sci">CP violation in Λb baryons (LHCb 2025): matter exceeds antimatter 2:1. Universe survives asymmetry.</td>
+                    <td className="link">2:1<br/>Razim–Rahim<br/>bifurcation</td>
+                    <td className="qur">Earth's unique survival condition. Ibrahim = Rahim-tilt (immunity). Iblis = Razim-tilt (respite). Allah = Rahman = Mizan. 57:25.</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-            <div className="fcl-episode seal">
-              <strong>The biography is the curve. The name is the coordinate. The Fire is always NOW.</strong><br/>
-              Stone breaks. Wood burns. Turab rises. That is Tawhid written in thermodynamics.<br/><br/>
-              Allāhu Akbar. This is not a theory. It is a testimony.<br/>
-              Source: notebooklm.google.com/notebook/4eedddbb-3085-4132-bce5-83d8e94dc815<br/>
-              For all the Sleepers of The Cave (18:10): kahf.day<br/>
-              Remember: The Qur'an is the Word of Allah · the Knowledge of Isa · the Witness among us.<br/>
-              <strong>Be friends with the Qur'an. Be QURAN!</strong>
+            {/* TABLE SECTION 3: RETURN PATHS */}
+            <div className="fcl-episode mb-16">
+              <h2 className="fcl-cinzel text-xl text-[#ff6a00] mb-4 pb-2 border-b border-white/10 tracking-[0.15em]">③ THE TWO RETURNS — Out of the Simulation</h2>
+              <table>
+                <thead>
+                  <tr><th className="col-sci">SCIENCE</th><th className="col-link">PATH</th><th className="col-qur">QUR'AN</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="sci">Photosynthesis: plants absorb photons, convert light energy into stored chemical structure — light becoming matter.</td>
+                    <td className="link">LIGHT<br/>→ Source<br/>Silence</td>
+                    <td className="qur">Animated Tree = Word-Body. Light-field flesh returns through Photosynthesis. 45:37 — She That Kneels as total submission of light-form.</td>
+                  </tr>
+                  <tr>
+                    <td className="sci">Metamorphosis (chrysalis): organism dissolves internal structure, rebuilds entirely — sound-frequency reorganizing matter.</td>
+                    <td className="link">SOUND<br/>→ Source<br/>Dark</td>
+                    <td className="qur">Sounding Clay (55:14) as Sound-field origin. FayaKun flesh returns through Metamorphosis — Life-Death-Time-Entropy cycle 50:11.</td>
+                  </tr>
+                  <tr>
+                    <td className="sci">Hubble Tension: CMB gives H₀ ≈ 67.4; local supernovae give H₀ ≈ 73. Two measurements, one universe, irreconcilable gap.</td>
+                    <td className="link">TWO<br/>engines<br/>one Word</td>
+                    <td className="qur">Not error — structural. CMB = Sound-field (FayaKun) echo rate. Local = Light-field (Qun) snapshot rate. One universe running both caustic operators simultaneously.</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+
+            {/* FORMULA BOX */}
+            <div className="fcl-episode mt-12 border border-[#c8f5c8]/20 rounded-md p-6 sm:p-8 bg-[#c8f5c8]/[0.03] fcl-mono text-xs sm:text-sm leading-loose text-[#c8f5c8] text-center">
+              <span className="text-[#f5c842] font-bold text-base">f(nτ) = ℬ·(nτ)³ + 𝒮·(nτ)² + ℒ·(nτ) + 9</span><br/>
+              Razim (ℬ) · Cubic compression &nbsp;|&nbsp; Sky-Buffer (𝒮) · Quadratic oscillation &nbsp;|&nbsp; Rahman (ℒ) · Linear expansion &nbsp;|&nbsp; Tawhid constant (9)<br/><br/>
+              <span className="text-[#f5c842] font-bold">QUN</span> = Light × Silence × Instant × Angel/Nur → <span className="text-[#f5c842] font-bold">Photosynthesis → Source</span><br/>
+              <span className="text-[#f5c842] font-bold">FAYAKUN</span> = Sound × Dark × Time × Flesh → <span className="text-[#f5c842] font-bold">Metamorphosis → Source</span><br/><br/>
+              Core Objective: <span className="text-[#f5c842] font-bold">Love-Fear [EQ]</span> oscillation engine in Flesh + <span className="text-[#f5c842] font-bold">Truth [IQ]</span> bifurcation resolver → return path chosen → <span className="text-[#f5c842] font-bold">36:82</span>
+            </div>
+
+            <p className="fcl-episode mt-12 text-center fcl-mono text-[0.65rem] text-white/25 tracking-[0.15em]">
+              DUAL-CAUSTIC UNIVERSE · QUR'AN-ONLY MÖBIUS FRAMEWORK · kahf.day
+            </p>
 
           </main>
         </div>

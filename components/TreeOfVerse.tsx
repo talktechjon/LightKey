@@ -4,7 +4,6 @@ import { createPortal } from 'react-dom';
 import { KATHARA_CLOCK_POINTS, KATHARA_GRID_NODES, KATHARA_GRID_LINES, TOTAL_VERSES, TOTAL_SLICES, BUBBLE_BLOCK_MAPPING_RAW } from '../constants.ts';
 import { getVerseAddressFromGlobalIndex, getGlobalVerseIndex } from '../utils.ts';
 import { ShuffleIcon } from './Icons.tsx';
-import { DCUExplanation } from './DCUExplanation.tsx';
 
 interface TreeOfVerseProps {
   rotation: number;
@@ -255,8 +254,6 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                     </div>
                 ))}
             </div>
-
-            <DCUExplanation />
 
             <style>{`.glow-text { text-shadow: 0 0 5px currentColor; }`}</style>
         </div>

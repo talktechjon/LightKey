@@ -9,7 +9,6 @@ import VerseFinder from './components/VerseFinder.tsx';
 import SettingsPanel from './components/SettingsPanel.tsx';
 import InstructionPanel from './components/InstructionPanel.tsx';
 import FilmCalledLifePanel from './components/FilmCalledLifePanel.tsx';
-import TutorialPanel from './components/TutorialPanel.tsx';
 import TreeOfLifeMode from './components/TreeOfLifeMode.tsx';
 import { VisualizationHandle, TooltipContent, VerseFinderContent, LocalTranslationData } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
@@ -41,7 +40,6 @@ const App: React.FC = () => {
   const [localFileName, setLocalFileName] = useState<string | null>(null);
   const [isInstructionVisible, setIsInstructionVisible] = useState(false); 
   const [isFilmCalledLifeVisible, setIsFilmCalledLifeVisible] = useState(false);
-  const [isTutorialVisible, setIsTutorialVisible] = useState(false);
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
   const [bakaraSpineIndex, setBakaraSpineIndex] = useState(1);
   
@@ -178,11 +176,9 @@ const App: React.FC = () => {
           <button onClick={() => setIsVerseFinderVisible(p => !p)} className="w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 text-cyan-400 flex items-center justify-center" title="Verse Finder"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></button>
           <button onClick={() => setIsIdleAnimationEnabled(p => !p)} className={`w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 flex items-center justify-center ${isIdleAnimationEnabled ? 'text-cyan-400' : 'text-gray-600'}`} title="Idle"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
           <button onClick={() => setIsSettingsVisible(p => !p)} className="w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 text-cyan-400 flex items-center justify-center" title="Settings"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg></button>
-          <button onClick={() => setIsTutorialVisible(p => !p)} className={`w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 flex items-center justify-center ${isTutorialVisible ? 'text-cyan-400' : 'text-gray-600'}`} title="Tutorial"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
           <button onClick={() => setIsLowResourceMode(p => !p)} className={`w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 flex items-center justify-center ${isLowResourceMode ? 'text-cyan-400' : 'text-gray-600'}`} title="Performance"><svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9.59 4.59A2 2 0 1 1 11 8H2M12.59 19.41A2 2 0 1 0 14 16H2M19.59 11.41A2 2 0 1 0 21 8H2"/></svg></button>
         </div>
         <SettingsPanel isVisible={isSettingsVisible} setIsVisible={setIsSettingsVisible} mode={translationMode} setMode={setTranslationMode} onFileLoad={(data, name) => {setLocalTranslationData(data); setLocalFileName(name); setTranslationMode('local');}} fileName={localFileName} />
-        <TutorialPanel isVisible={isTutorialVisible} onClose={() => setIsTutorialVisible(false)} />
         <VerseFinder isVisible={isVerseFinderVisible} setIsVisible={setIsVerseFinderVisible} content={verseFinderContent} setContent={setVerseFinderContent} translationMode={translationMode} localTranslationData={localTranslationData} query={verseFinderQuery} onQueryChange={setVerseFinderQuery} shouldAutoSearch={shouldAutoSearch} onAutoSearchHandled={() => setShouldAutoSearch(false)} />
       </div>
       <div className="relative z-10 flex flex-col lg:flex-row lg:flex-1 lg:min-h-0">
@@ -198,7 +194,6 @@ const App: React.FC = () => {
           hideTooltip={() => setTooltipContent(null)} 
           isSecretModeActive={isSecretModeActive} 
           isTreeOfVerseActive={isTreeOfVerseActive} 
-          setIsTreeOfVerseActive={setIsTreeOfVerseActive}
           isPieceOfBakaraActive={isPieceOfBakaraActive} 
           secretEmojiShift={secretEmojiShift} 
           isLowResourceMode={isLowResourceMode} 

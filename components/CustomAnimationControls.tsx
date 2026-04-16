@@ -11,7 +11,6 @@ interface CustomAnimationControlsProps {
     setAnimationMode: (mode: 'play' | 'step' | 'off') => void;
     setAnimationIndex: (index: number) => void;
     createPlaylist: (type: PlaylistType, chapterIds: number[]) => void;
-    onEyeClick?: () => void;
 }
 
 const PRESET_SEQUENCES: Record<string, string> = {
@@ -34,8 +33,7 @@ const CustomAnimationControls: React.FC<CustomAnimationControlsProps> = ({
     animationMode,
     setAnimationMode,
     setAnimationIndex,
-    createPlaylist,
-    onEyeClick
+    createPlaylist
 }) => {
     
     const handleAnimationToggle = () => {
@@ -60,9 +58,6 @@ const CustomAnimationControls: React.FC<CustomAnimationControlsProps> = ({
 
       if (preset === '0') {
           setCustomSequence('');
-      } else if (preset === 'eye') {
-          setCustomSequence(PRESET_SEQUENCES[preset] || '');
-          if (onEyeClick) onEyeClick();
       } else {
           setCustomSequence(PRESET_SEQUENCES[preset] || '');
       }
@@ -71,7 +66,7 @@ const CustomAnimationControls: React.FC<CustomAnimationControlsProps> = ({
     return (
         <div className="pt-2">
             <label htmlFor="custom-sequence" className="font-semibold text-gray-200 text-sm">
-                Tree of Life 🌳
+                Custom Animation Sequence (Q/E to step)
             </label>
             <div className="flex items-center space-x-2 mt-2">
                 <input
@@ -83,7 +78,7 @@ const CustomAnimationControls: React.FC<CustomAnimationControlsProps> = ({
                         setAnimationMode('off');
                         setAnimationIndex(0);
                     }}
-                    placeholder="114 1 77"
+                    placeholder="e.g., 23, 114, 1, 77"
                     className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-sm text-white placeholder-gray-500 focus:ring-2 focus:ring-cyan-500 focus:outline-none transition-colors"
                     disabled={animationMode !== 'off'}
                 />

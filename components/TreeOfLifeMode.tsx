@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { KATHARA_GRID_NODES, KATHARA_GRID_LINES, KATHARA_CLOCK_POINTS, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS } from '../constants.ts';
 import { getSliceAtPoint } from '../utils.ts';
-import { DCUExplanation } from './DCUExplanation.tsx';
 
 interface TreeOfLifeModeProps {
   rotation: number;
@@ -213,7 +212,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
           .fire-burst { fill: #f97316; animation: blast 0.8s ease-out forwards; }
         `}</style>
 
-        <svg viewBox="0 0 150 320" style={{ overflow: 'visible' }} className="kathara-svg drop-shadow-[0_0_80px_rgba(6,182,212,0.15)]">
+        <svg viewBox="-75 -20 300 320" className="kathara-svg drop-shadow-[0_0_80px_rgba(6,182,212,0.15)]">
           <defs>
             <linearGradient id="activeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#0891b2" />
@@ -424,8 +423,6 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
             {isCycling ? 'Stop Stream' : `Animate Stream`}
           </button>
         </div>
-
-        <DCUExplanation />
       </aside>
       
       <main className="flex-1 w-full flex items-center justify-center p-4 lg:p-8 lg:h-full lg:overflow-hidden">
