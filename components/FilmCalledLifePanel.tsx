@@ -312,6 +312,160 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
               </table>
             </div>
 
+            {/* SECTION 4: CHAINMAIL & CUBIC FUNCTION */}
+            <div className="fcl-episode mb-16">
+              <h2 className="fcl-cinzel text-xl text-[#00c8ff] mb-6 pb-2 border-b border-white/10 tracking-[0.15em]">④ THE CHAINMAIL — f(x) = ax³ + bx² + cx + d</h2>
+              
+              <div className="space-y-6 text-sm sm:text-base font-light text-[#e8f4f8]/90">
+                <p>
+                  The Qur’an unfolds as a continuous chainmail system—each link interlocked through law, trial, and resolution—guiding the Earth from division to purified inheritance. This structure can be read through the 2–3–7 cycle: split, manifestation, and return, stabilized by an internal purge law that removes corruption from within the system.
+                </p>
+                <p>
+                  At the origin, <strong className="text-[#f5c842]">2:30</strong> establishes the Earth as a Khalifah-field. This is the moment of split: a dual-state system where corruption and alignment coexist. The field immediately carries tension—two trajectories emerge. One reflects alignment (Musa-phase, 20:41), the other reflects resistance (Pharaoh-phase, 10:92). This is not a static opposition but a dynamic testing environment where both states are allowed to unfold.
+                </p>
+                <p>
+                  The system does not collapse into chaos because a governing filter is embedded within it. That filter is expressed in <strong className="text-[#f5c842]">35:39</strong>. Here, succession on Earth is tied to consequence: misalignment (zulm) does not stabilize; it increases loss. Pharaoh is not instantly removed—he is preserved as a visible signal (10:92), then gradually emptied of power through decay. This reveals a core law of the Qur’anic system: corruption carries within itself the mechanism of its own erosion. The purge is internal, not external.
+                </p>
+                <p>
+                  As the unstable elements are filtered, the system transitions into structured manifestation—the <strong className="text-[#f5c842]">3 phase</strong>, embodied by Ibrahim. Here, truth is no longer a conflict but a living structure. The Ibrahim cycle (2:124, 14:37, 37:102) establishes a pattern: life, family, and sacrifice. Truth becomes embodied, planted, and transmitted. What began as abstract alignment now takes root in continuity.
+                </p>
+                <p>
+                  This structure is then tested repeatedly across prophetic cycles, reinforcing the chainmail. Nuh experiences loss within his own household (11:46), purifying lineage. Yaqub and Yusuf undergo separation and restoration (12:86–100), transforming jealousy into reconciliation. Yunus enters darkness and emerges realigned (21:87–88). Each cycle removes remaining fragments of imbalance, ensuring that the structure formed in the Ibrahim phase is not theoretical but resilient under pressure.
+                </p>
+                <p>
+                  With repeated purification, the system advances toward completion—the <strong className="text-[#f5c842]">7 phase</strong>, the state of return and establishment. This culminates in <strong className="text-[#f5c842]">21:105</strong>, where the Earth is inherited by righteous servants. The Dawud–Solomon phase represents this completion: judgment is established (38:26), and full-system governance is achieved (27:16). What began as a divided field is now a stabilized order.
+                </p>
+                
+                <div className="p-4 bg-[#00c8ff]/5 border border-[#00c8ff]/20 rounded-lg my-6 fcl-mono text-xs sm:text-sm">
+                  <div className="text-[#00c8ff] mb-2 font-bold">THE CLOSED LOOP:</div>
+                  2:30 initiates the split → 35:39 filters corruption → Ibrahim builds structured truth → repeated trials refine the system → 21:105 finalizes inheritance.
+                </div>
+
+                <p>
+                  Each link depends on the previous one. The split is necessary to expose states. The purge ensures only aligned structures survive. Manifestation gives truth form. Trials harden it. Return secures it.
+                </p>
+                <p>
+                  Within this system, Pharaoh is not an endpoint but a functional phase. His preservation demonstrates the law, and his decay proves it. Musa initiates the separation, Ibrahim stabilizes the pattern, and Dawud–Solomon complete the return. The Qur’an, as chainmail, shows that history is not random—it is a precise, interlocking system where every phase contributes to the inevitable outcome: a fully purified Earth aligned with its intended balance.
+                </p>
+              </div>
+            </div>
+
+            {/* SECTION 5: TERM MATCHING */}
+            <div className="fcl-episode mb-16">
+              <h2 className="fcl-cinzel text-xl text-[#f5c842] mb-6 pb-2 border-b border-white/10 tracking-[0.15em]">⑤ TERM ↔ CHAINMAIL MATCHING</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white/5 border border-white/10 p-5 rounded-lg">
+                  <h3 className="text-[#f5c842] font-bold fcl-mono mb-3 text-lg">x³ — Rahim</h3>
+                  <div className="text-xs text-white/60 mb-2 uppercase tracking-wider">Expansion / Ibrahim phase</div>
+                  <ul className="list-disc list-inside space-y-2 text-sm text-[#e8f4f8]/80">
+                    <li>Structured manifestation fits exactly here</li>
+                    <li>Ibrahim cycle = nonlinear growth + propagation of truth</li>
+                    <li>This is where the system gains volume and continuity</li>
+                  </ul>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 p-5 rounded-lg">
+                  <h3 className="text-[#00c8ff] font-bold fcl-mono mb-3 text-lg">x² — Kingdom / Rahman</h3>
+                  <div className="text-xs text-white/60 mb-2 uppercase tracking-wider">Curvature / Field Control</div>
+                  <ul className="list-disc list-inside space-y-2 text-sm text-[#e8f4f8]/80">
+                    <li>2:30 + 35:39 + Fir‘awn preservation (10:92)</li>
+                    <li>This is the governed test-field with embedded purge law</li>
+                    <li>Corruption bending the field = curvature term active</li>
+                  </ul>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 p-5 rounded-lg">
+                  <h3 className="text-[#ff6a00] font-bold fcl-mono mb-3 text-lg">x — Rushd</h3>
+                  <div className="text-xs text-white/60 mb-2 uppercase tracking-wider">Guidance / Trials across prophets</div>
+                  <ul className="list-disc list-inside space-y-2 text-sm text-[#e8f4f8]/80">
+                    <li>Nuh, Ya‘qub–Yusuf, Yunus cycles</li>
+                    <li>These are linear corrections applied repeatedly</li>
+                    <li>They refine direction → keep trajectory aligned</li>
+                  </ul>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 p-5 rounded-lg">
+                  <h3 className="text-[#4ade80] font-bold fcl-mono mb-3 text-lg">d — Constant</h3>
+                  <div className="text-xs text-white/60 mb-2 uppercase tracking-wider">21:105 outcome anchored</div>
+                  <ul className="list-disc list-inside space-y-2 text-sm text-[#e8f4f8]/80">
+                    <li>Final inheritance is not produced by process alone</li>
+                    <li>It is guaranteed by invariant law</li>
+                    <li>Your loop closes here → matches constant-term behavior</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mt-8 p-5 bg-[#f5c842]/5 border border-[#f5c842]/20 rounded-lg">
+                <h3 className="text-[#f5c842] font-bold mb-3 tracking-widest text-sm">DYNAMIC CONSISTENCY CHECK</h3>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div><span className="text-[#00c8ff]">✔</span> Nonlinearity present → Ibrahim expansion</div>
+                  <div><span className="text-[#00c8ff]">✔</span> Curvature present → kingdom + corruption decay</div>
+                  <div><span className="text-[#00c8ff]">✔</span> Correction cycles present → prophetic trials</div>
+                  <div><span className="text-[#00c8ff]">✔</span> Stable endpoint present → inheritance</div>
+                </div>
+                <p className="mt-4 text-sm text-[#e8f4f8]/80 italic">
+                  No term is missing, none is overloaded → system is balanced. The chainmail is mathematically consistent with a cubic system, where Qur’anic progression behaves like a nonlinear system stabilizing toward a predetermined invariant outcome.
+                </p>
+              </div>
+            </div>
+
+            {/* SECTION 6: TREE OF LIFE */}
+            <div className="fcl-episode mb-16">
+              <h2 className="fcl-cinzel text-xl text-[#4ade80] mb-6 pb-2 border-b border-white/10 tracking-[0.15em]">⑥ TREE OF LIFE — Layered Visualization</h2>
+              
+              <p className="text-sm sm:text-base font-light text-[#e8f4f8]/90 mb-6">
+                The diagram is a discretized (layered) version of the cubic system—each node is a sampled state of the same function <code className="text-[#f5c842] bg-black/30 px-1 py-0.5 rounded">f(x) = ax³ + bx² + cx + d</code> as it evolves from input (1) to completion (12).
+              </p>
+
+              <div className="space-y-6">
+                <div className="border-l-2 border-[#ff6a00] pl-4">
+                  <h3 className="text-[#ff6a00] font-bold fcl-mono text-lg">1 → 4 (Linear Zone: cx)</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-2">
+                    <p><strong>Nodes:</strong> 1 Inspiration → 2 Action → 3 Guidance → 4 Cleanse</p>
+                    <p><strong>Dominant term:</strong> x (Rushd / Book)</p>
+                    <p><strong>Behavior:</strong> step-by-step correction</p>
+                    <p><strong>Geometry:</strong> straight progression (low curvature)</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#00c8ff] pl-4">
+                  <h3 className="text-[#00c8ff] font-bold fcl-mono text-lg">5 → 8 (Curvature Zone: bx²)</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-2">
+                    <p><strong>Nodes:</strong> 5 Righteous → 6 Faith → 7 Blessing → 8 Sealant</p>
+                    <p><strong>Dominant term:</strong> x² (Kingdom / Rahman field)</p>
+                    <p><strong>Behavior:</strong> feedback loops, tests, reinforcement</p>
+                    <p><strong>Detail:</strong> This is where faith ↔ trial cycles occur, and the 103 bridge (fire ↔ water) sits → curvature interaction.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#f5c842] pl-4">
+                  <h3 className="text-[#f5c842] font-bold fcl-mono text-lg">9 → 12 (Expansion Zone: ax³)</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-2">
+                    <p><strong>Nodes:</strong> 9 Submission → 10 Sacrifice → 11 Truth → 12 Light</p>
+                    <p><strong>Dominant term:</strong> x³ (Rahim expansion)</p>
+                    <p><strong>Behavior:</strong> rapid nonlinear elevation</p>
+                    <p><strong>Detail:</strong> Ibrahim-type propagation → truth becomes system-wide.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#4ade80] pl-4">
+                  <h3 className="text-[#4ade80] font-bold fcl-mono text-lg">Constant (d) (Hidden Base Layer)</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-2">
+                    <p>Present across all nodes (not drawn explicitly). Anchors: Δ108 (transition threshold), 110 (upper stabilization).</p>
+                    <p>Ensures every level resolves toward 21:105 endpoint.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 p-5 bg-white/5 border border-white/10 rounded-lg text-sm text-[#e8f4f8]/90">
+                <h3 className="text-white font-bold mb-2">DIAMOND STRUCTURE MEANING</h3>
+                <p>Each diamond = local cubic interaction. Bottom node = input; left/right = dual states (2 / Razim split); top = resolved state. This is a mini cubic loop repeated at each level.</p>
+                <p className="mt-4 font-bold text-[#f5c842]">CONCLUSION:</p>
+                <p>The "Tree" is not separate from the equation. It is the piecewise unfolding of the cubic across discrete states. Continuous equation → discretized into stages, trials, prophetic cycles. Each node is a state of the same system, and the full tree represents the complete trajectory of f(x) from initiation to illuminated equilibrium.</p>
+              </div>
+            </div>
+
             {/* FORMULA BOX */}
             <div className="fcl-episode mt-12 border border-[#c8f5c8]/20 rounded-md p-6 sm:p-8 bg-[#c8f5c8]/[0.03] fcl-mono text-xs sm:text-sm leading-loose text-[#c8f5c8] text-center">
               <span className="text-[#f5c842] font-bold text-base">f(nτ) = ℬ·(nτ)³ + 𝒮·(nτ)² + ℒ·(nτ) + 9</span><br/>
