@@ -109,7 +109,7 @@ export const KATHARA_GRID_NODES = [
 ];
 
 export const KATHARA_GRID_LINES = [
-  { from: 1, to: 2 }, { from: 2, to: 3 }, { from: 2, to: 4 }, { from: 2, to: 13 }, { from: 13, to: 5 }, { from: 3, to: 13 }, { from: 4, to: 13 }, { from: 3, to: 5 }, { from: 3, to: 6 }, { from: 4, to: 5 }, { from: 4, to: 7 }, { from: 5, to: 6 }, { from: 5, to: 7 }, { from: 5, to: 14 }, { from: 14, to: 8 }, { from: 6, to: 14 }, { from: 7, to: 14 }, { from: 6, to: 8 }, { from: 6, to: 9 }, { from: 7, to: 8 }, { from: 7, to: 10 }, { from: 8, to: 15 }, { from: 15, to: 11 }, { from: 9, to: 15 }, { from: 10, to: 15 }, { from: 8, to: 9 }, { from: 8, to: 10 }, { from: 9, to: 11 }, { from: 9, to: 12 }, { from: 10, to: 11 }, { from: 10, to: 12 }, { from: 11, to: 12 },
+  { from: 1, to: 2 }, { from: 1, to: 3 }, { from: 1, to: 4 }, { from: 2, to: 3 }, { from: 2, to: 4 }, { from: 2, to: 13 }, { from: 13, to: 5 }, { from: 3, to: 13 }, { from: 4, to: 13 }, { from: 3, to: 5 }, { from: 3, to: 6 }, { from: 4, to: 5 }, { from: 4, to: 7 }, { from: 5, to: 6 }, { from: 5, to: 7 }, { from: 5, to: 14 }, { from: 14, to: 8 }, { from: 6, to: 14 }, { from: 7, to: 14 }, { from: 6, to: 8 }, { from: 6, to: 9 }, { from: 7, to: 8 }, { from: 7, to: 10 }, { from: 8, to: 15 }, { from: 15, to: 11 }, { from: 9, to: 15 }, { from: 10, to: 15 }, { from: 8, to: 9 }, { from: 8, to: 10 }, { from: 9, to: 11 }, { from: 9, to: 12 }, { from: 10, to: 11 }, { from: 10, to: 12 }, { from: 11, to: 12 },
 ];
 
 export const SEPHIROT_BASE_POINTS = [1, 12, 24, 35, 47, 58, 70, 81, 93, 104];

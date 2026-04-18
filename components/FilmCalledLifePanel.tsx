@@ -117,6 +117,29 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
               0%, 100% { opacity: 1; }
               50% { opacity: 0.5; }
             }
+            
+            @keyframes electric-flicker {
+              0%, 89%, 100% { text-shadow: 0 0 5px #00ffff, 0 0 15px #00ffff, 0 0 30px #0088ff; opacity: 1; color: #ffffff; }
+              91%, 93%, 95% { text-shadow: none; opacity: 0.4; color: #00c8ff; }
+              92%, 94% { text-shadow: 0 0 10px #00ffff; opacity: 0.9; color: #ffffff; }
+            }
+            .lightning-text {
+              animation: electric-flicker 4s infinite;
+            }
+            
+            @keyframes flame-shimmer {
+              0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 10px rgba(255, 80, 0, 0.6)); }
+              50% { opacity: 1; filter: drop-shadow(0 0 18px rgba(255, 120, 0, 0.9)); }
+            }
+            .fire-text {
+              background: linear-gradient(0deg, #dc2626 0%, #ea580c 45%, #fde047 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              color: transparent;
+              display: inline-block;
+              animation: flame-shimmer 2s ease-in-out infinite alternate;
+              padding-bottom: 2px;
+            }
           `}</style>
 
           <main className="max-w-[900px] mx-auto py-16 px-6 sm:px-10">
@@ -130,7 +153,9 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
             <div className="fcl-episode mb-24">
               <h2 className="fcl-cinzel text-xl md:text-2xl text-white mb-8 leading-relaxed border-b border-[#00c8ff]/20 pb-6 text-center">
                 We Have Been Reading Quran the One-Way All Along.<br/>
-                <span className="text-[#00c8ff] text-2xl md:text-3xl mt-2 inline-block">Ignored the water in it!</span>
+                <span className="text-[#00c8ff] text-2xl md:text-3xl mt-2 inline-block tracking-widest">
+                  Ignored the <strong className="lightning-text font-black px-1 tracking-normal">LIGHT</strong> for our <strong className="fire-text font-black px-1 tracking-normal">Soul</strong> in it!
+                </span>
               </h2>
 
               <div className="space-y-6 text-base font-light text-[#e8f4f8]/90">
