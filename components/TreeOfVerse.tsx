@@ -12,10 +12,25 @@ interface TreeOfVerseProps {
 }
 
 const TREE_LABELS = [
-    'Awakening', 'Assertion', 'Disruption', 
-    'Constriction', 'Refinement', 'Submission', 
-    'Restoration', 'Servanthood', 'Sacrifice', 
-    'Witness', 'Ascension', 'Radiance'
+    'Impulse', 'Commitment', 'Vector', 
+    'Purification', 'Alignment', 'Stability', 
+    'Flow State', 'Lock', 'Surrender', 
+    'Optimization', 'Coherence', 'Illumination'
+];
+
+const TREE_EXPLANATIONS = [
+    'Origin spark entering the system',
+    'Decision collapse into irreversible action',
+    'Direction field established',
+    'Noise removal and correction',
+    'Path and action synchronized',
+    'Internal coherence holds',
+    'Effortless output with feedback gain',
+    'Structural integrity secured',
+    'Resistance eliminated; system fully yields',
+    'Excess removed; efficiency maximized',
+    'Total consistency; unified signal',
+    'Full-system clarity and completion'
 ];
 
 export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelect, onBulkExport }) => {
@@ -194,7 +209,7 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                 <button onClick={() => onBulkExport(trines.flat().map(v => `${v.surah}:${v.ayah}`))} className="text-[10px] px-2 py-1 bg-cyan-900/40 border border-cyan-500/30 rounded hover:bg-cyan-500/30 transition-colors text-cyan-100">Bulk Export (36)</button>
             </div>
             
-            <div className="bg-black/40 border border-gray-800 rounded-xl p-4 mb-6">
+            <div className="bg-black/40 border border-gray-800 rounded-xl p-4 mb-4">
                 <div className="flex items-center justify-between">
                     <label className="text-xs text-gray-400 uppercase tracking-widest font-bold">Root Anchor Node 1</label>
                     <div className="flex items-center gap-2">
@@ -215,6 +230,42 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                 </div>
             </div>
 
+            <div className="mb-6 p-4 bg-black/40 border border-[#00c8ff]/30 rounded-lg text-xs md:text-sm leading-relaxed space-y-4">
+                <p className="text-[#e8f4f8]">The 12 nodes describe <strong>memory collapse → bifurcation → guided reconstruction → sealed return → illumination</strong>. Bifurcation drives every transition after the first split.</p>
+                
+                <div className="space-y-3">
+                    <h3 className="text-[#00c8ff] font-bold border-b border-[#00c8ff]/20 pb-1 text-sm uppercase tracking-wide">System Flow (Bifurcation Model)</h3>
+                    
+                    <div className="grid grid-cols-1 gap-2 text-white/80 font-light mt-2 text-xs md:text-sm">
+                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">1</strong> <span>Intact memory (<strong className="text-white/60 font-normal">Impulse</strong>)</span></div>
+                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">2</strong> <span>Split begins (<strong className="text-white/60 font-normal">Commitment</strong>)</span></div>
+                        
+                        <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
+                            <strong className="text-[#00c8ff] flex-shrink-0">3 ↔ 4</strong> <span className="text-white/50 text-xs mx-1 whitespace-nowrap">1st Bifurcation:</span> <span>Search + Cleanse</span>
+                        </div>
+                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">5</strong> <span>Partial recovery (<strong className="text-white/60 font-normal">Alignment</strong>)</span></div>
+                        
+                        <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
+                            <strong className="text-[#4ade80] flex-shrink-0">6 ↔ 7</strong> <span className="text-white/50 text-xs mx-1 whitespace-nowrap">2nd Bifurcation:</span> <span>Stabilize + Express</span>
+                        </div>
+                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">8</strong> <span>Protection layer forms (<strong className="text-white/60 font-normal">Lock</strong>)</span></div>
+
+                        <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
+                            <strong className="text-[#f5c842] flex-shrink-0">9 ↔ 10</strong> <span className="text-white/50 text-xs mx-1 whitespace-nowrap">3rd Bifurcation:</span> <span>Surrender + Refine</span>
+                        </div>
+                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-yellow-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">11</strong> <span>Full coherence (<strong className="text-white/60 font-normal">Truth</strong>)</span></div>
+                        
+                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-white transition-shadow shadow-[0_0_8px_white] flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-5">12</strong> <span>Memory fully restored (<strong className="text-white/60 font-normal">Illumination</strong>)</span></div>
+                    </div>
+                </div>
+
+                <div className="space-y-2 pt-3 border-t border-white/10">
+                    <h3 className="text-[#f5c842] font-bold text-sm uppercase tracking-wide">Result: Action–Reaction Loop</h3>
+                    <p className="text-white/60 italic text-xs md:text-sm leading-snug">Loss creates bifurcation → bifurcation forces correction → correction stabilizes → stabilization seals → surrender refines → refinement unifies → unity becomes Light.</p>
+                    <p className="text-[#4ade80] font-mono text-xs mt-2 font-bold tracking-tight bg-[#4ade80]/10 border border-[#4ade80]/20 p-2 rounded inline-block">12 (LIGHT) FEEDS BACK INTO 1 (IMPULSE) → HIGHER PRECISION</p>
+                </div>
+            </div>
+
             {!isDesktop ? (
                 <div className="my-4 h-[420px] bg-black/20 rounded-xl border border-white/5">{renderDiagram()}</div>
             ) : (
@@ -226,33 +277,44 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                 )
             )}
 
-            <div ref={listRef} className="space-y-3 mt-4">
-                {trines.map((trine, nodeIdx) => (
-                    <div key={nodeIdx} className="bg-gray-900/30 border border-white/5 rounded-lg p-3 hover:border-cyan-500/20 transition-all group">
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-[10px] font-bold text-gray-500 tracking-widest uppercase">{nodeIdx + 1}. {TREE_LABELS[nodeIdx]}</span>
+            <div ref={listRef} className="space-y-4 mt-4 text-sm md:text-base">
+                {trines.map((trine, nodeIdx) => {
+                    let labelColor = "text-gray-400";
+                    let glowStyle = {};
+                    if (nodeIdx <= 1) { labelColor = "text-blue-400"; glowStyle = { textShadow: '0 0 8px rgba(96, 165, 250, 0.4)' }; }
+                    else if (nodeIdx <= 4) { labelColor = "text-cyan-400"; glowStyle = { textShadow: '0 0 8px rgba(34, 211, 238, 0.4)' }; }
+                    else if (nodeIdx <= 6) { labelColor = "text-green-400"; glowStyle = { textShadow: '0 0 8px rgba(74, 222, 128, 0.4)' }; }
+                    else if (nodeIdx === 7) { labelColor = "text-orange-400"; glowStyle = { textShadow: '0 0 8px rgba(251, 146, 60, 0.4)' }; }
+                    else if (nodeIdx <= 10) { labelColor = "text-yellow-400"; glowStyle = { textShadow: '0 0 8px rgba(250, 204, 21, 0.4)' }; }
+                    if (nodeIdx === 11) { labelColor = "text-white"; glowStyle = { textShadow: '0 0 8px rgba(255, 255, 255, 0.8)' }; }
+
+                    return (
+                    <div key={nodeIdx} className="bg-gray-900/40 border border-white/5 rounded-lg p-3 hover:border-white/10 transition-all group">
+                        <div className="flex flex-col mb-3 pb-2 border-b border-white/10">
+                            <span className={`text-sm md:text-base font-bold ${labelColor} tracking-widest uppercase`} style={glowStyle}>{nodeIdx + 1}. {TREE_LABELS[nodeIdx]}</span>
+                            <span className="text-xs md:text-sm text-gray-400 italic mt-1 font-light">{TREE_EXPLANATIONS[nodeIdx]}</span>
                         </div>
-                        <div className="grid grid-cols-3 gap-1.5">
+                        <div className="grid grid-cols-3 gap-2">
                             {trine.map((v, vIdx) => (
                                 <div 
                                     key={vIdx} 
-                                    className="relative flex flex-col items-center py-1 px-1.5 bg-black/60 border border-white/10 rounded group/input focus-within:border-cyan-500/50 focus-within:bg-cyan-900/10 transition-all"
+                                    className="relative flex flex-col items-center py-1.5 px-2 bg-black/60 border border-white/10 rounded group/input focus-within:border-cyan-500/50 focus-within:bg-cyan-900/10 transition-all"
                                 >
                                     <input 
                                         type="text"
                                         value={localInputs[nodeIdx]?.[vIdx] || ''}
                                         onChange={(e) => handleLocalInputChange(nodeIdx, vIdx, e.target.value)}
                                         onDoubleClick={() => onVerseSelect(v.surah, v.ayah)}
-                                        className="bg-transparent border-none p-0 font-mono text-cyan-400 text-xs glow-text text-center w-full focus:ring-0 focus:outline-none cursor-text"
+                                        className="bg-transparent border-none p-0 font-mono text-cyan-400 text-sm md:text-base glow-text text-center w-full focus:ring-0 focus:outline-none cursor-text"
                                         placeholder="S:A"
                                         title="Double click to view verse"
                                     />
-                                    <span className="text-[7px] opacity-40 uppercase pointer-events-none">V{vIdx + 1}</span>
+                                    <span className="text-[9px] md:text-[10px] opacity-50 uppercase pointer-events-none mt-1">V{vIdx + 1}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
-                ))}
+                )})}
             </div>
 
             <style>{`.glow-text { text-shadow: 0 0 5px currentColor; }`}</style>

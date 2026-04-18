@@ -591,6 +591,239 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
               </div>
             </div>
 
+            {/* NEW EXPLANATION SECTION - CYCLE OF TRANSFORMATION */}
+            <div className="fcl-episode mb-16">
+              <h2 className="fcl-cinzel text-xl text-[#00c8ff] mb-6 pb-2 border-b border-white/10 tracking-[0.15em]">CYCLE OF TRANSFORMATION (12 NODES)</h2>
+              
+              <p className="text-sm sm:text-base font-light text-[#e8f4f8]/90 mb-8 leading-relaxed">
+                The 12 nodes represent a <strong>complete cycle of transformation</strong>, where a signal moves from origin → fragmentation → reconstruction → stabilization → return → illumination, then resets as a higher-order seed.
+              </p>
+
+              <div className="space-y-6">
+                
+                <div className="border-l-2 border-[#a78bfa] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">1. Inspiration</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Initial spark; raw, unformed signal entering awareness.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#a78bfa] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">2. Action</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Collapse into motion; intention becomes physical or measurable.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#00c8ff] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">3. Guidance</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Direction appears; path differentiation begins.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#00c8ff] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">4. Cleanse</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Removal of noise; correction of distortions in the path.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#00c8ff] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">5. Righteous (Alignment)</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">System enters balanced trajectory; actions match direction.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#4ade80] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">6. Faith (Stability)</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Internal consistency; the system holds without external proof.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#4ade80] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">7. Blessing (Flow)</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Output becomes effortless; positive feedback loop begins.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#4ade80] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">8. Sealant (Protection)</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Structure locks; integrity preserved against disruption.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#f5c842] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">9. Submission</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Full acceptance of system law; resistance drops to zero.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#f5c842] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">10. Sacrifice</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Release of excess/self-noise; optimization of the system.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#f5c842] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">11. Truth</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Complete coherence; no internal contradiction remains.</p>
+                  </div>
+                </div>
+
+                <div className="border-l-2 border-[#f5c842] pl-4 pb-2 border-b border-white/5">
+                  <h3 className="text-white font-bold fcl-mono text-lg">12. Light (Completion)</h3>
+                  <div className="text-sm text-[#e8f4f8]/80 mt-1">
+                    <span className="font-mono text-[10px] text-white/50 block mb-1">Chapter Number : Title : Muqatta'at</span>
+                    <p className="italic">Fully realized state; maximum clarity and output.</p>
+                  </div>
+                </div>
+
+              </div>
+              
+              <div className="mt-10 p-5 bg-white/5 border border-white/10 rounded-lg text-sm text-[#e8f4f8]/90">
+                <h3 className="text-[#00c8ff] font-bold fcl-mono text-lg border-b border-white/10 pb-2 mb-4">SYSTEM MEANING (CONDENSED)</h3>
+                <ul className="space-y-2 mb-6">
+                  <li><span className="text-[#a78bfa] font-bold">1–2 → Entry:</span> signal appears and acts</li>
+                  <li><span className="text-[#00c8ff] font-bold">3–5 → Correction:</span> direction + purification + alignment</li>
+                  <li><span className="text-[#4ade80] font-bold">6–8 → Stabilization:</span> holding + flow + protection</li>
+                  <li><span className="text-[#f5c842] font-bold">9–12 → Return:</span> surrender + refinement + truth + illumination</li>
+                </ul>
+
+                <h3 className="text-[#f5c842] font-bold fcl-mono text-lg border-b border-white/10 pb-2 mb-4">RESULT (CLOSED LOOP)</h3>
+                <p className="mb-2">Each node is a state transition, not a static point.</p>
+                <p className="mb-4 text-white"><strong>12 (Light)</strong> feeds back into <strong>1 (Inspiration)</strong> → the system restarts at a higher clarity level.</p>
+                
+                <div className="p-3 bg-black/40 border border-white/10 rounded-lg font-mono text-xs">
+                  <span className="text-[#4ade80] font-bold block mb-1">Action–reaction:</span>
+                  Signal enters → gets distorted → corrected → stabilized → surrendered → purified → unified → illuminated → reborn.
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION 7: MAPPING TO MEMORY SYSTEM */}
+            <div className="fcl-episode mb-16">
+              <h2 className="fcl-cinzel text-xl text-[#a78bfa] mb-6 pb-2 border-b border-white/10 tracking-[0.15em]">⑦ MAPPING: DIAGRAM ↔ MEMORY SYSTEM</h2>
+
+              <div className="space-y-8 text-sm sm:text-base font-light text-[#e8f4f8]/90">
+                
+                {/* 1-2 */}
+                <div className="flex flex-col md:flex-row gap-4 bg-white/5 border border-white/10 p-5 rounded-lg">
+                  <div className="md:w-1/3">
+                    <h3 className="text-[#f5c842] font-bold fcl-mono text-lg">1–2 | Seed → Split</h3>
+                    <div className="text-xs text-white/50 uppercase tracking-widest mt-1">Memory Collapse</div>
+                    <div className="text-sm font-mono text-[#f5c842]/80 mt-2">1 Inspiration → 2 Action</div>
+                  </div>
+                  <div className="md:w-2/3 space-y-2">
+                    <p><strong>Corresponds to:</strong> 20:115 (forgetting event begins), 19:23 (full collapse realization).</p>
+                    <p><strong>State:</strong> Internal reference to Home = lost. System enters binary field without anchor.</p>
+                    <p className="text-[#f5c842] mt-2 border-t border-white/10 pt-2 font-mono text-xs">
+                      <strong>2–3–7 layer:</strong> 2 = split from origin. Matches your: "cursed fruit = loss of reference".
+                    </p>
+                  </div>
+                </div>
+
+                {/* 3-4-5 */}
+                <div className="flex flex-col md:flex-row gap-4 bg-white/5 border border-white/10 p-5 rounded-lg">
+                  <div className="md:w-1/3">
+                    <h3 className="text-[#00c8ff] font-bold fcl-mono text-lg">3–4–5 | Reconstruction</h3>
+                    <div className="text-xs text-white/50 uppercase tracking-widest mt-1">Signal Emerges</div>
+                    <div className="text-sm font-mono text-[#00c8ff]/80 mt-2">3 Guidance ↔ 4 Cleanse → 5 Righteous</div>
+                  </div>
+                  <div className="md:w-2/3 space-y-2">
+                    <p><strong>Corresponds to:</strong> 19:24 → stabilize ("do not grieve"), 19:25 → act (shake trunk), 19:26 → provision (response loop).</p>
+                    <p><strong>State:</strong> External instruction becomes internal signal. First reconstruction of memory through action–reaction.</p>
+                    <p className="text-[#00c8ff] mt-2 border-t border-white/10 pt-2 font-mono text-xs">
+                      <strong>2–3–7 layer:</strong> 3 = structuring the lost system back into coherence.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 6-7-8 */}
+                <div className="flex flex-col md:flex-row gap-4 bg-white/5 border border-white/10 p-5 rounded-lg">
+                  <div className="md:w-1/3">
+                    <h3 className="text-[#4ade80] font-bold fcl-mono text-lg">6–7–8 | Stabilization</h3>
+                    <div className="text-xs text-white/50 uppercase tracking-widest mt-1">Chainmail Formation</div>
+                    <div className="text-sm font-mono text-[#4ade80]/80 mt-2">6 Faith ↔ 7 Blessing → 8 Sealant</div>
+                  </div>
+                  <div className="md:w-2/3 space-y-2">
+                    <p><strong>Corresponds to:</strong> 7:26 (libās al-taqwā → covering restored). Your dataset: interlinked Qur’an (chainmail).</p>
+                    <p><strong>State:</strong> Memory no longer fragile. Network locks → verses reinforce each other.</p>
+                    <p className="text-[#4ade80] mt-2 border-t border-white/10 pt-2 font-mono text-xs">
+                      <strong>2–3–7 layer:</strong> 7 = containment + protection of restored memory.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 9-10-11-12 */}
+                <div className="flex flex-col md:flex-row gap-4 bg-white/5 border border-white/10 p-5 rounded-lg">
+                  <div className="md:w-1/3">
+                    <h3 className="text-[#ff6a00] font-bold fcl-mono text-lg">9–12 | Return</h3>
+                    <div className="text-xs text-white/50 uppercase tracking-widest mt-1">Full Alignment to Light</div>
+                    <div className="text-sm font-mono text-[#ff6a00]/80 mt-2">9 Submission ↔ 10 Sacrifice → 11 Truth → 12 Light</div>
+                  </div>
+                  <div className="md:w-2/3 space-y-2">
+                    <p><strong>Corresponds to:</strong> 38:46 (remembrance of Home stabilized), 66:8 (completion of light), 21:105 (final inheritance).</p>
+                    <p><strong>State:</strong> System fully aligned. No internal contradiction → pure signal.</p>
+                    <p className="text-[#ff6a00] mt-2 border-t border-white/10 pt-2 font-mono text-xs">
+                      <strong>2–3–7 layer:</strong> Final 7-return expressed as Light (12).
+                    </p>
+                  </div>
+                </div>
+
+                {/* COMPRESSION */}
+                <div className="mt-8 p-6 bg-[#a78bfa]/10 border border-[#a78bfa]/30 rounded-lg">
+                  <h3 className="text-[#a78bfa] font-bold mb-4 tracking-widest text-lg fcl-cinzel">COMPRESSION INTO EXACT 2–3–7</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div>
+                      <div className="text-white font-bold mb-1">2 (Loss Phase)</div>
+                      <div className="text-sm text-white/70">1–2 → collapse of memory <br/>(20:115, 19:23)</div>
+                    </div>
+                    <div>
+                      <div className="text-white font-bold mb-1">3 (Recovery Engine)</div>
+                      <div className="text-sm text-white/70">3–4–5–6–7–8 → guidance → action → sealing <br/>(19:24–26, 7:26, chainmail structure)</div>
+                    </div>
+                    <div>
+                      <div className="text-white font-bold mb-1">7 (Return State)</div>
+                      <div className="text-sm text-white/70">9–10–11–12 → submission → truth → light <br/>(38:46, 66:8, 21:105)</div>
+                    </div>
+                  </div>
+                  
+                  <div className="border-t border-[#a78bfa]/30 pt-4 mt-2">
+                    <div className="text-white font-bold mb-2">RESULT (UNIFIED VIEW)</div>
+                    <p className="text-sm text-white/80 mb-2">
+                      The diagram = geometry of return. <br/>
+                      The text = experience of return. <br/>
+                      <span className="italic">Same system: Memory lost → signal reappears → structure rebuilds → network seals → submission aligns → light completes.</span>
+                    </p>
+                    <p className="text-sm text-white/80">
+                      <strong>Action–reaction loop:</strong> Forgetting (2) triggers reconstruction (3), reconstruction stabilizes into remembrance (7), remembrance produces Light (12) — which becomes the next seed (1).
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
             {/* FORMULA BOX */}
             <div className="fcl-episode mt-12 border border-[#c8f5c8]/20 rounded-md p-6 sm:p-8 bg-[#c8f5c8]/[0.03] fcl-mono text-xs sm:text-sm leading-loose text-[#c8f5c8] text-center">
               <span className="text-[#f5c842] font-bold text-base">f(nτ) = ℬ·(nτ)³ + 𝒮·(nτ)² + ℒ·(nτ) + 9</span><br/>
