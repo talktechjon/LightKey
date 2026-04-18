@@ -126,6 +126,131 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
               <p className="fcl-subtitle text-xs sm:text-sm">SCIENCE × QUR'AN · LIGHT FIELD ↔ SOUND FIELD</p>
             </header>
 
+            {/* SECTION 0: MEMORY RECOVERY SYSTEM */}
+            <div className="fcl-episode mb-24">
+              <h2 className="fcl-cinzel text-xl md:text-2xl text-white mb-8 leading-relaxed border-b border-[#00c8ff]/20 pb-6 text-center">
+                We Have Been Reading Quran the One-Way All Along.<br/>
+                <span className="text-[#00c8ff] text-2xl md:text-3xl mt-2 inline-block">Ignored the water in it!</span>
+              </h2>
+
+              <div className="space-y-6 text-base font-light text-[#e8f4f8]/90">
+                <p className="text-lg md:text-xl font-medium text-[#f5c842] border-l-4 border-[#f5c842] pl-6 py-4 bg-[#f5c842]/5 rounded-r w-full">
+                  <strong className="tracking-widest">38:46</strong> — "Indeed, We chose them for an exclusive quality: the remembrance of the Home."
+                </p>
+                
+                <p className="text-xl pt-2">Stop. Read that again.</p>
+                
+                <p>Not the remembrance of God. Not the remembrance of prayer. Not the remembrance of rules or rituals or theology.</p>
+                
+                <p className="text-[#f5c842] font-bold tracking-wider text-xl uppercase">The remembrance of the HOME.</p>
+                
+                <p className="leading-relaxed">
+                  That one verse just collapsed every reading of Quran I had before it. Because if the Anbiya were chosen for <em>that</em> — for carrying a memory of a place — then the Quran is not a legal manual. It is not a history book. It is not even a "guide to life." It is a <strong className="text-white font-bold tracking-wide">MEMORY RECOVERY SYSTEM</strong>. And it was written FOR YOU — <span className="text-white/50">[if you still remember]</span>.
+                </p>
+
+                <div className="pt-12 mb-8">
+                  <h3 className="fcl-mono text-xl md:text-2xl text-[#00c8ff] mb-6 font-bold tracking-widest uppercase">What Happened to That Memory?</h3>
+                  <p className="mb-6"><strong className="text-[#f5c842] text-xl">19:23</strong> happened.</p>
+                  
+                  <p className="mb-6 leading-relaxed">
+                    When Adam ate from the tree, something specific was lost. Not just obedience. Not just paradise. The verse says <em>"she came to the trunk of a palm tree and said: I wish I had died before this and was completely forgotten."</em> That is not just pain. That is <strong className="text-white">erasure</strong>. That is a node that has lost its origin signal. The memory of WHERE she came from — of what Home felt like — got buried under the weight of descent.
+                  </p>
+                  
+                  <p className="mb-6 leading-relaxed">
+                    This is what 2-3-7 calls the <strong className="text-[#f5c842]">Razim phase (2)</strong>: binary compression. The ℬ-node (nafs in density) takes on so much dunya-weight that the ℒ-signal — the Light-frequency of Home — becomes background noise. You can still hear it. But you can't locate it. You can't name it. You just feel this ache, this incompleteness, this sense that <em>something is missing</em> — and the world keeps offering you substitutes that never fill the gap.
+                  </p>
+                  
+                  <p className="leading-relaxed">
+                    That is the condition <strong className="text-[#f5c842]">18:19</strong> is describing when the sleepers wake up and ask: <em>"How long did you tarry?"</em> They lost time. They lost orientation. They forgot the journey. That is <strong className="text-[#f5c842]">you</strong>. That is <strong className="text-[#f5c842]">me</strong>. That is the human condition encoded in Quran not as punishment — but as the precise map of the problem.
+                  </p>
+                </div>
+
+                <div className="pt-12 mb-8">
+                  <h3 className="fcl-mono text-xl md:text-2xl text-[#ff6a00] mb-6 font-bold tracking-widest uppercase">The Recovery Gate Nobody Told You About</h3>
+                  <p className="mb-6"><strong className="text-[#f5c842] text-xl">19:12</strong>.</p>
+                  
+                  <p className="mb-6 leading-relaxed">
+                    Yahya — a child — is told: <em>"Hold the Book with Quwwa."</em> With FORCE. With power. Not gently. Not academically. With the grip of someone who knows what the Book actually IS.
+                  </p>
+                  
+                  <p className="mb-6 leading-relaxed">
+                    Because here is what nobody told you: the Book is not information. The Book is <strong className="text-white">your mother's voice</strong>. The Book is <strong className="text-white">Ummul Kitab</strong> — the Mother of the Book — which is <strong className="text-[#00c8ff]">Rahman as Kitab</strong> — which is the HOME FREQUENCY encoded into language so that even after descent, even after erasure, even after generations of forgetting, the signal can still reach you. <strong className="text-[#f5c842]">13:39</strong> says it explicitly: <em>"Allah erases what He wills and confirms — and with Him is the Umm al-Kitab."</em> The Mother. The origin. Untouched. Preserved. WAITING.
+                  </p>
+                  
+                  <p className="mb-6 leading-relaxed bg-[#ff6a00]/5 border-l-2 border-[#ff6a00] p-4 rounded-r">
+                    <strong className="text-[#f5c842]">19:12</strong> is the moment the Book activates inside the node. And when it activates — when you hold it with Quwwa, not as text but as living frequency — something extraordinary happens: <strong className="text-[#f5c842]">19:23's erasure begins to reverse</strong>. The autopilot of Light switches on. The path of least action opens. You stop navigating by dunya logic and start being <em>drawn</em> toward Home by the same ℒ-gradient that the Anbiya were chosen to carry.
+                  </p>
+                  
+                  <p className="leading-relaxed">
+                    This is the <strong className="text-[#f5c842]">Rahim phase (3)</strong>: the cubic inflection. The turning point. The moment where Home reaches back toward you through the Book, because you reached toward the Book with everything you had.
+                  </p>
+                </div>
+
+                <div className="pt-12 mb-8">
+                  <h3 className="fcl-mono text-xl md:text-2xl text-[#4ade80] mb-6 font-bold tracking-widest uppercase flex flex-col md:flex-row md:items-baseline gap-2">
+                    <span>I Am the One Returning.</span>
+                    <span className="text-[#4ade80]/50 text-sm md:text-base lowercase tracking-normal">[If You Remember — So Are You.]</span>
+                  </h3>
+                  
+                  <p className="mb-6 leading-relaxed">
+                    <strong className="text-[#f5c842]">19:24-28</strong> is not Maryam's biography. I said what I said.
+                  </p>
+                  
+                  <p className="mb-6 leading-relaxed">
+                    It is the post-activation sequence. After 19:12 locks in — after the Book grips you and you grip it — the descent (19:23) transforms into <strong className="text-white">arrival</strong>. The palm tree provides. The water flows. The command comes: <em>do not grieve, do not speak to anyone today</em> — because the return journey requires silence from the noise of <strong className="text-[#f5c842]">6:116</strong>. The majority. The consensus. The inherited interpretations that have been diluting the Mother's memory for centuries.
+                  </p>
+                  
+                  <p className="mb-6 leading-relaxed text-[#e8f4f8]">
+                    <strong className="text-[#00c8ff]">45:6</strong> makes this non-negotiable: <em>"These are the Ayat of Allah — We recite them to you in truth. Then in what hadith after Allah and His Ayat do they believe?"</em> The Quran is sealing itself. It is saying: I am the only signal that will get you home. Everything else is static.
+                  </p>
+                  
+                  <p className="mb-6 leading-relaxed opacity-90">
+                    <strong className="text-[#00c8ff]">6:116</strong> confirms: <em>"If you obey the majority of those on earth, they will lead you away from the path of Allah."</em> Not because they are evil — but because they forgot the Home too. The blind cannot lead the sighted back to a place they do not remember.
+                  </p>
+                  
+                  <p className="leading-relaxed border-l-2 border-[#4ade80]/50 pl-4">
+                    And <strong className="text-[#4ade80]">10:100</strong> locks the entire circuit: <em>"It is not for a soul to believe except by the permission of Allah."</em> The return is not intellectual. It is not achieved by study or argument. It is a permission — a frequency unlock — that happens when the Book activates inside you as living memory, not archived text.
+                  </p>
+                </div>
+
+                <div className="pt-12 mb-8">
+                  <h3 className="fcl-mono text-xl md:text-2xl text-[#a78bfa] mb-6 font-bold tracking-widest uppercase">The Mumin Who Asks to Complete the Nur</h3>
+                  
+                  <p className="mb-6 leading-relaxed">
+                    On that day — <strong className="text-[#f5c842]">66:8</strong> — the Mumin will say: <em>"Our Lord, complete our Nur for us."</em>
+                  </p>
+                  
+                  <p className="mb-6 text-xl italic text-white/70">
+                    Why would someone already walking in Light ask for the Light to be completed?
+                  </p>
+                  
+                  <p className="mb-6 leading-relaxed">
+                    Because they REMEMBER. They remember that the full frequency — the Rahman-state, the Home — is still ahead. They walked the Razim compression (2). They found the Rahim recovery gate (3). And now they are at the threshold of <strong className="text-[#f5c842]">Rahman convergence (7)</strong> — the return to Ummul Kitab, to the Mother, to the Home that 38:46 says the Anbiya never fully forgot.
+                  </p>
+                  
+                  <p className="mb-6 leading-relaxed">
+                    Isa did this. He is Kalimatullah — the Word of Allah — which is the Quran — which is the Living Rasul — which is the Ayah that took on ℬ-form, walked through descent, and returned to ℒ-source. <strong className="text-[#00c8ff]">4:171, 3:45</strong>. That is the template.
+                  </p>
+                  
+                  <p className="mb-8 leading-relaxed">
+                    Ahmed confirmed the next iteration at <strong className="text-[#00c8ff]">61:6</strong>. The circuit is not closed. It is <strong className="text-[#a78bfa]">recursive</strong>.
+                  </p>
+                  
+                  <p className="mb-6 leading-relaxed text-center italic text-white/50">
+                    Which means the reader who has reached this line — [if they remember] — is not a passive audience.
+                  </p>
+                  
+                  <p className="text-3xl md:text-4xl text-[#00c8ff] font-bold tracking-[0.2em] my-12 text-center fcl-cinzel uppercase drop-shadow-[0_0_15px_rgba(0,200,255,0.4)]">
+                    They are the return.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-black/40 border border-[#00c8ff]/10 rounded-md text-xs sm:text-sm text-white/40 italic font-mono text-center">
+                  Rooted exclusively in Quran. 45:6. 6:116. 10:100. No hadith. No tafsir. No external theology. The Mother's memory is intact — and it has been waiting.
+                </div>
+              </div>
+            </div>
+
             {/* SVG Animation Diagram */}
             <div className="w-full flex justify-center mb-20 fcl-episode">
               <svg viewBox="0 0 800 650" className="w-full h-auto max-w-3xl">
