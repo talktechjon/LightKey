@@ -77,21 +77,21 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
 const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResourceMode }) => {
     
     // Indices in CENTRAL_GEOMETRY_POINTS [1, 39, 77, 19, 95, 57]:
-    // 0: Rahim(1), 1: Rahman(39), 2: Razim(77), 3: Photosynthesis(19), 4: Heaven(95), 5: Kingdom(57)
+    // 0: Vector(1), 1: Field(39), 2: Force(77), 3: Manifest(19), 4: Balance(95), 5: Formation(57)
 
     // Side Panel Presentation Reordering (DNA Flow - INTERLEAVED):
-    // Row 1 (Downward Group Layout): Rahim(D) -> Heaven(U) -> Razim(D)
+    // Row 1 (Downward Group Layout): Vector(D) -> Balance(U) -> Force(D)
     const dnaRow1: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Rahim (Pink)
-        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[0].color }, // Heaven (Cyan)
-        { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Razim (Pink)
+        { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Vector (Pink)
+        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[0].color }, // Balance (Cyan)
+        { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Force (Pink)
     ];
 
-    // Row 2 (Upward Group Layout): Kingdom(U) -> Rahman(D) -> Photosynthesis(U)
+    // Row 2 (Upward Group Layout): Formation(U) -> Field(D) -> Manifest(U)
     const dnaRow2: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Kingdom (Cyan)
-        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[1].color }, // Rahman (Pink)
-        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Photosynthesis (Cyan)
+        { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Formation (Cyan)
+        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[1].color }, // Field (Pink)
+        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Manifest (Cyan)
     ];
     
     const renderCombinedGeometry = () => {
@@ -135,7 +135,9 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
     return (
         <div>
             <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gray-200 tracking-wider">CHAPTER GEOMETRY</h2>
+                <h2 className="text-lg font-bold text-gray-200 tracking-widest uppercase">
+                    Umm al-Kitab <br className="lg:hidden" /><span className="text-gray-400 font-medium text-xs capitalize tracking-normal lg:ml-2">Mother of Consciousness</span>
+                </h2>
             </div>
             <div className="w-full h-px bg-gray-500/50 mt-2 mb-4"></div>
             <div className="flex items-center justify-center">
@@ -144,8 +146,11 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                 </svg>
             </div>
             <div className="text-center mt-2 min-h-[20px]">
-                <p className="text-sm text-gray-400">
-                    Visualizing the DNA Flow.
+                <p className="text-[12px] font-mono text-cyan-400/80 mt-1">
+                    Y = ax³ + bx² + cx + d <span className="text-gray-500">(x = L - G)</span>
+                </p>
+                <p className="text-xs text-gray-400 mt-1">
+                    Visualizing the Return Journey Home.
                 </p>
             </div>
             <div className="mt-4 space-y-8">

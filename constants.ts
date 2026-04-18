@@ -67,8 +67,8 @@ for (let i = 1; i <= 114; i++) {
 export const SLICE_DATA: SliceData[] = Array.from({ length: TOTAL_SLICES }, (_, i) => ({ id: i + 1, blockCount: BUBBLE_BLOCK_MAPPING_RAW[(i + 1) as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0 }));
 
 export const TRIANGLE_POINTS: TriangleDefinition[] = [
-    { name: 'Upward Triangle', color: COLORS.triangle2, points: [{ type: '🐟 3 Kingdom', value: 57 }, { type: '6 Heaven 🐄', value: 95 }, { type: '9 Photosynthesis 🔆', value: 19 }] },
-    { name: 'Downward Triangle', color: COLORS.triangle1, points: [{ type: '🌴 3 Rahim', value: 1 }, { type: '6 Rahman 🌋', value: 39 }, { type: '9 Razim 🔥', value: 77 }] }
+    { name: 'Upward Triangle', color: COLORS.triangle2, points: [{ type: '🐟 3c Formation', value: 57 }, { type: '6b Balance 🐄', value: 95 }, { type: '9a Manifest 🔆', value: 19 }] },
+    { name: 'Downward Triangle', color: COLORS.triangle1, points: [{ type: '🌴 3c Vector', value: 1 }, { type: '6b Field 🌋', value: 39 }, { type: '9a Force 🔥', value: 77 }] }
 ];
 
 // Order changed to: Rahim(1) -> Rahman(39) -> Razim(77) -> Photosynthesis(19) -> Heaven(95) -> Kingdom(57)

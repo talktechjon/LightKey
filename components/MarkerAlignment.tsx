@@ -58,15 +58,22 @@ const EnneagramDiagram: React.FC = () => {
                         </text>
                     </g>
                 ))}
+                
+                {/* Center Core Anchor (d-term / 5) */}
+                <circle cx={center.x} cy={center.y} r="6" fill="#111827" stroke="#fbbf24" strokeWidth="2" />
+                <text x={center.x} y={center.y + 14} textAnchor="middle" dominantBaseline="middle" fill="#fbbf24" fontSize="10" fontWeight="bold">
+                    d(5)
+                </text>
             </svg>
         </div>
     );
 };
 
 const POSITION_LABELS: Record<number, string> = {
-    3: 'Book - Sign - كتاب [Āyāt]',
-    6: 'Prophet - Faith - نبي [Hidāyah]',
-    9: 'Word - Knowledge - كلمة [Hayāt]'
+    3: 'c-term • Direction / Rahim [Āyāt]',
+    5: 'd-term • Invariant Center • Umm al-Kitab',
+    6: 'b-term • Balance / Rahman [Hidāyah]',
+    9: 'a-term • Force / Razim [Hayāt]'
 };
 
 const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({ 
@@ -162,6 +169,35 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
             {isSecretModeActive ? (
                 <>
                     <EnneagramDiagram />
+                    
+                    <div className="bg-gray-800/40 p-3 rounded-xl mt-1 mb-4 border border-gray-700/50">
+                         <p className="font-bold text-gray-200 text-xs mb-1.5 flex items-center gap-2 tracking-wide">
+                             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                             CLOSED-LOOP EXECUTION
+                         </p>
+                         <p className="text-[11px] text-gray-400 leading-relaxed mb-2">
+                             The system continuously cycles through the <strong className="text-fuchsia-300 font-medium">a–b–c terms (9–6–3)</strong> of the Umm al-Kitab equation while eternally anchored by the <strong className="text-amber-400 font-medium">d-term (5)</strong>.
+                         </p>
+                         <div className="grid grid-cols-2 gap-2 font-mono text-[10px] text-gray-300">
+                             <div className="bg-gray-900/50 p-1.5 rounded flex items-center gap-1.5">
+                                <span className="text-fuchsia-400 font-bold text-xs">9</span>
+                                <div><span className="text-fuchsia-300/80">a-term</span><br/><span className="text-gray-500">Force Initiation</span></div>
+                             </div>
+                             <div className="bg-gray-900/50 p-1.5 rounded flex items-center gap-1.5">
+                                <span className="text-cyan-400 font-bold text-xs">3</span>
+                                <div><span className="text-cyan-300/80">c-term</span><br/><span className="text-gray-500">Direction Vector</span></div>
+                             </div>
+                             <div className="bg-gray-900/50 p-1.5 rounded flex items-center gap-1.5">
+                                <span className="text-emerald-400 font-bold text-xs">6</span>
+                                <div><span className="text-emerald-300/80">b-term</span><br/><span className="text-gray-500">Field Stabilization</span></div>
+                             </div>
+                             <div className="bg-gray-900/50 p-1.5 rounded border border-amber-500/20 flex items-center gap-1.5">
+                                <span className="text-amber-400 font-bold text-xs">5</span>
+                                <div><span className="text-amber-300/80">d-term</span><br/><span className="text-gray-500">Invariant Core</span></div>
+                             </div>
+                         </div>
+                    </div>
+
                     <div className="text-center mb-2">
                         <span className={`text-xs font-mono px-2 py-1 rounded ${isMakki ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-500/30' : 'bg-amber-900/30 text-amber-400 border border-amber-500/30'}`}>
                             {isMakki ? 'MAKKI SEQUENCE (9 Start)' : 'MADANI SEQUENCE (9 End)'}
