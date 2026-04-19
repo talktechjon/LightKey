@@ -170,30 +170,67 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                 <>
                     <EnneagramDiagram />
                     
-                    <div className="bg-gray-800/40 p-3 rounded-xl mt-1 mb-4 border border-gray-700/50">
-                         <p className="font-bold text-gray-200 text-xs mb-1.5 flex items-center gap-2 tracking-wide">
-                             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                             CLOSED-LOOP EXECUTION
+                    <div className="bg-gray-800/40 p-4 rounded-xl mt-1 mb-6 border border-gray-700/50">
+                         <p className="font-bold text-gray-200 text-xs mb-2 flex items-center justify-between tracking-wide">
+                             <span className="flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                                DUAL-MODE ENGINE
+                             </span>
+                             <span className="text-[10px] opacity-70 font-mono">Y = ax³ + bx² + cx + d</span>
                          </p>
-                         <p className="text-[11px] text-gray-400 leading-relaxed mb-2">
-                             The system continuously cycles through the <strong className="text-fuchsia-300 font-medium">a–b–c terms (9–6–3)</strong> of the Umm al-Kitab equation while eternally anchored by the <strong className="text-amber-400 font-medium">d-term (5)</strong>.
+                         
+                         <p className="text-[11px] text-gray-400 leading-relaxed mb-4">
+                             The system runs in <strong className="text-gray-200 font-semibold">two modes</strong> of the same equation, depending on how transformation is triggered. Both use the same 9→3→6 cycle anchored by the 5.
                          </p>
-                         <div className="grid grid-cols-2 gap-2 font-mono text-[10px] text-gray-300">
-                             <div className="bg-gray-900/50 p-1.5 rounded flex items-center gap-1.5">
+
+                         {isMakki ? (
+                             <div className="mb-4 space-y-2">
+                                 <div className="flex items-center gap-2">
+                                     <span className="px-2 py-0.5 rounded bg-emerald-900/40 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold uppercase tracking-tighter">Makki (Iron Mode)</span>
+                                     <span className="text-[10px] text-gray-400 italic">Internal Activation</span>
+                                 </div>
+                                 <div className="pl-2 border-l-2 border-emerald-500/20 py-1">
+                                     <p className="text-[11px] text-gray-300">
+                                         Order: <strong className="text-emerald-400">9 → 3 → 6 → 9</strong>
+                                     </p>
+                                     <p className="text-[10px] text-gray-500 mt-1 leading-tight">
+                                         Intensity first, then direction, then stabilization. Change begins <strong className="text-gray-400 font-medium">inside</strong>, like heat forging iron.
+                                     </p>
+                                 </div>
+                             </div>
+                         ) : (
+                             <div className="mb-4 space-y-2">
+                                 <div className="flex items-center gap-2">
+                                     <span className="px-2 py-0.5 rounded bg-amber-900/40 text-amber-400 border border-amber-500/30 text-[10px] font-bold uppercase tracking-tighter">Madani (Stone Mode)</span>
+                                     <span className="text-[10px] text-gray-400 italic">External Construction</span>
+                                 </div>
+                                 <div className="pl-2 border-l-2 border-amber-500/20 py-1">
+                                     <p className="text-[11px] text-gray-300">
+                                         Order: <strong className="text-amber-400">3 → 6 → 9 → 3</strong>
+                                     </p>
+                                     <p className="text-[10px] text-gray-500 mt-1 leading-tight">
+                                         Guidance first, then stabilization, then power. Change begins <strong className="text-gray-400 font-medium">outside</strong>, like building with stone.
+                                     </p>
+                                 </div>
+                             </div>
+                         )}
+
+                         <div className="grid grid-cols-2 gap-2 font-mono text-[9px] text-gray-400 border-t border-gray-700/30 pt-3">
+                             <div className="flex items-center gap-1.5 grayscale opacity-70">
                                 <span className="text-fuchsia-400 font-bold text-xs">9</span>
-                                <div><span className="text-fuchsia-300/80">a-term</span><br/><span className="text-gray-500">Force Initiation</span></div>
+                                <div><span className="text-fuchsia-300/80">a-term</span><br/><span>Force</span></div>
                              </div>
-                             <div className="bg-gray-900/50 p-1.5 rounded flex items-center gap-1.5">
+                             <div className="flex items-center gap-1.5 grayscale opacity-70">
                                 <span className="text-cyan-400 font-bold text-xs">3</span>
-                                <div><span className="text-cyan-300/80">c-term</span><br/><span className="text-gray-500">Direction Vector</span></div>
+                                <div><span className="text-cyan-300/80">c-term</span><br/><span>Direction</span></div>
                              </div>
-                             <div className="bg-gray-900/50 p-1.5 rounded flex items-center gap-1.5">
+                             <div className="flex items-center gap-1.5 grayscale opacity-70">
                                 <span className="text-emerald-400 font-bold text-xs">6</span>
-                                <div><span className="text-emerald-300/80">b-term</span><br/><span className="text-gray-500">Field Stabilization</span></div>
+                                <div><span className="text-emerald-300/80">b-term</span><br/><span>Balance</span></div>
                              </div>
-                             <div className="bg-gray-900/50 p-1.5 rounded border border-amber-500/20 flex items-center gap-1.5">
+                             <div className="flex items-center gap-1.5 border border-amber-500/20 p-1 rounded bg-amber-500/5">
                                 <span className="text-amber-400 font-bold text-xs">5</span>
-                                <div><span className="text-amber-300/80">d-term</span><br/><span className="text-gray-500">Invariant Core</span></div>
+                                <div><span className="text-amber-300/80 font-bold font-sans">d-term</span><br/><span className="text-amber-200/50">Invariant Core</span></div>
                              </div>
                          </div>
                     </div>

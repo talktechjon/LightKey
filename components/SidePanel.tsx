@@ -18,6 +18,7 @@ interface SidePanelProps {
   setRotation: (rotation: number | ((prev: number) => number)) => void;
   setIconDialRotation: (rotation: number | ((prev: number) => number)) => void;
   showTooltip: (e: React.MouseEvent, surah: number, verse: number, color: string) => void;
+  showFunctionalTooltip: (e: React.MouseEvent, message: string, chapterId: number, color: string) => void;
   hideTooltip: () => void;
   isSecretModeActive: boolean;
   isTreeOfVerseActive: boolean;
@@ -30,7 +31,7 @@ interface SidePanelProps {
   setBakaraSpineIndex: (index: number) => void;
 }
 
-const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, showFunctionalTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex }) => {
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -209,7 +210,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   return (
     <aside 
         id="side-panel-scroll-container"
-        className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth"
+        className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth no-scrollbar"
     >
       {/* Sticky identification and playlist header - Hidden in Piece of Heifer and Tree of Verse modes */}
       {!isAnalyticalMode && (
@@ -303,6 +304,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                 <ChapterGeometry 
                     rotation={rotation}
                     isLowResourceMode={isLowResourceMode}
+                    showFunctionalTooltip={showFunctionalTooltip}
+                    hideTooltip={hideTooltip}
                 />
 
                 <MarkerAlignment 

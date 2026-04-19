@@ -61,7 +61,15 @@ export interface ChapterTooltipContent {
   color: string;
 }
 
-export type TooltipContent = VerseTooltipContent | ChapterTooltipContent;
+export interface FunctionalTooltipContent {
+  type: 'functional';
+  message: string;
+  chapterName: string;
+  lastVerseText: string;
+  color: string;
+}
+
+export type TooltipContent = VerseTooltipContent | ChapterTooltipContent | FunctionalTooltipContent;
 
 export interface SurahVerse {
   numberInSurah: number;

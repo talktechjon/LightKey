@@ -157,6 +157,35 @@ const App: React.FC = () => {
       setTooltipPosition({ x: event.clientX, y: event.clientY });
   }, []);
 
+  const showFunctionalTooltip = useCallback(async (event: React.MouseEvent, message: string, chapterId: number, color: string) => {
+    const chapterDetails = CHAPTER_DETAILS.find(c => c.number === chapterId);
+    const sliceData = SLICE_DATA.find(s => s.id === chapterId);
+    if (!chapterDetails || !sliceData) return;
+
+    setTooltipPosition({ x: event.clientX, y: event.clientY });
+    // Initial state
+    setTooltipContent({ 
+        type: 'functional', 
+        message, 
+        chapterName: chapterDetails.englishName, 
+        lastVerseText: 'Loading last verse...', 
+        color 
+    });
+
+    try {
+        const { englishText } = await getVerse(chapterId, sliceData.blockCount, translationMode, localTranslationData);
+        setTooltipContent({ 
+            type: 'functional', 
+            message, 
+            chapterName: chapterDetails.englishName, 
+            lastVerseText: englishText, 
+            color 
+        });
+    } catch (error) {
+        console.error("Failed to load last verse for tooltip:", error);
+    }
+  }, [translationMode, localTranslationData]);
+
   return (
     <main className="w-full lg:h-screen min-h-screen text-gray-100 font-sans relative flex flex-col lg:overflow-hidden">
       {!isLowResourceMode && <StarryBackground />}
@@ -191,6 +220,7 @@ const App: React.FC = () => {
           iconDialRotation={iconDialRotation} 
           setIconDialRotation={setIconDialRotation} 
           showTooltip={showVerseTooltip} 
+          showFunctionalTooltip={showFunctionalTooltip}
           hideTooltip={() => setTooltipContent(null)} 
           isSecretModeActive={isSecretModeActive} 
           isTreeOfVerseActive={isTreeOfVerseActive} 

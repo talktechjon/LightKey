@@ -187,6 +187,278 @@ const AnimatedHarvest: React.FC = () => {
   );
 };
 
+// --- NEW COMPONENTS FOR NAFS & 2-3-7 TAB ---
+
+const BifurcationMap: React.FC = () => {
+  const nodes = [
+    { id: 'iblis', cx: 240, cy: 46, r: 36, fill: '#444441', stroke: '#888780', lbl: 'Iblīs', sub: 'Stone · 38:76', msg: 'Iblīs / Stone: the entire 12-node structure is the Stone. Two terminals: Illusion (Musa) and Illumination (Isa).' },
+    { id: 'ibrahim', cx: 240, cy: 135, r: 30, fill: '#854F0B', stroke: '#EF9F27', lbl: 'Ibrahim', sub: 'split · 21:69', msg: 'Ibrahim: the split point. Father of both axes. Fire-tested (21:69) yet truth-anchored.' },
+    { id: 'musa', cx: 118, cy: 225, r: 34, fill: '#185FA5', stroke: '#85B7EB', lbl: 'Musa', sub: 'terminal', msg: 'Musa: left terminal. Illusion axis — confronts Firʿawn, exposes illusion, seals it at 10:92.' },
+    { id: 'isa', cx: 362, cy: 225, r: 34, fill: '#0F6E56', stroke: '#5DCAA5', lbl: 'Isa', sub: 'terminal', msg: 'Isa: right terminal. Illumination axis — Word made eternal, knowledge sealed at 19:12.' },
+    { id: 'nuh', cx: 240, cy: 320, r: 28, fill: '#3B6D11', stroke: '#97C459', lbl: 'Nūḥ', sub: '', msg: 'Nūḥ: center hub. Survival and transmission. Shared by both axes.' },
+    { id: 'sabbath', cx: 118, cy: 415, r: 28, fill: '#993C1D', stroke: '#F0997B', lbl: 'Sabbath', sub: '', msg: 'Sabbath: Break ring on Musa axis. Distortion test — apes and swine, 2:65 · 7:166.' },
+    { id: 'maryam', cx: 362, cy: 415, r: 28, fill: '#534AB7', stroke: '#AFA9EC', lbl: 'Maryam', sub: '', msg: 'Maryam: birth of the Word on Isa axis. Silence ring — 19:29.' },
+    { id: 'yunus', cx: 240, cy: 505, r: 28, fill: '#185FA5', stroke: '#85B7EB', lbl: 'Yūnus', sub: '', msg: 'Yūnus: center reversal node. Darkness to rescue, shared by both axes. 21:87–88.' },
+    { id: 'firaun', cx: 118, cy: 600, r: 28, fill: '#A32D2D', stroke: '#F09595', lbl: 'Firʿawn', sub: '', msg: 'Firʿawn: Illusion-collapse on Musa chain. Body preserved as evidence. Loop sealed. 10:92.' },
+    { id: 'kalimah', cx: 362, cy: 600, r: 28, fill: '#0F6E56', stroke: '#5DCAA5', lbl: 'Kalimah', sub: '', msg: 'Kalimah: Illumination sealed on Isa chain. Knowledge made eternal. 4:157 · 19:12.' },
+    { id: 'ayyub', cx: 240, cy: 695, r: 28, fill: '#854F0B', stroke: '#EF9F27', lbl: 'Ayyūb', sub: '', msg: 'Ayyūb: restoration node. Both Musa and Isa axes converge here before Tawhid. 38:44.' },
+    { id: 'tawhid', cx: 240, cy: 800, r: 32, fill: '#085041', stroke: '#5DCAA5', lbl: 'Tawhid', sub: 'Hubbal Allah', msg: 'Tawhid: base convergence. Hubbal Allah wins alone. Both Illusion and Illumination return to one.' },
+  ];
+
+  return (
+    <div className="bg-black/40 p-8 rounded-[3rem] border border-white/5 space-y-8 flex flex-col items-center">
+      <h3 className="text-2xl font-black text-white uppercase tracking-widest text-center italic">Iblīs Stone — Bifurcation Map</h3>
+      <div className="w-full max-w-lg aspect-[480/900]">
+        <svg viewBox="0 0 480 900" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_0_20px_rgba(186,117,23,0.15)]">
+           {/* ORANGE frame */}
+           <line x1="240" y1="46" x2="118" y2="225" stroke="#BA7517" strokeWidth="2"/>
+           <line x1="240" y1="46" x2="362" y2="225" stroke="#BA7517" strokeWidth="2"/>
+           <line x1="240" y1="46" x2="240" y2="135" stroke="#BA7517" strokeWidth="2"/>
+           <line x1="118" y1="225" x2="362" y2="225" stroke="#BA7517" strokeWidth="2"/>
+           <line x1="118" y1="225" x2="118" y2="415" stroke="#BA7517" strokeWidth="2"/>
+           <line x1="362" y1="225" x2="362" y2="415" stroke="#BA7517" strokeWidth="2"/>
+           <line x1="118" y1="415" x2="362" y2="415" stroke="#BA7517" strokeWidth="2"/>
+           <line x1="118" y1="415" x2="118" y2="600" stroke="#BA7517" strokeWidth="2"/>
+           <line x1="362" y1="415" x2="362" y2="600" stroke="#BA7517" strokeWidth="2"/>
+           <line x1="118" y1="600" x2="362" y2="600" stroke="#BA7517" strokeWidth="2"/>
+
+           {/* SILVER diamonds */}
+           <line x1="240" y1="135" x2="118" y2="225" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+           <line x1="240" y1="135" x2="362" y2="225" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+           <line x1="240" y1="135" x2="240" y2="320" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+           <line x1="118" y1="225" x2="240" y2="320" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+           <line x1="362" y1="225" x2="240" y2="320" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+           <line x1="240" y1="320" x2="118" y2="415" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+           <line x1="240" y1="320" x2="362" y2="415" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+           <line x1="240" y1="320" x2="240" y2="505" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+           <line x1="118" y1="415" x2="240" y2="505" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+           <line x1="362" y1="415" x2="240" y2="505" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+
+           {/* BLUE section */}
+           <line x1="240" y1="505" x2="118" y2="600" stroke="#378ADD" strokeWidth="1.5"/>
+           <line x1="240" y1="505" x2="362" y2="600" stroke="#378ADD" strokeWidth="1.5"/>
+           <line x1="240" y1="505" x2="240" y2="695" stroke="#378ADD" strokeWidth="1.5"/>
+           <line x1="118" y1="600" x2="240" y2="695" stroke="#378ADD" strokeWidth="1.5"/>
+           <line x1="362" y1="600" x2="240" y2="695" stroke="#378ADD" strokeWidth="1.5"/>
+           <line x1="240" y1="695" x2="240" y2="800" stroke="#378ADD" strokeWidth="1.5"/>
+
+           {/* Gate pills */}
+           <rect x="218" y="217" width="44" height="16" fill="#161c24" rx="3"/>
+           <text x="240" y="225" className="text-[11px] font-medium fill-[#c9c5b8] text-center" textAnchor="middle" dominantBaseline="central">110</text>
+           <rect x="218" y="407" width="44" height="16" fill="#161c24" rx="3"/>
+           <text x="240" y="415" className="text-[11px] font-medium fill-[#c9c5b8] text-center" textAnchor="middle" dominantBaseline="central">103</text>
+           <rect x="210" y="592" width="60" height="16" fill="#161c24" rx="3"/>
+           <text x="240" y="600" className="text-[11px] font-medium fill-[#c9c5b8] text-center" textAnchor="middle" dominantBaseline="central">△ 108</text>
+
+           {/* Side axis labels */}
+           <text x="44" y="148" fill="#BA7517" className="text-[11px] font-semibold" textAnchor="middle">Illusion</text>
+           <text x="44" y="322" fill="#D4537E" className="text-[11px] font-medium" textAnchor="middle">112:3</text>
+           <text x="44" y="508" fill="#D4537E" className="text-[11px] font-medium" textAnchor="middle">112:1</text>
+           <text x="436" y="148" fill="#1D9E75" className="text-[11px] font-semibold" textAnchor="middle">Illumination</text>
+           <text x="436" y="322" fill="#D4537E" className="text-[11px] font-medium" textAnchor="middle">112:2</text>
+           <text x="436" y="508" fill="#D4537E" className="text-[11px] font-medium" textAnchor="middle">112:4</text>
+
+           {nodes.map(node => (
+             <g key={node.id} className="cursor-pointer group" onClick={() => alert(node.msg)}>
+               <circle 
+                 cx={node.cx} cy={node.cy} r={node.r} 
+                 fill={node.fill} 
+                 stroke={node.stroke} 
+                 strokeWidth={node.r > 30 ? 2 : 1.5}
+                 className="transition-opacity group-hover:opacity-85"
+               />
+               <text 
+                 x={node.cx} y={node.cy - (node.sub ? 8 : 0)} 
+                 className="text-[13px] font-bold fill-white" 
+                 textAnchor="middle" dominantBaseline="central"
+               >
+                 {node.lbl}
+               </text>
+               {node.sub && (
+                 <text 
+                   x={node.cx} y={node.cy + 10} 
+                   className="text-[10px] font-normal fill-white/75" 
+                   textAnchor="middle" dominantBaseline="central"
+                 >
+                   {node.sub}
+                 </text>
+               )}
+             </g>
+           ))}
+        </svg>
+      </div>
+      <p className="text-gray-400 text-xs italic text-center max-w-sm">
+        The Bifurcation Map of the Iblīs Stone. Two terminals: Illusion (Musa) and Illumination (Isa) converging at Tawhid.
+      </p>
+    </div>
+  );
+};
+
+const MasterLawScales: React.FC = () => {
+  const cards = [
+    {
+      title: 'Photosynthesis',
+      scale: 'Cellular · chloroplast',
+      color: '#1D9E75',
+      rows: [
+        { lbl: 'L =', val: 'Photon flux · PS-II / PS-I excitation' },
+        { lbl: 'G =', val: 'CO₂ mass · Calvin cycle demand' },
+        { lbl: 'T =', val: 'Chlorophyll antenna (αx)' },
+        { lbl: 'O =', val: 'ATP + NADPH stored potential (αx²)' },
+      ],
+      glass: '⬡ Glass node: Reaction centre P680/P700 — electron ejection threshold',
+      out: [
+        { lbl: 'Glucose + O₂ (ordered)', type: 'light' },
+        { lbl: 'ROS · photorespiration', type: 'fire' },
+      ],
+      bif: 'b² − 3ac > 0 · Z-scheme = literal two-photosystem bifurcation',
+      verse: '24:35 · 2:22 · 71:11–12',
+      bg: 'bg-emerald-950/20', accent: 'text-emerald-500'
+    },
+    {
+      title: 'Hubble Tension',
+      scale: 'Cosmological · universe-scale',
+      color: '#378ADD',
+      rows: [
+        { lbl: 'L =', val: 'Early-universe H₀ (CMB ~67.4 km/s/Mpc)' },
+        { lbl: 'G =', val: 'Late-universe H₀ (local ~73 km/s/Mpc)' },
+        { lbl: 'T =', val: 'Large-scale structure formation (αx)' },
+        { lbl: 'O =', val: 'Dark energy density — stored expansion (αx²)' },
+      ],
+      glass: '⬡ Glass node: Recombination epoch ~380,000 yr — photon decoupling',
+      out: [
+        { lbl: 'CMB · structured cosmos', type: 'light' },
+        { lbl: 'Gravitational collapse · dark halos', type: 'fire' },
+      ],
+      bif: 'Tension = non-zero x · two measurement regimes = two real critical points',
+      verse: '57:4 · 41:11 · 21:30',
+      bg: 'bg-blue-950/20', accent: 'text-blue-500'
+    },
+    {
+      title: 'Second Zero at Birth',
+      scale: 'Cardiac · τ ≈ 0.83 s limit-cycle',
+      color: '#7F77DD',
+      rows: [
+        { lbl: 'L =', val: 'Pulmonary O₂ vector · first breath' },
+        { lbl: 'G =', val: 'Fetal fluid pressure · placental circulation' },
+        { lbl: 'T =', val: 'Cardiac muscle structure (αx)' },
+        { lbl: 'O =', val: 'ATP reserve in cardiac cells (αx²)' },
+      ],
+      glass: '⬡ Glass node: Foramen ovale closure · first breath = field inversion',
+      out: [
+        { lbl: 'τ ≈ 0.83 s rhythm · life', type: 'light' },
+        { lbl: 'Arrhythmia · cardiac failure', type: 'fire' },
+      ],
+      bif: 'Planck scale + τ = dual zeros of same field · birth = x crossing 0',
+      verse: '39:42 · 32:9 · 75:2',
+      bg: 'bg-indigo-950/20', accent: 'text-indigo-500'
+    },
+    {
+      title: 'Chrysalis',
+      scale: 'Developmental · metamorphosis',
+      color: '#D85A30',
+      rows: [
+        { lbl: 'L =', val: 'Imaginal disc activation · butterfly-form' },
+        { lbl: 'G =', val: 'Histolysis mass · caterpillar dissolution' },
+        { lbl: 'T =', val: 'Imaginal discs (αx) — survive dissolution' },
+        { lbl: 'O =', val: 'Histolyzed protein soup — potential (αx²)' },
+      ],
+      glass: '⬡ Glass node: Complete histolysis + ecdysone threshold',
+      out: [
+        { lbl: 'Butterfly · winged · light', type: 'light' },
+        { lbl: 'Failed pupation · death in form', type: 'fire' },
+      ],
+      bif: 'Extreme x trajectory: deep negative → positive · Yūnus-in-whale parallel',
+      verse: '37:139–148 · 21:87–88 · 11:82',
+      bg: 'bg-orange-950/20', accent: 'text-orange-500'
+    },
+    {
+      title: 'Plant Tropism',
+      scale: 'Biological · phototropism / gravitropism',
+      color: '#0F6E56',
+      rows: [
+        { lbl: 'L =', val: 'Phototropic vector · shoot bending' },
+        { lbl: 'G =', val: 'Gravitropic vector · root anchoring' },
+        { lbl: 'T =', val: 'Branching network distribution (αx)' },
+        { lbl: 'O =', val: 'Oil — refined near-luminous storage (αx²)' },
+      ],
+      glass: '⬡ Glass node: 24:35 boundary — illumination vs combustion',
+      out: [
+        { lbl: 'Illumination · ordered growth', type: 'light' },
+        { lbl: 'Combustion · escalated fire', type: 'fire' },
+      ],
+      bif: 'Mūsā (x>0) vs Firʿawn (x<0) · Host of Iblīs / Host of Mūsā',
+      verse: '24:35 · 14:24–25 · 57:4',
+      bg: 'bg-emerald-950/20', accent: 'text-emerald-300'
+    }
+  ];
+
+  return (
+    <div className="space-y-12">
+      <div className="bg-gray-950/40 p-10 rounded-[3rem] border border-white/5 space-y-6">
+        <div className="text-[11px] text-gray-500 mb-2 font-bold uppercase tracking-[0.3em]">MASTER LAW — ALL SCALES</div>
+        <div className="flex flex-col md:flex-row items-center gap-4 text-white">
+          <span className="text-3xl font-mono font-bold tracking-tighter">x = L − G</span>
+          <span className="text-gray-600 text-2xl">→</span>
+          <span className="text-3xl font-mono font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-400 to-rose-500">
+            Y = ax³ + bx² + cx + d
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-2 mt-4">
+          <span className="px-3 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-bold rounded-full uppercase border border-amber-500/20">a = Ṭāghūt · extremes</span>
+          <span className="px-3 py-1 bg-emerald-500/10 text-emerald-500 text-[10px] font-bold rounded-full uppercase border border-emerald-500/20">b = Razim · split</span>
+          <span className="px-3 py-1 bg-blue-500/10 text-blue-500 text-[10px] font-bold rounded-full uppercase border border-blue-500/20">c = Raḥīm · correction</span>
+          <span className="px-3 py-1 bg-indigo-500/10 text-indigo-500 text-[10px] font-bold rounded-full uppercase border border-indigo-500/20">d = Unity · baseline</span>
+        </div>
+        <p className="text-xs text-gray-500 italic mt-6 border-t border-white/5 pt-4">
+          Bifurcation condition: b² − 3ac &gt; 0 → two stable basins (Light ∥ Fire) · 57:4 = Ω bounded for all trajectories
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
+        {cards.map((card, i) => (
+          <div key={i} className="bg-gray-950/40 p-6 rounded-[2.5rem] border border-white/5 hover:border-white/10 transition-all group">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: card.color }}></div>
+              <div>
+                <div className="text-base font-bold text-white">{card.title}</div>
+                <div className="text-[10px] text-gray-500 uppercase tracking-widest">{card.scale}</div>
+              </div>
+            </div>
+            <div className="space-y-2 mb-4">
+              {card.rows.map((row, r) => (
+                <div key={r} className="flex gap-4 text-xs">
+                  <span className="text-gray-500 font-mono w-8 shrink-0">{row.lbl}</span>
+                  <span className="text-gray-300">{row.val}</span>
+                </div>
+              ))}
+            </div>
+            <div className="h-px bg-white/5 my-4"></div>
+            <div className={`text-[11px] p-2 rounded-lg ${card.bg} ${card.accent} mb-4 italic`}>
+               {card.glass}
+            </div>
+            <div className="flex gap-2 mb-4">
+               {card.out.map((out, o) => (
+                 <div key={o} className={`flex-1 py-1.5 rounded-full text-[10px] font-bold text-center border ${out.type === 'light' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'}`}>
+                   {out.lbl}
+                 </div>
+               ))}
+            </div>
+            <div className="bg-black/40 p-2 rounded-lg text-[10px] text-gray-500 mb-2">
+               {card.bif}
+            </div>
+            <div className="text-[10px] text-gray-600 italic">{card.verse}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="p-8 border border-white/5 rounded-[2.5rem] bg-black/20 text-xs md:text-sm text-gray-400 leading-relaxed">
+        <strong className="text-white">Razim (2) as fractal law:</strong> Every system above is a self-similar instantiation of the same split. The Glass node appears at every scale — P680 in the chloroplast, recombination in the cosmos, foramen ovale at birth, histolysis in the chrysalis, the oil-boundary in 24:35. <strong>O = αx²</strong> is always the stored potential that peaks at the Glass crossing. <strong>T = αx</strong> is always the structure that orients to whichever vector dominates. The bifurcation condition b² − 3ac &gt; 0 holds at every scale. 57:4 seals all of them inside one bounded field — Ω contains chloroplast, cosmos, heart, and cocoon simultaneously.
+      </div>
+    </div>
+  );
+};
+
 const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose }) => {
   const [activeTab, setActiveTab] = useState<'harvest' | 'reflection' | 'cosmology' | 'vision' | 'nafs' | 'mobius'>('harvest');
 
@@ -429,21 +701,21 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
 
                     <div className="grid md:grid-cols-3 gap-8">
                         <div className="bg-gray-800/30 p-6 rounded-2xl border border-white/5 space-y-4">
-                            <div className="text-4xl">ℒ</div>
+                            <div className="text-4xl text-amber-200">ℒ</div>
                             <h4 className="text-amber-400 font-bold uppercase tracking-widest text-xs">Phase 1: Binary (2)</h4>
                             <p className="text-sm text-gray-300">
                                 <strong>Light Caustic:</strong> Timeless constraints, gauge invariants, pure information. Incompatible regimes identified (Ayat vs. Hayat).
                             </p>
                         </div>
                         <div className="bg-gray-800/30 p-6 rounded-2xl border border-white/5 space-y-4">
-                            <div className="text-4xl">ℳ</div>
+                            <div className="text-4xl text-orange-200">ℳ</div>
                             <h4 className="text-orange-400 font-bold uppercase tracking-widest text-xs">Phase 2: Triadic (3)</h4>
                             <p className="text-sm text-gray-300">
                                 <strong>Mīzān:</strong> The Dynamic Balance Operator. Mediated oscillation. Cyclic processing (Input → Transform → Output) allows coexistence without annihilation.
                             </p>
                         </div>
                         <div className="bg-gray-800/30 p-6 rounded-2xl border border-white/5 space-y-4">
-                            <div className="text-4xl">𝒮</div>
+                            <div className="text-4xl text-rose-200">𝒮</div>
                             <h4 className="text-rose-400 font-bold uppercase tracking-widest text-xs">Phase 3: Resolved (7)</h4>
                             <p className="text-sm text-gray-300">
                                 <strong>Stable Attractors:</strong> The 7 are not steps in time but <strong>stable configured outcomes</strong> produced by triadic mediation (2³ - 1).
@@ -451,6 +723,20 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                         </div>
                     </div>
                 </section>
+
+                <div className="py-12 flex items-center justify-center">
+                    <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                </div>
+
+                {/* MASTER LAW SCALES */}
+                <MasterLawScales />
+
+                <div className="py-12 flex items-center justify-center">
+                     <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                </div>
+
+                {/* BIFURCATION MAP */}
+                <BifurcationMap />
 
                 {/* DUAL CAUSTIC PATHS */}
                 <div className="grid lg:grid-cols-2 gap-8">

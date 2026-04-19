@@ -1,4 +1,5 @@
 import React, { useRef, useLayoutEffect } from 'react';
+import { motion } from 'motion/react';
 import { TooltipContent } from '../types.ts';
 import { getChapterIcon } from '../utils.ts';
 
@@ -93,6 +94,33 @@ const Tooltip: React.FC<TooltipProps> = ({ visible, content, position }) => {
                 )}
             </div>
         )
+    }
+
+    if (content.type === 'functional') {
+        const { message, chapterName, lastVerseText, color } = content;
+        return (
+            <div className="flex flex-col gap-1 min-w-[280px]">
+                <div className="flex items-baseline justify-between gap-4">
+                    <span className="font-bold text-[13px] tracking-wide" style={{ color, textShadow: `0 0 4px ${color}` }}>{message}</span>
+                    <span className="text-[10px] opacity-40 text-gray-500 uppercase font-mono">{chapterName}</span>
+                </div>
+                <div className="w-full h-px bg-gray-700/30 my-1" />
+                <div className="relative overflow-hidden w-full h-5">
+                    <motion.div
+                        className="whitespace-nowrap inline-flex"
+                        animate={{ x: ["0%", "-50%"] }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    >
+                        <span className="text-gray-400 italic text-[11px] leading-relaxed pr-12">
+                            {lastVerseText}
+                        </span>
+                        <span className="text-gray-400 italic text-[11px] leading-relaxed pr-12">
+                            {lastVerseText}
+                        </span>
+                    </motion.div>
+                </div>
+            </div>
+        );
     }
 
     // 'verse' type
