@@ -1,5 +1,5 @@
-import React from 'react';
-import { TRIANGLE_POINTS, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
+import React, { useMemo } from 'react';
+import { TRIANGLE_POINTS, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, CENTRAL_GEOMETRY_POINTS, COLORS } from '../constants.ts';
 import { TrianglePoint } from '../types.ts';
 import { getSliceAtPoint, getChapterIcon } from '../utils.ts';
 import VersePolygon from './VersePolygon.tsx';
@@ -106,7 +106,238 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
   );
 });
 
+const RosslerFlow: React.FC = () => {
+    const { pathData, markers } = useMemo(() => {
+        let x = 0.1, y = 0, z = 0;
+        const a = 0.2, b = 0.2, c = 5.7;
+        const dt = 0.035; // Finer precision for smooth curves
+        const pts: {px: number, py: number, rz: number}[] = [];
+
+        // Warm up to stabilize onto the chaotic attractor
+        for (let i = 0; i < 400; i++) {
+            const dx = -y - z;
+            const dy = x + a * y;
+            const dz = b + z * (x - c);
+            x += dx * dt; y += dy * dt; z += dz * dt;
+        }
+
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        // 2500 iterations creates the dense, shaded 3D ribbon look overlapping in SVG
+        for (let i = 0; i < 2500; i++) {
+            const dx = -y - z;
+            const dy = x + a * y;
+            const dz = b + z * (x - c);
+            x += dx * dt; y += dy * dt; z += dz * dt;
+            
+            // Perspective Projection (Isometric tilt) matching classic scientific viewing angle
+            // azim=-60 degrees (-1.0 rad), elev=30 degrees (tilt=0.5) throws the sail to the top-right
+            const angle = -1.0; // Rotate XY plane to position the spiral base and the fold
+            const rotX = x * Math.cos(angle) - y * Math.sin(angle);
+            const rotY = x * Math.sin(angle) + y * Math.cos(angle);
+            
+            const tilt = 0.5; // Flatten XY plane to accurately expose the spiral lanes
+            const zScale = 0.75; // Properly scale the vertical Z-Spike to match the ratio
+
+            const px = rotX;
+            // Subtract Z so it spikes UPWARD in standard SVG coordinates
+            const py = rotY * tilt - z * zScale;
+            
+            pts.push({ px, py, rz: z });
+
+            if (px < minX) minX = px; if (px > maxX) maxX = px;
+            if (py < minY) minY = py; if (py > maxY) maxY = py;
+        }
+
+        const pad = 12;
+        const scaleX = (val: number) => pad + (100 - pad * 2) * ((val - minX) / (maxX - minX));
+        const scaleY = (val: number) => pad + (100 - pad * 2) * ((val - minY) / (maxY - minY));
+
+        const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${scaleX(p.px)} ${scaleY(p.py)}`).join(' ');
+
+        // Dynamically find the peak of a major Z-axis spike to map the nodes mathematically
+        const spikePeaks: number[] = [];
+        for(let i = 1; i < pts.length - 1; i++) {
+            if(pts[i].rz > pts[i-1].rz && pts[i].rz > pts[i+1].rz && pts[i].rz > 10) {
+                spikePeaks.push(i);
+            }
+        }
+        
+        // Grab a stable spike in the middle of our simulation
+        const mainSpike = spikePeaks.length > 2 ? spikePeaks[2] : Math.floor(pts.length * 0.7);
+
+        // One full orbit is roughly ~170 iterations at dt=0.035
+        const m = [
+            // Cycle 1: Qun (Cyan) - Approaching the divergence from the inner spiral
+            { idx: mainSpike - 450, color: COLORS.triangle2, name: '3c', label: 'Slave' },      // Deep inner core
+            { idx: mainSpike - 280, color: COLORS.triangle2, name: '6b', label: 'Queen' },      // Mid spiral expansion
+            { idx: mainSpike - 110, color: COLORS.triangle2, name: '9a', label: 'Righteous' },  // Outer orbital ring
+            
+            // Cycle 2: FayaQun (Magenta) - Up the Z-axis spike and folding back into the center
+            { idx: mainSpike - 35, color: COLORS.triangle1, name: '3c', label: 'Boat' },       // The steep ascension begins
+            { idx: mainSpike, color: COLORS.triangle1, name: '6b', label: 'Stone' },           // Absolute Z-peak (The Overwhelming Fold)
+            { idx: mainSpike + 50, color: COLORS.triangle1, name: '9a', label: 'Book' },       // Plunging back into the invariant core
+        ];
+
+        const scaledMarkers = m.map(marker => {
+            // Keep index within bounds safely
+            const safeIdx = Math.max(0, Math.min(marker.idx, pts.length - 1));
+            const p = pts[safeIdx];
+            return { ...marker, x: scaleX(p.px), y: scaleY(p.py) };
+        });
+
+        return { pathData: d, markers: scaledMarkers };
+    }, []);
+
+    return (
+        <div className="relative w-[130px] h-[130px] flex items-center justify-center overflow-visible">
+            <style>{`
+                @keyframes flow-tracer {
+                    0% { stroke-dashoffset: 1; opacity: 1; }
+                    100% { stroke-dashoffset: 0; opacity: 1; }
+                }
+                .flow-core-path {
+                    stroke-width: 0.25px;
+                    fill: none;
+                    stroke: rgba(255, 255, 255, 0.15);
+                }
+                .animate-tracer {
+                    stroke-width: 1.5px;
+                    fill: none;
+                    stroke-linecap: round;
+                    stroke-dasharray: 0.02 1; 
+                    animation: flow-tracer 8s linear infinite;
+                }
+            `}</style>
+            
+            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_5px_rgba(0,0,0,0.8)] overflow-visible">
+                <path d={pathData} className="flow-core-path" />
+                <path 
+                    d={pathData} 
+                    pathLength="1" 
+                    stroke="url(#rosslerGrad)" 
+                    className="animate-tracer"
+                />
+
+                {markers.map((m, i) => (
+                    <g key={i} transform={`translate(${m.x}, ${m.y})`}>
+                        <circle cx="0" cy="0" r="2.5" fill={m.color} fillOpacity="0.25" className="animate-pulse" />
+                        <circle cx="0" cy="0" r="0.8" fill={m.color} />
+                        <text x="3" y="-1.5" fontSize="2.8" fill={m.color} opacity="0.9" className="font-bold tracking-tight drop-shadow-md">
+                            {m.name}
+                        </text>
+                        <text x="3" y="1.5" fontSize="2" fill="#9ca3af" opacity="0.8" className="tracking-tight">
+                            {m.label}
+                        </text>
+                        <line x1="0" y1="0" x2="2.5" y2="-1" stroke={m.color} strokeWidth="0.2" opacity="0.5" />
+                    </g>
+                ))}
+
+                <defs>
+                    <linearGradient id="rosslerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor={COLORS.triangle2} />
+                        <stop offset="50%" stopColor="#FFFFFF" />
+                        <stop offset="100%" stopColor={COLORS.triangle1} />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+    );
+};
+
+const LorenzFlow: React.FC = () => {
+    const { pathData, markers } = useMemo(() => {
+        let x = 0.1, y = 1, z = 1.05;
+        const sigma = 10, rho = 28, beta = 8/3;
+        const dt = 0.008; // High precision for chaotic butterfly wings
+        const pts: {px: number, py: number}[] = [];
+
+        // Warm up
+        for (let i = 0; i < 400; i++) {
+            const dx = sigma * (y - x);
+            const dy = x * (rho - z) - y;
+            const dz = x * y - beta * z;
+            x += dx * dt; y += dy * dt; z += dz * dt;
+        }
+
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        for (let i = 0; i < 3500; i++) {
+            const dx = sigma * (y - x);
+            const dy = x * (rho - z) - y;
+            const dz = x * y - beta * z;
+            x += dx * dt; y += dy * dt; z += dz * dt;
+
+            // Pure front-facing X-Z projection gives the true classic Butterfly
+            const px = x;
+            const py = -z;
+
+            pts.push({ px, py });
+            if (px < minX) minX = px; if (px > maxX) maxX = px;
+            if (py < minY) minY = py; if (py > maxY) maxY = py;
+        }
+
+        const pad = 12;
+        const scaleX = (val: number) => pad + (100 - pad * 2) * ((val - minX) / (maxX - minX));
+        const scaleY = (val: number) => pad + (100 - pad * 2) * ((val - minY) / (maxY - minY));
+
+        const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${scaleX(p.px)} ${scaleY(p.py)}`).join(' ');
+
+        // Space nodes evenly to trace the full wingspan of the Butterfly
+        const m = [
+            // Cycle 1: Left Wing / Inner core
+            { idx: 600, color: COLORS.triangle2, name: '3c', label: 'Slave' }, 
+            { idx: 950, color: COLORS.triangle2, name: '6b', label: 'Queen' },
+            { idx: 1300, color: COLORS.triangle2, name: '9a', label: 'Righteous' },
+            
+            // Cycle 2: Right Wing / Outer loop
+            { idx: 1850, color: COLORS.triangle1, name: '3c', label: 'Boat' },
+            { idx: 2350, color: COLORS.triangle1, name: '6b', label: 'Stone' },
+            { idx: 2850, color: COLORS.triangle1, name: '9a', label: 'Book' },
+        ];
+
+        const scaledMarkers = m.map(marker => {
+            const safeIdx = Math.max(0, Math.min(marker.idx, pts.length - 1));
+            const p = pts[safeIdx];
+            return { ...marker, x: scaleX(p.px), y: scaleY(p.py) };
+        });
+
+        return { pathData: d, markers: scaledMarkers };
+    }, []);
+
+    return (
+        <div className="relative w-[130px] h-[130px] flex items-center justify-center overflow-visible">
+            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_5px_rgba(0,0,0,0.8)] overflow-visible">
+                <path d={pathData} className="flow-core-path" />
+                <path 
+                    d={pathData} 
+                    pathLength="1" 
+                    stroke="url(#lorenzGrad)" 
+                    className="animate-tracer"
+                />
+
+                {markers.map((m, i) => (
+                    <g key={i} transform={`translate(${m.x}, ${m.y})`}>
+                        <circle cx="0" cy="0" r="2.5" fill={m.color} fillOpacity="0.25" className="animate-pulse" />
+                        <circle cx="0" cy="0" r="0.8" fill={m.color} />
+                        <text x="3" y="-1.5" fontSize="2.8" fill={m.color} opacity="0.9" className="font-bold tracking-tight drop-shadow-md">
+                            {m.name}
+                        </text>
+                    </g>
+                ))}
+
+                <defs>
+                    <linearGradient id="lorenzGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor={COLORS.triangle2} />
+                        <stop offset="50%" stopColor="#FFFFFF" />
+                        <stop offset="100%" stopColor={COLORS.triangle1} />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+    );
+};
+
 const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResourceMode, showFunctionalTooltip, hideTooltip }) => {
+
     
     // Side Panel Presentation Reordering (DNA Flow - INTERLEAVED):
     // Row 1 (Interleaved Layout): Slave(D 1) -> Stone(U 95) -> Righteous(D 77)
@@ -123,44 +354,6 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
         { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Book (Pink)
     ];
     
-    const renderCombinedGeometry = () => {
-        const NUM_LAYERS = 6;
-        const corePolygonColors = [
-            TRIANGLE_POINTS[1].color, // Downward
-            TRIANGLE_POINTS[1].color,
-            TRIANGLE_POINTS[1].color,
-            TRIANGLE_POINTS[0].color, // Upward
-            TRIANGLE_POINTS[0].color,
-            TRIANGLE_POINTS[0].color,
-        ];
-
-        const maxPolyRadius = 32;
-        const minPolyRadius = 12;
-        const effectiveRadius = maxPolyRadius - minPolyRadius;
-        const radiusStep = NUM_LAYERS > 1 ? effectiveRadius / (NUM_LAYERS - 1) : 0;
-
-        return CENTRAL_GEOMETRY_POINTS.map((pointValue, i) => {
-            const slice = getSliceAtPoint(pointValue, rotation);
-            const layerRadius = maxPolyRadius - (i * radiusStep);
-            const baseColor = corePolygonColors[i];
-
-            return (
-                <VersePolygon
-                    key={`side-panel-core-layer-${i}`}
-                    verseCount={slice.blockCount || 0}
-                    radius={layerRadius}
-                    color={baseColor}
-                    center={{ x: 36, y: 36 }}
-                    fillOpacity={0}
-                    strokeOpacity={0.4 + i * 0.1}
-                    strokeWidth={1}
-                    groupOpacity={1}
-                    isLowResourceMode={isLowResourceMode}
-                />
-            );
-        });
-    };
-
     return (
         <div>
             <div className="flex justify-between items-center">
@@ -169,11 +362,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                 </h2>
             </div>
             <div className="w-full h-px bg-gray-500/50 mt-2 mb-4"></div>
-            <div className="flex items-center justify-center relative">
-                <svg width={72} height={72} viewBox="0 0 72 72">
-                    {renderCombinedGeometry()}
-                </svg>
-            </div>
+
             <div className="text-center mt-3 mb-6">
                 <div className="font-mono flex flex-col items-center">
                     <div className="text-[11px] text-gray-500 mb-3 font-bold tracking-tight opacity-80 uppercase bg-gray-900/40 px-3 py-1 rounded-full border border-gray-800/50">
@@ -224,6 +413,19 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                     showFunctionalTooltip={showFunctionalTooltip}
                     hideTooltip={hideTooltip}
                 />
+
+                <div className="flex flex-row justify-between items-center w-full mt-10 p-2 sm:p-4 bg-black/40 rounded-xl border border-gray-800 shadow-inner overflow-hidden">
+                    <div className="w-1/2 flex flex-col items-center">
+                        <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Rössler Flow</div>
+                        <RosslerFlow />
+                    </div>
+                    <div className="w-px h-24 bg-gray-800/60 mix-blend-screen"></div>
+                    <div className="w-1/2 flex flex-col items-center">
+                        <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Lorenz (Butterfly)</div>
+                        <LorenzFlow />
+                    </div>
+                </div>
+
             </div>
         </div>
     );
