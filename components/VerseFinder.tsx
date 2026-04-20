@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { VerseFinderContent, VerseResult, SurahData, SurahVerse, LocalTranslationData } from '../types.ts';
+import { VerseFinderContent, VerseResult, LocalTranslationData } from '../types.ts';
 import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
 import { SLICE_DATA } from '../constants.ts';
 import { processInBatches } from '../utils.ts';

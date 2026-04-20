@@ -176,7 +176,7 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
                                 DUAL-MODE ENGINE
                              </span>
-                             <span className="text-[10px] opacity-70 font-mono">Y = ax³ + bx² + cx + d</span>
+                             <span className="text-[9px] opacity-70 font-mono tracking-tighter">f(x) = ax³ [110] + bx² [108] + cx [103] + d [19= 10+9]</span>
                          </p>
                          
                          <p className="text-[11px] text-gray-400 leading-relaxed mb-4">
@@ -217,20 +217,20 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
 
                          <div className="grid grid-cols-2 gap-2 font-mono text-[9px] text-gray-400 border-t border-gray-700/30 pt-3">
                              <div className="flex items-center gap-1.5 grayscale opacity-70">
-                                <span className="text-fuchsia-400 font-bold text-xs">9</span>
-                                <div><span className="text-fuchsia-300/80">a-term</span><br/><span>Force</span></div>
+                                <span className="text-red-400 font-bold text-xs">9</span>
+                                <div><span className="text-red-300/80">a-term</span><br/><span>Force</span></div>
                              </div>
                              <div className="flex items-center gap-1.5 grayscale opacity-70">
-                                <span className="text-cyan-400 font-bold text-xs">3</span>
-                                <div><span className="text-cyan-300/80">c-term</span><br/><span>Direction</span></div>
+                                <span className="text-amber-400 font-bold text-xs">3</span>
+                                <div><span className="text-amber-300/80">c-term</span><br/><span>Direction</span></div>
                              </div>
                              <div className="flex items-center gap-1.5 grayscale opacity-70">
-                                <span className="text-emerald-400 font-bold text-xs">6</span>
-                                <div><span className="text-emerald-300/80">b-term</span><br/><span>Balance</span></div>
+                                <span className="text-teal-400 font-bold text-xs">6</span>
+                                <div><span className="text-teal-300/80">b-term</span><br/><span>Balance</span></div>
                              </div>
-                             <div className="flex items-center gap-1.5 border border-amber-500/20 p-1 rounded bg-amber-500/5">
-                                <span className="text-amber-400 font-bold text-xs">5</span>
-                                <div><span className="text-amber-300/80 font-bold font-sans">d-term</span><br/><span className="text-amber-200/50">Invariant Core</span></div>
+                             <div className="flex items-center gap-1.5 border border-cyan-500/20 p-1 rounded bg-cyan-500/5">
+                                <span className="text-cyan-400 font-bold text-xs">5</span>
+                                <div><span className="text-cyan-300/80 font-bold font-sans">d-term</span><br/><span className="text-cyan-200/50">Invariant Core</span></div>
                              </div>
                          </div>
                     </div>

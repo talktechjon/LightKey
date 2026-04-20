@@ -80,6 +80,12 @@ const Tooltip: React.FC<TooltipProps> = ({ visible, content, position }) => {
                         <p className="text-base italic text-gray-400">{chapterDetails.transliteration}</p>
                     </div>
                 </div>
+                {chapterDetails.scienceTooltip && (
+                    <div className="bg-cyan-950/20 border-l-2 border-cyan-500 py-1.5 px-3 -mx-1 my-1">
+                         <p className="text-[11px] font-black uppercase tracking-widest text-cyan-400 mb-0.5">Science Context</p>
+                         <p className="text-xs text-gray-200 font-medium leading-relaxed">{chapterDetails.scienceTooltip}</p>
+                    </div>
+                )}
                 <div className="grid grid-cols-2 gap-y-1 gap-x-4 text-sm border-t border-gray-700 pt-2 text-gray-300">
                     <div><strong className="text-gray-400 font-medium">Verses:</strong> {verseCount}</div>
                     <div><strong className="text-gray-400 font-medium">Juz':</strong> {chapterDetails.juz}</div>

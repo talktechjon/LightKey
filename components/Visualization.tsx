@@ -1,6 +1,6 @@
 
 import React, { useRef, useImperativeHandle, forwardRef, useMemo, useEffect, useState } from 'react';
-import { SliceData, VisualizationHandle } from '../types.ts';
+import { VisualizationHandle } from '../types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SIZES, TRIANGLE_POINTS, COLORS, ICON_DIAL_DATA, SECRET_EMOJI_PATTERN, MUQATTAT_CHAPTERS, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
 import { getSliceAtPoint, polarToCartesian, colorScale } from '../utils.ts';
 import VersePolygon from './VersePolygon.tsx';
@@ -232,8 +232,7 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
     const pointsString = pointCoords.map(pc => `${pc.x},${pc.y}`).join(' ');
     
     // Override color if we are at a phase turning point (103, 108, 110)
-    const baseColor = triangleDef.name === 'Upward Triangle' ? COLORS.triangle2 : COLORS.triangle1;
-    const displayColor = phaseColor || baseColor;
+    const displayColor = phaseColor || triangleDef.color;
     const isGlowing = phaseColor !== null;
   
     return (
@@ -245,16 +244,6 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
             strokeWidth="2.5" 
             strokeOpacity="0.8" 
         />
-        {pointCoords.map((pc, i) => (
-          <circle
-            key={`${triangleDef.name}-dot-${i}`}
-            cx={pc.x}
-            cy={pc.y}
-            r="3"
-            fill="white"
-            fillOpacity={0.9}
-          />
-        ))}
       </g>
     );
   };

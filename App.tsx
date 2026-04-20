@@ -143,12 +143,6 @@ const App: React.FC = () => {
     }
   };
 
-  const showVerseTooltip = useCallback(async (event: React.MouseEvent, surah: number, verse: number, color: string) => {
-    const { englishText, banglaText } = await getVerse(surah, verse, translationMode, localTranslationData);
-    setTooltipContent({ type: 'verse', surah, verse, color, englishText, banglaText });
-    setTooltipPosition({ x: event.clientX, y: event.clientY });
-  }, [translationMode, localTranslationData]);
-  
   const showChapterTooltip = useCallback((event: React.MouseEvent, sliceId: number, color: string) => {
       const chapterDetails = CHAPTER_DETAILS.find(c => c.number === sliceId);
       const sliceData = SLICE_DATA.find(s => s.id === sliceId);
@@ -219,7 +213,6 @@ const App: React.FC = () => {
           setRotation={setRotation} 
           iconDialRotation={iconDialRotation} 
           setIconDialRotation={setIconDialRotation} 
-          showTooltip={showVerseTooltip} 
           showFunctionalTooltip={showFunctionalTooltip}
           hideTooltip={() => setTooltipContent(null)} 
           isSecretModeActive={isSecretModeActive} 

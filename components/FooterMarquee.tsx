@@ -208,7 +208,7 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
     marqueeRef.current.style.userSelect = 'none';
   };
   
-  const handlePointerUp = (e: React.PointerEvent) => {
+  const handlePointerUp = () => {
       if (isDraggingRef.current) {
           isDraggingRef.current = false;
           if (marqueeRef.current) {

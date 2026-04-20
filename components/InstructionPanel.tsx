@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { MobiusIcon } from './Icons.tsx';
 
 interface InstructionPanelProps {
   isVisible: boolean;
@@ -793,7 +792,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                                     <span className="text-rose-400 font-mono font-bold">2:30</span>
                                     <div>
                                         <strong className="text-white block mb-1 uppercase text-xs tracking-widest">The Champion (Khalifa)</strong>
-                                        Musa (Action/Fire) | Miriam (Purification/Water) vs. Lut (Taghut).
+                                        Musa (Action/Fire) | Miriam (Purification/Water) vs. Lut (Stone).
                                     </div>
                                 </li>
                                 <li className="flex gap-4">

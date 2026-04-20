@@ -23,18 +23,18 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
     showFunctionalTooltip: (e: React.MouseEvent, message: string, chapterId: number, color: string) => void;
     hideTooltip: () => void;
 }) => {
-  const titleColor = direction === 'downward' ? 'text-pink-500' : 'text-cyan-400';
+  const titleColor = direction === 'downward' ? 'text-cyan-400' : 'text-pink-500';
   const titleSymbol = direction === 'downward' ? '▼' : '▲';
 
   const headerTooltip = name.includes('Command') ? 'Input Engine: Chrysalis' : 'Output Engine: Photosynthesis';
 
   const getPointTooltip = (type: string, chapterName: string) => {
-    if (type.includes('Blessing')) return `Ayat For YOU: ${chapterName}`;
-    if (type.includes('Gratitude')) return `Declare Greatness: ${chapterName}`;
-    if (type.includes('Faith')) return `Hold The Book: ${chapterName}`;
-    if (type.includes('Formation')) return `Sacrifice what You love: ${chapterName}`;
-    if (type.includes('Sustenance')) return `Remember the Light: ${chapterName}`;
-    if (type.includes('Illumination')) return `Illuminate the World: ${chapterName}`;
+    if (type.includes('Slave')) return `The Vector (1): Prayer & Intent (66:11, 19:3)`;
+    if (type.includes('Queen')) return `Shadow Surplus (+1) / Entropy Term: ${chapterName}`;
+    if (type.includes('Righteous')) return `Faith Coherence: ${chapterName}`;
+    if (type.includes('Boat|Orphan')) return `Command Propagation: ${chapterName}`;
+    if (type.includes('Stone')) return `Cubic Overflow Phase (10): ${chapterName}`;
+    if (type.includes('Cave|Book')) return `Biological Cardiac Zero Point / Light Coherence (9): ${chapterName}`;
     return type;
   };
   
@@ -108,22 +108,19 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
 
 const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResourceMode, showFunctionalTooltip, hideTooltip }) => {
     
-    // Indices in CENTRAL_GEOMETRY_POINTS [1, 39, 77, 19, 95, 57]:
-    // 0: Vector(1), 1: Field(39), 2: Force(77), 3: Manifest(19), 4: Balance(95), 5: Formation(57)
-
     // Side Panel Presentation Reordering (DNA Flow - INTERLEAVED):
-    // Row 1 (Downward Group Layout): Blessing(D 3c) -> Sustenance(U 6b) -> Faith(D 9a)
+    // Row 1 (Interleaved Layout): Slave(D 1) -> Stone(U 95) -> Righteous(D 77)
     const dnaRow1: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Blessing (Pink)
-        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[0].color }, // Sustenance (Cyan)
-        { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Faith (Pink)
+        { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Slave (Cyan)
+        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[0].color }, // Stone (Pink)
+        { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Righteous (Cyan)
     ];
 
-    // Row 2 (Upward Group Layout): Formation(U 3c) -> Gratitude(D 6b) -> Illumination(U 9a)
+    // Row 2 (Interleaved Layout): Boat(U 57) -> Queen(D 39) -> Book(U 19)
     const dnaRow2: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Formation (Cyan)
-        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[1].color }, // Gratitude (Pink)
-        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Illumination (Cyan)
+        { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Boat (Pink)
+        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[1].color }, // Queen (Cyan)
+        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Book (Pink)
     ];
     
     const renderCombinedGeometry = () => {
@@ -168,26 +165,49 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
         <div>
             <div className="flex justify-between items-center">
                 <h2 className="text-lg font-bold text-gray-200 tracking-widest uppercase">
-                    Umm al-Kitab <br className="lg:hidden" /><span className="text-gray-400 font-medium text-xs capitalize tracking-normal lg:ml-2">Mother of Consciousness</span>
+                    Umm al-Kitab <br className="lg:hidden" /><span className="text-gray-400 font-medium text-xs capitalize tracking-normal lg:ml-2">The Mother Equation</span>
                 </h2>
             </div>
             <div className="w-full h-px bg-gray-500/50 mt-2 mb-4"></div>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center relative">
                 <svg width={72} height={72} viewBox="0 0 72 72">
                     {renderCombinedGeometry()}
                 </svg>
             </div>
-            <div className="text-center mt-2 min-h-[20px]">
-                <p className="text-[12px] font-mono text-cyan-400/80 mt-1">
-                    Y = ax³ + bx² + cx + d <span className="text-gray-500">(x = L - G)</span>
-                </p>
-                <p className="text-xs text-gray-400 mt-1">
-                    Visualizing the Return Journey Home.
-                </p>
+            <div className="text-center mt-3 mb-6">
+                <div className="font-mono flex flex-col items-center">
+                    <div className="text-[11px] text-gray-500 mb-3 font-bold tracking-tight opacity-80 uppercase bg-gray-900/40 px-3 py-1 rounded-full border border-gray-800/50">
+                        f(x) = ax³ [110] + bx² [108] + cx [103] + d [19= 10+9]
+                    </div>
+                    <div className="flex items-baseline gap-x-2">
+                        <span className="text-gray-400 italic text-xs">f(x) =</span>
+                        <div className="grid grid-cols-4 gap-x-2 sm:gap-x-4 text-center">
+                            <span className="text-red-400 font-bold text-[10px] sm:text-[12px] whitespace-nowrap">ax³ [110]</span>
+                            <span className="text-teal-400 font-bold text-[10px] sm:text-[12px] whitespace-nowrap">bx² [108]</span>
+                            <span className="text-amber-400 font-bold text-[10px] sm:text-[12px] whitespace-nowrap">cx [103]</span>
+                            <span className="text-cyan-400 font-bold text-[10px] sm:text-[11px] whitespace-nowrap">d [19=10+9]</span>
+
+                            <span className="text-red-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Stone]</span>
+                            <span className="text-teal-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Abundance]</span>
+                            <span className="text-amber-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Trial]</span>
+                            <span className="text-cyan-500 text-[7px] sm:text-[8px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Rooh+Messenger]</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="mt-5 px-4 py-3 bg-cyan-950/20 border border-gray-800/50 rounded-lg space-y-3 shadow-inner">
+                    <div className="flex items-start gap-2.5 text-left">
+                        <span className="text-cyan-400 font-bold text-[10px] shrink-0 mt-0.5 font-mono">2:260</span>
+                        <p className="text-[10px] text-gray-300 leading-snug">The Ummul-Kitab Function, Book always returns to Master.</p>
+                    </div>
+                    <div className="flex items-start gap-2.5 text-left">
+                        <span className="text-cyan-400 font-bold text-[10px] shrink-0 mt-0.5 font-mono">19:12</span>
+                        <p className="text-[10px] text-gray-300 leading-snug">Hold the Book so Reader can Return.</p>
+                    </div>
+                </div>
             </div>
             <div className="mt-4 space-y-4">
                 <TriangleGeometryGroup 
-                    name="Qun - The Command"
+                    name="Qun - The Command 🌴🐝💧"
                     direction="downward"
                     points={dnaRow1}
                     rotation={rotation}
@@ -196,7 +216,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                     hideTooltip={hideTooltip}
                 />
                 <TriangleGeometryGroup 
-                    name="FayaQun - Truth Returns"
+                    name="FayaQun - Book Returns 🐟🕋🔆"
                     direction="upward"
                     points={dnaRow2}
                     rotation={rotation}

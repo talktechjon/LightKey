@@ -171,7 +171,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
 
     const nodeMap = useMemo(() => new Map(KATHARA_GRID_NODES.map(node => [node.id, node])), []);
 
-    const getVerticalWavePath = (x1: number, y1: number, x2: number, y2: number) => {
+    const getVerticalWavePath = (x1: number, y1: number, _x2: number, y2: number) => {
         const dy = y2 - y1;
         const amp = 7;
         return `M ${x1} ${y1} Q ${x1 + amp} ${y1 + dy * 0.125} ${x1} ${y1 + dy * 0.25} T ${x1} ${y1 + dy * 0.5} T ${x1} ${y1 + dy * 0.75} T ${x1} ${y2}`;
@@ -229,7 +229,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                         return <React.Fragment key={index}>{renderedLine}{label}</React.Fragment>;
                     })}
                 </g>
-                {KATHARA_GRID_NODES.map((node, index) => {
+                {KATHARA_GRID_NODES.map((node) => {
                     let label = '', staticContent = '', isStaticNode = false, fillColor = node.color, subLabel = '';
                     if (node.id > 12) {
                         isStaticNode = true;
@@ -481,7 +481,7 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
                         return <line key={index} x1={fromNode.x} y1={fromNode.y} x2={toNode.x} y2={toNode.y} stroke="#4b5563" style={{ stroke: activeTab === 'datePalm' ? '#60a5fa' : '#ef4444', opacity: 0.5 }} />;
                     })}
                 </g>
-                {currentConfig.nodes.map((node, index) => {
+                {currentConfig.nodes.map((node) => {
                     let label = '', fillColor = node.color;
                     const chapterData = generatedChaptersMap.get(node.id);
                     if (chapterData && !('isStatic' in chapterData)) label = (chapterData as AlignedChapter).slice.id.toString();

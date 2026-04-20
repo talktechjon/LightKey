@@ -21,6 +21,7 @@ export interface ChapterDetails {
   arabicName: string;
   revelationType: 'Makki' | 'Madani';
   juz: string;
+  scienceTooltip?: string;
 }
 
 export interface IconData {

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { KATHARA_GRID_NODES, KATHARA_GRID_LINES, KATHARA_CLOCK_POINTS, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS } from '../constants.ts';
+import { KATHARA_GRID_NODES, KATHARA_GRID_LINES, KATHARA_CLOCK_POINTS, CHAPTER_DETAILS, MUQATTAT_LETTERS } from '../constants.ts';
 import { getSliceAtPoint } from '../utils.ts';
 
 interface TreeOfLifeModeProps {
@@ -23,7 +23,7 @@ const PRESET_2 = [
   "Warner",
   "Witness",
   "Return",
-  "Photosynthesis",
+  "Book",
   "Knowledge",
   "Isa"
 ];
@@ -304,7 +304,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
             const displayLabelIdx = isFilter ? -1 : getDisplayIdx(nodeIdx, labelOffset, activeMode);
             const rawLabel = isFilter ? '' : labels[displayLabelIdx];
             
-            const filterFullLabel = node.id === 13 ? '△108⚡' : node.id === 14 ? '🔥103🐟' : node.id === 15 ? '⚫110🌳' : null;
+            const filterFullLabel = node.id === 13 ? 'Abundance 108' : node.id === 14 ? 'Trial 103' : node.id === 15 ? 'Stone 110' : null;
             
             const labelParts = rawLabel ? rawLabel.split('|').map(p => p.trim()) : [];
             const hasMultiple = labelParts.length > 1;

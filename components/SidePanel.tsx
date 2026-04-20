@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, CENTRAL_GEOMETRY_POINTS } from '../constants.ts';
+import { TOTAL_SLICES, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS } from '../constants.ts';
 import { TAFSIR_YOUTUBE_VIDEO_IDS, RECITATION_YOUTUBE_VIDEO_IDS, ENGLISH_RECITATION_YOUTUBE_VIDEO_IDS } from '../youtubeData.ts';
 import { getSliceAtPoint, getChapterIcon } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
@@ -17,7 +17,6 @@ interface SidePanelProps {
   iconDialRotation: number;
   setRotation: (rotation: number | ((prev: number) => number)) => void;
   setIconDialRotation: (rotation: number | ((prev: number) => number)) => void;
-  showTooltip: (e: React.MouseEvent, surah: number, verse: number, color: string) => void;
   showFunctionalTooltip: (e: React.MouseEvent, message: string, chapterId: number, color: string) => void;
   hideTooltip: () => void;
   isSecretModeActive: boolean;
@@ -31,7 +30,7 @@ interface SidePanelProps {
   setBakaraSpineIndex: (index: number) => void;
 }
 
-const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showTooltip, showFunctionalTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showFunctionalTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex }) => {
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -177,7 +176,9 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   };
   
   const handleWatchSequence = (type: PlaylistType) => {
-    const chapterIds = CENTRAL_GEOMETRY_POINTS.map(pointValue => getSliceAtPoint(pointValue, rotation).id);
+    // Mirroring Order: Download (Slave, Queen, Righteous) -> Return (Book, Stone, Boat)
+    const helixSequence = [1, 39, 77, 19, 95, 57];
+    const chapterIds = helixSequence.map(pointValue => getSliceAtPoint(pointValue, rotation).id);
     createPlaylist(type, chapterIds);
   };
   
