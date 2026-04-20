@@ -190,7 +190,7 @@ const AnimatedHarvest: React.FC = () => {
 
 const BifurcationMap: React.FC = () => {
   const nodes = [
-    { id: 'iblis', cx: 240, cy: 46, r: 36, fill: '#444441', stroke: '#888780', lbl: 'Iblīs', sub: 'Stone · 38:76', msg: 'Iblīs / Stone: the entire 12-node structure is the Stone. Two terminals: Illusion (Musa) and Illumination (Isa).' },
+    { id: 'iblis', cx: 240, cy: 46, r: 36, fill: '#444441', stroke: '#888780', lbl: 'Iblīs', sub: 'Mountain · 38:76', msg: 'Iblīs / Mountain: the entire 12-node structure is the Mountain. Two terminals: Illusion (Musa) and Illumination (Isa).' },
     { id: 'ibrahim', cx: 240, cy: 135, r: 30, fill: '#854F0B', stroke: '#EF9F27', lbl: 'Ibrahim', sub: 'split · 21:69', msg: 'Ibrahim: the split point. Father of both axes. Fire-tested (21:69) yet truth-anchored.' },
     { id: 'musa', cx: 118, cy: 225, r: 34, fill: '#185FA5', stroke: '#85B7EB', lbl: 'Musa', sub: 'terminal', msg: 'Musa: left terminal. Illusion axis — confronts Firʿawn, exposes illusion, seals it at 10:92.' },
     { id: 'isa', cx: 362, cy: 225, r: 34, fill: '#0F6E56', stroke: '#5DCAA5', lbl: 'Isa', sub: 'terminal', msg: 'Isa: right terminal. Illumination axis — Word made eternal, knowledge sealed at 19:12.' },
@@ -206,7 +206,7 @@ const BifurcationMap: React.FC = () => {
 
   return (
     <div className="bg-black/40 p-8 rounded-[3rem] border border-white/5 space-y-8 flex flex-col items-center">
-      <h3 className="text-2xl font-black text-white uppercase tracking-widest text-center italic">Iblīs Stone — Bifurcation Map</h3>
+      <h3 className="text-2xl font-black text-white uppercase tracking-widest text-center italic">Iblīs Mountain — Bifurcation Map</h3>
       <div className="w-full max-w-lg aspect-[480/900]">
         <svg viewBox="0 0 480 900" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_0_20px_rgba(186,117,23,0.15)]">
            {/* ORANGE frame */}
@@ -287,7 +287,7 @@ const BifurcationMap: React.FC = () => {
         </svg>
       </div>
       <p className="text-gray-400 text-xs italic text-center max-w-sm">
-        The Bifurcation Map of the Iblīs Stone. Two terminals: Illusion (Musa) and Illumination (Isa) converging at Tawhid.
+        The Bifurcation Map of the Iblīs Mountain. Two terminals: Illusion (Musa) and Illumination (Isa) converging at Tawhid.
       </p>
     </div>
   );
@@ -300,8 +300,8 @@ const MasterLawScales: React.FC = () => {
       scale: 'Cellular · chloroplast',
       color: '#1D9E75',
       rows: [
-        { lbl: 'L =', val: 'Photon flux · PS-II / PS-I excitation' },
-        { lbl: 'G =', val: 'CO₂ mass · Calvin cycle demand' },
+        { lbl: 'ℒ =', val: 'Photon flux · PS-II / PS-I excitation' },
+        { lbl: '𝒮 =', val: 'CO₂ mass · Calvin cycle demand' },
         { lbl: 'T =', val: 'Chlorophyll antenna (αx)' },
         { lbl: 'O =', val: 'ATP + NADPH stored potential (αx²)' },
       ],
@@ -319,17 +319,17 @@ const MasterLawScales: React.FC = () => {
       scale: 'Cosmological · universe-scale',
       color: '#378ADD',
       rows: [
-        { lbl: 'L =', val: 'Early-universe H₀ (CMB ~67.4 km/s/Mpc)' },
-        { lbl: 'G =', val: 'Late-universe H₀ (local ~73 km/s/Mpc)' },
-        { lbl: 'T =', val: 'Large-scale structure formation (αx)' },
-        { lbl: 'O =', val: 'Dark energy density — stored expansion (αx²)' },
+        { lbl: 'ℒ =', val: 'Global Coherence (CMB ~67.4)' },
+        { lbl: '𝒮 =', val: 'Causal Ladder (Local ~73.0)' },
+        { lbl: 'ax³ =', val: 'Overflow (10−9=1 discrepancy)' },
+        { lbl: 'd =', val: 'Invariant Conserved Center (19)' },
       ],
-      glass: '⬡ Glass node: Recombination epoch ~380,000 yr — photon decoupling',
+      glass: '⬡ Glass node: Recombination epoch — photon decoupling',
       out: [
-        { lbl: 'CMB · structured cosmos', type: 'light' },
-        { lbl: 'Gravitational collapse · dark halos', type: 'fire' },
+        { lbl: 'Ordered Coherence (ℒ)', type: 'light' },
+        { lbl: 'Entropy Overflow (𝒮)', type: 'fire' },
       ],
-      bif: 'Tension = non-zero x · two measurement regimes = two real critical points',
+      bif: 'Dual measurements register different domains. Operators do not commute.',
       verse: '57:4 · 41:11 · 21:30',
       bg: 'bg-blue-950/20', accent: 'text-blue-500'
     },
@@ -338,8 +338,8 @@ const MasterLawScales: React.FC = () => {
       scale: 'Cardiac · τ ≈ 0.83 s limit-cycle',
       color: '#7F77DD',
       rows: [
-        { lbl: 'L =', val: 'Pulmonary O₂ vector · first breath' },
-        { lbl: 'G =', val: 'Fetal fluid pressure · placental circulation' },
+        { lbl: 'ℒ =', val: 'Pulmonary O₂ vector · first breath' },
+        { lbl: '𝒮 =', val: 'Fetal fluid pressure · placental circulation' },
         { lbl: 'T =', val: 'Cardiac muscle structure (αx)' },
         { lbl: 'O =', val: 'ATP reserve in cardiac cells (αx²)' },
       ],
@@ -357,8 +357,8 @@ const MasterLawScales: React.FC = () => {
       scale: 'Developmental · metamorphosis',
       color: '#D85A30',
       rows: [
-        { lbl: 'L =', val: 'Imaginal disc activation · butterfly-form' },
-        { lbl: 'G =', val: 'Histolysis mass · caterpillar dissolution' },
+        { lbl: 'ℒ =', val: 'Imaginal disc activation · butterfly-form' },
+        { lbl: '𝒮 =', val: 'Histolysis mass · caterpillar dissolution' },
         { lbl: 'T =', val: 'Imaginal discs (αx) — survive dissolution' },
         { lbl: 'O =', val: 'Histolyzed protein soup — potential (αx²)' },
       ],
@@ -376,8 +376,8 @@ const MasterLawScales: React.FC = () => {
       scale: 'Biological · phototropism / gravitropism',
       color: '#0F6E56',
       rows: [
-        { lbl: 'L =', val: 'Phototropic vector · shoot bending' },
-        { lbl: 'G =', val: 'Gravitropic vector · root anchoring' },
+        { lbl: 'ℒ =', val: 'Phototropic vector · shoot bending' },
+        { lbl: '𝒮 =', val: 'Gravitropic vector · root anchoring' },
         { lbl: 'T =', val: 'Branching network distribution (αx)' },
         { lbl: 'O =', val: 'Oil — refined near-luminous storage (αx²)' },
       ],
@@ -397,20 +397,20 @@ const MasterLawScales: React.FC = () => {
       <div className="bg-gray-950/40 p-10 rounded-[3rem] border border-white/5 space-y-6">
         <div className="text-[11px] text-gray-500 mb-2 font-bold uppercase tracking-[0.3em]">MASTER LAW — ALL SCALES</div>
         <div className="flex flex-col md:flex-row items-center gap-4 text-white">
-          <span className="text-3xl font-mono font-bold tracking-tighter">x = L − G</span>
+          <span className="text-3xl font-mono font-bold tracking-tighter">dB/dt = ℒ − 𝒮 + γ·x</span>
           <span className="text-gray-600 text-2xl">→</span>
           <span className="text-3xl font-mono font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-400 to-rose-500">
-            Y = ax³ + bx² + cx + d
+            f(x) = 110x³ + 108x² + 103x + 19
           </span>
         </div>
         <div className="flex flex-wrap gap-2 mt-4">
-          <span className="px-3 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-bold rounded-full uppercase border border-amber-500/20">a = Ṭāghūt · extremes</span>
-          <span className="px-3 py-1 bg-emerald-500/10 text-emerald-500 text-[10px] font-bold rounded-full uppercase border border-emerald-500/20">b = Razim · split</span>
-          <span className="px-3 py-1 bg-blue-500/10 text-blue-500 text-[10px] font-bold rounded-full uppercase border border-blue-500/20">c = Raḥīm · correction</span>
-          <span className="px-3 py-1 bg-indigo-500/10 text-indigo-500 text-[10px] font-bold rounded-full uppercase border border-indigo-500/20">d = Unity · baseline</span>
+          <span className="px-3 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-bold rounded-full uppercase border border-amber-500/20">a = 110 · Al-Naṣr</span>
+          <span className="px-3 py-1 bg-emerald-500/10 text-emerald-500 text-[10px] font-bold rounded-full uppercase border border-emerald-500/20">b = 108 · Al-Kawthar</span>
+          <span className="px-3 py-1 bg-blue-500/10 text-blue-500 text-[10px] font-bold rounded-full uppercase border border-blue-500/20">c = 103 · Al-ʿAṣr</span>
+          <span className="px-3 py-1 bg-indigo-500/10 text-indigo-500 text-[10px] font-bold rounded-full uppercase border border-indigo-500/20">d = 19 · Rahman Seal</span>
         </div>
         <p className="text-xs text-gray-500 italic mt-6 border-t border-white/5 pt-4">
-          Bifurcation condition: b² − 3ac &gt; 0 → two stable basins (Light ∥ Fire) · 57:4 = Ω bounded for all trajectories
+          The 19-locked cubic polynomial (d = 19) governs field behavior across scales. Bifurcation condition: b² − 3ac &gt; 0.
         </p>
       </div>
 
@@ -792,7 +792,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                                     <span className="text-rose-400 font-mono font-bold">2:30</span>
                                     <div>
                                         <strong className="text-white block mb-1 uppercase text-xs tracking-widest">The Champion (Khalifa)</strong>
-                                        Musa (Action/Fire) | Miriam (Purification/Water) vs. Lut (Stone).
+                                        Musa (Action/Fire) | Miriam (Purification/Water) vs. Lut (Mountain).
                                     </div>
                                 </li>
                                 <li className="flex gap-4">

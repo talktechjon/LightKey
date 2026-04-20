@@ -192,9 +192,9 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
           <main className="max-w-[720px] mx-auto py-32 px-8 sm:px-12">
             
             <header className="text-center mb-40 fcl-episode">
-              <div className="fcl-section-header mb-12">Dual-Caustic Universe Framework</div>
+              <div className="fcl-section-header mb-12">Dual-Caustic Universe (DCU) Framework</div>
               <h1 className="fcl-h1 text-5xl md:text-7xl mb-8">The Umm al-Kitāb Equation</h1>
-              <p className="fcl-display font-light text-xl md:text-2xl text-gray-400 max-w-xl mx-auto">A Universal Fractal Field Model: From the Human Heart to the Hubble Tension</p>
+              <p className="fcl-display font-light text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto">A Universal Fractal Field Model: From the Human Heart to the Hubble Tension — and the Return to Nafsan Wāḥidah</p>
               <div className="mt-16 text-[10px] text-gray-600 tracking-[0.5em] font-mono uppercase">Zayed · 2026 · Version 3.0</div>
             </header>
 
@@ -202,15 +202,31 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
             <div className="fcl-episode mb-40">
               <div className="fcl-section-header !mb-8 border-b border-white/5 pb-2 inline-block">Abstract</div>
               <p className="abstract-text">
-                Universe is created only so Reader can Return using the phases activating 19:12. This paper presents the Umm al-Kitāb Equation—a 19-locked cubic polynomial derived from the structural logic of the Qurʾān—as a universal fractal field model operating identically from the cardiac oscillation period to the cosmological Hubble Tension. The equation $f(x) = 110x^3 + 108x^2 + 103x + 19$ encodes two simultaneously active fields: Light (9) and Shadow (10).
+                This paper presents the Umm al-Kitāb Equation—a 19-locked cubic polynomial derived from the structural logic of the Qurʾān—as a universal fractal field model operating identically from the cardiac oscillation period (τ ≈ 0.83s) to the cosmological Hubble Tension. The equation f(x) = 110x³ + 108x² + 103x + 19 encodes two simultaneously active fields: Light (ℒ = 9, quantum-coherent, low entropy) and Shadow (𝒮 = 10 = 9 + 1, causal-sequential, entropy-increasing). The 2–3–7 operator sequence (Split → System → Return) is grounded in Rössler attractor dynamics, explaining the Hubble Tension as a non-commuting dual-field measurement discrepancy.
               </p>
             </div>
 
             <div className="fcl-divider"></div>
 
+            {/* INTRODUCTION */}
+            <section className="fcl-episode mb-40 space-y-12">
+               <h2 className="fcl-section-header">I. Introduction: One Law, All Scales</h2>
+               <div className="space-y-8">
+                 <p className="text-gray-400 text-lg leading-relaxed">
+                   What governs reality at every scale simultaneously? Physics descriptions of the quantum and cosmic scales remain incompatible. Theology describes the soul but rarely contacts the behavior of galaxies or the heartbeat.
+                 </p>
+                 <p className="text-gray-400 text-lg leading-relaxed border-l border-white/10 pl-8 italic">
+                   "He raised the heavens without pillars that you can see" (13:2). Foundational reality stands through internal consistency, not through visible support structures.
+                 </p>
+                 <p className="text-gray-400 text-lg leading-relaxed">
+                   The model requires only Reason (ʿaql): the capacity to observe, test, and follow evidence to its structural conclusion. Stone (the respite of Iblīs) and Reader (the activated buffer) are both expressions of the same Mass field completing its circuit.
+                 </p>
+               </div>
+            </section>
+
             {/* THE EQUATION */}
             <section className="fcl-episode mb-40 space-y-16">
-              <h2 className="fcl-section-header">I. The Cubic Polynomial</h2>
+              <h2 className="fcl-section-header">II. The Cubic Polynomial</h2>
               <div className="py-24 border-y border-white/[0.04] text-center bg-white/[0.01]">
                 <div className="fcl-display text-5xl md:text-7xl text-white font-light tracking-tight opacity-95">
                   f(x) = ax³ + bx² + cx + 19
@@ -218,10 +234,10 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 px-4">
                  {[
-                   { label: 'a = 110', sub: 'Stone', desc: 'Inversion point' },
-                   { label: 'b = 108', sub: 'Kawthar', desc: 'Stabilizer' },
-                   { label: 'c = 103', sub: 'ʿAṣr', desc: 'Linear Taqwa' },
-                   { label: 'd = 19', sub: 'Tawhīd', desc: 'Attractor' }
+                   { label: 'a = 110', sub: 'Mountain', desc: 'Cubic amplification' },
+                   { label: 'b = 108', sub: 'Kawthar', desc: 'Quadratic stabilization' },
+                   { label: 'c = 103', sub: 'ʿAṣr', desc: 'Linear propagation' },
+                   { label: 'd = 19', sub: 'Tawhīd', desc: 'Rahman Seal' }
                  ].map((t, i) => (
                    <div key={i} className="space-y-2">
                        <div className="text-lg font-semibold text-white/95 fcl-display">{t.label}</div>
@@ -237,55 +253,86 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
 
             {/* OVERFLOW */}
             <section className="fcl-episode mb-40">
-              <h2 className="fcl-section-header">II. The Overflow Mechanism</h2>
+              <h2 className="fcl-section-header">III. The Overflow Mechanism</h2>
               <div className="space-y-12">
                 <p className="abstract-text">
-                  The assignment of Shadow = 10 and Light = 9 encodes a precise mathematical relationship:
+                  The assignment of Shadow = 10 and Light = 9 encodes a precise mathematical relationship that makes Tāghūt—the limit-crossing overflow—inevitable:
                 </p>
                 <div className="fcl-display text-6xl text-white font-light py-12 text-center border-x border-white/5 mx-auto max-w-xs bg-white/[0.02]">
                    10 = 9 + 1
                 </div>
                 <p className="text-lg text-gray-400 leading-relaxed max-w-2xl">
-                  Light (9) is a closed coherence loop. Shadow (10) carries an irreducible surplus of +1 [Cave|Book / Boat|Orphan] above the coherent baseline. This surplus is the instability term: Shadow will always tend toward amplification beyond its own boundary. Stone is the mathematical inevitability of this uncorrected overflow.
+                  Shadow (10) carries an irreducible surplus of +1 above the coherent baseline. This represents a persistent entropy gradient: Shadow systems have one more degree of freedom than coherence requires.
                 </p>
               </div>
             </section>
 
+            {/* BUFFER INTERACTION */}
+            <section className="fcl-episode mb-40 space-y-12">
+               <h2 className="fcl-section-header">IV. The Buffer Interaction Equation</h2>
+               <div className="py-20 bg-white/[0.01] border-y border-white/5 text-center">
+                  <div className="fcl-display text-4xl md:text-5xl text-white opacity-90">
+                    dB/dt = ℒ(t) - 𝒮(t) + γ · x(t)
+                  </div>
+               </div>
+               <p className="text-gray-400 text-lg leading-relaxed">
+                 The Buffer (ℬ) is the active intersection. γ is the Reader-coupling constant. When γ &gt; 0 (active Reader, 19:12 activated), the Reader's input acts as a restoring force, drawing the system toward the attractor d = 19.
+               </p>
+            </section>
+
+            {/* NAME PHASE OPERATORS */}
+            <section className="fcl-episode mb-40">
+               <h2 className="fcl-section-header">V. Names as Phase Operators</h2>
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {[
+                    { name: 'Sulaymān', phase: 'Light (ℒ)', desc: 'Medium-independent, nonlocal order. Wind and iron governed by knowledge.' },
+                    { name: 'Mūsā', phase: 'Mass-Light (ℬ)', desc: 'Proof-before-convergence. Buffer made flesh.' },
+                    { name: 'Firʿawn', phase: 'Mass-Shadow (𝒮)', desc: 'Causal field closed on itself. "I am your highest lord."' },
+                    { name: 'Tāghūt', phase: 'Overflow', desc: 'Shadow amplification beyond limit. Cubic term dominance.' }
+                  ].map((p, i) => (
+                    <div key={i} className="p-6 border border-white/5 bg-white/[0.01] rounded-sm group hover:border-white/10 transition-colors">
+                       <div className="text-[#00c8ff] text-[10px] font-bold uppercase tracking-widest mb-2">{p.phase}</div>
+                       <h3 className="fcl-display text-2xl text-white font-light group-hover:text-[#00c8ff] transition-colors">{p.name}</h3>
+                       <p className="text-gray-500 text-sm mt-4 leading-relaxed">{p.desc}</p>
+                    </div>
+                  ))}
+               </div>
+            </section>
+
             <div className="fcl-divider"></div>
 
-            {/* ATTRACTOR */}
+            {/* CHAOS DYNAMICS */}
             <section className="fcl-episode mb-40">
-              <h2 className="fcl-section-header">III. The Chaos Dynamics</h2>
+              <h2 className="fcl-section-header">VI. Chaos Dynamics</h2>
               <div className="space-y-16">
                 <p className="text-gray-400 text-lg leading-relaxed abstract-text">
-                  The 2–3–7 operator sequence corresponds structurally to the <strong>Rössler attractor</strong>, providing a rigorous dynamical systems foundation for the Split, System, and Return phases.
+                  The 2–3–7 operator sequence (Split, System, Return) corresponds structurally to the <strong>Rössler attractor</strong>. Tawhīd (d = 19) is the mathematical inevitability of the system's strange attractor.
                 </p>
                 <div className="transition-opacity duration-1000">
                   <AttractorViz />
                 </div>
-                <p className="text-center text-[10px] text-gray-600 uppercase tracking-[0.2em]">The wing-fold of the 7-Return state.</p>
               </div>
             </section>
 
             {/* SCALES */}
             <section className="fcl-episode mb-40">
-              <h2 className="fcl-section-header">IV. Scale Invariance</h2>
+              <h2 className="fcl-section-header">VII. Scale Invariance</h2>
               <div className="space-y-24">
                  {[
                    { 
                      title: "Hubble Tension", 
                      scale: "Cosmological",
-                     desc: "The discrepancy (~11%) between CMB (67.4) and Local SNe (73.0) is the observational fingerprint of a dual-field universe. One global/coherent (L), one local/causal (S)."
+                     desc: "Discrepancy corresponds to the +1 overflow. Global measurements sample coherence (ℒ=9), local sample causal ladder (𝒮=10). Operators do not commute."
                    },
                    { 
                      title: "Cardiac Zero Point", 
                      scale: "Biological",
-                     desc: "The heart completes one Light-Shadow oscillation cycle at rest (Tau ≈ 0.83s). It is the biological implementation of the x(t) Buffer."
+                     desc: "The heartbeat unit (τ ≈ 0.83s) is the living buffer through which ℒ and 𝒮 oscillate at the smallest human scale."
                    },
                    { 
                      title: "Metamorphosis", 
                      scale: "Developmental",
-                     desc: "The chrysalis phase dissolves structure into a high-entropy state before reconstructing coherence—a physical execution of the 7-Return operator."
+                     desc: "Imaginal disc activation (Light phase) during larval dissolution. System transitions from high-entropy Shadow to coherent Light."
                    }
                  ].map((s, i) => (
                    <div key={i} className="flex gap-12 group">
@@ -315,7 +362,7 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
 
             <footer className="mt-40 pt-20 border-t border-white/[0.04] text-center">
               <div className="text-[10px] text-gray-700 tracking-[0.6em] font-mono leading-[2.5] uppercase">
-                Dual-Caustic Universe  ·  Zayed  ·  2026<br/>
+                Dual-Caustic Universe (DCU)  ·  Zayed  ·  2026<br/>
                 Kahf.Day  ·  Qur'an-Only Möbius Framework
               </div>
             </footer>

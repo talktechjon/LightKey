@@ -33,7 +33,7 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
     if (type.includes('Queen')) return `Shadow Surplus (+1) / Entropy Term: ${chapterName}`;
     if (type.includes('Righteous')) return `Faith Coherence: ${chapterName}`;
     if (type.includes('Boat|Orphan')) return `Command Propagation: ${chapterName}`;
-    if (type.includes('Stone')) return `Cubic Overflow Phase (10): ${chapterName}`;
+    if (type.includes('Mountain')) return `Cubic Overflow Phase (10): ${chapterName}`;
     if (type.includes('Cave|Book')) return `Biological Cardiac Zero Point / Light Coherence (9): ${chapterName}`;
     return type;
   };
@@ -110,11 +110,11 @@ const RosslerFlow: React.FC = () => {
     const { pathData, markers } = useMemo(() => {
         let x = 0.1, y = 0, z = 0;
         const a = 0.2, b = 0.2, c = 5.7;
-        const dt = 0.035; // Finer precision for smooth curves
+        const dt = 0.02; // Finer precision for denser, silkier textures
         const pts: {px: number, py: number, rz: number}[] = [];
 
-        // Warm up to stabilize onto the chaotic attractor
-        for (let i = 0; i < 400; i++) {
+        // Warm up
+        for (let i = 0; i < 500; i++) {
             const dx = -y - z;
             const dy = x + a * y;
             const dz = b + z * (x - c);
@@ -122,24 +122,22 @@ const RosslerFlow: React.FC = () => {
         }
 
         let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-        // 2500 iterations creates the dense, shaded 3D ribbon look overlapping in SVG
-        for (let i = 0; i < 2500; i++) {
+        // 5000 iterations for the "fleshy" dense ribbon look
+        for (let i = 0; i < 5000; i++) {
             const dx = -y - z;
             const dy = x + a * y;
             const dz = b + z * (x - c);
             x += dx * dt; y += dy * dt; z += dz * dt;
             
-            // Perspective Projection (Isometric tilt) matching classic scientific viewing angle
-            // azim=-60 degrees (-1.0 rad), elev=30 degrees (tilt=0.5) throws the sail to the top-right
-            const angle = -1.0; // Rotate XY plane to position the spiral base and the fold
+            // Perspective Projection matched to reference image - Upright Alignment
+            const angle = -1.57; // Rotates the spike to point straight up
             const rotX = x * Math.cos(angle) - y * Math.sin(angle);
             const rotY = x * Math.sin(angle) + y * Math.cos(angle);
             
-            const tilt = 0.5; // Flatten XY plane to accurately expose the spiral lanes
-            const zScale = 0.75; // Properly scale the vertical Z-Spike to match the ratio
+            const tilt = 0.45; // More open tilt for better flow visibility
+            const zScale = 1.6; // Balanced towering height
 
             const px = rotX;
-            // Subtract Z so it spikes UPWARD in standard SVG coordinates
             const py = rotY * tilt - z * zScale;
             
             pts.push({ px, py, rz: z });
@@ -174,7 +172,7 @@ const RosslerFlow: React.FC = () => {
             
             // Cycle 2: FayaQun (Magenta) - Up the Z-axis spike and folding back into the center
             { idx: mainSpike - 35, color: COLORS.triangle1, name: '3c', label: 'Boat' },       // The steep ascension begins
-            { idx: mainSpike, color: COLORS.triangle1, name: '6b', label: 'Stone' },           // Absolute Z-peak (The Overwhelming Fold)
+            { idx: mainSpike, color: COLORS.triangle1, name: '6b', label: 'Mountain' },        // Absolute Z-peak (The Overwhelming Fold)
             { idx: mainSpike + 50, color: COLORS.triangle1, name: '9a', label: 'Book' },       // Plunging back into the invariant core
         ];
 
@@ -290,7 +288,7 @@ const LorenzFlow: React.FC = () => {
             
             // Cycle 2: Right Wing / Outer loop
             { idx: 1850, color: COLORS.triangle1, name: '3c', label: 'Boat' },
-            { idx: 2350, color: COLORS.triangle1, name: '6b', label: 'Stone' },
+            { idx: 2350, color: COLORS.triangle1, name: '6b', label: 'Mountain' },
             { idx: 2850, color: COLORS.triangle1, name: '9a', label: 'Book' },
         ];
 
@@ -340,10 +338,10 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
 
     
     // Side Panel Presentation Reordering (DNA Flow - INTERLEAVED):
-    // Row 1 (Interleaved Layout): Slave(D 1) -> Stone(U 95) -> Righteous(D 77)
+    // Row 1 (Interleaved Layout): Slave(D 1) -> Mountain(U 95) -> Righteous(D 77)
     const dnaRow1: PointWithColor[] = [
         { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Slave (Cyan)
-        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[0].color }, // Stone (Pink)
+        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[0].color }, // Mountain (Pink)
         { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Righteous (Cyan)
     ];
 
@@ -356,9 +354,17 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
     
     return (
         <div>
-            <div className="flex justify-between items-center">
-                <h2 className="text-lg font-bold text-gray-200 tracking-widest uppercase">
-                    Umm al-Kitab <br className="lg:hidden" /><span className="text-gray-400 font-medium text-xs capitalize tracking-normal lg:ml-2">The Mother Equation</span>
+            <div className="flex justify-between items-center pr-2">
+                <div className="flex flex-col">
+                    <h2 className="text-lg font-bold text-gray-200 tracking-widest uppercase leading-none">
+                        Umm al-Kitab
+                    </h2>
+                    <span className="text-gray-400 font-medium text-[11px] capitalize tracking-normal mt-1.5">
+                        The Mother Equation
+                    </span>
+                </div>
+                <h2 className="text-xl font-bold text-cyan-300 tracking-wider drop-shadow-md">
+                    ▼🕋▲
                 </h2>
             </div>
             <div className="w-full h-px bg-gray-500/50 mt-2 mb-4"></div>
@@ -376,7 +382,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                             <span className="text-amber-400 font-bold text-[10px] sm:text-[12px] whitespace-nowrap">cx [103]</span>
                             <span className="text-cyan-400 font-bold text-[10px] sm:text-[11px] whitespace-nowrap">d [19=10+9]</span>
 
-                            <span className="text-red-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Stone]</span>
+                            <span className="text-red-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Mountain]</span>
                             <span className="text-teal-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Abundance]</span>
                             <span className="text-amber-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Trial]</span>
                             <span className="text-cyan-500 text-[7px] sm:text-[8px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Rooh+Messenger]</span>

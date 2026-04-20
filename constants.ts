@@ -67,7 +67,7 @@ for (let i = 1; i <= 114; i++) {
 export const SLICE_DATA: SliceData[] = Array.from({ length: TOTAL_SLICES }, (_, i) => ({ id: i + 1, blockCount: BUBBLE_BLOCK_MAPPING_RAW[(i + 1) as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0 }));
 
 export const TRIANGLE_POINTS: TriangleDefinition[] = [
-    { name: 'Upward Triangle (Pink)', color: COLORS.triangle1, points: [{ type: '3c Boat|Orphan 🐟', value: 57 }, { type: '6b Stone 🕋', value: 95 }, { type: '9a Cave|Book 🔆', value: 19 }] },
+    { name: 'Upward Triangle (Pink)', color: COLORS.triangle1, points: [{ type: '3c Boat|Orphan 🐟', value: 57 }, { type: '6b Mountain 🕋', value: 95 }, { type: '9a Cave|Book 🔆', value: 19 }] },
     { name: 'Downward Triangle (Cyan)', color: COLORS.triangle2, points: [{ type: '3c Slave 🌴', value: 1 }, { type: '6b Queen 🐝', value: 39 }, { type: '9a Righteous 💧', value: 77 }] }
 ];
 
@@ -79,7 +79,7 @@ export const ICON_DIAL_DATA: IconData[] = [
     { id: 'rahim', chapter: 1, emoji: '🌴', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌴%3C/text%3E%3C/svg%3E", description: '3c Slave 🌴' },
     { id: 'rahman', chapter: 39, emoji: '🐝', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐝%3C/text%3E%3C/svg%3E", description: '6b Queen 🐝' },
     { id: 'razim', chapter: 77, emoji: '💧', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E💧%3C/text%3E%3C/svg%3E", description: '9a Righteous 💧' },
-    { id: 'heaven', chapter: 95, emoji: '🕋', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🕋%3C/text%3E%3C/svg%3E", description: '6b Stone 🕋' },
+    { id: 'heaven', chapter: 95, emoji: '🕋', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🕋%3C/text%3E%3C/svg%3E", description: '6b Mountain 🕋' },
     { id: 'kingdom', chapter: 57, emoji: '🐟', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐟%3C/text%3E%3C/svg%3E", description: '3c Boat|Orphan 🐟' },
     { id: 'photosynthesis', chapter: 19, emoji: '🔆', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🔆%3C/text%3E%3C/svg%3E", description: '9a Cave|Book 🔆' },
 ];
@@ -135,7 +135,7 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 12, englishName: 'Third Eye (Rushd)', transliteration: 'Yūsuf', arabicName: 'يوسف', revelationType: 'Makki', juz: '12-13' },
     { number: 13, englishName: 'Charged Light', transliteration: 'Ar-Raʿd', arabicName: 'الرعد', revelationType: 'Madani', juz: '13' },
     { number: 14, englishName: 'Tree', transliteration: 'Ibrāhīm', arabicName: 'إبراهيم', revelationType: 'Makki', juz: '13' },
-    { number: 15, englishName: 'Stone of Return', transliteration: 'Al-Ḥijr', arabicName: 'الحجر', revelationType: 'Makki', juz: '14' },
+    { number: 15, englishName: 'Mountain of Return', transliteration: 'Al-Ḥijr', arabicName: 'الحجر', revelationType: 'Makki', juz: '14' },
     { number: 16, englishName: "Queen's Loyalty", transliteration: 'An-Naḥl', arabicName: 'النحل', revelationType: 'Makki', juz: '14' },
     { number: 17, englishName: 'Ascension', transliteration: 'Banī Isrāʾīl', arabicName: 'الإسراء', revelationType: 'Makki', juz: '15' },
     { number: 18, englishName: 'Remember The Cave', transliteration: 'Al-Kahf', arabicName: 'الكهফ', revelationType: 'Makki', juz: '15-16' },

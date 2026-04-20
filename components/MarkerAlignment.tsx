@@ -201,7 +201,7 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                          ) : (
                              <div className="mb-4 space-y-2">
                                  <div className="flex items-center gap-2">
-                                     <span className="px-2 py-0.5 rounded bg-amber-900/40 text-amber-400 border border-amber-500/30 text-[10px] font-bold uppercase tracking-tighter">Madani (Stone Mode)</span>
+                                     <span className="px-2 py-0.5 rounded bg-amber-900/40 text-amber-400 border border-amber-500/30 text-[10px] font-bold uppercase tracking-tighter">Madani (Mountain Mode)</span>
                                      <span className="text-[10px] text-gray-400 italic">External Construction</span>
                                  </div>
                                  <div className="pl-2 border-l-2 border-amber-500/20 py-1">
@@ -209,7 +209,7 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                                          Order: <strong className="text-amber-400">3 → 6 → 9 → 3</strong>
                                      </p>
                                      <p className="text-[10px] text-gray-500 mt-1 leading-tight">
-                                         Guidance first, then stabilization, then power. Change begins <strong className="text-gray-400 font-medium">outside</strong>, like building with stone.
+                                         Guidance first, then stabilization, then power. Change begins <strong className="text-gray-400 font-medium">outside</strong>, like building on mountain.
                                      </p>
                                  </div>
                              </div>

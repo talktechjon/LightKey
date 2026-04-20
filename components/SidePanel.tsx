@@ -5,6 +5,7 @@ import { TAFSIR_YOUTUBE_VIDEO_IDS, RECITATION_YOUTUBE_VIDEO_IDS, ENGLISH_RECITAT
 import { getSliceAtPoint, getChapterIcon } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
 import PlaylistButtons from './PlaylistButtons.tsx';
+import { RotateCcwIcon } from './Icons.tsx';
 import CustomAnimationControls from './CustomAnimationControls.tsx';
 import ChapterGeometry from './ChapterGeometry.tsx';
 import MarkerAlignment from './MarkerAlignment.tsx';
@@ -176,7 +177,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   };
   
   const handleWatchSequence = (type: PlaylistType) => {
-    // Mirroring Order: Download (Slave, Queen, Righteous) -> Return (Book, Stone, Boat)
+    // Mirroring Order: Download (Slave, Queen, Righteous) -> Return (Book, Mountain, Boat)
     const helixSequence = [1, 39, 77, 19, 95, 57];
     const chapterIds = helixSequence.map(pointValue => getSliceAtPoint(pointValue, rotation).id);
     createPlaylist(type, chapterIds);
@@ -203,8 +204,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   if (!chapterInfo) return <aside className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4">Loading...</aside>;
 
   const isCurrentSliceMuqattat = MUQATTAT_CHAPTERS.has(currentSliceId);
-  const muqattatLetters = MUQATTAT_LETTERS.get(currentSliceId);
   const iconSrc = getChapterIcon(chapterInfo.revelationType);
+  const currentMuqattatLetters = MUQATTAT_LETTERS.get(currentSliceId);
 
   const isAnalyticalMode = isTreeOfVerseActive || isPieceOfBakaraActive;
 
@@ -215,60 +216,77 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
     >
       {/* Sticky identification and playlist header - Hidden in Piece of Heifer and Tree of Verse modes */}
       {!isAnalyticalMode && (
-        <>
-            {/* Top Navigation Row */}
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-cyan-300 tracking-wider">▼🕋▲</h2>
-                <PlaylistButtons onWatch={handleWatchSequence} />
-            </div>
-            <div className="w-full h-px bg-cyan-300/30 mb-4"></div>
+          <div className="sticky top-4 z-50 bg-black/80 backdrop-blur-xl border border-cyan-500/40 rounded-xl shadow-2xl shadow-cyan-900/20 transition-all duration-300 p-4 mb-6">
+              {/* Top Navigation Row */}
+              <div className="flex justify-between items-center mb-3">
+                  {/* Chapter Identification Info */}
+                  <div className="flex flex-col pr-1 flex-1 justify-center leading-tight">
+                      <div className="flex items-center gap-x-1.5 w-full">
+                          <img src={iconSrc} alt={chapterInfo.revelationType} title={chapterInfo.revelationType} className="w-3.5 h-3.5 drop-shadow shrink-0" />
+                          <span className={`text-[15px] font-bold text-cyan-300 drop-shadow-sm leading-snug whitespace-break-spaces ${isCurrentSliceMuqattat ? 'muqattat-glow' : ''}`}>
+                              {chapterInfo.number}. {chapterInfo.englishName}
+                          </span>
+                      </div>
+                      <div className="flex gap-x-2 items-center mt-0.5 w-full">
+                          <span className="text-[10px] font-normal italic text-gray-400 shrink-0">
+                              ({chapterInfo.transliteration})
+                          </span>
+                          {currentMuqattatLetters && (
+                              <span className="text-xs font-semibold muqattat-glow text-white tracking-widest pl-2 border-l border-gray-700/60" dir="rtl">
+                                  {currentMuqattatLetters.join(' ')}
+                              </span>
+                          )}
+                      </div>
+                  </div>
 
-            <div className="sticky top-0 z-40 -mx-6 px-6 py-4 bg-black/85 backdrop-blur-xl border-b border-cyan-500/30 shadow-2xl transition-all duration-300">
-                {/* Chapter Identification Info */}
-                <div className="flex justify-between items-start lg:min-h-[80px]">
-                <div className="font-semibold text-gray-200 pr-2">
-                    <div className="flex items-baseline gap-x-2">
-                        <img src={iconSrc} alt={chapterInfo.revelationType} title={chapterInfo.revelationType} className="w-5 h-5" />
-                        <span className={`text-lg text-cyan-300 ${isCurrentSliceMuqattat ? 'muqattat-glow' : ''}`}>
-                            {chapterInfo.number}. {chapterInfo.englishName}
-                        </span>
-                        {muqattatLetters && (
-                            <span 
-                                className={`font-mono text-xl ${isCurrentSliceMuqattat ? 'muqattat-glow' : 'text-white'}`}
-                                dir="rtl"
-                            >
-                                {muqattatLetters.join(' · ')}
-                            </span>
-                        )}
-                    </div>
-                    <div className="flex gap-x-2 items-center">
-                        <span className="text-base font-normal italic text-gray-400">
-                            ({chapterInfo.transliteration})
-                        </span>
-                    </div>
-                </div>
-                <button
-                    onClick={() => setRotation(0)}
-                    className="bg-gray-600 hover:bg-cyan-700 text-white font-bold py-1 px-3 rounded text-sm transition-colors duration-200 flex-shrink-0 mt-1 shadow-lg"
-                    aria-label="Reset rotation"
-                >
-                    Reset
-                </button>
-            </div>
+                  {/* Top Right Action Buttons grouped natively */}
+                  <div className="flex items-center space-x-1 shrink-0 ml-2">
+                      <PlaylistButtons onWatch={handleWatchSequence} />
+                      <button
+                          onClick={() => setRotation(0)}
+                          className="bg-slate-700/80 hover:bg-slate-600 border border-slate-600/50 hover:border-slate-400 text-white font-bold rounded-md transition-colors duration-200 shadow-md backdrop-blur-md flex items-center justify-center h-[26px] w-[26px] [&>svg]:w-3.5 [&>svg]:h-3.5"
+                          aria-label="Reset rotation"
+                          title="Reset to Al-Fatiha"
+                      >
+                          <RotateCcwIcon />
+                      </button>
+                  </div>
+              </div>
+              
+              <div className="w-full h-px bg-cyan-500/30 mb-4"></div>
 
-            {/* Global Chapter Slider */}
-            <input
-                id="rotation-slider"
-                type="range"
-                min="1"
-                max={TOTAL_SLICES}
-                step="1"
-                value={currentSliceId}
-                onChange={handleSliderChange}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-4"
-            />
-        </div>
-        </>
+              {/* Global Chapter Slider */}
+              <input
+                  id="rotation-slider"
+                  type="range"
+                  min="1"
+                  max={TOTAL_SLICES}
+                  step="1"
+                  value={currentSliceId}
+                  onChange={handleSliderChange}
+                  className="w-full h-2 bg-gray-900 border border-gray-700 rounded-lg appearance-none cursor-pointer mt-4 shadow-inner"
+              />
+              <style>{`
+                  #rotation-slider::-webkit-slider-thumb {
+                      appearance: none;
+                      width: 14px;
+                      height: 14px;
+                      border-radius: 50%;
+                      background: #22d3ee;
+                      cursor: pointer;
+                      box-shadow: 0 0 8px rgba(34, 211, 238, 0.8);
+                  }
+                  #rotation-slider::-moz-range-thumb {
+                      width: 14px;
+                      height: 14px;
+                      border-radius: 50%;
+                      background: #22d3ee;
+                      cursor: pointer;
+                      border: none;
+                      box-shadow: 0 0 8px rgba(34, 211, 238, 0.8);
+                  }
+              `}</style>
+          </div>
       )}
 
       {/* Non-sticky analytical components section */}

@@ -10,7 +10,7 @@ interface TreeOfLifeModeProps {
 
 const PRESET_1 = [
   "Book", "Chosen One | Rasul", "Sign", "Prophet", "Challenge | Rescue", "Curse", 
-  "Blessed Land", "Believer | Servant", "Suhuf", "Teacher", "Witness | Driver", "Stone"
+  "Blessed Land", "Believer | Servant", "Suhuf", "Teacher", "Witness | Driver", "Mountain"
 ];
 
 const PRESET_2 = [
@@ -32,7 +32,7 @@ const PRESET_3 = [
   "Ibrahim | Ahmed",
   "Ishac | Ishmail",
   "Rushd",
-  "Stone",
+  "Mountain",
   "Iron | Wood",
   "Noah | Musa",
   "Idris | Isa",
@@ -52,7 +52,7 @@ const PRESET_4 = [
   "Jinn",
   "Staff",
   "Submission",
-  "Stone",
+  "Mountain",
   "River",
   "Comfort",
   "Angel"
@@ -304,7 +304,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
             const displayLabelIdx = isFilter ? -1 : getDisplayIdx(nodeIdx, labelOffset, activeMode);
             const rawLabel = isFilter ? '' : labels[displayLabelIdx];
             
-            const filterFullLabel = node.id === 13 ? 'Abundance 108' : node.id === 14 ? 'Trial 103' : node.id === 15 ? 'Stone 110' : null;
+            const filterFullLabel = node.id === 13 ? 'Kawthar 108' : node.id === 14 ? 'Asr 103' : node.id === 15 ? 'Nasr 110' : null;
             
             const labelParts = rawLabel ? rawLabel.split('|').map(p => p.trim()) : [];
             const hasMultiple = labelParts.length > 1;
