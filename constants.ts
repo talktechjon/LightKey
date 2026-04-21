@@ -72,7 +72,7 @@ export const TRIANGLE_POINTS: TriangleDefinition[] = [
 ];
 
 export const CENTRAL_GEOMETRY_POINTS = [
-  1, 95, 77, 57, 39, 19
+  1, 39, 77, 57, 95, 19
 ];
 
 export const ICON_DIAL_DATA: IconData[] = [

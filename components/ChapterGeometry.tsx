@@ -110,13 +110,20 @@ const RosslerFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
     const { pathData, markers } = useMemo(() => {
         let x = 0.1, y = 0, z = 0;
         
-        // Dynamic modulation: The attractor's "twist" depends on the current primary chapter
-        const currentPrimary = getSliceAtPoint(1, rotation).id;
-        // Limit modulation to keep 'a' within a stable range (0.15 - 0.25)
-        const modulation = ((currentPrimary % 19) / 19) * 0.1;
+        // Map to exact pairs for this flow: Slave(1), Queen(39), Righteous(77)
+        const slave = getSliceAtPoint(1, rotation);
+        const queen = getSliceAtPoint(39, rotation);
+        const righteous = getSliceAtPoint(77, rotation);
+
+        // a = twist, range [0.15, 0.45]
+        const aVal = 0.15 + (slave.blockCount / 2000) + (queen.blockCount / 1500);
+        const a = Math.min(0.45, Math.max(0.15, aVal));
         
-        const a = 0.15 + modulation, b = 0.2, c = 5.7;
-        const dt = 0.02;
+        // c = threshold, range [4.0, 7.5]
+        const cVal = 4.0 + (righteous.id / 35);
+        const c = Math.min(7.5, Math.max(4.0, cVal));
+        
+        const b = 0.2, dt = 0.02;
         const pts: {px: number, py: number, rz: number}[] = [];
 
         // Warm up
@@ -128,8 +135,8 @@ const RosslerFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
             if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) break;
         }
 
-        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-        for (let i = 0; i < 5000; i++) {
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity, maxZ = -Infinity;
+        for (let i = 0; i < 5500; i++) {
             const dx = -y - z;
             const dy = x + a * y;
             const dz = b + z * (x - c);
@@ -141,59 +148,38 @@ const RosslerFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
             const rotX = x * Math.cos(angle) - y * Math.sin(angle);
             const rotY = x * Math.sin(angle) + y * Math.cos(angle);
             
-            const tilt = 0.45;
-            const zScale = 1.6;
-
+            const tilt = 0.45, zScale = 1.4;
             const px = rotX;
             const py = rotY * tilt - z * zScale;
             
             pts.push({ px, py, rz: z });
-
             if (px < minX) minX = px; if (px > maxX) maxX = px;
             if (py < minY) minY = py; if (py > maxY) maxY = py;
+            if (z < minZ) minZ = z; if (z > maxZ) maxZ = z;
         }
 
-        // Robust defaults if simulation failed or is empty
-        if (pts.length < 10) {
-            return { pathData: "M 0 0", markers: [] };
-        }
+        if (pts.length < 10) return { pathData: "M 0 0", markers: [] };
 
         const pad = 12;
         const rangeX = maxX - minX || 1;
         const rangeY = maxY - minY || 1;
         const scaleX = (val: number) => pad + (100 - pad * 2) * ((val - minX) / rangeX);
         const scaleY = (val: number) => pad + (100 - pad * 2) * ((val - minY) / rangeY);
-
         const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${scaleX(p.px)} ${scaleY(p.py)}`).join(' ');
 
+        // Intelligent spike detection for markers
         const spikePeaks: number[] = [];
+        const zThreshold = (maxZ - minZ) * 0.4;
         for(let i = 1; i < pts.length - 1; i++) {
-            // Lower threshold for z-peaks to ensure we find markers even in lower-intensity attractors
-            if(pts[i].rz > pts[i-1].rz && pts[i].rz > pts[i+1].rz && pts[i].rz > 5) {
-                spikePeaks.push(i);
-            }
+            if(pts[i].rz > pts[i-1].rz && pts[i].rz > pts[i+1].rz && pts[i].rz > zThreshold) spikePeaks.push(i);
         }
-        
         const mainSpike = spikePeaks.length > 2 ? spikePeaks[Math.floor(spikePeaks.length / 2)] : Math.floor(pts.length * 0.7);
 
-        // Map to actual chapter IDs from current rotation
-        const s1 = getSliceAtPoint(1, rotation).id;   // Slave
-        const s95 = getSliceAtPoint(95, rotation).id; // Mountain
-        const s77 = getSliceAtPoint(77, rotation).id; // Righteous
-        const s57 = getSliceAtPoint(57, rotation).id; // Boat
-        const s39 = getSliceAtPoint(39, rotation).id; // Queen
-        const s19 = getSliceAtPoint(19, rotation).id; // Book
-
+        // Markers for Rossler: Slave, Queen, Righteous
         const m = [
-            // Cycle 1: Qun (Cyan)
-            { idx: mainSpike - 450, color: COLORS.triangle2, name: '3c', label: `Slave [${s1}]` },
-            { idx: mainSpike - 280, color: COLORS.triangle2, name: '6b', label: `Mountain [${s95}]` },
-            { idx: mainSpike - 110, color: COLORS.triangle2, name: '9a', label: `Righteous [${s77}]` },
-            
-            // Cycle 2: FayaQun (Magenta)
-            { idx: mainSpike - 35, color: COLORS.triangle1, name: '3c', label: `Boat [${s57}]` },
-            { idx: mainSpike, color: COLORS.triangle1, name: '6b', label: `Queen [${s39}]` },
-            { idx: mainSpike + 50, color: COLORS.triangle1, name: '9a', label: `Book [${s19}]` },
+            { idx: mainSpike - 600, color: COLORS.triangle2, name: '3c', label: `Slave [${slave.id}:${slave.blockCount}]` },
+            { idx: mainSpike - 300, color: COLORS.triangle2, name: '6b', label: `Queen [${queen.id}:${queen.blockCount}]` },
+            { idx: mainSpike, color: COLORS.triangle2, name: '9a', label: `Righteous [${righteous.id}:${righteous.blockCount}]` },
         ];
 
         const scaledMarkers = m.map(marker => {
@@ -265,10 +251,23 @@ const LorenzFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
     const { pathData, markers } = useMemo(() => {
         let x = 0.1, y = 1, z = 1.05;
         
-        const currentPrimary = getSliceAtPoint(1, rotation).id;
-        const modulation = (currentPrimary % 19) / 50;
+        // Map to exact pairs for this flow: Book(19), Mountain(95), Orphan(57)
+        const book = getSliceAtPoint(19, rotation);
+        const mountain = getSliceAtPoint(95, rotation);
+        const orphan = getSliceAtPoint(57, rotation);
 
-        const sigma = 10 + modulation, rho = 28, beta = 8/3;
+        // sigma = fluid properties, range [8.0, 16.0]
+        const sigmaVal = 8.0 + (book.blockCount / 35);
+        const sigma = Math.min(16.0, Math.max(8.0, sigmaVal));
+        
+        // rho = heat/driving force, range [20.0, 48.0]
+        const rhoVal = 18.0 + (mountain.id / 3);
+        const rho = Math.min(48.0, Math.max(20.0, rhoVal));
+        
+        // beta = physical dimensions, range [2.0, 3.5]
+        const betaVal = 2.0 + (orphan.blockCount / 100);
+        const beta = Math.min(3.5, Math.max(2.0, betaVal));
+
         const dt = 0.008;
         const pts: {px: number, py: number}[] = [];
 
@@ -298,36 +297,20 @@ const LorenzFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
             if (py < minY) minY = py; if (py > maxY) maxY = py;
         }
 
-        if (pts.length < 10) {
-            return { pathData: "M 0 0", markers: [] };
-        }
+        if (pts.length < 10) return { pathData: "M 0 0", markers: [] };
 
         const pad = 12;
         const rangeX = maxX - minX || 1;
         const rangeY = maxY - minY || 1;
         const scaleX = (val: number) => pad + (100 - pad * 2) * ((val - minX) / rangeX);
         const scaleY = (val: number) => pad + (100 - pad * 2) * ((val - minY) / rangeY);
-
         const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${scaleX(p.px)} ${scaleY(p.py)}`).join(' ');
 
-        // Map to actual chapter IDs from current rotation
-        const s1 = getSliceAtPoint(1, rotation).id;   // Slave
-        const s95 = getSliceAtPoint(95, rotation).id; // Mountain
-        const s77 = getSliceAtPoint(77, rotation).id; // Righteous
-        const s57 = getSliceAtPoint(57, rotation).id; // Boat
-        const s39 = getSliceAtPoint(39, rotation).id; // Queen
-        const s19 = getSliceAtPoint(19, rotation).id; // Book
-
+        // Markers for Lorenz: Book, Mountain, Orphan
         const m = [
-            // Cycle 1: Left Wing
-            { idx: 600, color: COLORS.triangle2, name: '3c', label: `Slave [${s1}]` }, 
-            { idx: 950, color: COLORS.triangle2, name: '6b', label: `Mountain [${s95}]` },
-            { idx: 1300, color: COLORS.triangle2, name: '9a', label: `Righteous [${s77}]` },
-            
-            // Cycle 2: Right Wing
-            { idx: 1850, color: COLORS.triangle1, name: '3c', label: `Boat [${s57}]` },
-            { idx: 2350, color: COLORS.triangle1, name: '6b', label: `Queen [${s39}]` },
-            { idx: 2850, color: COLORS.triangle1, name: '9a', label: `Book [${s19}]` },
+            { idx: 600, color: COLORS.triangle1, name: '3c', label: `Orphan [${orphan.id}:${orphan.blockCount}]` },
+            { idx: 1750, color: COLORS.triangle1, name: '6b', label: `Mountain [${mountain.id}:${mountain.blockCount}]` },
+            { idx: 2900, color: COLORS.triangle1, name: '9a', label: `Book [${book.id}:${book.blockCount}]` },
         ];
 
         const scaledMarkers = m.map(marker => {
@@ -379,14 +362,14 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
     // Row 1 (Interleaved Layout): Slave(D 1) -> Mountain(U 95) -> Righteous(D 77)
     const dnaRow1: PointWithColor[] = [
         { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Slave (Cyan)
-        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[0].color }, // Mountain (Pink)
+        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[0].color }, // Mountain (Pink) - Twisted Up
         { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Righteous (Cyan)
     ];
 
     // Row 2 (Interleaved Layout): Boat(U 57) -> Queen(D 39) -> Book(U 19)
     const dnaRow2: PointWithColor[] = [
         { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Boat (Pink)
-        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[1].color }, // Queen (Cyan)
+        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[1].color }, // Queen (Cyan) - Twisted Down
         { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Book (Pink)
     ];
     
@@ -462,11 +445,13 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                     <div className="w-1/2 flex flex-col items-center">
                         <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Rössler Flow</div>
                         <RosslerFlow rotation={rotation} />
+                        <div className="text-[10px] text-cyan-400 font-bold tracking-widest uppercase mt-2 drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]">Chrysalis</div>
                     </div>
                     <div className="w-px h-24 bg-gray-800/60 mix-blend-screen"></div>
                     <div className="w-1/2 flex flex-col items-center">
                         <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Lorenz (Butterfly)</div>
                         <LorenzFlow rotation={rotation} />
+                        <div className="text-[10px] text-pink-400 font-bold tracking-widest uppercase mt-2 drop-shadow-[0_0_8px_rgba(244,114,182,0.3)]">Photosynthesis</div>
                     </div>
                 </div>
 
@@ -474,7 +459,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                     <div className="absolute top-0 right-0 p-px bg-gradient-to-l from-cyan-500/10 to-transparent w-full h-px"></div>
                     
                     <div className="space-y-3">
-                        <p className="text-[14px] sm:text-[16px] font-mono font-bold text-gray-200 tracking-tight">
+                        <p className="text-[12px] sm:text-[14px] md:text-[15px] font-mono font-bold text-gray-200 tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
                             f(x) = ax³ [110] + bx² [108] + cx [103] + d [19]
                         </p>
                         <p className="text-xs sm:text-sm text-gray-400 leading-relaxed italic border-l-2 border-gray-800 pl-4">
