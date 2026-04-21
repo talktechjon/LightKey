@@ -15,6 +15,36 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://kahf.day/" />
 
+    <script>
+      // Global fix for environments where window.fetch is read-only (getter-only).
+      // This prevents "Uncaught TypeError: Cannot set property fetch of #<Window> which has only a getter"
+      // which can be triggered by certain libraries or polyfills.
+      (function() {
+        try {
+          const originalFetch = window.fetch;
+          if (originalFetch && (!Object.getOwnPropertyDescriptor(window, 'fetch') || !Object.getOwnPropertyDescriptor(window, 'fetch').set)) {
+            Object.defineProperty(window, 'fetch', {
+              get: function() { return originalFetch; },
+              set: function() { /* Ignore attempts to overwrite */ },
+              configurable: true
+            });
+          }
+        } catch (e) {
+          // Fallback: try patching the prototype if the instance is locked
+          try {
+            const proto = Object.getPrototypeOf(window);
+            if (proto && proto.fetch && !Object.getOwnPropertyDescriptor(proto, 'fetch').set) {
+              Object.defineProperty(proto, 'fetch', {
+                get: function() { return originalFetch || window.fetch; },
+                set: function() { /* Ignore */ },
+                configurable: true
+              });
+            }
+          } catch (e2) {}
+        }
+      })();
+    </script>
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://kahf.day/" />

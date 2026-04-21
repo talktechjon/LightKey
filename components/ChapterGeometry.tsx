@@ -355,6 +355,387 @@ const LorenzFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
     );
 };
 
+export const BirdMotion: React.FC<{ rotation: number }> = ({ rotation }) => {
+    const [time, setTime] = React.useState(0);
+
+    React.useEffect(() => {
+        let frame: number;
+        const animate = (t: number) => {
+            setTime(t / 1000);
+            frame = requestAnimationFrame(animate);
+        };
+        frame = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(frame);
+    }, []);
+
+    const birdGeometry = useMemo(() => {
+        // 1. DATA EXTRACTION: Get the 6 active chapters in the current geometry rotation
+        const s1 = getSliceAtPoint(1, rotation);       // Slave 🌴
+        const s95 = getSliceAtPoint(95, rotation);     // Mountain 🕋
+        const s77 = getSliceAtPoint(77, rotation);     // Righteous 💧
+        const s19 = getSliceAtPoint(19, rotation);     // Book 🔆
+        const s110 = getSliceAtPoint(110, rotation);   // Return Chapter 🌀
+        const s57 = getSliceAtPoint(57, rotation);     // Boat 🐟
+        
+        const nodes = [s1, s95, s77, s19, s110, s57];
+        
+        // 2. NORMALIZATION: Map chapters and verses to a [0, 1] energy space
+        const pts = nodes.map(n => ({
+            x: n.id / 114,
+            y: n.blockCount / 286 // Normalized Verse Energy
+        }));
+
+        // 3. COEFFICIENT SOLVING (Umm al-Kitab Engine):
+        // f(x) = ax³ [110] + bx² [108] + cx [103] + d [19]
+        const d = pts[3].y;                      // Constant (Book 19)
+        const rawC = (pts[5].y - pts[0].y) / 0.5; // Linear Spread (Boat 57 - Slave 1)
+        const rawB = pts[2].y * 2;               // Quadratic Arch (Righteous 77)
+        const rawA = (pts[4].y - pts[1].y) / 0.3; // Cubic Lift (Return 110 - Mountain 95)
+
+        // Stabilization
+        const stabilize = (val: number, limit: number) => Math.max(-limit, Math.min(limit, val));
+
+        const c = stabilize(rawC, 1.2);
+        const b = stabilize(rawB, 1.5);
+        const a = stabilize(rawA, 2.0);
+
+        // 4. DELTA DYNAMICS: Wave Propagation Velocity & Amplitude
+        const deltas = nodes.map((n, i) => Math.abs(nodes[(i + 1) % nodes.length].blockCount - n.blockCount));
+        const averageDelta = deltas.reduce((acc, v) => acc + v, 0) / 6;
+        
+        const speedMultiplier = 1 + (averageDelta / 60); 
+        const waveVelocity = 0.5 * speedMultiplier; // Propagation velocity 'v'
+        const wingFrequency = 8 * speedMultiplier; // Oscillation 'omega'
+        const flapAmplitude = 0.8 + (averageDelta / 30); // True Angular Flap Amplitude (Radians)
+
+        const segments = 60; // Resolution of the 3D Ribbon
+        const spinePoints: { x: number, y: number, screenX: number, screenY: number, twist: number, env: number }[] = [];
+        const wingPaths: string[] = [];
+        const bodyShroud: string[] = [];
+        
+        // --- TIME-INDEPENDENT BOUNDARIES (Fixes Camera Shake) ---
+        // We calculate the maximum possible size envelope for the current chapters
+        // so the camera doesn't jump every frame as the wave animates.
+        let minX = 10, maxX = 90; // Spine X naturally ranges 10 to 90
+        let minY = Infinity, maxY = -Infinity;
+        
+        for (let testU = -1.5; testU <= 1.5; testU += 0.05) {
+            const testYEq = a * Math.pow(testU, 3) + b * Math.pow(testU, 2) + c * testU + d;
+            const testPy = 50 - (testYEq * 25);
+            minY = Math.min(minY, testPy);
+            maxY = Math.max(maxY, testPy);
+        }
+        
+        // Add maximum wing/field amplitude padding
+        const maxSpread = 15 + Math.abs(c) * 10 + Math.abs(b) * 5; 
+        minX -= maxSpread * 0.8;  // Transverse X spread (accommodate flap)
+        maxX += maxSpread * 0.8;
+        minY -= maxSpread * 1.5;  // Transverse Y spread (amplified by twists & flap)
+        maxY += maxSpread * 1.5;
+
+        let headAnchor = { x: 50, y: 50 };
+
+        // 5. 3D PARAMETRIC ENGINE: Spine, Wings, Twist
+        for (let i = 0; i <= segments; i++) {
+            // Parameter 's' defines position along the body: [-1, 1], with 1 being the head, -1 tail.
+            const s = (i / segments) * 2 - 1; 
+            
+            // Envelope ensures wings taper at head/tail. Parabolic equation.
+            const env = 1 - Math.pow(s, 2); 
+            
+            // 5a. The Traveling Argument 'u'
+            // Maps physical space 's' and time 't' into a continuous repeating bounded wave input.
+            const u = Math.sin(Math.PI * (s + waveVelocity * time)); 
+            const du_ds = Math.PI * Math.cos(Math.PI * (s + waveVelocity * time));
+
+            // 5b. Longitudinal Solution: Spine / Rössler Carrier
+            const yEquation = a * Math.pow(u, 3) + b * Math.pow(u, 2) + c * u + d;
+            
+            // 5c. Twist Operator (Derivative): Theta = archtan(f'(x))
+            // Chain rule: dy/ds = (dy/du) * (du/ds) 
+            const dy_du = 3 * a * Math.pow(u, 2) + 2 * b * u + c;
+            const m = dy_du * du_ds; 
+            const twist = Math.atan(m * 1.5); // 1.5 scalar limits extreme 90deg rolls visually
+
+            // Isometric Base Projection
+            // Spine spans horizontal X axis. Y axis is the cubic fluctuation.
+            const px = 50 + s * 40; 
+            const py = 50 - (yEquation * 25); // Multiply by 25 to scale SVG space
+            
+            spinePoints.push({ x: px, y: py, screenX: px, screenY: py, twist, env });
+            
+            if (i === segments) headAnchor = { x: px, y: py };
+
+            // 5d. Transverse Solution: Wings / Lorenz Radiator
+            // Add radiating rays perpendicular to the spine, flapping with true angular dihedral.
+            if (i % 2 === 0) { // Render ribbed field lines
+                const phase = s * 1.5; // Phase delay so the flap ripples down the body organically
+                
+                // Dihedral flap angle (up and down angular sweep)
+                const flapAngle = Math.sin(wingFrequency * time - phase) * flapAmplitude;
+                
+                // Max length of wings expands via internal data parameters
+                const spreadScale = Math.max(5, 15 + c * 10 + b * 5); 
+                // Subtle pulse for the "light/energy" look (stays near 1.0)
+                const pulse = 0.85 + 0.15 * Math.cos(wingFrequency * time - phase);
+                const W = spreadScale * env * pulse; 
+
+                // 3D Matrix Rotation (Body Twist + Dihedral Flap)
+                const leftAngle = twist - flapAngle;
+                const rightAngle = twist + flapAngle;
+
+                // Left wing (Extends to -Z, rotated by Euler angles):
+                const lw_z = -W * Math.cos(leftAngle);
+                const lw_y = W * Math.sin(leftAngle);
+
+                // Right wing (Extends to +Z, rotated by Euler angles):
+                const rw_z = W * Math.cos(rightAngle);
+                const rw_y = -W * Math.sin(rightAngle);
+
+                // 2D Projection: X = base_X + Z*0.4, Y = base_Y + Y' - Z*0.2
+                // We tilt the camera slightly so Z depth pushes right and up.
+                const l_sx = px + lw_z * 0.4;
+                const l_sy = py + lw_y - lw_z * 0.15;
+
+                const r_sx = px + rw_z * 0.4;
+                const r_sy = py + rw_y - rw_z * 0.15;
+
+                // Add to visual path (Smooth radiating curved lines)
+                wingPaths.push(`M ${px} ${py} Q ${(l_sx + px)/2} ${l_sy + 2} ${l_sx} ${l_sy}`);
+                wingPaths.push(`M ${px} ${py} Q ${(r_sx + px)/2} ${r_sy + 2} ${r_sx} ${r_sy}`);
+                
+                // Add translucent inner body shroud for the serpent core
+                const widthX = env * 2 * Math.cos(twist);
+                const widthY = env * 2 * Math.sin(twist);
+                bodyShroud.push(`M ${px - widthX} ${py - widthY} L ${px + widthX} ${py + widthY}`);
+            }
+        }
+
+        const spinePath = spinePoints.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.screenX} ${p.screenY}`).join(' ');
+
+        // Check if values exploded, provide fallback bounds
+        if (minX === Infinity || minX === maxX) { minX = 0; maxX = 100; }
+        if (minY === Infinity || minY === maxY) { minY = 0; maxY = 100; }
+
+        // Perfect Center calculation
+        const cx = (minX + maxX) / 2;
+        const cy = (minY + maxY) / 2;
+        
+        // Time-independent bounding boxes let us frame using an 85x85 safe area
+        const geomWidth = Math.max(20, maxX - minX);
+        const geomHeight = Math.max(20, maxY - minY);
+        
+        // Determine the safe absolute minimum scale to fit in box
+        const scaleFit = Math.min(85 / geomWidth, 85 / geomHeight);
+
+        return {
+            spinePath,
+            wingPaths,
+            bodyShroud,
+            head: headAnchor,
+            amplitude: flapAmplitude,
+            transformString: `translate(50, 50) scale(${scaleFit}) translate(${-cx}, ${-cy})` // Re-centers perfectly
+        };
+    }, [rotation, time]);
+
+    const dataPairs = useMemo(() => {
+        const p1 = getSliceAtPoint(1, rotation);
+        const p95 = getSliceAtPoint(95, rotation);
+        const p77 = getSliceAtPoint(77, rotation);
+        const p57 = getSliceAtPoint(57, rotation);
+        const p39 = getSliceAtPoint(39, rotation);
+        const p19 = getSliceAtPoint(19, rotation);
+        return { p1, p95, p77, p57, p39, p19 };
+    }, [rotation]);
+
+    return (
+        <div className="flex flex-col w-full space-y-4">
+            <div className="relative w-full h-[220px] bg-black/60 rounded-xl border border-gray-800/80 shadow-inner flex flex-col items-center justify-center overflow-hidden">
+                <div className="absolute top-2 left-3 flex flex-col z-10">
+                    <span className="text-[10px] font-mono text-gray-400 tracking-tighter uppercase leading-none opacity-60">Traveling Serpent | 3D Wave</span>
+                    <span className="text-[11px] font-bold text-cyan-400 tracking-wider uppercase mt-1">Speech of Bird (27:16)</span>
+                </div>
+                
+                <svg viewBox="0 0 100 100" className="w-[90%] h-[90%] max-w-[320px] max-h-[100%] overflow-visible">
+                    {/* Auto-scaling and Centering Wrapper for the traveling wave */}
+                    <g transform={birdGeometry.transformString}>
+                        
+                        {/* Transverse Radiating Fields (Wings/Light) */}
+                        {birdGeometry.wingPaths.map((d, i) => (
+                            <path 
+                                key={`wing-${i}`} 
+                                d={d} 
+                                fill="none" 
+                                stroke="currentColor" 
+                                strokeWidth="0.25" 
+                                className="text-cyan-400" 
+                                opacity={0.35 + (i % 2) * 0.25}
+                            />
+                        ))}
+
+                        {/* Dense Core Shroud (Volume) */}
+                        {birdGeometry.bodyShroud.map((d, i) => (
+                            <path 
+                                key={`shroud-${i}`} 
+                                d={d} 
+                                fill="none" 
+                                stroke="white" 
+                                strokeWidth="1.2" 
+                                className="drop-shadow-sm"
+                                opacity={0.3 + (i / 30) * 0.5}
+                            />
+                        ))}
+                        
+                        {/* Longitudinal Carrier (Spine/River) */}
+                        <path 
+                            d={birdGeometry.spinePath} 
+                            fill="none" 
+                            stroke="#fff" 
+                            strokeWidth="1.5" 
+                            className="drop-shadow-lg shadow-white"
+                            opacity="0.9"
+                        />
+
+                        {/* Energy Head (Forward Progression) */}
+                        <g transform={`translate(${birdGeometry.head.x}, ${birdGeometry.head.y})`}>
+                            <circle cx="0" cy="0" r="1.5" fill="white" className="drop-shadow-md" />
+                            <circle cx="0" cy="0" r="3" fill="none" stroke="#22d3ee" strokeWidth="0.5" opacity="0.8">
+                                <animate attributeName="r" values="1.5;5;1.5" dur="1s" repeatCount="indefinite" />
+                                <animate attributeName="opacity" values="0.8;0;0.8" dur="1s" repeatCount="indefinite" />
+                            </circle>
+                            <path 
+                                d="M 0 -1 L 4 0 L 0 1 Z" 
+                                fill="#fbbf24" 
+                                opacity="0.9" 
+                                className="drop-shadow-sm"
+                            />
+                        </g>
+                    </g>
+                </svg>
+                
+                <div className="absolute bottom-2 right-3 text-[9px] font-mono text-gray-500 uppercase tracking-widest italic z-10">
+                    Dual-Field Output: Longitudinal + Transverse
+                </div>
+            </div>
+
+            {/* Geometric Bird Data Legend Box */}
+            <div className="w-full bg-black/40 border border-gray-800 rounded-xl p-4 sm:p-6 overflow-hidden">
+                <div className="grid grid-cols-3 gap-y-8 relative">
+                    {/* Row 1: Slave -> Mountain -> Righteous */}
+                    <div className="flex flex-col items-center space-y-2">
+                        <span className="text-2xl sm:text-3xl">🌴</span>
+                        <div className="text-center">
+                            <div className="text-cyan-400 font-bold text-sm sm:text-base">{dataPairs.p1.id}:{dataPairs.p1.blockCount}</div>
+                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Slave</div>
+                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p1.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                                {MUQATTAT_LETTERS.get(dataPairs.p1.id)?.join(' ') || '—'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col items-center space-y-2">
+                        <span className="text-2xl sm:text-3xl">🕋</span>
+                        <div className="text-center">
+                            <div className="text-pink-500 font-bold text-sm sm:text-base">{dataPairs.p95.id}:{dataPairs.p95.blockCount}</div>
+                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Mountain</div>
+                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p95.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                                {MUQATTAT_LETTERS.get(dataPairs.p95.id)?.join(' ') || '—'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col items-center space-y-2">
+                        <span className="text-2xl sm:text-3xl">💧</span>
+                        <div className="text-center">
+                            <div className="text-cyan-400 font-bold text-sm sm:text-base">{dataPairs.p77.id}:{dataPairs.p77.blockCount}</div>
+                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Righteous</div>
+                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p77.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                                {MUQATTAT_LETTERS.get(dataPairs.p77.id)?.join(' ') || '—'}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Middle Arrows Section */}
+                    <div className="col-span-3 flex justify-between items-center px-4 -my-4 relative h-16 sm:h-20">
+                        {/* Up Arrow (connecting Boat to Slave) */}
+                        <div className="z-10 text-cyan-400">
+                             <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+                                <path d="M 8 20 L 8 4 M 8 4 L 3 9 M 8 4 L 13 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                             </svg>
+                        </div>
+                        
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group">
+                            {/* Central Bird Silhouette Logo */}
+                            <svg 
+                                width="80" 
+                                height="40" 
+                                viewBox="0 0 100 50" 
+                                className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-transform duration-700 group-hover:scale-110"
+                            >
+                                <path 
+                                    d="M 50 15 Q 70 -5 90 20 Q 75 10 50 25 Q 25 10 10 20 Q 30 -5 50 15 Z" 
+                                    fill="currentColor" 
+                                />
+                                <path 
+                                    d="M 50 25 L 50 45 M 45 35 L 55 35 M 42 40 L 58 40" 
+                                    stroke="currentColor" 
+                                    strokeWidth="1.5" 
+                                    strokeLinecap="round" 
+                                    opacity="0.6"
+                                />
+                                <circle cx="50" cy="18" r="2" fill="currentColor" />
+                            </svg>
+                        </div>
+
+                        <div className="h-px bg-gray-800 flex-grow mx-12 opacity-30"></div>
+                        
+                        {/* Down Arrow (connecting Righteous to Book) */}
+                        <div className="z-10 text-pink-500">
+                             <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+                                <path d="M 8 0 L 8 16 M 8 16 L 3 11 M 8 16 L 13 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                             </svg>
+                        </div>
+                    </div>
+
+                    {/* Row 2: Boat -> Queen -> Book */}
+                    <div className="flex flex-col items-center space-y-2">
+                        <span className="text-2xl sm:text-3xl">🐟</span>
+                        <div className="text-center">
+                            <div className="text-pink-500 font-bold text-sm sm:text-base">{dataPairs.p57.id}:{dataPairs.p57.blockCount}</div>
+                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Boat</div>
+                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p57.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                                {MUQATTAT_LETTERS.get(dataPairs.p57.id)?.join(' ') || '—'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col items-center space-y-2">
+                        <span className="text-2xl sm:text-3xl">🐝</span>
+                        <div className="text-center">
+                            <div className="text-cyan-400 font-bold text-sm sm:text-base">{dataPairs.p39.id}:{dataPairs.p39.blockCount}</div>
+                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Queen</div>
+                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p39.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                                {MUQATTAT_LETTERS.get(dataPairs.p39.id)?.join(' ') || '—'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col items-center space-y-2">
+                        <span className="text-2xl sm:text-3xl">🔆</span>
+                        <div className="text-center">
+                            <div className="text-pink-500 font-bold text-sm sm:text-base">{dataPairs.p19.id}:{dataPairs.p19.blockCount}</div>
+                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Book</div>
+                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p19.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                                {MUQATTAT_LETTERS.get(dataPairs.p19.id)?.join(' ') || '—'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResourceMode, showFunctionalTooltip, hideTooltip }) => {
 
     
@@ -392,16 +773,16 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
 
             <div className="text-center mt-3 mb-6">
                 <div className="font-mono flex flex-col items-center">
-                    <div className="text-[11px] text-gray-500 mb-3 font-bold tracking-tight opacity-80 uppercase bg-gray-900/40 px-3 py-1 rounded-full border border-gray-800/50">
+                    <div className="text-[clamp(8px,2.8vw,11px)] text-gray-500 mb-3 font-bold tracking-tight opacity-80 uppercase bg-gray-900/40 px-3 py-1 rounded-full border border-gray-800/50">
                         f(x) = ax³ [110] + bx² [108] + cx [103] + d [19]
                     </div>
                     <div className="flex items-baseline gap-x-2">
                         <span className="text-gray-400 italic text-xs">f(x) =</span>
                         <div className="grid grid-cols-4 gap-x-2 sm:gap-x-4 text-center">
-                            <span className="text-red-400 font-bold text-[10px] sm:text-[12px] whitespace-nowrap">ax³ [110]</span>
-                            <span className="text-teal-400 font-bold text-[10px] sm:text-[12px] whitespace-nowrap">bx² [108]</span>
-                            <span className="text-amber-400 font-bold text-[10px] sm:text-[12px] whitespace-nowrap">cx [103]</span>
-                            <span className="text-cyan-400 font-bold text-[10px] sm:text-[11px] whitespace-nowrap">d [19]</span>
+                            <span className="text-red-400 font-bold text-[clamp(8px,2.5vw,12px)]">ax³ [110]</span>
+                            <span className="text-teal-400 font-bold text-[clamp(8px,2.5vw,12px)]">bx² [108]</span>
+                            <span className="text-amber-400 font-bold text-[clamp(8px,2.5vw,12px)]">cx [103]</span>
+                            <span className="text-cyan-400 font-bold text-[clamp(8px,2.5vw,11px)]">d [19]</span>
 
                             <span className="text-red-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Mountain]</span>
                             <span className="text-teal-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Abundance]</span>
@@ -446,59 +827,109 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                         <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Rössler Flow</div>
                         <RosslerFlow rotation={rotation} />
                         <div className="text-[10px] text-cyan-400 font-bold tracking-widest uppercase mt-2 drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]">Chrysalis</div>
+                        
+                        {/* Rossler Data Labels */}
+                        <div className="mt-4 flex flex-col items-center space-y-2">
+                             <div className="flex gap-4 items-center">
+                                <span className="text-xl">🌴</span>
+                                <span className="text-xl">🐝</span>
+                                <span className="text-xl">💧</span>
+                             </div>
+                             <div className="font-mono text-[10px] text-gray-400 flex gap-2">
+                                <span>{getSliceAtPoint(1, rotation).id}:{getSliceAtPoint(1, rotation).blockCount}</span>
+                                <span className="text-gray-700">|</span>
+                                <span>{getSliceAtPoint(39, rotation).id}:{getSliceAtPoint(39, rotation).blockCount}</span>
+                                <span className="text-gray-700">|</span>
+                                <span>{getSliceAtPoint(77, rotation).id}:{getSliceAtPoint(77, rotation).blockCount}</span>
+                             </div>
+                             <div className="font-mono text-[11px] flex gap-4 text-white opacity-90 h-4">
+                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(1, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(1, rotation).id)?.join(' ') || '—'}</span>
+                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(39, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(39, rotation).id)?.join(' ') || '—'}</span>
+                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(77, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(77, rotation).id)?.join(' ') || '—'}</span>
+                             </div>
+                        </div>
                     </div>
-                    <div className="w-px h-24 bg-gray-800/60 mix-blend-screen"></div>
+                    <div className="w-px h-32 bg-gray-800/60 mix-blend-screen self-center"></div>
                     <div className="w-1/2 flex flex-col items-center">
                         <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Lorenz (Butterfly)</div>
                         <LorenzFlow rotation={rotation} />
-                        <div className="text-[10px] text-pink-400 font-bold tracking-widest uppercase mt-2 drop-shadow-[0_0_8px_rgba(244,114,182,0.3)]">Photosynthesis</div>
+                        <div className="text-[10px] text-pink-400 font-bold tracking-widest uppercase mt-3 drop-shadow-[0_0_8px_rgba(244,114,182,0.3)]">Photosynthesis</div>
+
+                        {/* Lorenz Data Labels */}
+                        <div className="mt-4 flex flex-col items-center space-y-2">
+                             <div className="flex gap-4 items-center">
+                                <span className="text-xl">🐟</span>
+                                <span className="text-xl">🕋</span>
+                                <span className="text-xl">🔆</span>
+                             </div>
+                             <div className="font-mono text-[10px] text-gray-400 flex gap-2">
+                                <span>{getSliceAtPoint(57, rotation).id}:{getSliceAtPoint(57, rotation).blockCount}</span>
+                                <span className="text-gray-700">|</span>
+                                <span>{getSliceAtPoint(95, rotation).id}:{getSliceAtPoint(95, rotation).blockCount}</span>
+                                <span className="text-gray-700">|</span>
+                                <span>{getSliceAtPoint(19, rotation).id}:{getSliceAtPoint(19, rotation).blockCount}</span>
+                             </div>
+                             <div className="font-mono text-[11px] flex gap-4 text-white opacity-90 h-4">
+                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(57, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(57, rotation).id)?.join(' ') || '—'}</span>
+                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(95, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(95, rotation).id)?.join(' ') || '—'}</span>
+                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(19, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(19, rotation).id)?.join(' ') || '—'}</span>
+                             </div>
+                        </div>
                     </div>
+                </div>
+
+                <div className="mt-8">
+                    <BirdMotion rotation={rotation} />
                 </div>
 
                 <div className="mt-8 p-5 bg-gray-950/40 border border-gray-800/60 rounded-xl space-y-7 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-px bg-gradient-to-l from-cyan-500/10 to-transparent w-full h-px"></div>
                     
-                    <div className="space-y-3">
-                        <p className="text-[12px] sm:text-[14px] md:text-[15px] font-mono font-bold text-gray-200 tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
-                            f(x) = ax³ [110] + bx² [108] + cx [103] + d [19]
-                        </p>
+                    <div className="space-y-4">
+                        <div className="w-full h-6 flex items-center">
+                            <svg viewBox="0 0 420 20" preserveAspectRatio="xMinYMid meet" className="w-full h-full">
+                                <text x="0" y="15" className="fill-gray-200 font-mono font-bold text-[16px] tracking-tight">
+                                    f(x) = ax³ [110] + bx² [108] + cx [103] + d [19]
+                                </text>
+                            </svg>
+                        </div>
                         <p className="text-xs sm:text-sm text-gray-400 leading-relaxed italic border-l-2 border-gray-800 pl-4">
                             Yusuf (12) is the primary full-cycle example: one complete transformation cycle (dream → trial → clarity → return) repeated until final alignment is stable.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-8">
                         <div className="space-y-4">
-                            <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-widest flex items-center gap-2">
-                                <span className="text-sm">▼</span> Qun — Inner Movement (Yusuf Trial)
+                            <h4 className="text-[clamp(8px,2.5vw,11px)] font-bold text-cyan-400 uppercase tracking-widest flex items-start gap-1.5">
+                                <span className="text-sm leading-none shrink-0 mt-0.5">▼</span> <span>Qun — Inner Movement (Yusuf Trial)</span>
                             </h4>
-                            <ul className="space-y-3.5 text-[11px] sm:text-[12px] text-gray-300">
-                                <li className="flex gap-3 items-baseline">
-                                    <span className="text-cyan-500 font-bold shrink-0 font-mono text-[13px]">3</span>
-                                    <span>Entry (12:4): Dream appears; signal enters as divine impulse.</span>
+                            <ul className="space-y-3.5 text-[10px] sm:text-[11px] md:text-[12px] text-gray-300">
+                                <li className="flex gap-2 items-baseline">
+                                    <span className="text-cyan-500 font-bold shrink-0 font-mono text-[12px]">3</span>
+                                    <span className="leading-tight">Entry (12:4): Dream appears; signal enters as divine impulse.</span>
                                 </li>
-                                <li className="flex gap-3 items-baseline">
-                                    <span className="text-cyan-500 font-bold shrink-0 font-mono text-[13px]">6</span>
-                                    <span>Pressure (12:8–35): Constraints (well, slavery, prison) reshape self.</span>
+                                <li className="flex gap-2 items-baseline">
+                                    <span className="text-cyan-500 font-bold shrink-0 font-mono text-[12px]">6</span>
+                                    <span className="leading-tight">Pressure (12:8–35): Constraints (well, slavery, prison) reshape self.</span>
                                 </li>
-                                <li className="flex gap-3 items-baseline">
-                                    <span className="text-cyan-500 font-bold shrink-0 font-mono text-[13px]">9</span>
-                                    <span>Peak (12:36–49): Clarity; hidden structures/meanings exposed.</span>
+                                <li className="flex gap-2 items-baseline">
+                                    <span className="text-cyan-500 font-bold shrink-0 font-mono text-[12px]">9</span>
+                                    <span className="leading-tight">Peak (12:36–49): Clarity; hidden structures/meanings exposed.</span>
                                 </li>
                             </ul>
                         </div>
                         <div className="space-y-4">
-                            <h4 className="text-xs font-bold text-pink-500 uppercase tracking-widest flex items-center gap-2">
-                                <span className="text-sm">▲</span> FayaQun — Return (Yusuf Authority)
+                            <h4 className="text-[clamp(8px,2.5vw,11px)] font-bold text-pink-500 uppercase tracking-widest flex items-start gap-1.5">
+                                <span className="text-sm leading-none shrink-0 mt-0.5">▲</span> <span>FayaQun — Return (Yusuf Authority)</span>
                             </h4>
-                            <ul className="space-y-3.5 text-[11px] sm:text-[12px] text-gray-300">
-                                <li className="flex gap-3 items-baseline">
-                                    <span className="text-pink-500 font-bold shrink-0 font-mono text-[13px]">9→6</span>
-                                    <span>Governance: Yusuf interprets and applies insight to reality.</span>
+                            <ul className="space-y-3.5 text-[10px] sm:text-[11px] md:text-[12px] text-gray-300">
+                                <li className="flex gap-2 items-baseline">
+                                    <span className="text-pink-500 font-bold shrink-0 font-mono text-[12px]">9→6</span>
+                                    <span className="leading-tight">Governance: Yusuf interprets and applies insight to reality.</span>
                                 </li>
-                                <li className="flex gap-3 items-baseline">
-                                    <span className="text-pink-500 font-bold shrink-0 font-mono text-[13px]">6→3</span>
-                                    <span>Stabilization (12:54–100): Return to center; authority + reunion.</span>
+                                <li className="flex gap-2 items-baseline">
+                                    <span className="text-pink-500 font-bold shrink-0 font-mono text-[12px]">6→3</span>
+                                    <span className="leading-tight">Stabilization (12:54–100): Return to center; authority + reunion.</span>
                                 </li>
                             </ul>
                         </div>

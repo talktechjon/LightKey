@@ -35,6 +35,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
+  const [sephirotTab, setSephirotTab] = useState<'zakkum' | 'datePalm'>('datePalm');
 
   const animationFrameId = useRef<number | null>(null);
   const animationTimeoutId = useRef<number | null>(null);
@@ -200,7 +201,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   const currentSliceId = currentSliceData.id;
   // Safer lookup to avoid crash if CHAPTER_DETAILS array is inconsistent
   const chapterInfo = CHAPTER_DETAILS.find(c => c.number === currentSliceId);
-  
+
   if (!chapterInfo) return <aside className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4">Loading...</aside>;
 
   const isCurrentSliceMuqattat = MUQATTAT_CHAPTERS.has(currentSliceId);
@@ -350,6 +351,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                             createPlaylist={createPlaylist}
                             setCustomSequence={setCustomSequence}
                             setAnimationMode={setAnimationMode}
+                            activeTab={sephirotTab}
+                            onTabChange={setSephirotTab}
                         />
                     </>
                 )}

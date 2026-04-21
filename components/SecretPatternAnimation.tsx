@@ -89,11 +89,8 @@ const useDiagramPortal = (listRef: React.RefObject<HTMLDivElement>) => {
     return { isDesktop, floatingRef, portalRoot };
 };
 
-export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
-    const listRef = useRef<HTMLDivElement>(null);
-    const { isDesktop, floatingRef, portalRoot } = useDiagramPortal(listRef);
-
-    const alignedChapters: AlignedChapter[] = useMemo(() => {
+export const KatharaDiagram: React.FC<{ rotation: number; isDesktop?: boolean }> = ({ rotation, isDesktop = true }) => {
+    const alignedChapters = useMemo(() => {
         const labels = [
             'Impulse', 'Commitment', 'Vector', 
             'Purification', 'Alignment', 'Stability', 
@@ -103,10 +100,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
         return KATHARA_CLOCK_POINTS.map((pointValue, index) => {
             const slice = getSliceAtPoint(pointValue, rotation);
             const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
-            if (!chapterInfo) {
-                // Fallback to prevent crash if index is somehow wrong
-                return null;
-            }
+            if (!chapterInfo) return null;
             return {
                 slice,
                 chapterInfo,
@@ -119,56 +113,6 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
         }).filter((c): c is AlignedChapter => c !== null);
     }, [rotation]);
 
-    const displayChapters: DisplayChapter[] = useMemo(() => {
-        const chapters: DisplayChapter[] = [...alignedChapters];
-        
-        const getStaticChapterData = (id: number, label: string, bulletEmoji: string, contentEmoji?: string): StaticChapter | null => {
-            const slice = SLICE_DATA.find(s => s.id === id);
-            const chapterInfo = CHAPTER_DETAILS.find(c => c.number === id);
-            if (!slice || !chapterInfo) return null;
-             return {
-                slice,
-                chapterInfo,
-                isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
-                muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
-                iconSrc: getChapterIcon(chapterInfo.revelationType),
-                staticLabel: label,
-                staticEmoji: bulletEmoji,
-                contentEmoji: contentEmoji,
-                isStatic: true
-            };
-        };
-
-        const static108 = getStaticChapterData(108, '⚡Promise', 'Nomination △');
-        const static103 = getStaticChapterData(103, '🐟 Protection', 'Uproot 🔥');
-        const static110 = getStaticChapterData(110, '🌳Return', 'Witness ⚫');
-        const static112Start = getStaticChapterData(112, 'The Beginning ∞', '∞');
-        const static112End = getStaticChapterData(112, 'Repeat ∞', '∞');
-
-        if (static108) chapters.splice(3, 0, static108);
-        if (static103) chapters.splice(7, 0, static103);
-        if (static110) chapters.splice(11, 0, static110);
-        
-        const result: DisplayChapter[] = [];
-        if (static112Start) result.push(static112Start);
-        result.push(...chapters);
-        if (static112End) result.push(static112End);
-
-        return result;
-
-    }, [alignedChapters]);
-
-    const handleLoadKatharaSequence = () => {
-        setAnimationMode('off');
-        const chapterIds = displayChapters.map(c => c.slice.id);
-        setCustomSequence(chapterIds.join(', '));
-    };
-
-    const handleWatchKatharaSequence = (type: PlaylistType) => {
-        const chapterIds = displayChapters.slice(1).map(c => c.slice.id);
-        createPlaylist(type, chapterIds);
-    };
-
     const nodeMap = useMemo(() => new Map(KATHARA_GRID_NODES.map(node => [node.id, node])), []);
 
     const getVerticalWavePath = (x1: number, y1: number, _x2: number, y2: number) => {
@@ -177,7 +121,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
         return `M ${x1} ${y1} Q ${x1 + amp} ${y1 + dy * 0.125} ${x1} ${y1 + dy * 0.25} T ${x1} ${y1 + dy * 0.5} T ${x1} ${y1 + dy * 0.75} T ${x1} ${y2}`;
     };
 
-    const renderDiagram = () => (
+    return (
         <div className="flex justify-center w-full h-full">
             <svg viewBox="0 0 150 280" preserveAspectRatio={isDesktop ? "none" : "xMidYMid meet"} width="100%" height="100%" aria-hidden="true">
                 <g strokeWidth="1.5">
@@ -262,6 +206,87 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
             </svg>
         </div>
     );
+};
+
+export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
+    const listRef = useRef<HTMLDivElement>(null);
+    const { isDesktop, floatingRef, portalRoot } = useDiagramPortal(listRef);
+
+    const alignedChapters: AlignedChapter[] = useMemo(() => {
+        const labels = [
+            'Impulse', 'Commitment', 'Vector', 
+            'Purification', 'Alignment', 'Stability', 
+            'Flow State', 'Lock', 'Surrender', 
+            'Optimization', 'Coherence', 'Illumination'
+        ];
+        return KATHARA_CLOCK_POINTS.map((pointValue, index) => {
+            const slice = getSliceAtPoint(pointValue, rotation);
+            const chapterInfo = CHAPTER_DETAILS[slice.id - 1];
+            if (!chapterInfo) {
+                // Fallback to prevent crash if index is somehow wrong
+                return null;
+            }
+            return {
+                slice,
+                chapterInfo,
+                isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
+                muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
+                iconSrc: getChapterIcon(chapterInfo.revelationType),
+                clockIndex: index + 1,
+                clockLabel: labels[index]
+            };
+        }).filter((c): c is AlignedChapter => c !== null);
+    }, [rotation]);
+
+    const displayChapters: DisplayChapter[] = useMemo(() => {
+        const chapters: DisplayChapter[] = [...alignedChapters];
+        
+        const getStaticChapterData = (id: number, label: string, bulletEmoji: string, contentEmoji?: string): StaticChapter | null => {
+            const slice = SLICE_DATA.find(s => s.id === id);
+            const chapterInfo = CHAPTER_DETAILS.find(c => c.number === id);
+            if (!slice || !chapterInfo) return null;
+             return {
+                slice,
+                chapterInfo,
+                isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
+                muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
+                iconSrc: getChapterIcon(chapterInfo.revelationType),
+                staticLabel: label,
+                staticEmoji: bulletEmoji,
+                contentEmoji: contentEmoji,
+                isStatic: true
+            };
+        };
+
+        const static108 = getStaticChapterData(108, '⚡Promise', 'Nomination △');
+        const static103 = getStaticChapterData(103, '🐟 Protection', 'Uproot 🔥');
+        const static110 = getStaticChapterData(110, '🌳Return', 'Witness ⚫');
+        const static112Start = getStaticChapterData(112, 'The Beginning ∞', '∞');
+        const static112End = getStaticChapterData(112, 'Repeat ∞', '∞');
+
+        if (static108) chapters.splice(3, 0, static108);
+        if (static103) chapters.splice(7, 0, static103);
+        if (static110) chapters.splice(11, 0, static110);
+        
+        const result: DisplayChapter[] = [];
+        if (static112Start) result.push(static112Start);
+        result.push(...chapters);
+        if (static112End) result.push(static112End);
+
+        return result;
+
+    }, [alignedChapters]);
+
+    const handleLoadKatharaSequence = () => {
+        setAnimationMode('off');
+        const chapterIds = displayChapters.map(c => c.slice.id);
+        setCustomSequence(chapterIds.join(', '));
+    };
+
+    const handleWatchKatharaSequence = (type: PlaylistType) => {
+        const chapterIds = displayChapters.slice(1).map(c => c.slice.id);
+        createPlaylist(type, chapterIds);
+    };
 
     return (
         <div className="pt-4">
@@ -294,7 +319,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                             <strong className="text-[#4ade80] flex-shrink-0">6 ↔ 7</strong> <span className="text-white/50 text-xs mx-1 whitespace-nowrap">2nd Bifurcation:</span> <span>Stabilize + Express</span>
                         </div>
                         <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">8</strong> <span>Protection layer forms (<strong className="text-white/60 font-normal">Lock</strong>)</span></div>
-
+                        
                         <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
                             <strong className="text-[#f5c842] flex-shrink-0">9 ↔ 10</strong> <span className="text-white/50 text-xs mx-1 whitespace-nowrap">3rd Bifurcation:</span> <span>Surrender + Refine</span>
                         </div>
@@ -314,11 +339,11 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
             <div className="w-full h-px bg-gray-500/50 mt-4"></div>
 
             {!isDesktop ? (
-                <div className="my-4 h-[420px]">{renderDiagram()}</div>
+                <div className="my-4 h-[420px]"><KatharaDiagram rotation={rotation} isDesktop={isDesktop} /></div>
             ) : (
                 portalRoot && createPortal(
                     <div ref={floatingRef} style={{ position: 'fixed', top: 0, left: 0, zIndex: 5, pointerEvents: 'none', opacity: 0, willChange: 'transform, height' }}>
-                        {renderDiagram()}
+                        <KatharaDiagram rotation={rotation} isDesktop={isDesktop} />
                     </div>,
                     portalRoot
                 )
@@ -368,8 +393,105 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
     );
 };
 
-export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPlaylist, setCustomSequence, setAnimationMode }) => {
-    const [activeTab, setActiveTab] = useState<'zakkum' | 'datePalm'>('datePalm');
+export const SephirotDiagram: React.FC<{ 
+    rotation: number; 
+    activeTab: 'zakkum' | 'datePalm'; 
+    isDesktop?: boolean 
+}> = ({ rotation, activeTab, isDesktop = true }) => {
+    const currentConfig = activeTab === 'zakkum' ? ZAKKUM_CONFIG : DATE_PALM_CONFIG;
+    
+    const generatedChaptersMap = useMemo(() => {
+        const standardNodes = currentConfig.nodes.filter(n => !n.isZero).sort((a,b) => a.id - b.id);
+        const zeroNode = currentConfig.nodes.find(n => n.isZero);
+        const map = new Map<number, AlignedChapter | StaticChapter>();
+
+        standardNodes.forEach((node, index) => {
+            const pointValue = currentConfig.points[index];
+            const slice = getSliceAtPoint(pointValue, rotation);
+            const chapterInfo = CHAPTER_DETAILS.find(c => c.number === slice.id);
+            if (!chapterInfo) return;
+            map.set(node.id, {
+                slice,
+                chapterInfo,
+                isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
+                muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
+                iconSrc: getChapterIcon(chapterInfo.revelationType),
+                clockIndex: node.id,
+                clockLabel: node.label,
+                nodeColor: node.color
+            });
+        });
+
+        if (zeroNode && currentConfig.point0) {
+            const slice = getSliceAtPoint(currentConfig.point0, rotation);
+            const chapterInfo = CHAPTER_DETAILS.find(c => c.number === slice.id);
+            if (chapterInfo) {
+              map.set(0, {
+                  slice,
+                  chapterInfo,
+                  isMuqattat: MUQATTAT_CHAPTERS.has(slice.id),
+                  muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
+                  iconSrc: getChapterIcon(chapterInfo.revelationType),
+                  clockIndex: 0,
+                  clockLabel: zeroNode.label,
+                  nodeColor: zeroNode.color
+              });
+            }
+        }
+        return map;
+    }, [rotation, currentConfig, activeTab]);
+
+    const nodeMap = useMemo(() => new Map(currentConfig.nodes.map(node => [node.id, node] as [number, typeof node])), [currentConfig]);
+
+    return (
+        <div className="flex justify-center w-full h-full">
+            <svg viewBox="0 0 200 320" preserveAspectRatio={isDesktop ? "none" : "xMidYMid meet"} width="100%" height="100%" aria-hidden="true">
+                <g strokeWidth="1.5">
+                    {currentConfig.lines.map((line, index) => {
+                        const fromNode = nodeMap.get(line.from);
+                        const toNode = nodeMap.get(line.to);
+                        if (!fromNode || !toNode) return null;
+                        return <line key={index} x1={fromNode.x} y1={fromNode.y} x2={toNode.x} y2={toNode.y} stroke="#4b5563" style={{ stroke: activeTab === 'datePalm' ? '#60a5fa' : '#ef4444', opacity: 0.5 }} />;
+                    })}
+                </g>
+                {currentConfig.nodes.map((node) => {
+                    let label = '', fillColor = node.color;
+                    const chapterData = generatedChaptersMap.get(node.id);
+                    if (chapterData && !('isStatic' in chapterData)) label = (chapterData as AlignedChapter).slice.id.toString();
+                    else if (node.isZero && activeTab === 'datePalm') label = '∞';
+                    const textColor = d3.lab(fillColor).l < 60 ? 'white' : 'black';
+                    return (
+                        <g key={node.id}>
+                            <circle cx={node.x} cy={node.y} r={10} fill={fillColor} stroke="#1f2937" strokeWidth="1" />
+                            <text x={node.x} y={node.y} textAnchor="middle" dy=".3em" fontSize="8" fontWeight="bold" fill={textColor}>{label}</text>
+                            <text x={node.x} y={node.y - 14} textAnchor="middle" fontSize="7" fontWeight="bold" fill={fillColor} style={{ textShadow: '0 0 3px black' }}>{node.label}</text>
+                        </g>
+                    );
+                })}
+            </svg>
+        </div>
+    );
+};
+
+interface SephirotAlignmentProps extends AlignmentProps {
+    activeTab?: 'zakkum' | 'datePalm';
+    onTabChange?: (tab: 'zakkum' | 'datePalm') => void;
+}
+
+export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({ 
+    rotation, 
+    createPlaylist, 
+    setCustomSequence, 
+    setAnimationMode,
+    activeTab: controlledTab,
+    onTabChange
+}) => {
+    const [localTab, setLocalTab] = useState<'zakkum' | 'datePalm'>('datePalm');
+    const activeTab = controlledTab ?? localTab;
+    const setActiveTab = (tab: 'zakkum' | 'datePalm') => {
+        if (onTabChange) onTabChange(tab);
+        else setLocalTab(tab);
+    };
     const listRef = useRef<HTMLDivElement>(null);
     const { isDesktop, floatingRef, portalRoot } = useDiagramPortal(listRef);
 
@@ -468,37 +590,6 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
         createPlaylist(type, chapterIds);
     };
 
-    const nodeMap = useMemo(() => new Map(currentConfig.nodes.map(node => [node.id, node] as [number, typeof node])), [currentConfig]);
-
-    const renderDiagram = () => (
-        <div className="flex justify-center w-full h-full">
-            <svg viewBox="0 0 200 320" preserveAspectRatio={isDesktop ? "none" : "xMidYMid meet"} width="100%" height="100%" aria-hidden="true">
-                <g strokeWidth="1.5">
-                    {currentConfig.lines.map((line, index) => {
-                        const fromNode = nodeMap.get(line.from);
-                        const toNode = nodeMap.get(line.to);
-                        if (!fromNode || !toNode) return null;
-                        return <line key={index} x1={fromNode.x} y1={fromNode.y} x2={toNode.x} y2={toNode.y} stroke="#4b5563" style={{ stroke: activeTab === 'datePalm' ? '#60a5fa' : '#ef4444', opacity: 0.5 }} />;
-                    })}
-                </g>
-                {currentConfig.nodes.map((node) => {
-                    let label = '', fillColor = node.color;
-                    const chapterData = generatedChaptersMap.get(node.id);
-                    if (chapterData && !('isStatic' in chapterData)) label = (chapterData as AlignedChapter).slice.id.toString();
-                    else if (node.isZero && activeTab === 'datePalm') label = '∞';
-                    const textColor = d3.lab(fillColor).l < 60 ? 'white' : 'black';
-                    return (
-                        <g key={node.id}>
-                            <circle cx={node.x} cy={node.y} r={10} fill={fillColor} stroke="#1f2937" strokeWidth="1" />
-                            <text x={node.x} y={node.y} textAnchor="middle" dy=".3em" fontSize="8" fontWeight="bold" fill={textColor}>{label}</text>
-                            <text x={node.x} y={node.y - 14} textAnchor="middle" fontSize="7" fontWeight="bold" fill={fillColor} style={{ textShadow: '0 0 3px black' }}>{node.label}</text>
-                        </g>
-                    );
-                })}
-            </svg>
-        </div>
-    );
-
     return (
         <div className="pt-6">
             <div className="flex justify-between items-center">
@@ -517,11 +608,11 @@ export const SephirotAlignment: React.FC<AlignmentProps> = ({ rotation, createPl
             <div className="w-full h-px bg-gray-500/50 mb-2"></div>
 
             {!isDesktop ? (
-                <div className="my-4 h-[420px]">{renderDiagram()}</div>
+                <div className="my-4 h-[420px]"><SephirotDiagram rotation={rotation} activeTab={activeTab} isDesktop={isDesktop} /></div>
             ) : (
                 portalRoot && createPortal(
                     <div ref={floatingRef} style={{ position: 'fixed', top: 0, left: 0, zIndex: 5, pointerEvents: 'none', opacity: 0, willChange: 'transform, height' }}>
-                        {renderDiagram()}
+                        <SephirotDiagram rotation={rotation} activeTab={activeTab} isDesktop={isDesktop} />
                     </div>,
                     portalRoot
                 )
