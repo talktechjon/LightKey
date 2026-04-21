@@ -106,7 +106,7 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
   );
 });
 
-const RosslerFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
+const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotation, isPaused }) => {
     const { pathData, markers } = useMemo(() => {
         let x = 0.1, y = 0, z = 0;
         
@@ -219,6 +219,7 @@ const RosslerFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
                     pathLength="1" 
                     stroke="url(#rosslerGrad)" 
                     className="animate-tracer"
+                    style={{ animationPlayState: isPaused ? 'paused' : 'running' }}
                 />
 
                 {markers.map((m, i) => (
@@ -247,7 +248,7 @@ const RosslerFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
     );
 };
 
-const LorenzFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
+const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotation, isPaused }) => {
     const { pathData, markers } = useMemo(() => {
         let x = 0.1, y = 1, z = 1.05;
         
@@ -331,6 +332,7 @@ const LorenzFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
                     pathLength="1" 
                     stroke="url(#lorenzGrad)" 
                     className="animate-tracer"
+                    style={{ animationPlayState: isPaused ? 'paused' : 'running' }}
                 />
 
                 {markers.map((m, i) => (
@@ -355,26 +357,33 @@ const LorenzFlow: React.FC<{ rotation: number }> = ({ rotation }) => {
     );
 };
 
-export const BirdMotion: React.FC<{ rotation: number }> = ({ rotation }) => {
+export const BirdMotion: React.FC<{ rotation: number, isPaused: boolean, onToggle: () => void }> = ({ rotation, isPaused, onToggle }) => {
     const [time, setTime] = React.useState(0);
+    const timeRef = React.useRef(0);
 
     React.useEffect(() => {
         let frame: number;
-        const animate = (t: number) => {
-            setTime(t / 1000);
+        let lastTime = performance.now();
+        const animate = (now: number) => {
+            const delta = now - lastTime;
+            lastTime = now;
+            if (!isPaused) {
+                timeRef.current += delta / 1000;
+                setTime(timeRef.current);
+            }
             frame = requestAnimationFrame(animate);
         };
         frame = requestAnimationFrame(animate);
         return () => cancelAnimationFrame(frame);
-    }, []);
+    }, [isPaused]);
 
-    const birdGeometry = useMemo(() => {
+    const heartGeometry = useMemo(() => {
         // 1. DATA EXTRACTION: Get the 6 active chapters in the current geometry rotation
         const s1 = getSliceAtPoint(1, rotation);       // Slave 🌴
         const s95 = getSliceAtPoint(95, rotation);     // Mountain 🕋
         const s77 = getSliceAtPoint(77, rotation);     // Righteous 💧
         const s19 = getSliceAtPoint(19, rotation);     // Book 🔆
-        const s110 = getSliceAtPoint(110, rotation);   // Return Chapter 🌀
+        const s110 = getSliceAtPoint(110, rotation);   // Return 🏆
         const s57 = getSliceAtPoint(57, rotation);     // Boat 🐟
         
         const nodes = [s1, s95, s77, s19, s110, s57];
@@ -386,8 +395,7 @@ export const BirdMotion: React.FC<{ rotation: number }> = ({ rotation }) => {
         }));
 
         // 3. COEFFICIENT SOLVING (Umm al-Kitab Engine):
-        // f(x) = ax³ [110] + bx² [108] + cx [103] + d [19]
-        const d = pts[3].y;                      // Constant (Book 19)
+        // f(x) = ax³ + bx² + cx + d 
         const rawC = (pts[5].y - pts[0].y) / 0.5; // Linear Spread (Boat 57 - Slave 1)
         const rawB = pts[2].y * 2;               // Quadratic Arch (Righteous 77)
         const rawA = (pts[4].y - pts[1].y) / 0.3; // Cubic Lift (Return 110 - Mountain 95)
@@ -399,142 +407,129 @@ export const BirdMotion: React.FC<{ rotation: number }> = ({ rotation }) => {
         const b = stabilize(rawB, 1.5);
         const a = stabilize(rawA, 2.0);
 
-        // 4. DELTA DYNAMICS: Wave Propagation Velocity & Amplitude
+        // 4. DELTA DYNAMICS: Wave Propagation Velocity
         const deltas = nodes.map((n, i) => Math.abs(nodes[(i + 1) % nodes.length].blockCount - n.blockCount));
         const averageDelta = deltas.reduce((acc, v) => acc + v, 0) / 6;
-        
-        const speedMultiplier = 1 + (averageDelta / 60); 
-        const waveVelocity = 0.5 * speedMultiplier; // Propagation velocity 'v'
-        const wingFrequency = 8 * speedMultiplier; // Oscillation 'omega'
-        const flapAmplitude = 0.8 + (averageDelta / 30); // True Angular Flap Amplitude (Radians)
+        const waveVelocity = 0.5 * (1 + (averageDelta / 60)); // Propagation velocity 'v'
 
-        const segments = 60; // Resolution of the 3D Ribbon
-        const spinePoints: { x: number, y: number, screenX: number, screenY: number, twist: number, env: number }[] = [];
-        const wingPaths: string[] = [];
-        const bodyShroud: string[] = [];
+        // 5. MECHANICAL HEART TIMELINE (Pressure -> Delta Scale)
+        const true_s = waveVelocity * time; 
+        const phase = ((true_s % 1) + 1) % 1; 
+
+        // Mechanical Mapping: 6-Step Cycle to Cardiac Phase volume 'u'
+        const getBaseVolume = (p: number) => {
+            if (p < 0.15) return p / 0.15 * 0.3;                                // Slave: Atrial fill (expand)
+            if (p < 0.25) return 0.3 - ((p - 0.15) / 0.10) * 0.2;               // Mountain: Atrial contract (tighten)
+            if (p < 0.40) return 0.1 - Math.pow((p - 0.25) / 0.15, 2) * 1.1;    // Righteous: Ventricular contract (full squeeze)
+            if (p < 0.50) return -1.0 + ((p - 0.40) / 0.10) * 0.2;              // Book: Valve flash (anchor hold)
+            if (p < 0.70) return -0.8 + ((p - 0.50) / 0.20) * 0.8;              // Return: Ventricular relaxation (expand back)
+            return 0;                                                           // Boat: Passive filling
+        };
+
+        const u = getBaseVolume(phase);
         
-        // --- TIME-INDEPENDENT BOUNDARIES (Fixes Camera Shake) ---
-        // We calculate the maximum possible size envelope for the current chapters
-        // so the camera doesn't jump every frame as the wave animates.
-        let minX = 10, maxX = 90; // Spine X naturally ranges 10 to 90
-        let minY = Infinity, maxY = -Infinity;
-        
-        for (let testU = -1.5; testU <= 1.5; testU += 0.05) {
-            const testYEq = a * Math.pow(testU, 3) + b * Math.pow(testU, 2) + c * testU + d;
-            const testPy = 50 - (testYEq * 25);
-            minY = Math.min(minY, testPy);
-            maxY = Math.max(maxY, testPy);
+        // Umm al-Kitab Pressure Evolution:
+        const pressure = a * Math.pow(u, 3) + b * Math.pow(u, 2) + c * u;
+
+        // 6. VISUAL CUE MAPPING
+        let activePhase = "Boat";
+        let visualCue = "Passive filling";
+        let color = "#3b82f6"; // blue
+        let flash = 0;
+
+        if (phase < 0.15) {
+            activePhase = "Slave";
+            visualCue = "Atrial filling";
+            color = "#60a5fa"; // light blue
+        } else if (phase < 0.25) {
+            activePhase = "Mountain";
+            visualCue = "Atrial contraction";
+            color = "#c084fc"; // purple
+        } else if (phase < 0.40) {
+            activePhase = "Righteous";
+            visualCue = "Ventricular squeeze";
+            color = "#ef4444"; // intense red
+        } else if (phase < 0.50) {
+            activePhase = "Book";
+            visualCue = "Valve transition";
+            color = "#fbbf24"; // yellow flare
+            flash = 1 - (phase - 0.40) / 0.10; // flash fades
+        } else if (phase < 0.70) {
+            activePhase = "Return";
+            visualCue = "Ventricular release";
+            color = "#2dd4bf"; // teal
         }
-        
-        // Add maximum wing/field amplitude padding
-        const maxSpread = 15 + Math.abs(c) * 10 + Math.abs(b) * 5; 
-        minX -= maxSpread * 0.8;  // Transverse X spread (accommodate flap)
-        maxX += maxSpread * 0.8;
-        minY -= maxSpread * 1.5;  // Transverse Y spread (amplified by twists & flap)
-        maxY += maxSpread * 1.5;
 
-        let headAnchor = { x: 50, y: 50 };
+        // 7. REALISTIC ANATOMICAL HEART GEOMETRY
+        let atrialScale = 1.0;
+        let ventScale = 1.0;
+        let avOpen = 0; // Atrioventricular valves (Mitral/Tricuspid)
+        let slOpen = 0; // Semilunar valves (Aortic/Pulmonary)
+        let fillFlow = 0;
+        let ejectFlow = 0;
 
-        // 5. 3D PARAMETRIC ENGINE: Spine, Wings, Twist
-        for (let i = 0; i <= segments; i++) {
-            // Parameter 's' defines position along the body: [-1, 1], with 1 being the head, -1 tail.
-            const s = (i / segments) * 2 - 1; 
-            
-            // Envelope ensures wings taper at head/tail. Parabolic equation.
-            const env = 1 - Math.pow(s, 2); 
-            
-            // 5a. The Traveling Argument 'u'
-            // Maps physical space 's' and time 't' into a continuous repeating bounded wave input.
-            const u = Math.sin(Math.PI * (s + waveVelocity * time)); 
-            const du_ds = Math.PI * Math.cos(Math.PI * (s + waveVelocity * time));
-
-            // 5b. Longitudinal Solution: Spine / Rössler Carrier
-            const yEquation = a * Math.pow(u, 3) + b * Math.pow(u, 2) + c * u + d;
-            
-            // 5c. Twist Operator (Derivative): Theta = archtan(f'(x))
-            // Chain rule: dy/ds = (dy/du) * (du/ds) 
-            const dy_du = 3 * a * Math.pow(u, 2) + 2 * b * u + c;
-            const m = dy_du * du_ds; 
-            const twist = Math.atan(m * 1.5); // 1.5 scalar limits extreme 90deg rolls visually
-
-            // Isometric Base Projection
-            // Spine spans horizontal X axis. Y axis is the cubic fluctuation.
-            const px = 50 + s * 40; 
-            const py = 50 - (yEquation * 25); // Multiply by 25 to scale SVG space
-            
-            spinePoints.push({ x: px, y: py, screenX: px, screenY: py, twist, env });
-            
-            if (i === segments) headAnchor = { x: px, y: py };
-
-            // 5d. Transverse Solution: Wings / Lorenz Radiator
-            // Add radiating rays perpendicular to the spine, flapping with true angular dihedral.
-            if (i % 2 === 0) { // Render ribbed field lines
-                const phase = s * 1.5; // Phase delay so the flap ripples down the body organically
-                
-                // Dihedral flap angle (up and down angular sweep)
-                const flapAngle = Math.sin(wingFrequency * time - phase) * flapAmplitude;
-                
-                // Max length of wings expands via internal data parameters
-                const spreadScale = Math.max(5, 15 + c * 10 + b * 5); 
-                // Subtle pulse for the "light/energy" look (stays near 1.0)
-                const pulse = 0.85 + 0.15 * Math.cos(wingFrequency * time - phase);
-                const W = spreadScale * env * pulse; 
-
-                // 3D Matrix Rotation (Body Twist + Dihedral Flap)
-                const leftAngle = twist - flapAngle;
-                const rightAngle = twist + flapAngle;
-
-                // Left wing (Extends to -Z, rotated by Euler angles):
-                const lw_z = -W * Math.cos(leftAngle);
-                const lw_y = W * Math.sin(leftAngle);
-
-                // Right wing (Extends to +Z, rotated by Euler angles):
-                const rw_z = W * Math.cos(rightAngle);
-                const rw_y = -W * Math.sin(rightAngle);
-
-                // 2D Projection: X = base_X + Z*0.4, Y = base_Y + Y' - Z*0.2
-                // We tilt the camera slightly so Z depth pushes right and up.
-                const l_sx = px + lw_z * 0.4;
-                const l_sy = py + lw_y - lw_z * 0.15;
-
-                const r_sx = px + rw_z * 0.4;
-                const r_sy = py + rw_y - rw_z * 0.15;
-
-                // Add to visual path (Smooth radiating curved lines)
-                wingPaths.push(`M ${px} ${py} Q ${(l_sx + px)/2} ${l_sy + 2} ${l_sx} ${l_sy}`);
-                wingPaths.push(`M ${px} ${py} Q ${(r_sx + px)/2} ${r_sy + 2} ${r_sx} ${r_sy}`);
-                
-                // Add translucent inner body shroud for the serpent core
-                const widthX = env * 2 * Math.cos(twist);
-                const widthY = env * 2 * Math.sin(twist);
-                bodyShroud.push(`M ${px - widthX} ${py - widthY} L ${px + widthX} ${py + widthY}`);
+        if (phase < 0.15) { // Slave -> Passive Filling
+            atrialScale = 1.0 + (phase / 0.15) * 0.1;
+            ventScale = 1.0 + (phase / 0.15) * 0.1;
+            avOpen = 1;
+            slOpen = 0;
+            fillFlow = 1;
+        } else if (phase < 0.25) { // Mountain -> Atrial Contraction
+            const p = (phase - 0.15) / 0.10;
+            atrialScale = 1.1 - p * 0.2; // contracts strongly
+            ventScale = 1.1 + p * 0.1; // fills completely
+            avOpen = 1;
+            slOpen = 0;
+            fillFlow = 1 + p * 2; // rush of blood
+        } else if (phase < 0.40) { // Righteous -> Ventricular Contraction (Systole Peak)
+            const p = (phase - 0.25) / 0.15;
+            atrialScale = 0.9 + p * 0.1; // starts relaxing
+            ventScale = 1.2 - Math.pow(p, 1.5) * 0.35; // contracts deeply
+            // Isovolumetric initially, then ejects
+            if (p < 0.15) {
+                avOpen = 0;
+                slOpen = 0;
+                ejectFlow = 0;
+            } else {
+                avOpen = 0;
+                slOpen = Math.sin((p - 0.15) / 0.85 * Math.PI); // opens and closes
+                ejectFlow = slOpen * 2;
             }
+        } else if (phase < 0.50) { // Book -> Isovolumetric Relaxation (Valves close)
+            const p = (phase - 0.40) / 0.10;
+            atrialScale = 1.0 + p * 0.05;
+            ventScale = 0.85;
+            avOpen = 0;
+            slOpen = 0;
+            ejectFlow = 0;
+        } else if (phase < 0.70) { // Return -> Ventricular filling starts
+            const p = (phase - 0.50) / 0.20;
+            atrialScale = 1.05 - p * 0.05;
+            ventScale = 0.85 + Math.pow(p, 0.5) * 0.15; // rapid fill
+            avOpen = p; // slowly opening
+            slOpen = 0;
+            fillFlow = p;
+        } else { // Boat -> Passive Filling
+            atrialScale = 1.0;
+            ventScale = 1.0;
+            avOpen = 1;
+            slOpen = 0;
+            fillFlow = 1;
         }
-
-        const spinePath = spinePoints.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.screenX} ${p.screenY}`).join(' ');
-
-        // Check if values exploded, provide fallback bounds
-        if (minX === Infinity || minX === maxX) { minX = 0; maxX = 100; }
-        if (minY === Infinity || minY === maxY) { minY = 0; maxY = 100; }
-
-        // Perfect Center calculation
-        const cx = (minX + maxX) / 2;
-        const cy = (minY + maxY) / 2;
-        
-        // Time-independent bounding boxes let us frame using an 85x85 safe area
-        const geomWidth = Math.max(20, maxX - minX);
-        const geomHeight = Math.max(20, maxY - minY);
-        
-        // Determine the safe absolute minimum scale to fit in box
-        const scaleFit = Math.min(85 / geomWidth, 85 / geomHeight);
 
         return {
-            spinePath,
-            wingPaths,
-            bodyShroud,
-            head: headAnchor,
-            amplitude: flapAmplitude,
-            transformString: `translate(50, 50) scale(${scaleFit}) translate(${-cx}, ${-cy})` // Re-centers perfectly
+            atrialScale,
+            ventScale,
+            avOpen,
+            slOpen,
+            fillFlow,
+            ejectFlow,
+            activePhase,
+            visualCue,
+            color,
+            flash,
+            phase,
+            pressure
         };
     }, [rotation, time]);
 
@@ -550,71 +545,158 @@ export const BirdMotion: React.FC<{ rotation: number }> = ({ rotation }) => {
 
     return (
         <div className="flex flex-col w-full space-y-4">
-            <div className="relative w-full h-[220px] bg-black/60 rounded-xl border border-gray-800/80 shadow-inner flex flex-col items-center justify-center overflow-hidden">
-                <div className="absolute top-2 left-3 flex flex-col z-10">
-                    <span className="text-[10px] font-mono text-gray-400 tracking-tighter uppercase leading-none opacity-60">Traveling Serpent | 3D Wave</span>
-                    <span className="text-[11px] font-bold text-cyan-400 tracking-wider uppercase mt-1">Speech of Bird (27:16)</span>
+            <div className="relative w-full h-[220px] bg-black/90 rounded-xl border border-gray-800/80 shadow-inner flex flex-col items-center justify-center overflow-hidden transition-colors duration-500" style={{ boxShadow: `inset 0 0 ${20 + heartGeometry.flash * 40}px ${heartGeometry.color}20` }}>
+                
+                <div className="absolute top-2 left-2 flex flex-col z-20">
+                    <span className="text-[11px] font-bold tracking-wider uppercase transition-colors duration-200" style={{ color: heartGeometry.color }}>
+                        Umm al-Kitab<br/>Equation
+                    </span>
                 </div>
                 
-                <svg viewBox="0 0 100 100" className="w-[90%] h-[90%] max-w-[320px] max-h-[100%] overflow-visible">
-                    {/* Auto-scaling and Centering Wrapper for the traveling wave */}
-                    <g transform={birdGeometry.transformString}>
-                        
-                        {/* Transverse Radiating Fields (Wings/Light) */}
-                        {birdGeometry.wingPaths.map((d, i) => (
-                            <path 
-                                key={`wing-${i}`} 
-                                d={d} 
-                                fill="none" 
-                                stroke="currentColor" 
-                                strokeWidth="0.25" 
-                                className="text-cyan-400" 
-                                opacity={0.35 + (i % 2) * 0.25}
-                            />
-                        ))}
+                {/* Background Grid */}
+                <div className="absolute inset-0 z-0 opacity-[0.15] pointer-events-none">
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                                <path d="M 10 0 L 0 0 0 10" fill="none" stroke={heartGeometry.color} strokeWidth="0.5" className="transition-all duration-300"/>
+                            </pattern>
+                            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                                <rect width="50" height="50" fill="url(#smallGrid)"/>
+                                <path d="M 50 0 L 0 0 0 50" fill="none" stroke={heartGeometry.color} strokeWidth="1" className="transition-all duration-300"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid)" />
+                    </svg>
+                </div>
 
-                        {/* Dense Core Shroud (Volume) */}
-                        {birdGeometry.bodyShroud.map((d, i) => (
-                            <path 
-                                key={`shroud-${i}`} 
-                                d={d} 
-                                fill="none" 
-                                stroke="white" 
-                                strokeWidth="1.2" 
-                                className="drop-shadow-sm"
-                                opacity={0.3 + (i / 30) * 0.5}
-                            />
-                        ))}
-                        
-                        {/* Longitudinal Carrier (Spine/River) */}
-                        <path 
-                            d={birdGeometry.spinePath} 
-                            fill="none" 
-                            stroke="#fff" 
-                            strokeWidth="1.5" 
-                            className="drop-shadow-lg shadow-white"
-                            opacity="0.9"
-                        />
+                {/* Beating Heart Canvas */}
+                <svg viewBox="0 0 100 100" className="w-[100%] h-[100%] overflow-visible z-10" preserveAspectRatio="xMidYMid meet">
+                    {/* Valve Transition Flash */}
+                    {heartGeometry.flash > 0 && (
+                        <circle cx="50" cy="50" r={10 + heartGeometry.flash * 40} fill="#fbbf24" opacity={heartGeometry.flash * 0.4} style={{ filter: "blur(8px)" }} />
+                    )}
+                    
+                    <g transform="translate(50, 50) scale(0.7) translate(-50, -50)">
+                        <g className="transition-all duration-75">
+                            {/* DEF GRADIENTS FOR MRI LOOK */}
+                            <defs>
+                                <radialGradient id="raGrad" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.8" />
+                                    <stop offset="100%" stopColor="#1e3a8a" stopOpacity="0.2" />
+                                </radialGradient>
+                                <radialGradient id="laGrad" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stopColor="#ef4444" stopOpacity="0.8" />
+                                    <stop offset="100%" stopColor="#7f1d1d" stopOpacity="0.2" />
+                                </radialGradient>
+                                <radialGradient id="rvGrad" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stopColor="#1d4ed8" stopOpacity="0.6" />
+                                    <stop offset="100%" stopColor="#0f172a" stopOpacity="0.3" />
+                                </radialGradient>
+                                <radialGradient id="lvGrad" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stopColor="#b91c1c" stopOpacity="0.6" />
+                                    <stop offset="100%" stopColor="#0f172a" stopOpacity="0.3" />
+                                </radialGradient>
+                            </defs>
 
-                        {/* Energy Head (Forward Progression) */}
-                        <g transform={`translate(${birdGeometry.head.x}, ${birdGeometry.head.y})`}>
-                            <circle cx="0" cy="0" r="1.5" fill="white" className="drop-shadow-md" />
-                            <circle cx="0" cy="0" r="3" fill="none" stroke="#22d3ee" strokeWidth="0.5" opacity="0.8">
-                                <animate attributeName="r" values="1.5;5;1.5" dur="1s" repeatCount="indefinite" />
-                                <animate attributeName="opacity" values="0.8;0;0.8" dur="1s" repeatCount="indefinite" />
-                            </circle>
-                            <path 
-                                d="M 0 -1 L 4 0 L 0 1 Z" 
-                                fill="#fbbf24" 
-                                opacity="0.9" 
-                                className="drop-shadow-sm"
-                            />
+                            {/* RIGHT ATRIUM */}
+                            <g transform={`translate(35, 30) scale(${heartGeometry.atrialScale}) translate(-35, -30)`}>
+                                {/* S/I Vena Cava */}
+                                <path d="M 28 5 L 40 5 L 40 30 L 28 30 Z" fill="#1e3a8a" opacity="0.4" />
+                                <path d="M 28 40 L 40 40 L 40 60 L 28 60 Z" fill="#1e3a8a" opacity="0.4" />
+                                <path d="M 21 41 C 15 30, 20 15, 35 15 C 42 15, 48 25, 48 41 Z" fill="url(#raGrad)" stroke="#60a5fa" strokeWidth="0.8" />
+                            </g>
+
+                            {/* LEFT ATRIUM */}
+                            <g transform={`translate(65, 30) scale(${heartGeometry.atrialScale}) translate(-65, -30)`}>
+                                {/* Pulmonary Veins */}
+                                <path d="M 60 15 L 75 15 L 75 30 L 60 30 Z" fill="#7f1d1d" opacity="0.4" />
+                                <path d="M 52 41 C 52 25, 58 15, 65 15 C 80 15, 85 30, 79 41 Z" fill="url(#laGrad)" stroke="#f87171" strokeWidth="0.8" />
+                            </g>
+
+                            {/* RIGHT VENTRICLE */}
+                            <g transform={`translate(40, 65) scale(${heartGeometry.ventScale}) translate(-40, -65)`}>
+                                <path d="M 48 45 L 20 45 C 10 65, 25 90, 48 95 C 47 75, 47 55, 48 45 Z" fill="url(#rvGrad)" stroke="#2563eb" strokeWidth="0.8" />
+                            </g>
+
+                            {/* LEFT VENTRICLE */}
+                            <g transform={`translate(60, 65) scale(${heartGeometry.ventScale}) translate(-60, -65)`}>
+                                <path d="M 52 45 L 80 45 C 90 70, 70 93, 46 95 C 50 75, 51 55, 52 45 Z" fill="url(#lvGrad)" stroke="#dc2626" strokeWidth="0.8" />
+                            </g>
+
+                            {/* SEPTUM (Dividing Wall) */}
+                            <g transform={`translate(50, 70) scale(${heartGeometry.ventScale}) translate(-50, -70)`}>
+                                <path d="M 47 45 L 53 45 L 50 94 L 46 95 Z" fill="#334155" opacity="0.9" />
+                            </g>
+
+                            {/* MITRAL & TRICUSPID VALVES (Atrioventricular) */}
+                            <g strokeWidth="1.5" strokeLinecap="round">
+                                {/* Tricuspid */}
+                                <line x1="22" y1="45" x2="43" y2="45" stroke="#475569" strokeWidth="1" />
+                                <line x1="22" y1="45" x2="32.5" y2={45 + heartGeometry.avOpen * 8} stroke="white" opacity="0.9" />
+                                <line x1="43" y1="45" x2="32.5" y2={45 + heartGeometry.avOpen * 8} stroke="white" opacity="0.9" />
+
+                                {/* Mitral */}
+                                <line x1="57" y1="45" x2="78" y2="45" stroke="#475569" strokeWidth="1" />
+                                <line x1="57" y1="45" x2="67.5" y2={45 + heartGeometry.avOpen * 8} stroke="white" opacity="0.9" />
+                                <line x1="78" y1="45" x2="67.5" y2={45 + heartGeometry.avOpen * 8} stroke="white" opacity="0.9" />
+                            </g>
+
+                            {/* AORTA & PULMONARY ARTERY */}
+                            <g>
+                                {/* Pulmonary Artery */}
+                                <path d="M 48 41 C 48 20, 60 15, 75 15" fill="none" stroke="#3b82f6" strokeWidth="8" opacity="0.7" />
+                                {/* Aorta */}
+                                <path d="M 52 41 C 52 25, 45 10, 55 5 C 65 0, 75 10, 65 20" fill="none" stroke="#ef4444" strokeWidth="8" opacity="0.7" />
+                            </g>
+
+                            {/* SEMILUNAR VALVES */}
+                            <g strokeWidth="2" strokeLinecap="round">
+                                {/* Pulmonary Valve */}
+                                <line x1="45" y1="36" x2="52" y2="34" stroke="#475569" strokeWidth="1" />
+                                {heartGeometry.slOpen > 0 && (
+                                    <>
+                                    <line x1="45" y1="36" x2={48 - heartGeometry.slOpen * 4} y2={30 - heartGeometry.slOpen * 5} stroke="#fcd34d" />
+                                    <line x1="52" y1="34" x2={48 + heartGeometry.slOpen * 2} y2={30 - heartGeometry.slOpen * 5} stroke="#fcd34d" />
+                                    </>
+                                )}
+
+                                {/* Aortic Valve */}
+                                <line x1="48" y1="34" x2="55" y2="36" stroke="#475569" strokeWidth="1" />
+                                {heartGeometry.slOpen > 0 && (
+                                    <>
+                                    <line x1="48" y1="34" x2={52 - heartGeometry.slOpen * 2} y2={30 - heartGeometry.slOpen * 5} stroke="#fcd34d" />
+                                    <line x1="55" y1="36" x2={52 + heartGeometry.slOpen * 4} y2={30 - heartGeometry.slOpen * 5} stroke="#fcd34d" />
+                                    </>
+                                )}
+                            </g>
+
+                            {/* FLUID DYNAMICS */}
+                            <g stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeDasharray="2 8">
+                                {heartGeometry.fillFlow > 0 && (
+                                    <g opacity={heartGeometry.fillFlow}>
+                                        <path d="M 32.5 35 L 32.5 60" style={{ strokeDashoffset: -(time * 20) % 10 }} />
+                                        <path d="M 67.5 35 L 67.5 60" style={{ strokeDashoffset: -(time * 20) % 10 }} />
+                                    </g>
+                                )}
+                                
+                                {heartGeometry.ejectFlow > 0 && (
+                                    <g opacity={heartGeometry.ejectFlow}>
+                                        {/* RV -> Pulmonary flow */}
+                                        <path d="M 48 45 C 48 20, 60 15, 75 15" style={{ strokeDashoffset: -(time * 30) % 10 }} strokeWidth="2" strokeDasharray="3 6" />
+                                        {/* LV -> Aorta flow */}
+                                        <path d="M 52 45 C 52 25, 45 10, 55 5 C 65 0, 75 10, 65 20" style={{ strokeDashoffset: -(time * 30) % 10 }} strokeWidth="2" strokeDasharray="3 6" />
+                                    </g>
+                                )}
+                            </g>
                         </g>
                     </g>
                 </svg>
                 
-                <div className="absolute bottom-2 right-3 text-[9px] font-mono text-gray-500 uppercase tracking-widest italic z-10">
-                    Dual-Field Output: Longitudinal + Transverse
+                {/* Left side minimal indicators */}
+                <div className="absolute bottom-2 left-3 flex space-x-1 z-20">
+                    {[0.1, 0.2, 0.35, 0.45, 0.6, 0.85].map((target, i) => (
+                        <div key={i} className={`w-1.5 h-1.5 rounded-full border border-gray-600 transition-all duration-100 ${Math.abs(heartGeometry.phase - target) <= 0.1 ? 'scale-150' : 'opacity-40'}`} style={{ backgroundColor: Math.abs(heartGeometry.phase - target) <= 0.1 ? heartGeometry.color : 'transparent' }} />
+                    ))}
                 </div>
             </div>
 
@@ -664,13 +746,17 @@ export const BirdMotion: React.FC<{ rotation: number }> = ({ rotation }) => {
                              </svg>
                         </div>
                         
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group">
+                        <div 
+                            className="absolute inset-0 flex items-center justify-center group z-20"
+                            onClick={onToggle}
+                            title="Toggle Core Animation Engine"
+                        >
                             {/* Central Bird Silhouette Logo */}
                             <svg 
                                 width="80" 
                                 height="40" 
                                 viewBox="0 0 100 50" 
-                                className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-transform duration-700 group-hover:scale-110"
+                                className={`cursor-pointer transition-all duration-700 hover:scale-110 ${!isPaused ? "text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.8)]" : "text-gray-500 opacity-40 shadow-none hover:text-white"}`}
                             >
                                 <path 
                                     d="M 50 15 Q 70 -5 90 20 Q 75 10 50 25 Q 25 10 10 20 Q 30 -5 50 15 Z" 
@@ -737,7 +823,7 @@ export const BirdMotion: React.FC<{ rotation: number }> = ({ rotation }) => {
 };
 
 const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResourceMode, showFunctionalTooltip, hideTooltip }) => {
-
+    const [isSystemActive, setIsSystemActive] = React.useState(true);
     
     // Side Panel Presentation Reordering (DNA Flow - INTERLEAVED):
     // Row 1 (Interleaved Layout): Slave(D 1) -> Mountain(U 95) -> Righteous(D 77)
@@ -825,7 +911,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                 <div className="flex flex-row justify-between items-center w-full mt-10 p-2 sm:p-4 bg-black/40 rounded-xl border border-gray-800 shadow-inner overflow-hidden">
                     <div className="w-1/2 flex flex-col items-center">
                         <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Rössler Flow</div>
-                        <RosslerFlow rotation={rotation} />
+                        <RosslerFlow rotation={rotation} isPaused={!isSystemActive} />
                         <div className="text-[10px] text-cyan-400 font-bold tracking-widest uppercase mt-2 drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]">Chrysalis</div>
                         
                         {/* Rossler Data Labels */}
@@ -852,7 +938,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                     <div className="w-px h-32 bg-gray-800/60 mix-blend-screen self-center"></div>
                     <div className="w-1/2 flex flex-col items-center">
                         <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Lorenz (Butterfly)</div>
-                        <LorenzFlow rotation={rotation} />
+                        <LorenzFlow rotation={rotation} isPaused={!isSystemActive} />
                         <div className="text-[10px] text-pink-400 font-bold tracking-widest uppercase mt-3 drop-shadow-[0_0_8px_rgba(244,114,182,0.3)]">Photosynthesis</div>
 
                         {/* Lorenz Data Labels */}
@@ -879,7 +965,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                 </div>
 
                 <div className="mt-8">
-                    <BirdMotion rotation={rotation} />
+                    <BirdMotion rotation={rotation} isPaused={!isSystemActive} onToggle={() => setIsSystemActive(!isSystemActive)} />
                 </div>
 
                 <div className="mt-8 p-5 bg-gray-950/40 border border-gray-800/60 rounded-xl space-y-7 shadow-2xl relative overflow-hidden">
