@@ -463,42 +463,42 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                             f(x) = ax³ [110] + bx² [108] + cx [103] + d [19]
                         </p>
                         <p className="text-xs sm:text-sm text-gray-400 leading-relaxed italic border-l-2 border-gray-800 pl-4">
-                            Describes one inner cycle: command enters, self is shaped, truth is exposed, then everything returns to the origin—repeating until alignment is stable.
+                            Yusuf (12) is the primary full-cycle example: one complete transformation cycle (dream → trial → clarity → return) repeated until final alignment is stable.
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-4">
                             <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-widest flex items-center gap-2">
-                                <span className="text-sm">▼</span> Qun — Inner Movement
+                                <span className="text-sm">▼</span> Qun — Inner Movement (Yusuf Trial)
                             </h4>
                             <ul className="space-y-3.5 text-[11px] sm:text-[12px] text-gray-300">
                                 <li className="flex gap-3 items-baseline">
                                     <span className="text-cyan-500 font-bold shrink-0 font-mono text-[13px]">3</span>
-                                    <span>Entry: Awakening impulse appears inside (Impulse)</span>
+                                    <span>Entry (12:4): Dream appears; signal enters as divine impulse.</span>
                                 </li>
                                 <li className="flex gap-3 items-baseline">
                                     <span className="text-cyan-500 font-bold shrink-0 font-mono text-[13px]">6</span>
-                                    <span>Pressure: Self is compressed, patterns reorganize (Refinement)</span>
+                                    <span>Pressure (12:8–35): Constraints (well, slavery, prison) reshape self.</span>
                                 </li>
                                 <li className="flex gap-3 items-baseline">
                                     <span className="text-cyan-500 font-bold shrink-0 font-mono text-[13px]">9</span>
-                                    <span>Peak: Clarity; truth becomes undeniable (Seeing)</span>
+                                    <span>Peak (12:36–49): Clarity; hidden structures/meanings exposed.</span>
                                 </li>
                             </ul>
                         </div>
                         <div className="space-y-4">
                             <h4 className="text-xs font-bold text-pink-500 uppercase tracking-widest flex items-center gap-2">
-                                <span className="text-sm">▲</span> FayaQun — Inner Return
+                                <span className="text-sm">▲</span> FayaQun — Return (Yusuf Authority)
                             </h4>
                             <ul className="space-y-3.5 text-[11px] sm:text-[12px] text-gray-300">
                                 <li className="flex gap-3 items-baseline">
                                     <span className="text-pink-500 font-bold shrink-0 font-mono text-[13px]">9→6</span>
-                                    <span>Integration: What was seen collapses into understanding</span>
+                                    <span>Governance: Yusuf interprets and applies insight to reality.</span>
                                 </li>
                                 <li className="flex gap-3 items-baseline">
                                     <span className="text-pink-500 font-bold shrink-0 font-mono text-[13px]">6→3</span>
-                                    <span>Stabilization: Insight becomes lived state (Baseline Reset)</span>
+                                    <span>Stabilization (12:54–100): Return to center; authority + reunion.</span>
                                 </li>
                             </ul>
                         </div>
@@ -507,31 +507,31 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                     <div className="space-y-5 pt-2">
                         <div className="flex items-center gap-4 bg-black/20 p-3 rounded-lg border border-gray-800/40">
                              <div className="px-2.5 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded text-[10px] font-bold text-amber-500 uppercase tracking-tighter shrink-0">The Switch (6)</div>
-                             <p className="text-[11px] sm:text-xs text-gray-400 italic">Turning point between reacting (old) and aligning (correct pattern).</p>
+                             <p className="text-[11px] sm:text-xs text-gray-400 italic">Critical boundary (12:23, 12:33): Choose alignment over reacting to preserve system stability.</p>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <div className="p-4 bg-cyan-950/5 rounded-lg border border-cyan-900/20">
-                                <div className="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-tighter">3 → 6 (cx + bx²)</div>
-                                <div className="text-[12px] text-cyan-300 font-bold mb-1.5">Rotation + Bending</div>
-                                <p className="text-[10px] text-gray-400 leading-normal">Resistance appears. Life starts moving, patterns form through friction.</p>
+                                <div className="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-tighter">Rössler (Chrysalis)</div>
+                                <div className="text-[12px] text-cyan-300 font-bold mb-1.5">Internal Refinement</div>
+                                <p className="text-[10px] text-gray-400 leading-normal">Closed loops (Well → House → Prison). Repeated trials refine the inner self toward purity.</p>
                             </div>
                             <div className="p-4 bg-pink-950/5 rounded-lg border border-pink-900/20">
-                                <div className="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-tighter">6 → 9 (ax³)</div>
-                                <div className="text-[12px] text-pink-300 font-bold mb-1.5">Vertical Lift</div>
-                                <p className="text-[10px] text-gray-400 leading-normal">Nonlinear shift. Vertical threshold. Hidden truth rises sharply.</p>
+                                <div className="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-tighter">Lorenz (Photosynthesis)</div>
+                                <div className="text-[12px] text-pink-300 font-bold mb-1.5">Interactive Conversion</div>
+                                <p className="text-[10px] text-gray-400 leading-normal">Open system (King's Dream). External signal → transformation → structured real-world output.</p>
                             </div>
                             <div className="p-4 bg-gray-900/20 rounded-lg border border-gray-700/20">
-                                <div className="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-tighter">9 → 3 (d)</div>
-                                <div className="text-[12px] text-gray-100 font-bold mb-1.5">Fold + Return</div>
-                                <p className="text-[10px] text-gray-400 leading-normal">Insight settles. Ego dissolves. Return with new stable alignment.</p>
+                                <div className="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-tighter">Stabilized Core</div>
+                                <div className="text-[12px] text-gray-100 font-bold mb-1.5">Narrative Anchor</div>
+                                <p className="text-[10px] text-gray-400 leading-normal">One full execution: dream → trial → clarity → return. Insight becomes the new baseline lived state.</p>
                             </div>
                         </div>
                     </div>
 
                     <div className="pt-4 border-t border-gray-800/40">
                         <p className="text-[11px] sm:text-xs text-gray-400 leading-relaxed">
-                            <span className="text-gray-200 font-bold">Inner Law of Transformation:</span> Each loop lifts awareness, folds it into the self, and returns it purified—until the motion becomes stable and aligned with the constant center.
+                            <span className="text-gray-200 font-bold">The Narrative Engine:</span> Internal constraints (Rössler) refine the self until external responsibility (Lorenz) produces structured reality—aligning the inner law with the outer kingdom.
                         </p>
                     </div>
                 </div>
