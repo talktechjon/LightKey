@@ -133,3 +133,17 @@ export const MobiusIcon = () => (
         <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
     </svg>
 );
+
+export const SealOfSolomonIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 4 L19 16 L5 16 Z" />
+        <path d="M12 20 L19 8 L5 8 Z" />
+        <circle cx="12" cy="6" r="0.8" fill="currentColor" />
+        <circle cx="18" cy="9.5" r="0.8" fill="currentColor" />
+        <circle cx="18" cy="14.5" r="0.8" fill="currentColor" />
+        <circle cx="12" cy="18" r="0.8" fill="currentColor" />
+        <circle cx="6" cy="14.5" r="0.8" fill="currentColor" />
+        <circle cx="6" cy="9.5" r="0.8" fill="currentColor" />
+    </svg>
+);
