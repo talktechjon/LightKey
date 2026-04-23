@@ -23,6 +23,7 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
     showFunctionalTooltip: (e: React.MouseEvent, message: string, chapterId: number, color: string) => void;
     hideTooltip: () => void;
 }) => {
+  const hasTooltip = !name.includes('🌴') && !name.includes('🐟');
   const titleColor = direction === 'downward' ? 'text-cyan-400' : 'text-pink-500';
   const titleSymbol = direction === 'downward' ? '▼' : '▲';
 
@@ -41,10 +42,12 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
   return (
     <div>
       <h3 
-        className={`font-semibold text-lg ${titleColor} mb-2 cursor-help`} 
+        className={`font-semibold text-lg ${titleColor} mb-2 ${hasTooltip ? 'cursor-help' : ''}`} 
         style={{ textShadow: `0 0 5px currentColor`}}
-        onMouseEnter={(e) => showFunctionalTooltip(e, headerTooltip, getSliceAtPoint(points[0].value, rotation).id, direction === 'downward' ? '#FF00FF' : '#00FFFF')}
-        onMouseLeave={hideTooltip}
+        {...(hasTooltip ? {
+            onMouseEnter: (e) => showFunctionalTooltip(e, headerTooltip, getSliceAtPoint(points[0].value, rotation).id, direction === 'downward' ? '#FF00FF' : '#00FFFF'),
+            onMouseLeave: hideTooltip
+        } : {})}
       >
         {titleSymbol} {name}
       </h3>
@@ -704,34 +707,43 @@ export const BirdMotion: React.FC<{ rotation: number, isPaused: boolean, onToggl
             <div className="w-full bg-black/40 border border-gray-800 rounded-xl p-4 sm:p-6 overflow-hidden">
                 <div className="grid grid-cols-3 gap-y-8 relative">
                     {/* Row 1: Slave -> Mountain -> Righteous */}
-                    <div className="flex flex-col items-center space-y-2">
+                    <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-2xl sm:text-3xl">🌴</span>
-                        <div className="text-center">
-                            <div className="text-cyan-400 font-bold text-sm sm:text-base">{dataPairs.p1.id}:{dataPairs.p1.blockCount}</div>
-                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Slave</div>
-                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p1.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                        <div className="text-center flex flex-col items-center w-full">
+                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">{dataPairs.p1.id}:{dataPairs.p1.blockCount}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p1.id)?.englishName}>
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p1.id)?.englishName}
+                            </div>
+                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Slave</div>
+                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p1.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
                                 {MUQATTAT_LETTERS.get(dataPairs.p1.id)?.join(' ') || '—'}
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-center space-y-2">
+                    <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-2xl sm:text-3xl">🕋</span>
-                        <div className="text-center">
-                            <div className="text-pink-500 font-bold text-sm sm:text-base">{dataPairs.p95.id}:{dataPairs.p95.blockCount}</div>
-                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Mountain</div>
-                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p95.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                        <div className="text-center flex flex-col items-center w-full">
+                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p95.id}:{dataPairs.p95.blockCount}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p95.id)?.englishName}>
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p95.id)?.englishName}
+                            </div>
+                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Mountain</div>
+                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p95.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
                                 {MUQATTAT_LETTERS.get(dataPairs.p95.id)?.join(' ') || '—'}
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-center space-y-2">
+                    <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-2xl sm:text-3xl">💧</span>
-                        <div className="text-center">
-                            <div className="text-cyan-400 font-bold text-sm sm:text-base">{dataPairs.p77.id}:{dataPairs.p77.blockCount}</div>
-                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Righteous</div>
-                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p77.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                        <div className="text-center flex flex-col items-center w-full">
+                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">{dataPairs.p77.id}:{dataPairs.p77.blockCount}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p77.id)?.englishName}>
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p77.id)?.englishName}
+                            </div>
+                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Righteous</div>
+                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p77.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
                                 {MUQATTAT_LETTERS.get(dataPairs.p77.id)?.join(' ') || '—'}
                             </div>
                         </div>
@@ -784,34 +796,43 @@ export const BirdMotion: React.FC<{ rotation: number, isPaused: boolean, onToggl
                     </div>
 
                     {/* Row 2: Boat -> Queen -> Book */}
-                    <div className="flex flex-col items-center space-y-2">
+                    <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-2xl sm:text-3xl">🐟</span>
-                        <div className="text-center">
-                            <div className="text-pink-500 font-bold text-sm sm:text-base">{dataPairs.p57.id}:{dataPairs.p57.blockCount}</div>
-                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Boat</div>
-                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p57.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                        <div className="text-center flex flex-col items-center w-full">
+                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p57.id}:{dataPairs.p57.blockCount}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p57.id)?.englishName}>
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p57.id)?.englishName}
+                            </div>
+                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Boat</div>
+                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p57.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
                                 {MUQATTAT_LETTERS.get(dataPairs.p57.id)?.join(' ') || '—'}
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-center space-y-2">
+                    <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-2xl sm:text-3xl">🐝</span>
-                        <div className="text-center">
-                            <div className="text-cyan-400 font-bold text-sm sm:text-base">{dataPairs.p39.id}:{dataPairs.p39.blockCount}</div>
-                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Queen</div>
-                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p39.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                        <div className="text-center flex flex-col items-center w-full">
+                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">{dataPairs.p39.id}:{dataPairs.p39.blockCount}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p39.id)?.englishName}>
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p39.id)?.englishName}
+                            </div>
+                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Queen</div>
+                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p39.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
                                 {MUQATTAT_LETTERS.get(dataPairs.p39.id)?.join(' ') || '—'}
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-center space-y-2">
+                    <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-2xl sm:text-3xl">🔆</span>
-                        <div className="text-center">
-                            <div className="text-pink-500 font-bold text-sm sm:text-base">{dataPairs.p19.id}:{dataPairs.p19.blockCount}</div>
-                            <div className="text-[9px] text-gray-500 uppercase tracking-tighter">Book</div>
-                            <div className={`mt-1 font-mono text-[11px] h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p19.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
+                        <div className="text-center flex flex-col items-center w-full">
+                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p19.id}:{dataPairs.p19.blockCount}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p19.id)?.englishName}>
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p19.id)?.englishName}
+                            </div>
+                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Book</div>
+                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p19.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
                                 {MUQATTAT_LETTERS.get(dataPairs.p19.id)?.join(' ') || '—'}
                             </div>
                         </div>
