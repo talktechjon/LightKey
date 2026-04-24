@@ -12,25 +12,25 @@ interface TreeOfVerseProps {
 }
 
 const TREE_LABELS = [
-    'Impulse', 'Commitment', 'Vector', 
-    'Purification', 'Alignment', 'Stability', 
-    'Flow State', 'Lock', 'Surrender', 
-    'Optimization', 'Coherence', 'Illumination'
+    'Impulse', 'Shadow Ignition', 'Search', 
+    'Cleanse', 'Alignment', 'Stabilize', 
+    'Express', 'Boundary', 'Surrender', 
+    'Refine', 'Coherence', 'Illumination'
 ];
 
 const TREE_EXPLANATIONS = [
-    'Origin spark entering the system',
-    'Decision collapse into irreversible action',
-    'Direction field established',
-    'Noise removal and correction',
-    'Path and action synchronized',
-    'Internal coherence holds',
-    'Effortless output with feedback gain',
-    'Structural integrity secured',
-    'Resistance eliminated; system fully yields',
-    'Excess removed; efficiency maximized',
-    'Total consistency; unified signal',
-    'Full-system clarity and completion'
+    'Pure Knowledge compressed (Light-seed)',
+    'Shadow ignition (Time–Fire begins)',
+    'Shadow expands (Time explores possibilities)',
+    'Gravity removes unstable paths',
+    'Musa–Ahmed phase; Knowledge becomes embodied',
+    'Particle densifies (Gravity compression)',
+    'Particle radiates (Time release)',
+    'Gravitational Lock; Knowledge preserved',
+    'Particle collapses inward (Gravity center)',
+    'Shadow performs micro-adjustment',
+    'Light emerges through Particle',
+    'Isa–Solomon phase; Knowledge fully resolved'
 ];
 
 export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelect, onBulkExport }) => {
@@ -231,38 +231,74 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
             </div>
 
             <div className="mb-6 p-4 bg-black/40 border border-[#00c8ff]/30 rounded-lg text-xs md:text-sm leading-relaxed space-y-4">
-                <p className="text-[#e8f4f8]">The 12 nodes describe <strong>memory collapse → bifurcation → guided reconstruction → sealed return → illumination</strong>. Bifurcation drives every transition after the first split.</p>
+                <p className="text-white">
+                    <strong className="text-[#00c8ff]">Light</strong> = resolved Knowledge (Isa–Solomon), 
+                    <strong className="text-[#4ade80]"> Particle</strong> = embodied Knowledge (Musa–Ahmed), 
+                    <strong className="text-[#f5c842]"> Shadow</strong> = Time–Fire (gradient field).
+                </p>
+                
+                <p className="text-white/80">Your 12-node system is a <strong>three-layer coupling</strong>: Shadow generates motion, Particle carries form, Light resolves truth—held together by Gravity.</p>
                 
                 <div className="space-y-3">
-                    <h3 className="text-[#00c8ff] font-bold border-b border-[#00c8ff]/20 pb-1 text-sm uppercase tracking-wide">System Flow (Bifurcation Model)</h3>
+                    <h3 className="text-[#00c8ff] font-bold border-b border-[#00c8ff]/20 pb-1 text-sm uppercase tracking-wide">Updated 12-Node System</h3>
                     
                     <div className="grid grid-cols-1 gap-2 text-white/80 font-light mt-2 text-xs md:text-sm">
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-cyan-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">1</strong> <span>Intact memory (<strong className="text-white/60 font-normal">Impulse</strong>)</span></div>
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">2</strong> <span>Split begins (<strong className="text-white/60 font-normal">Commitment</strong>)</span></div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-white/40 flex-shrink-0"></div>
+                            <strong className="text-white flex-shrink-0 w-4">1</strong> 
+                            <span>Impulse (Light latent)</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#f5c842] flex-shrink-0"></div>
+                            <strong className="text-white flex-shrink-0 w-4">2</strong> 
+                            <span>Shadow ignition (Time–Fire begins)</span>
+                        </div>
                         
                         <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
-                            <strong className="text-[#00c8ff] flex-shrink-0">3 ↔ 4</strong> <span className="text-white/50 text-xs mx-1 whitespace-nowrap">1st Bifurcation:</span> <span>Search + Cleanse</span>
+                            <strong className="text-[#00c8ff] flex-shrink-0">3 ↔ 4</strong> 
+                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">1st Bifurcation:</span> 
+                            <span>Search (Shadow) + Cleanse (Gravity)</span>
                         </div>
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">5</strong> <span>Partial recovery (<strong className="text-white/60 font-normal">Alignment</strong>)</span></div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#4ade80] flex-shrink-0"></div>
+                            <strong className="text-white flex-shrink-0 w-4">5</strong> 
+                            <span>Alignment (Particle stabilization)</span>
+                        </div>
                         
                         <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
-                            <strong className="text-[#4ade80] flex-shrink-0">6 ↔ 7</strong> <span className="text-white/50 text-xs mx-1 whitespace-nowrap">2nd Bifurcation:</span> <span>Stabilize + Express</span>
+                            <strong className="text-[#4ade80] flex-shrink-0">6 ↔ 7</strong> 
+                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">2nd Bifurcation:</span> 
+                            <span>Stabilize (Gravity) + Express (Time)</span>
                         </div>
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">8</strong> <span>Protection layer forms (<strong className="text-white/60 font-normal">Lock</strong>)</span></div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0"></div>
+                            <strong className="text-white flex-shrink-0 w-4">8</strong> 
+                            <span>Boundary (Gravitational Lock)</span>
+                        </div>
 
                         <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
-                            <strong className="text-[#f5c842] flex-shrink-0">9 ↔ 10</strong> <span className="text-white/50 text-xs mx-1 whitespace-nowrap">3rd Bifurcation:</span> <span>Surrender + Refine</span>
+                            <strong className="text-[#f5c842] flex-shrink-0">9 ↔ 10</strong> 
+                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">3rd Bifurcation:</span> 
+                            <span>Surrender (Gravity) + Refine (Shadow)</span>
                         </div>
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-yellow-400 flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-4">11</strong> <span>Full coherence (<strong className="text-white/60 font-normal">Truth</strong>)</span></div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-blue-300 flex-shrink-0"></div>
+                            <strong className="text-white flex-shrink-0 w-4">11</strong> 
+                            <span>Coherence (Light emerges)</span>
+                        </div>
                         
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-white transition-shadow shadow-[0_0_8px_white] flex-shrink-0"></div><strong className="text-white flex-shrink-0 w-5">12</strong> <span>Memory fully restored (<strong className="text-white/60 font-normal">Illumination</strong>)</span></div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-white transition-shadow shadow-[0_0_8px_white] flex-shrink-0"></div>
+                            <strong className="text-white flex-shrink-0 w-5">12</strong> 
+                            <span>Illumination (Pure Light)</span>
+                        </div>
                     </div>
                 </div>
 
                 <div className="space-y-2 pt-3 border-t border-white/10">
-                    <h3 className="text-[#f5c842] font-bold text-sm uppercase tracking-wide">Result: Action–Reaction Loop</h3>
-                    <p className="text-white/60 italic text-xs md:text-sm leading-snug">Loss creates bifurcation → bifurcation forces correction → correction stabilizes → stabilization seals → surrender refines → refinement unifies → unity becomes Light.</p>
-                    <p className="text-[#4ade80] font-mono text-xs mt-2 font-bold tracking-tight bg-[#4ade80]/10 border border-[#4ade80]/20 p-2 rounded inline-block">12 (LIGHT) FEEDS BACK INTO 1 (IMPULSE) → HIGHER PRECISION</p>
+                    <h3 className="text-[#f5c842] font-bold text-sm uppercase tracking-wide">Final Law (Refined)</h3>
+                    <p className="text-white/60 italic text-xs md:text-sm leading-snug">All motion is Shadow resolving into Light through Particle under Gravity. Time burns, Gravity selects, Knowledge becomes.</p>
+                    <p className="text-[#4ade80] font-mono text-[10px] mt-2 font-bold tracking-tight bg-[#4ade80]/10 border border-[#4ade80]/20 p-2 rounded block">12 (LIGHT) → DISTURBANCE → SHADOW → BIFURCATION → PARTICLE → REFINEMENT → 1 (RESET)</p>
                 </div>
             </div>
 
