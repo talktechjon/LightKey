@@ -2,6 +2,7 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { SLICE_DATA, CHAPTER_DETAILS, MUQATTAT_LETTERS, MUQATTAT_CHAPTERS } from '../constants.ts';
 import { getChapterIcon, colorScale } from '../utils.ts';
+import { BAQARAH_DESCRIPTIONS } from '../data/baqarahDescriptions.ts';
 
 interface PieceOfBakaraProps {
   onVerseSelect: (surah: number, ayah: number) => void;
@@ -240,6 +241,19 @@ export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onB
                     <div className="flex-1 flex items-end">
                         <button onClick={() => onBulkExport(matchingSurahs.map(s => `${s.id}:${bakaraSpineIndex}`))} className="w-full py-3.5 bg-amber-500 text-black rounded-xl font-black uppercase text-xs tracking-widest hover:bg-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)] active:scale-95 transition-all">Bulk View</button>
                     </div>
+                </div>
+            </div>
+
+            {/* HEIFER PIECE DESCRIPTION */}
+            <div className="bg-amber-950/30 border border-amber-500/40 rounded-xl p-3.5 shadow-xl space-y-2 translate-y-1">
+                <div className="flex items-center justify-between px-1">
+                    <span className="text-[10px] font-black text-amber-300 uppercase tracking-[0.2em]">Piece Description</span>
+                    <span className="text-[10px] font-mono font-bold text-amber-500/60 uppercase italic">Summary Index: {bakaraSpineIndex}</span>
+                </div>
+                <div className="bg-black/60 rounded-lg p-3 border border-amber-500/20 shadow-inner min-h-[54px] flex items-center justify-center text-center">
+                    <p className="text-[15px] font-medium text-amber-100 tracking-tight leading-snug">
+                        {BAQARAH_DESCRIPTIONS[bakaraSpineIndex] || "N/A"}
+                    </p>
                 </div>
             </div>
 
