@@ -843,6 +843,160 @@ export const BirdMotion: React.FC<{ rotation: number, isPaused: boolean, onToggl
     );
 };
 
+export const DNAHelixAnimation: React.FC<{
+    isPaused: boolean;
+}> = ({ isPaused }) => {
+    const [time, setTime] = React.useState(0);
+    const timeRef = React.useRef(0);
+
+    React.useEffect(() => {
+        let frame: number;
+        let lastTime = performance.now();
+        const animate = (now: number) => {
+            const delta = now - lastTime;
+            lastTime = now;
+            if (!isPaused) {
+                timeRef.current += delta / 1000;
+                setTime(timeRef.current);
+            }
+            frame = requestAnimationFrame(animate);
+        };
+        frame = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(frame);
+    }, [isPaused]);
+
+    const numNodes = 13;
+    const pathSpacing = 28;
+    const width = (numNodes - 1) * pathSpacing;
+    const height = 80;
+    const centerY = height / 2;
+    const amplitude = 30;
+    const frequency = Math.PI / (4 * pathSpacing); 
+    const speed = 2.0;
+
+    const generatePaths = () => {
+        let p1Back = '', p1Front = '';
+        let p2Back = '', p2Front = '';
+
+        for (let x = 0; x <= width; x += 2) {
+            const t = (x * frequency) - (time * speed);
+            const y1 = centerY + Math.sin(t) * amplitude;
+            const y2 = centerY + Math.sin(t + Math.PI) * amplitude;
+            
+            // Depth check: Cos > 0 means the point is facing the viewer ("front")
+            const is1Front = Math.cos(t) >= 0;
+            const is2Front = Math.cos(t + Math.PI) >= 0;
+
+            if (x === 0) {
+                p1Front += is1Front ? `M ${x} ${y1}` : '';
+                p1Back += !is1Front ? `M ${x} ${y1}` : '';
+                p2Front += is2Front ? `M ${x} ${y2}` : '';
+                p2Back += !is2Front ? `M ${x} ${y2}` : '';
+            } else {
+                const prevX = x - 2;
+                const prevT = (prevX * frequency) - (time * speed);
+                const prevY1 = centerY + Math.sin(prevT) * amplitude;
+                const prevY2 = centerY + Math.sin(prevT + Math.PI) * amplitude;
+                const was1Front = Math.cos(prevT) >= 0;
+                const was2Front = Math.cos(prevT + Math.PI) >= 0;
+
+                // Cyan strand
+                if (is1Front) {
+                    if (!was1Front) p1Front += ` M ${prevX} ${prevY1}`;
+                    p1Front += ` L ${x} ${y1}`;
+                } else {
+                    if (was1Front) p1Back += ` M ${prevX} ${prevY1}`;
+                    p1Back += ` L ${x} ${y1}`;
+                }
+
+                // Pink strand
+                if (is2Front) {
+                    if (!was2Front) p2Front += ` M ${prevX} ${prevY2}`;
+                    p2Front += ` L ${x} ${y2}`;
+                } else {
+                    if (was2Front) p2Back += ` M ${prevX} ${prevY2}`;
+                    p2Back += ` L ${x} ${y2}`;
+                }
+            }
+        }
+        return { p1Front, p1Back, p2Front, p2Back };
+    };
+
+    const { p1Front, p1Back, p2Front, p2Back } = generatePaths();
+
+    // Style constants
+    const colorCyanGlow = "#0891b2";
+    const colorCyan = "#22d3ee";
+    const colorCyanCore = "#cffafe";
+
+    const colorPinkGlow = "#db2777";
+    const colorPink = "#ec4899";
+    const colorPinkCore = "#fce7f3";
+
+    return (
+        <div className="w-full flex justify-center py-4 rounded-xl border border-white/5 bg-gradient-to-r from-transparent via-white/5 to-transparent">
+            <div className="relative overflow-hidden w-full max-w-sm">
+                
+                <svg width="100%" viewBox={`-10 0 ${width + 20} ${height}`} preserveAspectRatio="xMidYMid meet">
+                    {/* ===== BACK STRANDS ===== */}
+                    <g opacity={0.4}>
+                        {/* Cyan Back */}
+                        <path d={p1Back} fill="none" stroke={colorCyanGlow} strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d={p1Back} fill="none" stroke={colorCyan} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                        
+                        {/* Pink Back */}
+                        <path d={p2Back} fill="none" stroke={colorPinkGlow} strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d={p2Back} fill="none" stroke={colorPink} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                    </g>
+
+                    {/* ===== RUNGS (Ladder Lines) ===== */}
+                    <g>
+                        {Array.from({ length: numNodes }).map((_, i) => {
+                            const x = i * pathSpacing;
+                            const t = (x * frequency) - (time * speed);
+                            const y1 = centerY + Math.sin(t) * amplitude;
+                            const y2 = centerY + Math.sin(t + Math.PI) * amplitude;
+                            
+                            // Only calculate opacity based on extreme depth to sell the 3d rotation
+                            const depth = Math.cos(t + Math.PI/4);
+                            const opacity = 0.5 + 0.5 * Math.abs(depth);
+                            
+                            return (
+                                <g key={i} opacity={opacity}>
+                                    {/* Vertical Bar Base (Thick Dark Grey for contrast) */}
+                                    <line x1={x} y1={y1} x2={x} y2={y2} stroke="#111" strokeWidth="4" opacity="0.8" />
+                                    {/* Vertical Bar Core (Thin Translucent White) */}
+                                    <line x1={x} y1={y1} x2={x} y2={y2} stroke="#fff" strokeWidth="1.5" opacity="0.5" />
+                                    
+                                    {/* Glowing Caps */}
+                                    <circle cx={x} cy={y1} r="3" fill="#fff" opacity="0.8" />
+                                    <circle cx={x} cy={y2} r="3" fill="#fff" opacity="0.8" />
+                                    <circle cx={x} cy={y1} r="1.5" fill="#fff" />
+                                    <circle cx={x} cy={y2} r="1.5" fill="#fff" />
+                                </g>
+                            );
+                        })}
+                    </g>
+
+                    {/* ===== FRONT STRANDS ===== */}
+                    <g opacity={1}>
+                        {/* Cyan Front */}
+                        <path d={p1Front} fill="none" stroke={colorCyanGlow} strokeWidth="12" strokeLinecap="round" opacity="0.5" strokeLinejoin="round" />
+                        <path d={p1Front} fill="none" stroke={colorCyan} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d={p1Front} fill="none" stroke={colorCyanCore} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+
+                        {/* Pink Front */}
+                        <path d={p2Front} fill="none" stroke={colorPinkGlow} strokeWidth="12" strokeLinecap="round" opacity="0.5" strokeLinejoin="round" />
+                        <path d={p2Front} fill="none" stroke={colorPink} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d={p2Front} fill="none" stroke={colorPinkCore} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </g>
+                </svg>
+
+            </div>
+        </div>
+    );
+};
+
 const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResourceMode, showFunctionalTooltip, hideTooltip }) => {
     const [isSystemActive, setIsSystemActive] = React.useState(true);
     
@@ -919,6 +1073,9 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                     showFunctionalTooltip={showFunctionalTooltip}
                     hideTooltip={hideTooltip}
                 />
+                
+                <DNAHelixAnimation isPaused={!isSystemActive} />
+
                 <TriangleGeometryGroup 
                     name="FayaQun - Book Returns 🐟🕋🔆"
                     direction="upward"
