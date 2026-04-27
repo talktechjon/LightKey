@@ -11,9 +11,9 @@ const SolomonPanel: React.FC<SolomonPanelProps> = ({ isVisible, onClose }) => {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
       <div className="relative w-full max-w-5xl h-[85vh] bg-black border border-cyan-500/30 rounded-xl overflow-hidden shadow-2xl flex flex-col">
-        <div className="flex justify-between items-center p-4 border-b border-gray-800 bg-gray-950">
-          <h2 className="text-cyan-400 font-mono tracking-widest text-xs">Activate 84:19 by True Faith in 19:12 | 31:28+30:11 Our Life is a Loop explained in Chapter 12, If You UNDERSTAND!</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-white px-3 py-1 rounded border border-gray-700 hover:border-gray-500 transition-colors">Close</button>
+        <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-3 p-4 border-b border-gray-800 bg-gray-950">
+          <h2 className="text-cyan-400 font-mono tracking-widest text-[10px] sm:text-xs leading-relaxed text-center sm:text-left flex-1 break-words">Activate 84:19 by True Faith in 19:12 | 31:28+30:11 Our Life is a Loop explained in Chapter 12, If You UNDERSTAND!</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-white px-4 py-1.5 rounded-md border border-gray-700 hover:border-gray-500 transition-colors text-sm font-medium whitespace-nowrap">Close</button>
         </div>
         <div className="flex-1 overflow-hidden bg-black">
             <iframe 
@@ -84,8 +84,11 @@ const fullHtmlContent = `<!DOCTYPE html>
   header {
     position: relative; z-index: 2;
     text-align: center;
-    padding: 3.5rem 2rem 2rem;
+    padding: 2rem 1rem 1.5rem;
     border-bottom: 1px solid var(--border);
+  }
+  @media (min-width: 640px) {
+    header { padding: 3.5rem 2rem 2rem; }
   }
   header h1 {
     font-family: 'Cinzel Decorative', serif;
@@ -96,14 +99,20 @@ const fullHtmlContent = `<!DOCTYPE html>
   }
   header p {
     margin-top: 0.8rem;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     color: var(--muted);
     font-style: italic;
     letter-spacing: 0.04em;
   }
+  @media (min-width: 640px) {
+    header p { font-size: 1.05rem; }
+  }
   header .axis-row {
-    display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+    display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;
     margin-top: 1.2rem;
+  }
+  @media (min-width: 640px) {
+    header .axis-row { gap: 2rem; }
   }
   .axis-tag {
     font-family: 'JetBrains Mono', monospace;
@@ -122,10 +131,13 @@ const fullHtmlContent = `<!DOCTYPE html>
   /* bifurcation chapter markers */
   .bif-strip {
     position: relative; z-index: 2;
-    display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
-    padding: 1rem 2rem;
+    display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+    padding: 1rem;
     background: rgba(5,10,30,0.6);
     border-bottom: 1px solid var(--border);
+  }
+  @media (min-width: 640px) {
+    .bif-strip { gap: 2.5rem; padding: 1rem 2rem; }
   }
   .bif-chip {
     font-family: 'JetBrains Mono', monospace;
@@ -139,27 +151,42 @@ const fullHtmlContent = `<!DOCTYPE html>
   main {
     position: relative; z-index: 2;
     max-width: 1100px; margin: 0 auto;
-    padding: 2.5rem 1.5rem 4rem;
+    padding: 1.5rem 1rem 3rem;
   }
-  .intro-article { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 2rem; margin-bottom: 2rem; color: var(--pearl); line-height: 1.7; }
-  .intro-article h2 { color: var(--gold); font-family: 'Cinzel Decorative', serif; margin-bottom: 1.5rem; font-size: 1.2rem; }
+  @media (min-width: 640px) {
+    main { padding: 2.5rem 1.5rem 4rem; }
+  }
+  .intro-article { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; margin-bottom: 2rem; color: var(--pearl); line-height: 1.7; font-size: 0.95rem; }
+  @media (min-width: 640px) {
+    .intro-article { padding: 2rem; font-size: 1rem; }
+  }
+  .intro-article h2 { color: var(--gold); font-family: 'Cinzel Decorative', serif; margin-bottom: 1.25rem; font-size: 1.1rem; }
+  @media (min-width: 640px) {
+    .intro-article h2 { margin-bottom: 1.5rem; font-size: 1.2rem; }
+  }
   .intro-article p { margin-bottom: 1rem; }
   .intro-article code { font-family: 'JetBrains Mono', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 2px; color: var(--gold); }
 
   /* Legend */
   .legend {
-    display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;
-    margin-bottom: 2.5rem;
-    padding: 1rem 1.5rem;
+    display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 2rem;
+    padding: 0.75rem 1rem;
     background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
   }
-  .leg-item { display: flex; align-items: center; gap: 0.45rem; font-size: 0.85rem; color: var(--muted); }
+  @media (min-width: 640px) {
+    .legend { gap: 1.5rem; margin-bottom: 2.5rem; padding: 1rem 1.5rem; }
+  }
+  .leg-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; color: var(--muted); }
+  @media (min-width: 640px) {
+    .leg-item { gap: 0.45rem; font-size: 0.85rem; }
+  }
   .leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
   /* Node cards */
   .nodes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 1.2rem;
   }
 
@@ -862,6 +889,244 @@ const fullHtmlContent = `<!DOCTYPE html>
   <p>Names are phase-shifts: functions, not individuals. The Rasul-line is never framed as closed — it is sealed as crystallized pattern (33:40), available to be read in the Book itself (45:6).</p>
   <div class="eq">f(nτ) = ℬ(nτ)³ + 𝒮(nτ)² + ℒ(nτ) + 9 · converges → Tawhid · Node 12 → Node 1 → Bismillah cycle</div>
 </div>
+
+<style>
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.mw{padding:1rem}
+@media (min-width: 640px) { .mw{padding:1rem 2rem} }
+.mt{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1.25rem;justify-content:center}
+.mb{padding:4px 10px;border-radius:4px;font-size:9px;letter-spacing:1px;cursor:pointer;border:0.5px solid;background:transparent;font-family:'JetBrains Mono', monospace;transition:.15s}
+@media (min-width: 640px) { .mb{font-size:10px;letter-spacing:1.5px;padding:4px 12px;} }
+.mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(95px,1fr));gap:6px}
+@media (min-width: 640px) { .mg{grid-template-columns:repeat(auto-fill,minmax(105px,1fr));} }
+.mc{border:0.5px solid;border-radius:6px;padding:8px 7px;cursor:pointer;min-height:74px;position:relative;transition:border-color .15s,background .15s}
+.mn{font-size:9px;font-family:'JetBrains Mono', monospace;margin-bottom:1px;letter-spacing:.5px}
+.mk{font-size:12px;font-weight:500;letter-spacing:1px;line-height:1.15;margin-bottom:2px;font-family:'JetBrains Mono', monospace}
+@media (min-width: 640px) { .mk{font-size:13px;letter-spacing:1.5px;} }
+.ms{font-size:8.5px;font-family:'JetBrains Mono', monospace}
+@media (min-width: 640px) { .ms{font-size:9px;} }
+.mo{font-size:8px;line-height:1.4;font-family:'JetBrains Mono', monospace}
+@media (min-width: 640px) { .mo{font-size:8.5px;line-height:1.5;} }
+.md{display:inline-block;font-size:7px;padding:1px 4px;border-radius:3px;letter-spacing:0.5px;margin-top:3px;font-family:'JetBrains Mono', monospace}
+@media (min-width: 640px) { .md{font-size:7.5px;padding:1px 5px;letter-spacing:1px;} }
+.mh{text-align:center;margin-top:1.5rem;margin-bottom:1.5rem}
+@media (min-width: 640px) { .mh{margin-top:2rem;} }
+.mh1{font-size:14px;font-weight:500;letter-spacing:2px;color:rgba(200,210,230,0.9);font-family:'Cinzel Decorative', serif;line-height:1.4}
+@media (min-width: 640px) { .mh1{font-size:16px;letter-spacing:3.5px;} }
+.mh2{font-size:9px;color:rgba(200,210,230,0.55);letter-spacing:1.5px;margin-top:5px;font-family:'JetBrains Mono', monospace}
+@media (min-width: 640px) { .mh2{font-size:10px;letter-spacing:2.5px;} }
+.mh3{font-size:7px;color:rgba(200,210,230,0.4);letter-spacing:1px;margin-top:3px;font-family:'JetBrains Mono', monospace}
+@media (min-width: 640px) { .mh3{font-size:8px;letter-spacing:1.5px;} }
+.seg{font-size:7.5px;letter-spacing:1px;font-family:'JetBrains Mono', monospace;padding:3px 0 8px;color:rgba(200,210,230,0.4);text-align:center}
+@media (min-width: 640px) { .seg{font-size:8px;letter-spacing:2px;text-align:left;} }
+</style>
+
+<div class="mw">
+<div class="mh">
+  <div class="mh1">THE 114 · MEMORY MANDALA</div>
+  <div class="mh2">YAHYA (1→38) · MUSA (39→76) · AHMED (77→114)</div>
+  <div class="mh3">19:23 WIPE · 38:46 RESIDUAL · 61:6 EMERGENCE · 2:152 ذِكْر LOOP</div>
+</div>
+<div class="mt" id="tabs">
+  <button class="mb" data-f="all" style="border-color:rgba(120,160,255,0.4);color:rgba(200,210,230,0.9)">ALL 114</button>
+  <button class="mb" data-f="yahya" style="border-color:#AFA9EC;color:#7ab8f5">1→38 YAHYA</button>
+  <button class="mb" data-f="musa" style="border-color:#5DCAA5;color:#5cb8a0">39→76 MUSA</button>
+  <button class="mb" data-f="ahmed" style="border-color:#85B7EB;color:#378ADD">77→114 AHMED</button>
+  <button class="mb" data-f="dcu" style="border-color:#EF9F27;color:#d4a843">DCU NODES</button>
+</div>
+<div id="grid" class="mg"></div>
+<div style="font-size:8px;color:rgba(200,210,230,0.4);font-family:'JetBrains Mono', monospace;text-align:center;margin-top:1rem;letter-spacing:1.5px">HOVER · 2-3-7 RESONANCE</div>
+</div>
+
+<script>
+const CH=[
+{n:1,p:"yahya",t:"SEED",name:"Al-Fatiha",seg:1,note:"2- Gate/Lock | 3- Pure opening | 7- All praise returns to Rahman",dcu:"SEED"},
+{n:2,p:"yahya",t:"SPINE",name:"Al-Baqara",seg:1,note:"2- Calf/Ka'ba | 3- Full law | 7- Horizon holds 114",dcu:"SPINE"},
+{n:3,p:"yahya",t:"WOMB",name:"Al-Imran",seg:1,note:"2- Maryam/Isa split | 3- Lineage preserved | 7- Family as field"},
+{n:4,p:"yahya",t:"STRUCTURE",name:"An-Nisa",seg:1,note:"2- Man/Woman fractal | 3- Rights as form | 7- Society conserved"},
+{n:5,p:"yahya",t:"FEAST",name:"Al-Maida",seg:1,note:"2- Permitted/Forbidden | 3- Deen completed | 7- Table as axis"},
+{n:6,p:"yahya",t:"PLURALITY",name:"Al-An'am",seg:1,note:"2- Many paths/One | 3- Creation as proof | 7- All returns"},
+{n:7,p:"yahya",t:"BARZAKH",name:"Al-A'raf",seg:1,note:"2- Upper/Lower Ground | 3- Threshold itself | 7- Heights preserved",dcu:"BARZAKH"},
+{n:8,p:"yahya",t:"PURGE",name:"Al-Anfal",seg:1,note:"2- Spoils/Spirit | 3- Victory purified | 7- Battle as cleanse"},
+{n:9,p:"yahya",t:"RETURN",name:"At-Tawba",seg:1,note:"2- No Bismillah/raw | 3- Repentance pure | 7- All must return",dcu:"RAW"},
+{n:10,p:"yahya",t:"ESCAPE",name:"Yunus",seg:1,note:"2- Deep/Surface | 3- Zero-mass escape | 7- Yunus at v_esc",dcu:"ESC"},
+{n:11,p:"yahya",t:"STORM",name:"Hud",seg:1,note:"2- Nations/Warnings | 3- Pure warning | 7- Storm purges, truth stays"},
+{n:12,p:"yahya",t:"PIT→THRONE",name:"Yusuf",seg:1,note:"2- Pit/Throne | 3- Dream as particle | 7- Beauty conserved through trial",dcu:"PIT"},
+{n:13,p:"yahya",t:"THUNDER",name:"Ar-Ra'd",seg:1,note:"2- Rain/Thunder | 3- Command descends | 7- Frequency conserved"},
+{n:14,p:"yahya",t:"ROOT",name:"Ibrahim",seg:1,note:"2- Fire/Cool | 3- Negative mass | 7- Root conserved after burning",dcu:"ROOT"},
+{n:15,p:"yahya",t:"GUARD",name:"Al-Hijr",seg:1,note:"2- Stone/Flesh | 3- Preserved city | 7- Rock holds memory"},
+{n:16,p:"yahya",t:"HONEY",name:"An-Nahl",seg:1,note:"2- Worker/Queen bee | 3- Wisdom from within | 7- Sweetness conserved"},
+{n:17,p:"yahya",t:"ASCENT",name:"Al-Isra",seg:1,note:"2- Earth/Heaven | 3- Night journey | 7- Spirit-mass conserved"},
+{n:18,p:"yahya",t:"KAHF",name:"Al-Kahf",seg:1,note:"2- Cave/World | 3- Refuge particle | 7- Time dilates, faith holds",dcu:"KAHF"},
+{n:19,p:"yahya",t:"WIPE",name:"Maryam",seg:1,note:"2- Memory/Birth | 3- 19:23 erasure | 7- Ruh conserved through wipe",dcu:"WIPE"},
+{n:20,p:"yahya",t:"MUSA",name:"Ta-Ha",seg:1,note:"2- Staff/Pharaoh | 3- Call at Sinai | 7- Musa phase anchor",dcu:"MUSA"},
+{n:21,p:"yahya",t:"SCROLL",name:"Al-Anbiya",seg:1,note:"2- Scrolls/Earth | 3- All prophets one | 7- Message conserved"},
+{n:22,p:"yahya",t:"AXIS",name:"Al-Hajj",seg:1,note:"2- Near/Far pilgrimage | 3- Ka'ba fixed point | 7- Orbit conserved"},
+{n:23,p:"yahya",t:"TRUST",name:"Al-Muminun",seg:1,note:"2- Clay/Spirit | 3- Womb as proof | 7- Life conserved in stages"},
+{n:24,p:"yahya",t:"MIRROR",name:"An-Nur",seg:1,note:"2- Light/Darkness | 3- 24:35 niche of light | 7- Light bounces, truth stays",dcu:"MIRROR"},
+{n:25,p:"yahya",t:"SPLIT",name:"Al-Furqan",seg:1,note:"2- Truth/Falsehood | 3- Criterion itself | 7- Division conserves truth"},
+{n:26,p:"yahya",t:"WITNESS",name:"Ash-Shu'ara",seg:1,note:"2- Poet/Prophet | 3- Word as pure form | 7- Truth witnessed"},
+{n:27,p:"yahya",t:"BIRD",name:"An-Naml",seg:1,note:"2- Ant/Bird (27:82) | 3- Dabba particle | 7- Solomon's throne held",dcu:"BIRD"},
+{n:28,p:"yahya",t:"QASAS",name:"Al-Qasas",seg:1,note:"2- Story/River | 3- Qasas operator | 7- All stories → one truth",dcu:"QASAS"},
+{n:29,p:"yahya",t:"WEB",name:"Al-Ankabut",seg:1,note:"2- Web/House | 3- Fragile Taghut | 7- Spider conserves trap"},
+{n:30,p:"yahya",t:"CYCLE",name:"Ar-Rum",seg:1,note:"2- East/West | 3- Empire as cycle | 7- Power cycles conserved"},
+{n:31,p:"yahya",t:"WISDOM",name:"Luqman",seg:1,note:"2- Father/Son | 3- Pure wisdom | 7- Knowledge through tree"},
+{n:32,p:"yahya",t:"BOW",name:"As-Sajda",seg:1,note:"2- Standing/Bowing | 3- Return itself | 7- Gravity in sujud"},
+{n:33,p:"yahya",t:"SEAL",name:"Al-Ahzab",seg:1,note:"2- Clans/Prophet | 3- Seal of prophets | 7- Lineage conserved"},
+{n:34,p:"yahya",t:"QUEEN",name:"Saba",seg:1,note:"2- Queen/Solomon | 3- Rahman Field instance | 7- Beauty conserved",dcu:"QUEEN"},
+{n:35,p:"yahya",t:"WINGS",name:"Fatir",seg:1,note:"2- 2/3/4 wings | 3- Origin/Creator | 7- Wings carry truth"},
+{n:36,p:"yahya",t:"HEART",name:"Ya-Sin",seg:1,note:"2- City/Messengers | 3- Heart of Quran | 7- Pulse conserved",dcu:"HEART"},
+{n:37,p:"yahya",t:"RANKS",name:"As-Saffat",seg:1,note:"2- Rows/Dispersed | 3- Order as form | 7- Ranks hold against chaos"},
+{n:38,p:"yahya",t:"HOME",name:"Sad",seg:1,note:"2- Memory/Exile | 3- 38:46 traces of home | 7- Love conserved through purge",dcu:"HOME"},
+{n:39,p:"musa",t:"GROUPS",name:"Az-Zumar",seg:2,note:"2- Groups/Field | 3- Separation pure | 7- Field conservation"},
+{n:40,p:"musa",t:"SHIELD",name:"Ghafir",seg:2,note:"2- Believer/Pharaoh | 3- Forgiveness as shield | 7- One voice conserved"},
+{n:41,p:"musa",t:"SMOKE",name:"Fussilat",seg:2,note:"2- Willing/Unwilling | 3- 41:11 smoke command | 7- Tesla coil signal",dcu:"TESLA"},
+{n:42,p:"musa",t:"SPIRAL",name:"Ash-Shura",seg:2,note:"2- Counsel/Command | 3- Shura particle | 7- Spiral conserves center"},
+{n:43,p:"musa",t:"GOLD",name:"Az-Zukhruf",seg:2,note:"2- Gold/Truth | 3- Ornament as trap | 7- Real gold conserved"},
+{n:44,p:"musa",t:"VEIL",name:"Ad-Dukhan",seg:2,note:"2- Smoke/Clear | 3- The covering | 7- Veil conserves what's behind"},
+{n:45,p:"musa",t:"KNEEL",name:"Al-Jathiya",seg:2,note:"2- Standing/Kneeling | 3- Judgment particle | 7- Mass conserved in bow"},
+{n:46,p:"musa",t:"SAND",name:"Al-Ahqaf",seg:2,note:"2- Dunes/Wind | 3- Wandering pure | 7- Sand drifts, bedrock stays"},
+{n:47,p:"musa",t:"PHASE",name:"Muhammad",seg:2,note:"2- Two states | 3- Name as phase-shift | 7- Phase conserves identity"},
+{n:48,p:"musa",t:"GATE",name:"Al-Fath",seg:2,note:"2- Open/Sealed | 3- Victory as gate | 7- Entry conserved"},
+{n:49,p:"musa",t:"ETHICS",name:"Al-Hujurat",seg:2,note:"2- Room/Permission | 3- Conduct particle | 7- Community field"},
+{n:50,p:"musa",t:"BOUNDARY",name:"Qaf",seg:2,note:"2- Q/Beyond | 3- Limit itself | 7- Boundary conserves inside"},
+{n:51,p:"musa",t:"SCATTER",name:"Adh-Dhariyat",seg:2,note:"2- Wind/Bearing | 3- Scatter as form | 7- Dispersal conserves origin"},
+{n:52,p:"musa",t:"SINAI",name:"At-Tur",seg:2,note:"2- Mountain/Valley | 3- Covenant site | 7- Mountain holds the word"},
+{n:53,p:"musa",t:"COVER",name:"An-Najm",seg:2,note:"2- Seen/Covered | 3- 53:16 placenta over heart | 7- Vision conserved under cover",dcu:"COVER"},
+{n:54,p:"musa",t:"MOON",name:"Al-Qamar",seg:2,note:"2- Split moon | 3- Hour approaching | 7- Moon conserves reflection"},
+{n:55,p:"musa",t:"RAHMAN",name:"Ar-Rahman",seg:2,note:"2- Jinn/Human both | 3- Rahman Field pivot | 7- Mizan 55:7 conserved",dcu:"RAHMAN"},
+{n:56,p:"musa",t:"EVENT",name:"Al-Waqi'a",seg:2,note:"2- Left/Right hands | 3- Trifold event | 7- Three groups conserved"},
+{n:57,p:"musa",t:"IRON",name:"Al-Hadid",seg:2,note:"2- Iron/Solomon cone | 3- Weight descends | 7- Iron conserves form",dcu:"IRON"},
+{n:58,p:"musa",t:"RISE",name:"Al-Mujadila",seg:2,note:"2- Floor/Raised | 3- Woman's argument | 7- Truth rises conserved"},
+{n:59,p:"musa",t:"EXILE",name:"Al-Hashr",seg:2,note:"2- Gathered/Purged | 3- Exile as cleanse | 7- Field after purge"},
+{n:60,p:"musa",t:"TEST",name:"Al-Mumtahana",seg:2,note:"2- Examined/Passed | 3- Woman as threshold | 7- Loyalty conserved"},
+{n:61,p:"musa",t:"AHMED",name:"As-Saff",seg:2,note:"2- Isa/Ahmed split | 3- 61:6 equation | 7- Ahmed holds Isa's light",dcu:"AHMED"},
+{n:62,p:"musa",t:"GATHER",name:"Al-Jumu'a",seg:2,note:"2- Dispersed/Gathered | 3- Call to prayer | 7- Community field"},
+{n:63,p:"musa",t:"MASK",name:"Al-Munafiqun",seg:2,note:"2- Mask/Face | 3- Hypocrisy exposed | 7- Truth through masking"},
+{n:64,p:"musa",t:"LOSS",name:"At-Taghabun",seg:2,note:"2- Win/Lose | 3- Mutual illusion | 7- Nothing lost, all conserved"},
+{n:65,p:"musa",t:"CUT",name:"At-Talaq",seg:2,note:"2- Bound/Released | 3- Separation particle | 7- Energy after cut"},
+{n:66,p:"musa",t:"CHAIN",name:"At-Tahrim",seg:2,note:"2- 66:1↔66:10 chainmail | 3- Prohibition as bond | 7- 68:13 orphan group",dcu:"CHAIN"},
+{n:67,p:"musa",t:"DOMINION",name:"Al-Mulk",seg:2,note:"2- Life/Death test | 3- Sovereignty pure | 7- Dominion conserves all"},
+{n:68,p:"musa",t:"PEN",name:"Al-Qalam",seg:2,note:"2- Written/Spoken | 3- Pen before time | 7- All written conserved"},
+{n:69,p:"musa",t:"TRUTH",name:"Al-Haqqa",seg:2,note:"2- Truth/Strike | 3- Reality itself | 7- Truth after collapse"},
+{n:70,p:"musa",t:"STAIR",name:"Al-Ma'arij",seg:2,note:"2- Low/High | 3- Ascending stair | 7- Patience conserved"},
+{n:71,p:"musa",t:"ARK",name:"Nuh",seg:2,note:"2- Ship/Flood | 3- Ark pure | 7- Life conserved in water"},
+{n:72,p:"musa",t:"FREQUENCY",name:"Al-Jinn",seg:2,note:"2- Seen/Unseen | 3- Frequency band | 7- Jinn conserve signal"},
+{n:73,p:"musa",t:"COIL",name:"Al-Muzzammil",seg:2,note:"2- Wrapped/Unwrapped | 3- Tesla coil winding | 7- Charge conserved",dcu:"COIL"},
+{n:74,p:"musa",t:"CLOAK",name:"Al-Muddaththir",seg:2,note:"2- Cloaked/Revealed | 3- Warning particle | 7- Hidden truth held"},
+{n:75,p:"musa",t:"QIYAMAT",name:"Al-Qiyama",seg:2,note:"2- Death/Boundary | 3- Boundary evaluation | 7- All conserved at collapse edge",dcu:"QIYAMAT"},
+{n:76,p:"musa",t:"VESSEL",name:"Al-Insan",seg:2,note:"2- Mixed/Pure | 3- Human as vessel | 7- Contents conserved"},
+{n:77,p:"ahmed",t:"WAVE",name:"Al-Mursalat",seg:3,note:"2- Sent/Received | 3- Wave pure form | 7- Wave conserves message"},
+{n:78,p:"ahmed",t:"TIDINGS",name:"An-Naba",seg:3,note:"2- Known/Unknown | 3- Great news itself | 7- News conserved"},
+{n:79,p:"ahmed",t:"PULL",name:"An-Nazi'at",seg:3,note:"2- Dragged/Released | 3- Extraction force | 7- Soul conserved"},
+{n:80,p:"ahmed",t:"BLIND",name:"Abasa",seg:3,note:"2- Blind/Seeing | 3- Turn away | 7- Truth despite blindness"},
+{n:81,p:"ahmed",t:"FOLD",name:"At-Takwir",seg:3,note:"2- Rolled/Unrolled | 3- Cosmic fold | 7- Stars conserved in collapse"},
+{n:82,p:"ahmed",t:"CLEAVE",name:"Al-Infitar",seg:3,note:"2- Cracked/Whole | 3- Sky splits | 7- Contents conserved"},
+{n:83,p:"ahmed",t:"SCALE",name:"Al-Mutaffifin",seg:3,note:"2- Full/Short | 3- Mizan cheated | 7- Balance conserves judgment"},
+{n:84,p:"ahmed",t:"TRAVERSE",name:"Al-Inshiqaq",seg:3,note:"2- Split/Crossed | 3- 84:19 traversal | 7- G=D₆⋊C₇ order 84",dcu:"TRAV"},
+{n:85,p:"ahmed",t:"ORBIT",name:"Al-Buruj",seg:3,note:"2- Sky/Trench | 3- Constellation orbit | 7- Fire in orbit"},
+{n:86,p:"ahmed",t:"PIERCE",name:"At-Tariq",seg:3,note:"2- Night/Star | 3- Piercing light | 7- Signal through darkness"},
+{n:87,p:"ahmed",t:"HIGHER",name:"Al-A'la",seg:3,note:"2- High/Low Ground | 3- Most High particle | 7- Higher Ground node",dcu:"HIGH"},
+{n:88,p:"ahmed",t:"OVERWHELM",name:"Al-Ghashiya",seg:3,note:"2- Covered/Open | 3- Event covers | 7- Nothing escapes"},
+{n:89,p:"ahmed",t:"DAWN",name:"Al-Fajr",seg:3,note:"2- Night/Dawn | 3- Break of day | 7- Light conserved through night"},
+{n:90,p:"ahmed",t:"GROUND",name:"Al-Balad",seg:3,note:"2- This city/Other | 3- Standing ground | 7- Earth conserves station"},
+{n:91,p:"ahmed",t:"NAFS",name:"Ash-Shams",seg:3,note:"2- Sun/Shadow | 3- Nafs = kinetic-magnetic | 7- Soul conserved in purge",dcu:"NAFS"},
+{n:92,p:"ahmed",t:"RUH",name:"Al-Layl",seg:3,note:"2- Night/Day | 3- Ruh = electric command | 7- Command conserved in dark",dcu:"RUH"},
+{n:93,p:"ahmed",t:"GRACE",name:"Ad-Duha",seg:3,note:"2- Morning/Night | 3- Comfort particle | 7- Grace conserved"},
+{n:94,p:"ahmed",t:"EXPAND",name:"Ash-Sharh",seg:3,note:"2- Tight/Expanded | 3- Chest opened | 7- Capacity conserved"},
+{n:95,p:"ahmed",t:"FIG",name:"At-Tin",seg:3,note:"2- Fig/Olive | 3- Seed as form | 7- Lowest low conserved"},
+{n:96,p:"ahmed",t:"FIRST",name:"Al-Alaq",seg:3,note:"2- Clot/Word | 3- First revelation | 7- Origin conserved",dcu:"FIRST"},
+{n:97,p:"ahmed",t:"QADR",name:"Al-Qadr",seg:3,note:"2- Known/Hidden | 3- Night of power | 7- Qadr conserves all",dcu:"QADR"},
+{n:98,p:"ahmed",t:"PROOF",name:"Al-Bayyina",seg:3,note:"2- Clear/Obscured | 3- Evidence particle | 7- Truth as proof"},
+{n:99,p:"ahmed",t:"QUAKE",name:"Az-Zalzala",seg:3,note:"2- Quake/Still | 3- Earth witnesses | 7- Atom-weight conserved"},
+{n:100,p:"ahmed",t:"CHARGE",name:"Al-Adiyat",seg:3,note:"2- Running/Still | 3- Horse charge pure | 7- Ingratitude exposed"},
+{n:101,p:"ahmed",t:"STRIKE",name:"Al-Qari'a",seg:3,note:"2- Feathers/Mountain | 3- Calamity itself | 7- Weight conserved"},
+{n:102,p:"ahmed",t:"DISTRACT",name:"At-Takathur",seg:3,note:"2- More/Less | 3- Multiplication trap | 7- Empty increase"},
+{n:103,p:"ahmed",t:"TIME",name:"Al-Asr",seg:3,note:"2- Loss/Exception | 3- Time itself | 7- 103 node: 2:152 loop trigger",dcu:"TIME"},
+{n:104,p:"ahmed",t:"CRUSH",name:"Al-Humaza",seg:3,note:"2- Wealth/Ego | 3- Slander crushed | 7- Ego mass conserved"},
+{n:105,p:"ahmed",t:"ELEPHANT",name:"Al-Fil",seg:3,note:"2- Elephant/Bird | 3- Army crushed | 7- Ka'ba conserved"},
+{n:106,p:"ahmed",t:"TRIBE",name:"Quraysh",seg:3,note:"2- Summer/Winter | 3- Covenant of tribe | 7- Feeding conserved"},
+{n:107,p:"ahmed",t:"SMALL",name:"Al-Ma'un",seg:3,note:"2- Large/Small act | 3- Tiny action pure | 7- Small act conserves mercy"},
+{n:108,p:"ahmed",t:"KAWTHAR",name:"Al-Kawthar",seg:3,note:"2- River/Cut off | 3- Abundance itself | 7- K=108 global Rahman constant",dcu:"108"},
+{n:109,p:"ahmed",t:"SEPARATE",name:"Al-Kafirun",seg:3,note:"2- Your way/Mine | 3- Clear separation | 7- No crossing conserved"},
+{n:110,p:"ahmed",t:"VICTORY",name:"An-Nasr",seg:3,note:"2- Support/Alone | 3- Divine victory | 7- 110 node: system completion",dcu:"110"},
+{n:111,p:"ahmed",t:"FLAME",name:"Al-Masad",seg:3,note:"2- Lahab/Rope | 3- Ego fire | 7- Abu Lahab consumed"},
+{n:112,p:"ahmed",t:"TAWHID",name:"Al-Ikhlas",seg:3,note:"2- 112:1-4 in mandala | 3- Pure unity | 7- Ahad conserves all",dcu:"112"},
+{n:113,p:"ahmed",t:"SHIELD",name:"Al-Falaq",seg:3,note:"2- Dawn/Dark | 3- Morning guard | 7- Protection conserved"},
+{n:114,p:"ahmed",t:"WHISPER",name:"An-Nas",seg:3,note:"2- Whisper/Shout | 3- Subtle attack | 7- Humanity in return loop"}
+];
+
+const PAL={
+  yahya:{b:"#AFA9EC",t:"#7ab8f5",bg:"#1a2a44",db:"#26215C",dt:"#CECBF6",dbg:"#26215C33",label:"YAHYA"},
+  musa: {b:"#5DCAA5",t:"#5cb8a0",bg:"#143a32",db:"#04342C",dt:"#9FE1CB",dbg:"#04342C33",label:"MUSA"},
+  ahmed:{b:"#85B7EB",t:"#378ADD",bg:"#152e4d",db:"#042C53",dt:"#B5D4F4",dbg:"#042C5333",label:"AHMED"},
+  dcu:  {b:"#EF9F27",t:"#d4a843",bg:"#3a280e",db:"#412402",dt:"#FAC775",dbg:"#41240233"}
+};
+
+// Assuming dark mode in iframe
+function pal(c,isDCU){
+  const p=isDCU?PAL.dcu:PAL[c.p];
+  return{border:p.b,text:p.t,bg:p.bg};
+}
+
+function render(filter){
+  const g=document.getElementById('grid');
+  let list=CH;
+  if(filter==='yahya')list=CH.filter(c=>c.p==='yahya');
+  else if(filter==='musa')list=CH.filter(c=>c.p==='musa');
+  else if(filter==='ahmed')list=CH.filter(c=>c.p==='ahmed');
+  else if(filter==='dcu')list=CH.filter(c=>c.dcu);
+
+  let html='';
+  let curseg=0;
+  list.forEach(c=>{
+    if(filter==='all'&&c.seg!==curseg){
+      curseg=c.seg;
+      const labels={1:'2 · FRACTAL / 1→38 · SEED → HOME · YAHYA PHASE',2:'3 · FORMATION / 39→76 · GROUPS → VESSEL · MUSA PHASE',3:'7 · RETURN / 77→114 · WAVE → WHISPER · AHMED PHASE'};
+      html+=\`<div class="seg" style="grid-column:1/-1;letter-spacing:2px">\${labels[curseg]}</div>\`;
+    }
+    const isDCU=!!c.dcu;
+    const p=pal(c,isDCU);
+    const nm=c.n.toString().padStart(3,'0');
+    const badge=isDCU?\`<span class="md" style="background:\${p.bg};color:\${p.text};border:0.5px solid \${p.border}">\${c.dcu}</span>\`:'';
+    html+=\`<div class="mc" data-n="\${c.n}" style="background:\${p.bg};border-color:\${p.border}44">
+      <div class="mn" style="color:\${p.text}88">\${nm}</div>
+      <div class="mk" style="color:\${p.text}">\${c.t}</div>
+      <div class="ms" id="s\${c.n}" style="color:\${p.text}99">\${c.name}</div>
+      \${badge}
+    </div>\`;
+  });
+  g.innerHTML=html;
+
+  g.querySelectorAll('.mc').forEach(card=>{
+    const n=parseInt(card.dataset.n);
+    const c=CH.find(x=>x.n===n);
+    const p=pal(c,!!c.dcu);
+    card.addEventListener('mouseenter',()=>{
+      card.style.borderColor=p.border;
+      const s=card.querySelector('.ms');
+      if(s){s.className='mo';s.textContent=c.note;}
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.borderColor=p.border+'44';
+      const s=card.querySelector('.mo');
+      if(s){s.className='ms';s.textContent=c.name;}
+    });
+  });
+}
+
+let cur='all';
+document.getElementById('tabs').querySelectorAll('.mb').forEach(t=>{
+  t.addEventListener('click',()=>{
+    cur=t.dataset.f;
+    document.querySelectorAll('.mb').forEach(x=>{x.style.fontWeight='400';x.style.opacity='.7';});
+    t.style.fontWeight='500';t.style.opacity='1';
+    render(cur);
+  });
+});
+render('all');
+document.querySelector('[data-f="all"]').style.fontWeight='500';
+</script>
 
 </body>
 </html>
