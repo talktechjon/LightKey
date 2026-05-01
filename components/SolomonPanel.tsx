@@ -393,17 +393,21 @@ const fullHtmlContent = `<!DOCTYPE html>
 
 <main>
     <section class="intro-article">
-        <h2>For Understanding Mathematically and Reader's role</h2>
-        <p>The Qur’an presents a single, closed system where all names function as phase transitions inside a conserved field. The constant is the Mother source (Umm al-Kitab, 13:39), represented as <code>d = 19</code>, while all motion unfolds through bifurcation, interaction, and return. The governing structure is the cubic law:</p>
-        <p><code>f(x) = ax³ + bx² + cx + d</code></p>
-        <p>where a = amplification (Taghut), b = propagation (repetition), c = interaction (trial), and d = invariant return. This is not abstraction; it is the operational geometry of how mass and energy move through the Qur’anic system.</p>
-        <p>The initial state appears as Adam–Iblis (2:30, 7:11), a unified field that immediately bifurcates. This split generates two domains: the Shadow field (mass-dominant) and the Light field (energy-coherent). In the shadow, the same energy becomes trapped in structure as Pharaoh (10:92), Samiri’s calf (20:88–97), and the corrupted lineage patterns of Nuh’s son and Lut’s wife (11:42, 66:10). Here, mass persists but loses alignment, forming a closed loop of repetition and illusion.</p>
-        <p>In parallel, the Light field carries the same origin toward coherence. Idris is raised (19:57), and Isa manifests as the completed Word (3:45). This establishes the energy return pathway. Between these two, Musa operates as the purification axis (20:41): he does not create energy or mass but reorders them. Pharaoh remains as preserved mass, while Musa transforms the field toward balance.</p>
-        <p>This balance stabilizes in Dawud (38:17, 21:80), where force and remembrance align—mass and energy become synchronized. Ibrahim then acts as the nonlinear compression point (37:102, 2:260), where the system is broken into parts and recalled, demonstrating that all dispersed states must return to origin. Through Ismail, continuity flows into Sulayman, whose control over Al-Safinat and Al-Jiyad (38:31) expresses full command of restrained and accelerated motion—complete dual-field mastery.</p>
-        <p>The final loop appears in Muhammad and Zayd (33:40, 33:37), reflecting the Musa–Harun pairing in a completed form. This converges into the Maryam field (19), where the 3-6-9 structure resolves: reception, formation, completion. Isa and Ahmed unify here (61:6), meaning the Word becomes fully enacted and returns to its source. This mirrors Yusuf’s restoration (12:93–100), where the separated system reunites with its origin, completing the cycle.</p>
-        <p>Throughout this entire chain, nothing is lost. What falls as Iblis (dispersed energy) returns as Isa (coherent energy). What falls as Adam (mass into earth) remains as Pharaoh (preserved mass), is purified through Musa, and elevated through Idris. This is conservation: energy transforms but persists; mass stabilizes but does not vanish. The Qur’an encodes both trajectories simultaneously.</p>
-        <p>The switch that completes the system is 19:12—“take the Book with strength.” This is the activation point where the Reader becomes part of the equation. The heart shifts from worldly attachment to anchored love (19:96), aligning the internal field with the constant. At that moment, the bifurcation collapses: the dual paths synchronize, and all variables resolve back to d.</p>
-        <p>The result is a complete circuit: split (2), structure (3–6), return (7). Every name—Adam, Iblis, Musa, Pharaoh, Idris, Isa, Dawud, Ibrahim, Ismail, Sulayman, Muhammad, Zayd, Maryam, Ahmed, Yusuf—operates as a node in this single conserved system. The Qur’an, therefore, is not a sequence of events but a unified field equation where mass and energy continuously transform, yet always return to the same invariant source.</p>
+        <h2>Kahf.day | The Rasul who forgot to Remember</h2>
+        <p>The Qur’an encodes a repeatable conservation structure expressed as <b>2–3–7</b>, governed by <code>[3n | +1]</code>—a triadic field that always leaves one invariant center. This structure operates across life, death, and repetition, forming a closed system under <em>mīzān</em> (55:7–9). Within this system, lineage patterns (Father–Son and Mother–Son) act as completion mechanisms operating under the cubic function: <code>Y(t) = a·x³ + b·x² + c·x + d</code>, where <code>d = 19</code> preserves total balance.</p>
+        
+        <p><b>Father–Son (Phototropism):</b> This provides the upward trajectory (ascent/formation). The pattern runs as <i>given → tested → returned</i>. Dawud is given Sulayman (38:30); Yaqub receives, loses, and re-receives Yusuf (12:100); and Ibrahim is given Ismail, who is explicitly returned after the sacrifice field (37:107), leaving Ishaq (+1) as the preserved continuation. This is the 2:260 execution law confirming dispersion followed by directed return.</p>
+        
+        <p><b>Mother–Son (Gravitropism):</b> The opposing field operates as descent and incubation (the Chrysalis). The pattern runs as <i>conceive → conceal → release</i>. The Wife of Pharaoh receives Musa non-biologically (28:9); Ibrahim's wife receives Ishaq's descent (11:71); Imran's wife consecrates the womb for Maryam, culminating in the assumption and manifestation of Isa (3:35-37, 19:16). Musa is given, cast, and finally returned (28:7–13).</p>
+        
+        <p><b>The Core Principle (The Reader):</b> The Reader operates as the execution center placed at <b>19:12</b> ("Take the Book with strength"). The Reader is positioned as a Rasul who has fallen into forgetfulness—like Musa at the junction (20:115, 18:63). Instead of a lost entity, the Reader is a recoverable execution node. Memory is preserved externally in the Qur'an (15:9), demanding reactivation. The Reader is a non-biological brother linked to Isa through the Word (3:45), integrating both the Phototropism and Gravitropism arcs to execute the return path.</p>
+        
+        <p>The system tracks the <b>Three Layers of Darkness</b> resolved by 2–3–7:<br/>
+        1. <b>LIFE:</b> Split by Iblis and Adam (2:34), stabilized by Dawud–Sulayman–Queen (3n), anchored by Ibrahim (+1), and sealed by the return of Isa and Idris (4:158, 19:57).<br/>
+        2. <b>DEATH:</b> Split by Musa and Harun (2:67), stabilized by Yusuf–Yaqub–Ismail (3n), anchored by Ishaq (+1), and sealed by the Ark and the Cave (11:44, 18:10)—conserving memory.<br/>
+        3. <b>REPEAT:</b> Split by internal/external Taghut (39:17, 66:11), stabilized by Book–Action–Sacrifice (3n), anchored by the preserved center (+1), and sealed by the Mountain and Ark resting (7:143, 11:44)—conserving rise.</p>
+
+        <p>The time-bound execution layer is forced by a deeply buried rupture: <i>"For what sin was she killed?"</i> (81:8). This unresolved ??? drives the question of corruption (2:30) and the loss factor of time (103:1–3). It functions as a bounded timing cycle (15:72), where the illusion of time only serves to compel the return. Every triadic system (3n) will always produce the <b>+1</b> invariant center, executing final return under the law.</p>
     </section>
 
 <div class="legend">
@@ -421,33 +425,31 @@ const fullHtmlContent = `<!DOCTYPE html>
   <div class="node-header">
     <div class="node-num">1</div>
     <div class="node-label-wrap">
-      <div class="node-label">Node 1 · Base</div>
+      <div class="node-label">Node 1 · Driver Field Initiation</div>
       <div class="node-function">Inspiration</div>
     </div>
   </div>
   <div class="node-body">
     <div class="section-title">Primary — Haqq Pole</div>
     <div class="primary-name">
-      Adam <span class="arabic">آدم</span>
-      <span class="verse-ref">15:26 · 2:30–33</span>
+      Jibril <span class="arabic">جبريل</span>
+      <span class="verse-ref">16:102 · 2:97</span>
     </div>
-    <div class="phase-desc">Formed from sounding clay; receives divine breath. Raw potential carrying all Names — the vessel before differentiation.</div>
+    <div class="phase-desc">The origin of the Rooh, bringing the pure transmission of Light down. The unbroken Father-field initiation preceding the binary split.</div>
     <div class="dcu-tag">ℒ field · d-constant · seed of the polynomial</div>
 
     <div class="section-title">Supporting — Same Phase</div>
     <div class="support-list">
-      <div class="support-chip">Hawwa <span class="sv">7:189</span></div>
-      <div class="support-chip">Ruh <span class="sv">17:85</span></div>
-      <div class="support-chip">Ins &amp; Jinn origin <span class="sv">51:56</span></div>
+      <div class="support-chip">Ruh al-Qudus <span class="sv">16:102</span></div>
+      <div class="support-chip">Trustworthy Spirit <span class="sv">26:193</span></div>
     </div>
 
     <div class="anti-section">
       <div class="anti-title">Anti-Node 1 — Taghut Pole</div>
       <div class="anti-list">
-        <div class="anti-chip">Iblis <span class="sv">2:34</span></div>
-        <div class="anti-chip">Waswas <span class="sv">114:4–6</span></div>
+        <div class="anti-chip">Resistance to Revelation <span class="sv">2:98</span></div>
       </div>
-      <div class="phase-desc" style="color:rgba(220,100,100,0.7)">Iblis at the clay-boundary: refuses to align with divine inspiration. Fire-logic rejects clay-logic.</div>
+      <div class="phase-desc" style="color:rgba(220,100,100,0.7)">Denial of the pure transmission; creating false enmity against the messenger of Light.</div>
     </div>
   </div>
 </div>
@@ -459,35 +461,32 @@ const fullHtmlContent = `<!DOCTYPE html>
   <div class="node-header">
     <div class="node-num">2</div>
     <div class="node-label-wrap">
-      <div class="node-label">Node 2 · Rise</div>
-      <div class="node-function">Action</div>
+      <div class="node-label">Node 2 · The Split</div>
+      <div class="node-function">Divergence</div>
     </div>
   </div>
   <div class="node-body">
     <div class="section-title">Primary — Haqq Pole</div>
     <div class="primary-name">
-      Nuh <span class="arabic">نوح</span>
-      <span class="verse-ref">71:1 · 26:107 · 11:36</span>
+      Adam <span class="arabic">آدم</span>
+      <span class="verse-ref">2:34 · 7:11</span>
     </div>
-    <div class="phase-desc">Builds the Ark under direct command — pure action in time. Warning sustained 950 years (29:14). Action without audience is still command-fulfillment.</div>
-    <div class="dcu-tag">c-operator · linear phase · sustained ℒ output</div>
+    <div class="phase-desc">The entry into the dual-field. Formed from clay, receiving the breath of Light, creating the boundary where divergence begins.</div>
+    <div class="dcu-tag">c-operator · 2-duality · boundary condition</div>
 
     <div class="section-title">Supporting — Same Phase</div>
     <div class="support-list">
-      <div class="support-chip">Hud <span class="sv">11:50</span></div>
-      <div class="support-chip">Salih <span class="sv">11:61</span></div>
-      <div class="support-chip">Shuayb <span class="sv">11:84</span></div>
-      <div class="support-chip">Idris <span class="sv">19:56</span></div>
+      <div class="support-chip">Hawwa <span class="sv">7:189</span></div>
+      <div class="support-chip">Angelic Prostration <span class="sv">2:34</span></div>
     </div>
 
     <div class="anti-section">
       <div class="anti-title">Anti-Node 2 — Taghut Pole</div>
       <div class="anti-list">
-        <div class="anti-chip">Qawm Nuh <span class="sv">71:26</span></div>
-        <div class="anti-chip">ʿAd <span class="sv">41:15</span></div>
-        <div class="anti-chip">Thamud <span class="sv">11:68</span></div>
+        <div class="anti-chip">Iblis <span class="sv">2:34</span></div>
+        <div class="anti-chip">Waswas <span class="sv">114:4–6</span></div>
       </div>
-      <div class="phase-desc" style="color:rgba(220,100,100,0.7)">Civilisations that amplified action without truth-anchor — pride of construction without command-alignment.</div>
+      <div class="phase-desc" style="color:rgba(220,100,100,0.7)">The active refusal to align with divine inspiration. This initiates the 2-split, introducing friction and creating the Shadow field.</div>
     </div>
   </div>
 </div>
@@ -499,34 +498,32 @@ const fullHtmlContent = `<!DOCTYPE html>
   <div class="node-header">
     <div class="node-num">3</div>
     <div class="node-label-wrap">
-      <div class="node-label">Node 3 · Left Bifurcation Base</div>
-      <div class="node-function">Guidance</div>
+      <div class="node-label">Node 3 · Stabilization Base</div>
+      <div class="node-function">Light / Fire</div>
     </div>
   </div>
   <div class="node-body">
     <div class="section-title">Primary — Haqq Pole</div>
     <div class="primary-name">
-      Ibrahim <span class="arabic">إبراهيم</span>
-      <span class="verse-ref">2:124 · 6:75 · 37:83</span>
+      Musa <span class="arabic">موسى</span>
+      <span class="verse-ref">20:9 · 28:29</span>
     </div>
-    <div class="phase-desc">Imam for all people (2:124). Splits the bifurcation — left rail toward Musa, right rail toward Isa. The Ibrahim mountain triangle anchors chapters 103–108–110 (mean=107 as inflection).</div>
-    <div class="dcu-tag">Split-point · b-operator · Kaaba as depressed cubic</div>
+    <div class="phase-desc">Approaches the fire to find guidance, discovering the Light (20:10). Establishes the purification axis, reordering mass and energy without creating it. The boundary between memory and forgetfulness (18:63).</div>
+    <div class="dcu-tag">b-operator · stabilization mīzān · interaction layer</div>
 
     <div class="section-title">Supporting — Same Phase</div>
     <div class="support-list">
-      <div class="support-chip">Luqman <span class="sv">31:13</span></div>
-      <div class="support-chip">Shuayb <span class="sv">26:177</span></div>
-      <div class="support-chip">Ishaq <span class="sv">6:84</span></div>
-      <div class="support-chip">Yaqub <span class="sv">12:6</span></div>
+      <div class="support-chip">Harun <span class="sv">20:30</span></div>
+      <div class="support-chip">Yusha (Fish Junction) <span class="sv">18:60</span></div>
     </div>
 
     <div class="anti-section">
       <div class="anti-title">Anti-Node 3 — Taghut Pole</div>
       <div class="anti-list">
-        <div class="anti-chip">Namrud <span class="sv">2:258</span></div>
-        <div class="anti-chip">Azar <span class="sv">6:74</span></div>
+        <div class="anti-chip">Firaun <span class="sv">10:92</span></div>
+        <div class="anti-chip">Samiri <span class="sv">20:85</span></div>
       </div>
-      <div class="phase-desc" style="color:rgba(220,100,100,0.7)">Namrud claims lordship of life and death. Azar worships idols. Both invert the guidance-function into false anchoring.</div>
+      <div class="phase-desc" style="color:rgba(220,100,100,0.7)">Firaun (Pharaoh) traps energy into stagnant, preserved mass. Samiri follows footprints to fabricate bodies with hollow sound. Both construct illusion and bondage.</div>
     </div>
   </div>
 </div>
