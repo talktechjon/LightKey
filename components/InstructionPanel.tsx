@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { Flame, Fish, TreePine, ArrowRight, ArrowLeft } from 'lucide-react';
 
 interface InstructionPanelProps {
   isVisible: boolean;
@@ -188,110 +189,242 @@ const AnimatedHarvest: React.FC = () => {
 
 // --- NEW COMPONENTS FOR NAFS & 2-3-7 TAB ---
 
-const BifurcationMap: React.FC = () => {
+const YinYangAnimation: React.FC = () => {
+  return (
+    <div className="flex flex-col items-center justify-center p-8 bg-black/40 rounded-[3rem] border border-white/5 space-y-12">
+      <div className="relative w-64 h-64 animate-[spin_10s_linear_infinite] drop-shadow-[0_0_40px_rgba(255,255,255,0.1)]">
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+           <defs>
+             <filter id="glow">
+               <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+               <feMerge>
+                 <feMergeNode in="coloredBlur"/>
+                 <feMergeNode in="SourceGraphic"/>
+               </feMerge>
+             </filter>
+           </defs>
+           
+           {/* Base circle background (black right, white left) */}
+           <circle cx="50" cy="50" r="49" fill="#000" />
+           <path d="M 50 1 A 49 49 0 0 0 50 99 Z" fill="#fff" />
+           
+           {/* Top S-curve (white) */}
+           <circle cx="50" cy="25.5" r="25.5" fill="#fff" />
+           
+           {/* Bottom S-curve (black) */}
+           <circle cx="50" cy="74.5" r="24.5" fill="#000" />
+           
+           {/* Seed dots (The particle inside 3) */}
+           <circle cx="50" cy="25.5" r="7" fill="#000" filter="url(#glow)" />
+           <circle cx="50" cy="74.5" r="7" fill="#fff" filter="url(#glow)" />
+           
+           {/* Boundary rim */}
+           <circle cx="50" cy="50" r="49" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+        </svg>
+      </div>
+
+      <div className="text-center max-w-4xl space-y-6">
+        <h4 className="text-3xl font-black text-white uppercase tracking-tighter italic">The Symbol as a Living Equation</h4>
+        <p className="text-gray-400 text-sm md:text-base mb-8 max-w-3xl mx-auto">
+          The Yin-Yang (Taiji) is not a philosophy—it is a geometric execution diagram of the 2–3–7 system.
+        </p>
+
+        <div className="grid md:grid-cols-3 gap-6 text-left">
+          <div className="bg-white/5 p-8 rounded-3xl border border-white/10 space-y-4 relative overflow-hidden group">
+             <div className="absolute top-0 left-0 w-1 h-full bg-rose-500"></div>
+             <div className="text-6xl font-black text-rose-500/10 absolute -right-4 -bottom-4 group-hover:scale-110 transition-transform">2</div>
+             <h5 className="font-bold text-rose-400 uppercase tracking-widest text-sm relative z-10">Superposition</h5>
+             <strong className="text-white block text-sm relative z-10">Dual Amplitudes</strong>
+             <p className="text-sm md:text-base text-gray-400 leading-relaxed relative z-10">
+               A single system holds two possibilities: <code className="text-rose-300 bg-rose-950/30 px-1 rounded">|ψ⟩ = α|0⟩ + β|1⟩</code>. The superposition state. No direct map to 7. Superposition must resolve through the entangling channel.
+             </p>
+          </div>
+
+          <div className="bg-white/5 p-8 rounded-3xl border border-white/10 space-y-4 relative overflow-hidden group">
+             <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
+             <div className="text-6xl font-black text-emerald-500/10 absolute -right-4 -bottom-4 group-hover:scale-110 transition-transform">3</div>
+             <h5 className="font-bold text-emerald-400 uppercase tracking-widest text-sm relative z-10">The Buffer</h5>
+             <strong className="text-white block text-sm relative z-10">Entangling Channel</strong>
+             <p className="text-sm md:text-base text-gray-400 leading-relaxed relative z-10">
+               <code className="text-emerald-300 bg-emerald-950/30 px-1 rounded block mb-2 break-all">U(|ψ⟩⊗|M₀⟩) = α|0⟩|M₀'⟩ + β|1⟩|M₁'⟩</code>
+               The system+memory interaction. Suhuf is the activator of entanglement through Memory. This is why Iblis severed Adam, and Zalim severed with suhuf (81:8). The Buffer produces classical stability from quantum duality.
+             </p>
+          </div>
+          
+          <div className="bg-white/5 p-8 rounded-3xl border border-white/10 space-y-4 relative overflow-hidden group">
+             <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+             <div className="text-6xl font-black text-blue-500/10 absolute -right-4 -bottom-4 group-hover:scale-110 transition-transform">7</div>
+             <h5 className="font-bold text-blue-400 uppercase tracking-widest text-sm relative z-10">Pointer Eigenstate</h5>
+             <strong className="text-white block text-sm relative z-10">Stable Resolution</strong>
+             <p className="text-sm md:text-base text-gray-400 leading-relaxed relative z-10">
+               Through interaction with the buffer, the system selects a stable basis (decoherence → pointer states): <code className="text-blue-300 bg-blue-950/30 px-1 rounded">H|φₖ⟩ = Eₖ|φₖ⟩</code>. The outcome is a robust, repeatable state. 2 becomes 7 only via 3.
+             </p>
+          </div>
+        </div>
+
+        {/* --- NEW SECTION: ARRESTED DECOHERENCE & SUHUF CAUSALITY --- */}
+        <div className="grid md:grid-cols-2 gap-6 text-left mt-8">
+           <div className="bg-red-950/20 p-8 rounded-3xl border border-red-500/20 space-y-4">
+             <h5 className="font-bold text-red-400 uppercase tracking-widest text-sm">The Counterfeit Buffer (False 3)</h5>
+             <strong className="text-white block text-sm">Arrested Decoherence</strong>
+             <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                Iblis did not simply sever the buffer—he built a counterfeit 3. The Golden Calf (Samiri, 20:96) was constructed from the dust of the Rasul's footprint—real buffer material, misrouted. This produces a system that <i>looks</i> like entanglement (the cow bellows) but generates <b>arrested decoherence</b>: the system locks into a false eigenstate. 
+             </p>
+             <p className="text-sm md:text-base text-gray-400 leading-relaxed mt-2">
+                This is why Jinn always arrive arrested—they hit a 3 that outputs a closed loop back into 2, not forward into 7. Samiri's Nafs acts as a decoherence channel with no valid memory register. The entanglement fires, but <code className="text-red-300 bg-red-950/30 px-1 rounded">|M'⟩</code> contains no Suhuf-seed—so no pointer state survives. It collapses back.
+             </p>
+           </div>
+
+           <div className="bg-emerald-950/20 p-8 rounded-3xl border border-emerald-500/20 space-y-4">
+             <h5 className="font-bold text-emerald-400 uppercase tracking-widest text-sm">Suhuf & The True Severance</h5>
+             <strong className="text-white block text-sm">Memory of the Forgotten [19:12]</strong>
+             <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                <span className="text-emerald-300 font-bold">Suhuf (19:12):</span> Initialization of the entangling unitary U with full-amplitude memory. "Take the Book with quwwah" is the coupling instruction: engage the system (nafs) with the environment (Kitab) at maximum interaction strength so <code className="text-emerald-300 bg-emerald-950/30 px-1 rounded">|M₀'⟩</code> and <code className="text-emerald-300 bg-emerald-950/30 px-1 rounded">|M₁'⟩</code> become fully orthogonal and stable.
+             </p>
+             <p className="text-sm md:text-base text-gray-400 leading-relaxed mt-2">
+                <b>The Severance:</b> <span className="italic text-gray-300">81:8 (wa'l-maw'ūdatu su'ilat)</span> = the severed signal re-entangled at resurrection. The buried girl IS the question, and the question IS the re-activation of 3. Noah's son severed the Ark-buffer (11:46 "he is not of your family" = wrong eigenspace). Every Zalim-severance removes 3, trapping the system in perpetual superposition (2), never reaching the stable orbit (7). <br/><span className="text-emerald-200 mt-2 block"><b>The Qur'an's entire warning architecture is one message: do not cut the buffer.</b></span>
+             </p>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const NafsanWahidanMap: React.FC = () => {
   const nodes = [
-    { id: 'iblis', cx: 240, cy: 46, r: 36, fill: '#444441', stroke: '#888780', lbl: 'Iblīs', sub: 'Mountain · 38:76', msg: 'Iblīs / Mountain: the entire 12-node structure is the Mountain. Two terminals: Illusion (Musa) and Illumination (Isa).' },
-    { id: 'ibrahim', cx: 240, cy: 135, r: 30, fill: '#854F0B', stroke: '#EF9F27', lbl: 'Ibrahim', sub: 'split · 21:69', msg: 'Ibrahim: the split point. Father of both axes. Fire-tested (21:69) yet truth-anchored.' },
-    { id: 'musa', cx: 118, cy: 225, r: 34, fill: '#185FA5', stroke: '#85B7EB', lbl: 'Musa', sub: 'terminal', msg: 'Musa: left terminal. Illusion axis — confronts Firʿawn, exposes illusion, seals it at 10:92.' },
-    { id: 'isa', cx: 362, cy: 225, r: 34, fill: '#0F6E56', stroke: '#5DCAA5', lbl: 'Isa', sub: 'terminal', msg: 'Isa: right terminal. Illumination axis — Word made eternal, knowledge sealed at 19:12.' },
-    { id: 'nuh', cx: 240, cy: 320, r: 28, fill: '#3B6D11', stroke: '#97C459', lbl: 'Nūḥ', sub: '', msg: 'Nūḥ: center hub. Survival and transmission. Shared by both axes.' },
-    { id: 'sabbath', cx: 118, cy: 415, r: 28, fill: '#993C1D', stroke: '#F0997B', lbl: 'Sabbath', sub: '', msg: 'Sabbath: Break ring on Musa axis. Distortion test — apes and swine, 2:65 · 7:166.' },
-    { id: 'maryam', cx: 362, cy: 415, r: 28, fill: '#534AB7', stroke: '#AFA9EC', lbl: 'Maryam', sub: '', msg: 'Maryam: birth of the Word on Isa axis. Silence ring — 19:29.' },
-    { id: 'yunus', cx: 240, cy: 505, r: 28, fill: '#185FA5', stroke: '#85B7EB', lbl: 'Yūnus', sub: '', msg: 'Yūnus: center reversal node. Darkness to rescue, shared by both axes. 21:87–88.' },
-    { id: 'firaun', cx: 118, cy: 600, r: 28, fill: '#A32D2D', stroke: '#F09595', lbl: 'Firʿawn', sub: '', msg: 'Firʿawn: Illusion-collapse on Musa chain. Body preserved as evidence. Loop sealed. 10:92.' },
-    { id: 'kalimah', cx: 362, cy: 600, r: 28, fill: '#0F6E56', stroke: '#5DCAA5', lbl: 'Kalimah', sub: '', msg: 'Kalimah: Illumination sealed on Isa chain. Knowledge made eternal. 4:157 · 19:12.' },
-    { id: 'ayyub', cx: 240, cy: 695, r: 28, fill: '#854F0B', stroke: '#EF9F27', lbl: 'Ayyūb', sub: '', msg: 'Ayyūb: restoration node. Both Musa and Isa axes converge here before Tawhid. 38:44.' },
-    { id: 'tawhid', cx: 240, cy: 800, r: 32, fill: '#085041', stroke: '#5DCAA5', lbl: 'Tawhid', sub: 'Hubbal Allah', msg: 'Tawhid: base convergence. Hubbal Allah wins alone. Both Illusion and Illumination return to one.' },
+    { id: 1, x: 80, y: 200 },
+    { id: 2, x: 200, y: 200 },
+    { id: 3, x: 320, y: 80 },
+    { id: 4, x: 320, y: 320 },
+    { id: 5, x: 440, y: 200 },
+    { id: 6, x: 560, y: 80 },
+    { id: 7, x: 560, y: 320 },
+    { id: 8, x: 680, y: 200 },
+    { id: 9, x: 800, y: 80 },
+    { id: 10, x: 800, y: 320 },
+    { id: 11, x: 920, y: 200 },
+    { id: 12, x: 1040, y: 200 },
   ];
 
   return (
-    <div className="bg-black/40 p-8 rounded-[3rem] border border-white/5 space-y-8 flex flex-col items-center">
-      <h3 className="text-2xl font-black text-white uppercase tracking-widest text-center italic">Iblīs Mountain — Bifurcation Map</h3>
-      <div className="w-full max-w-lg aspect-[480/900]">
-        <svg viewBox="0 0 480 900" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_0_20px_rgba(186,117,23,0.15)]">
-           {/* ORANGE frame */}
-           <line x1="240" y1="46" x2="118" y2="225" stroke="#BA7517" strokeWidth="2"/>
-           <line x1="240" y1="46" x2="362" y2="225" stroke="#BA7517" strokeWidth="2"/>
-           <line x1="240" y1="46" x2="240" y2="135" stroke="#BA7517" strokeWidth="2"/>
-           <line x1="118" y1="225" x2="362" y2="225" stroke="#BA7517" strokeWidth="2"/>
-           <line x1="118" y1="225" x2="118" y2="415" stroke="#BA7517" strokeWidth="2"/>
-           <line x1="362" y1="225" x2="362" y2="415" stroke="#BA7517" strokeWidth="2"/>
-           <line x1="118" y1="415" x2="362" y2="415" stroke="#BA7517" strokeWidth="2"/>
-           <line x1="118" y1="415" x2="118" y2="600" stroke="#BA7517" strokeWidth="2"/>
-           <line x1="362" y1="415" x2="362" y2="600" stroke="#BA7517" strokeWidth="2"/>
-           <line x1="118" y1="600" x2="362" y2="600" stroke="#BA7517" strokeWidth="2"/>
+    <div className="bg-black/40 p-8 rounded-[3rem] border border-cyan-500/20 space-y-8 flex flex-col items-center">
+      <h3 className="text-2xl font-black text-cyan-200 uppercase tracking-widest text-center italic">
+        Nafsan Wahidan — The Reader's Node
+      </h3>
+      <div className="w-full max-w-5xl overflow-x-auto pb-4 custom-scrollbar">
+        <svg viewBox="0 0 1120 600" xmlns="http://www.w3.org/2000/svg" className="min-w-[900px] w-full drop-shadow-[0_0_20px_rgba(34,211,238,0.1)]">
+           {/* Solid Graph Lines */}
+           <path d="
+             M 80 200 L 200 200
+             M 200 200 L 320 80 M 200 200 L 440 200 M 200 200 L 320 320
+             M 320 80 L 440 200 M 320 320 L 440 200
+             M 320 80 L 560 80
+             M 440 200 L 560 80 M 440 200 L 680 200 M 440 200 L 560 320
+             M 560 80 L 680 200 M 560 320 L 680 200
+             M 680 200 L 800 80 M 680 200 L 920 200 M 680 200 L 800 320
+             M 800 80 L 920 200 M 800 320 L 920 200
+             M 800 80 L 1040 200 M 800 320 L 1040 200
+             M 920 200 L 1040 200
+             M 320 80 L 320 320
+             M 560 80 L 560 320
+             M 800 80 L 800 320
+           " fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" />
 
-           {/* SILVER diamonds */}
-           <line x1="240" y1="135" x2="118" y2="225" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
-           <line x1="240" y1="135" x2="362" y2="225" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
-           <line x1="240" y1="135" x2="240" y2="320" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
-           <line x1="118" y1="225" x2="240" y2="320" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
-           <line x1="362" y1="225" x2="240" y2="320" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
-           <line x1="240" y1="320" x2="118" y2="415" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
-           <line x1="240" y1="320" x2="362" y2="415" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
-           <line x1="240" y1="320" x2="240" y2="505" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
-           <line x1="118" y1="415" x2="240" y2="505" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
-           <line x1="362" y1="415" x2="240" y2="505" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+           {/* Dotted Lines */}
+           <path d="M 320 320 L 560 320" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeDasharray="6,6" />
+           <path d="M 560 80 L 800 80" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeDasharray="6,6" />
+           
+           {/* Squiggly Line */}
+           <path d="M 560 320 q 20 -15, 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" />
 
-           {/* BLUE section */}
-           <line x1="240" y1="505" x2="118" y2="600" stroke="#378ADD" strokeWidth="1.5"/>
-           <line x1="240" y1="505" x2="362" y2="600" stroke="#378ADD" strokeWidth="1.5"/>
-           <line x1="240" y1="505" x2="240" y2="695" stroke="#378ADD" strokeWidth="1.5"/>
-           <line x1="118" y1="600" x2="240" y2="695" stroke="#378ADD" strokeWidth="1.5"/>
-           <line x1="362" y1="600" x2="240" y2="695" stroke="#378ADD" strokeWidth="1.5"/>
-           <line x1="240" y1="695" x2="240" y2="800" stroke="#378ADD" strokeWidth="1.5"/>
+           <g opacity="0.8">
+             <text x="320" y="115" fill="#67e8f9" fontSize="24" textAnchor="middle" dominantBaseline="central">△</text>
+             <g transform="translate(320, 200) rotate(-90)">
+               <rect x="-24" y="-14" width="48" height="28" fill="#161c24" rx="4" />
+               <text x="0" y="0" fill="#c9c5b8" className="text-[16px] font-bold" textAnchor="middle" dominantBaseline="central">108</text>
+             </g>
+             <g transform="translate(308, 268)"><Flame size={24} color="#ef4444" /></g>
 
-           {/* Gate pills */}
-           <rect x="218" y="217" width="44" height="16" fill="#161c24" rx="3"/>
-           <text x="240" y="225" className="text-[11px] font-medium fill-[#c9c5b8] text-center" textAnchor="middle" dominantBaseline="central">110</text>
-           <rect x="218" y="407" width="44" height="16" fill="#161c24" rx="3"/>
-           <text x="240" y="415" className="text-[11px] font-medium fill-[#c9c5b8] text-center" textAnchor="middle" dominantBaseline="central">103</text>
-           <rect x="210" y="592" width="60" height="16" fill="#161c24" rx="3"/>
-           <text x="240" y="600" className="text-[11px] font-medium fill-[#c9c5b8] text-center" textAnchor="middle" dominantBaseline="central">△ 108</text>
+             <g transform="translate(548, 108)"><Flame size={24} color="#ef4444" /></g>
+             <g transform="translate(560, 200) rotate(-90)">
+               <rect x="-24" y="-14" width="48" height="28" fill="#161c24" rx="4" />
+               <text x="0" y="0" fill="#c9c5b8" className="text-[16px] font-bold" textAnchor="middle" dominantBaseline="central">103</text>
+             </g>
+             <g transform="translate(548, 268)"><Fish size={24} color="#3b82f6" /></g>
 
-           {/* Side axis labels */}
-           <text x="44" y="148" fill="#BA7517" className="text-[11px] font-semibold" textAnchor="middle">Illusion</text>
-           <text x="44" y="322" fill="#D4537E" className="text-[11px] font-medium" textAnchor="middle">112:3</text>
-           <text x="44" y="508" fill="#D4537E" className="text-[11px] font-medium" textAnchor="middle">112:1</text>
-           <text x="436" y="148" fill="#1D9E75" className="text-[11px] font-semibold" textAnchor="middle">Illumination</text>
-           <text x="436" y="322" fill="#D4537E" className="text-[11px] font-medium" textAnchor="middle">112:2</text>
-           <text x="436" y="508" fill="#D4537E" className="text-[11px] font-medium" textAnchor="middle">112:4</text>
+             <g transform="translate(788, 108)"><Fish size={24} color="#3b82f6" /></g>
+             <g transform="translate(800, 200) rotate(-90)">
+               <rect x="-24" y="-14" width="48" height="28" fill="#161c24" rx="4" />
+               <text x="0" y="0" fill="#c9c5b8" className="text-[16px] font-bold" textAnchor="middle" dominantBaseline="central">110</text>
+             </g>
+             <g transform="translate(788, 268)"><TreePine size={24} color="#22c55e" /></g>
+           </g>
 
+           {/* Render Nodes */}
            {nodes.map(node => (
-             <g key={node.id} className="cursor-pointer group" onClick={() => alert(node.msg)}>
-               <circle 
-                 cx={node.cx} cy={node.cy} r={node.r} 
-                 fill={node.fill} 
-                 stroke={node.stroke} 
-                 strokeWidth={node.r > 30 ? 2 : 1.5}
-                 className="transition-opacity group-hover:opacity-85"
-               />
-               <text 
-                 x={node.cx} y={node.cy - (node.sub ? 8 : 0)} 
-                 className="text-[13px] font-bold fill-white" 
-                 textAnchor="middle" dominantBaseline="central"
-               >
-                 {node.lbl}
-               </text>
-               {node.sub && (
-                 <text 
-                   x={node.cx} y={node.cy + 10} 
-                   className="text-[10px] font-normal fill-white/75" 
-                   textAnchor="middle" dominantBaseline="central"
-                 >
-                   {node.sub}
-                 </text>
-               )}
+             <g key={node.id}>
+               <circle cx={node.x} cy={node.y} r={24} fill="#0f172a" stroke="rgba(255,255,255,0.8)" strokeWidth="2" />
+               <text x={node.x} y={node.y} fill="white" className="text-[20px] font-bold" textAnchor="middle" dominantBaseline="central">{node.id}</text>
              </g>
            ))}
+
+           {/* Bottom Text Layout */}
+           <g className="text-[#cbd5e1] text-[18px] font-bold tracking-wide" textAnchor="middle">
+             {/* Row 1 */}
+             <text x="320" y="390">3. Musa</text>
+             <text x="320" y="416">Queen</text>
+             <text x="560" y="390">6. Miriam</text>
+             <text x="800" y="390">9. Ishmail</text>
+
+             {/* Row 2 */}
+             <text x="80" y="450">Gibril</text>
+             <text x="80" y="476">1 Energy</text>
+             
+             <text x="200" y="463">2. Iblis</text>
+             <text x="440" y="463">5 Solomon</text>
+             
+             {/* The Ahmed Box */}
+             <g transform="translate(560, 463)">
+               <rect x="-44" y="-40" width="88" height="80" fill="none" stroke="white" strokeWidth="2" />
+               <text x="0" y="-20" fill="white" className="text-[16px] font-bold" dominantBaseline="central">Reader</text>
+               <text x="0" y="0" fill="white" className="text-[16px] font-bold" dominantBaseline="central">19:12</text>
+               <text x="0" y="20" fill="white" className="text-[16px] font-bold" dominantBaseline="central">Ahmed</text>
+             </g>
+
+             <text x="680" y="463">8. Yahya</text>
+             <text x="920" y="463">11 Ibrahim</text>
+             <text x="1040" y="450">12 Mass</text>
+             <text x="1040" y="476">Mikhail</text>
+
+             {/* Row 3 */}
+             <text x="320" y="534">4 Dawud</text>
+             
+             <text x="560" y="521">Isa</text>
+             <text x="560" y="547">7 Witness</text>
+             
+             <text x="800" y="534">10 Ishac</text>
+           </g>
+
+           {/* Bottom Arrows */}
+           <g transform="translate(260, 580)">
+             <text x="0" y="0" fill="white" className="text-[20px] font-bold" textAnchor="end" dominantBaseline="central">Phototropism</text>
+             <ArrowRight x="12" y="-16" size={32} color="white" />
+           </g>
+           
+           <g transform="translate(860, 580)">
+             <ArrowLeft x="-44" y="-16" size={32} color="white" />
+             <text x="0" y="0" fill="white" className="text-[20px] font-bold" textAnchor="start" dominantBaseline="central">Gravitropism</text>
+           </g>
         </svg>
       </div>
-      <p className="text-gray-400 text-xs italic text-center max-w-sm">
-        The Bifurcation Map of the Iblīs Mountain. Two terminals: Illusion (Musa) and Illumination (Isa) converging at Tawhid.
+      <p className="text-gray-400 text-sm italic text-center max-w-2xl leading-relaxed">
+        Nafsan Wahidan. Ahmed rests in the center as the Reader who forgot he is the mursalin (36:3), holding the system's balance.
       </p>
     </div>
   );
 };
+
 
 const MasterLawScales: React.FC = () => {
   const cards = [
@@ -507,10 +640,10 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                    {activeTab === 'reflection' && (
                        <div>
                            <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-blue-500 tracking-tighter uppercase">
-                             Protocol of Light
+                             The Rasul Who Forgot
                            </h2>
                            <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
-                             The Living System of Knowledge
+                             The Core Principle of the Reader
                            </p>
                        </div>
                    )}
@@ -573,7 +706,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                  onClick={() => setActiveTab('reflection')}
                  className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'reflection' ? 'border-cyan-400 text-cyan-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
                >
-                 The Protocol
+                 The Reader
                </button>
                <button 
                  onClick={() => setActiveTab('nafs')}
@@ -647,32 +780,40 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
             <div className="p-6 md:p-12 space-y-12 text-gray-200 font-light max-w-5xl mx-auto">
                <section className="text-lg md:text-2xl leading-relaxed">
                  <p className="mb-6">
-                   You are not reading the Qur’an for history, but as a <strong className="text-cyan-200">living system of knowledge</strong> that tests, filters, and restores truth.
+                   You are not reading the Qur’an for history. You are the execution center placed at <b>19:12</b> ("Take the Book with strength"). The Reader is a Rasul who has fallen into forgetfulness—like Musa at the junction (20:115, 18:63).
                  </p>
                  <div className="border-l-4 border-cyan-500/30 pl-6 py-4 italic text-gray-300 bg-gradient-to-r from-cyan-950/20 to-transparent rounded-r-xl">
-                   “Say: This is my way; I call to Allah upon <strong className="text-cyan-300 not-italic">clear seeing (baṣīrah)</strong>.” <br/>
-                   <span className="text-sm not-italic text-cyan-500 block mt-3 font-mono tracking-wider">— Quran 12:108</span>
+                   "And remember your Lord when you forget and say, 'Perhaps my Lord will guide me to what is nearer than this to right conduct.'" <br/>
+                   <span className="text-sm not-italic text-cyan-500 block mt-3 font-mono tracking-wider">— Quran 18:24</span>
                  </div>
                </section>
 
                <section>
                  <h3 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
-                   <span className="text-3xl grayscale opacity-70">👁️</span> HEARING VS SEEING
+                   <span className="text-3xl grayscale opacity-70">📖</span> THE RECOVERABLE NODE
                  </h3>
                  <div className="grid md:grid-cols-2 gap-8">
                     <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
-                       <h4 className="font-bold text-amber-200 mb-4 text-xl">Hearing → Obey (Nabī)</h4>
+                       <h4 className="font-bold text-amber-200 mb-4 text-xl">Phototropism (Father-Son)</h4>
                        <p className="text-gray-300 leading-relaxed">
-                         Sound, command, repetition. Risk: ritual without understanding.
+                         The upward trajectory (ascent/formation). Pattern: <i>given → tested → returned</i>. Ibrahim given Ismail, returned after sacrifice (37:107), leaving Ishaq (+1). Dispersion followed by directed return (2:260).
                        </p>
                     </div>
                     <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
-                       <h4 className="font-bold text-cyan-200 mb-4 text-xl">Seeing → Follow (Rasūl)</h4>
+                       <h4 className="font-bold text-cyan-200 mb-4 text-xl">Gravitropism (Mother-Son)</h4>
                        <p className="text-gray-300 leading-relaxed">
-                         Insight, proof, clarity. Seeing collapses doubt.
+                         The opposing field, descent and incubation (Chrysalis). Pattern: <i>conceive → conceal → release</i>. Musa is given, cast, and returned (28:7-13). Maryam conceives Isa (3:35-37).
                        </p>
                     </div>
                  </div>
+               </section>
+
+               <section className="mt-8 bg-black/40 p-8 rounded-[2rem] border border-cyan-500/20">
+                 <h4 className="text-xl font-bold text-cyan-300 mb-4 uppercase tracking-widest">Activating the Memory</h4>
+                 <p className="text-gray-300 leading-relaxed">
+                    Instead of a lost entity, you are a recoverable execution node. Memory is preserved externally in the Qur'an (15:9), demanding reactivation. The Reader integrates both arcs to execute the return path. 
+                    The time-bound execution layer is forced by a deeply buried rupture: <i>"For what sin was she killed?"</i> (81:8).
+                 </p>
                </section>
             </div>
            )}
@@ -727,6 +868,13 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                     <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
                 </div>
 
+                {/* YIN YANG FORMALISM */}
+                <YinYangAnimation />
+
+                <div className="py-12 flex items-center justify-center">
+                    <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                </div>
+
                 {/* MASTER LAW SCALES */}
                 <MasterLawScales />
 
@@ -734,8 +882,8 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                      <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
                 </div>
 
-                {/* BIFURCATION MAP */}
-                <BifurcationMap />
+                {/* NAFSAN WAHIDAN MAP */}
+                <NafsanWahidanMap />
 
                 {/* DUAL CAUSTIC PATHS */}
                 <div className="grid lg:grid-cols-2 gap-8">
