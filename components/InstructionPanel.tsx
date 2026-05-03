@@ -828,6 +828,21 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                         <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-rose-400 mb-4 italic">
                             The Unified 2-3-7 Architecture
                         </h3>
+                        <p className="text-orange-400 font-bold tracking-widest uppercase text-sm mb-8">
+                            The Mursalin 36:3 who forgot the Truth 19:23
+                        </p>
+
+                        <div className="aspect-video w-full max-w-3xl mx-auto rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl mb-10 group">
+                            <iframe
+                                className="w-full h-full"
+                                src="https://www.youtube.com/embed/5CeabNogN_o"
+                                title="The Unified 2-3-7 Architecture Video"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+
                         <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">
                             The minimal complete framework for mediated interaction between incompatible domains.
                             Paradoxes emerge only when the <strong>dynamic balance</strong> is ignored.
