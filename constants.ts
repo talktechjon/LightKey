@@ -138,7 +138,7 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 15, englishName: 'Protected Vault', transliteration: 'Al-Ḥijr', arabicName: 'الحجر', revelationType: 'Makki', juz: '14' },
     { number: 16, englishName: 'The Queen', transliteration: 'An-Naḥl', arabicName: 'النحل', revelationType: 'Makki', juz: '14' },
     { number: 17, englishName: 'Night Journey', transliteration: 'Banī Isrāʾīl', arabicName: 'الإسراء', revelationType: 'Makki', juz: '15' },
-    { number: 18, englishName: 'Cave\'s Rushd', transliteration: 'Al-Kahf', arabicName: 'الكهফ', revelationType: 'Makki', juz: '15-16' },
+    { number: 18, englishName: 'Mursalin: Your Memory', transliteration: 'Al-Kahf', arabicName: 'الكهف', revelationType: 'Makki', juz: '15-16' },
     { number: 19, englishName: 'The Switch', transliteration: 'Maryam', arabicName: 'مريم', revelationType: 'Makki', juz: '16', scienceTooltip: 'Biological Cardiac Zero Point / Light Coherence (9)' },
     { number: 20, englishName: 'Musa\'s Action', transliteration: 'Ṭā Hā', arabicName: 'طه', revelationType: 'Makki', juz: '16' },
     { number: 21, englishName: 'The Loop', transliteration: 'Al-Anbiyāʾ', arabicName: 'الأنبياء', revelationType: 'Makki', juz: '17' },

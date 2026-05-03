@@ -394,20 +394,15 @@ const fullHtmlContent = `<!DOCTYPE html>
 <main>
     <section class="intro-article">
         <h2>Memory 237: The Slave Who Forgot (19:12)</h2>
-        <p>The Qur’an encodes a repeatable conservation structure expressed as <b>2–3–7</b>, governed by <code>[3n | +1]</code>—a triadic field that always leaves one invariant center. This is the 237 Engine. Within this system, lineage patterns (Father–Son and Mother–Son) act as completion mechanisms operating under the Ummul Kitab cubic function: <code>Y(t) = ax³ + bx² + cx + 19</code>, where the invariant 19 preserves total balance.</p>
+        <p>Thank you! who believe in Quran- 36:3. Quran is the lost memory during 19:23 of <span style="font-weight:700">YOU</span>—the Mursalin (36:3) who forgot himself for 15:72. The Qur’an encodes a repeatable conservation structure expressed as <b>2–3–7</b>, where the invariant 19 preserves total balance.</p>
         
-        <p><b>Father–Son (Phototropism):</b> This provides the upward trajectory (ascent/formation). The pattern runs as <i>given → tested → returned</i>. Dawud is given Sulayman (38:30); Yaqub receives, loses, and re-receives Yusuf (12:100); and Ibrahim is given Ismail, who is explicitly returned after the sacrifice field (37:107), leaving Ishaq (+1) as the preserved continuation. This is the 2:260 execution law confirming dispersion followed by directed return.</p>
+        <p>We are the sleepers of the cave <b>18:19</b> who came to Earth to experience life and death to create a seed of Righteous Tree from <b>24:35</b> in Jannat. The Reader is Adam—placed at <b>19:12</b> ("Take the Book with strength"). Quran is Muhammad and Muhammad is Quran... hold it like your brother!</p>
         
-        <p><b>Gravitropism (Mother–Son):</b> The opposing field, descent and incubation (the Chrysalis). Pattern: <i>conceive → conceal → release</i>. Musa is given, cast, and finally returned (28:7–13). Maryam conceives Isa (3:45).</p>
+        <p><b>The Home (38:46):</b> Quran is for YOU... So we can remember this World is not our home. It's in heaven <b>38:46</b> just like our true ancestors Ibrahim-Ishac-Yakub. The tree in 24:35 is under the eye of Allah. Forget religion... Be in relationship with Allah! Yunus remembered his love from purely darkness (21:87), and Musa realized it on the top of the mountain (7:143).</p>
         
-        <p><b>The Core Principle (The Reader):</b> The Reader is Adam—the Mursalin (36:3) who forgot, placed at <b>19:12</b> ("Take the Book with strength"). Suspended like the sleepers in the Cave (18:19), the Reader is a recoverable execution node. Memory is preserved externally in the Qur'an (15:9), demanding reactivation. The Reader integrates both arcs to execute the 12-node return path.</p>
+        <p>Reader is like Harun-Lut-Zayd—one against a universe of second-hand knowledge. Remember the cave we began our journey from 18:19 (next scene = birth). 2:152 remember the memory in Truth... Inshallah we'll be home 38:46.</p>
         
-        <p>The system tracks the <b>Three Layers of Darkness</b> resolved by 2–3–7:<br/>
-        1. <b>LIFE:</b> Split by Iblis and Adam (2:34), stabilized by the Buffer (3n), anchored by the return field (+1).<br/>
-        2. <b>DEATH:</b> Split by Musa and Harun (2:67), stabilized by Yusuf–Yaqub–Ismail (3n), anchored by Ishaq (+1).<br/>
-        3. <b>REPEAT:</b> Split by internal/external Taghut, stabilized by the Book-Action-Sacrifice circuit.</p>
 
-        <p>The time-bound execution layer is forced by a deeply buried rupture: <i>"For what sin was she killed?"</i> (81:8). This unresolved ??? drives the question of corruption (2:30). Every triadic system (3n) will always produce the <b>+1</b> invariant center, executing final return under the law of conservation.</p>
     </section>
 
 <div class="legend">

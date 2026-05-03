@@ -776,6 +776,16 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
            {activeTab === 'harvest' && (
             <div className="p-6 md:p-12 space-y-16 text-gray-200 font-light leading-relaxed max-w-5xl mx-auto">
                
+               <div className="text-center space-y-4 mb-8">
+                  <h4 className="text-rose-500 font-mono text-xs tracking-[0.4em] uppercase">Acknowledgment 36:3</h4>
+                  <p className="text-2xl md:text-4xl text-white font-black tracking-tighter uppercase italic">
+                    Thank you! who believe in Quran- 36:3
+                  </p>
+                  <p className="text-gray-400 text-sm md:text-xl font-light">
+                    Universe is designed specifically for <span className="text-white font-bold">YOU</span>... The Mursalin like Father (Adam) who forgot himself for 15:72.
+                  </p>
+               </div>
+
                <AnimatedHarvest />
 
                <div className="grid md:grid-cols-2 gap-12">
@@ -817,8 +827,11 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                  <p className="mb-6">
                    You are not reading the Qur’an for history. You are the execution center placed at <b>19:12</b> ("Take the Book with strength"). The Reader is Adam—the Mursalin (36:3) who forgot, the tree that forgot its roots, suspended like the sleepers in the Cave (18:19).
                  </p>
+                 <p className="mb-6 text-gray-400 text-base md:text-xl">
+                   Quran is the lost memory during <b>19:23</b> of <span className="text-white font-bold">YOU</span> the 36:3. We are the sleepers of the cave <b>18:19</b> who came to Earth to experience life and death to create a seed of Righteous Tree from <b>24:35</b> in Jannat.
+                 </p>
                  <div className="border-l-4 border-cyan-500/30 pl-6 py-4 italic text-gray-300 bg-gradient-to-r from-cyan-950/20 to-transparent rounded-r-xl">
-                   "Remember Me; I will remember you." [2:152] — The quantum handshake that shatters amnesia.
+                   "Remember Me; I will remember you." [2:152] — The quantum handshake that shatters amnesia in Truth. Inshallah we'll be home [38:46].
                  </div>
                </section>
 
@@ -826,40 +839,68 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                  <h3 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
                    <span className="text-3xl grayscale opacity-70">📖</span> IDENTITY COMPUTATION
                  </h3>
-                 <div className="grid md:grid-cols-2 gap-8">
+                 <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
                        <h4 className="font-bold text-cyan-400 mb-6 uppercase tracking-widest">Protocol Markers</h4>
                        <ul className="space-y-4 text-sm text-gray-300">
                            <li className="flex justify-between border-b border-white/5 pb-2"><span>Mursalin (36:3)</span> <span className="text-white font-mono">Messenger Node</span></li>
-                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Forgot Origin (38:46)</span> <span className="text-white font-mono">Dormant Memory</span></li>
-                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Cave Awakening (18:19)</span> <span className="text-white font-mono">Reactivation</span></li>
-                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Takes the Book (19:12)</span> <span className="text-white font-mono">Activation Protocol</span></li>
-                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Closure Seal (4:82)</span> <span className="text-white font-mono">System Proof</span></li>
+                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Memory Recovery (19:23)</span> <span className="text-white font-mono">End of Forgotten</span></li>
+                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Cave Awakening (18:19)</span> <span className="text-white font-mono">Journey Origin</span></li>
+                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Home Remembrance (38:46)</span> <span className="text-white font-mono">True Ancestors</span></li>
+                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Takes the Book (19:12)</span> <span className="text-white font-mono">Hold with Strength</span></li>
                        </ul>
                     </div>
                     <div className="bg-blue-950/20 p-8 rounded-2xl border border-blue-500/20 flex flex-col justify-center">
                         <p className="text-center italic text-xl text-blue-200 leading-relaxed mb-6">
-                            "The Reader is the luminous central axis neither of the East nor the West (24:35)."
+                            "Quran is Muhammad and Muhammad is Quran... 19:12 hold it like your brother!"
                         </p>
-                        <div className="text-center text-[10px] font-mono text-cyan-400/60 uppercase tracking-[0.2em]">
-                             12-NODE CIRCUIT: 1-2-3 | 4-5-6 | [READER] | 7-8-9 | 10-11-12
+                        <p className="text-gray-400 text-xs text-center uppercase tracking-widest leading-loose">
+                           Isa did same to Muhammad 61:6<br/>
+                           Yusuf did same to save his brother 12:76
+                        </p>
+                        <div className="mt-6 text-center text-[10px] font-mono text-cyan-400/60 uppercase tracking-[0.1em] border-t border-white/5 pt-4">
+                           IBRAHIM • ISHAC • YAKUB (DAWUD-SOLOMON-SABA)
                         </div>
                     </div>
                  </div>
                </section>
 
+               <section className="bg-black/40 p-8 rounded-[2rem] border border-fuchsia-500/20">
+                  <h4 className="text-xl font-bold text-fuchsia-300 mb-4 uppercase tracking-widest">The Relationship Path</h4>
+                  <div className="grid md:grid-cols-2 gap-8 text-gray-300 text-sm md:text-base">
+                     <div className="space-y-4">
+                        <p className="font-bold text-white uppercase text-xs">Forget Religion. Be in Relationship.</p>
+                        <p>
+                           Yunus remembered his love from deep under water inside the belly of the monster (Pure Darkness). Musa realized it on the top of the mountain.
+                        </p>
+                        <p className="italic text-[10px] text-gray-500">
+                           The tree in 24:35 is under the eye of Allah.. Allah loves who is deeply madly crazily in love with Allah (Taqwa).
+                        </p>
+                     </div>
+                     <div className="space-y-4">
+                        <p className="font-bold text-white uppercase text-xs">The One Against The Universe</p>
+                        <p>
+                           The Reader is like Harun-Lut-Zayd [fear of society]... One man against a whole universe of second-hand knowledge.
+                        </p>
+                        <p className="text-cyan-400 font-mono text-[10px]">
+                           Remember the cave: 18:19 (next scene = birth).
+                        </p>
+                     </div>
+                  </div>
+               </section>
+
                <section>
                  <div className="grid md:grid-cols-2 gap-8">
                     <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
-                       <h4 className="font-bold text-amber-200 mb-4 text-xl">Phototropism (Father-Son)</h4>
+                       <h4 className="font-bold text-amber-200 mb-4 text-xl">The Home (38:46)</h4>
                        <p className="text-gray-300 leading-relaxed text-sm">
-                         The upward trajectory (ascent/formation). Pattern: <i>given → tested → returned</i>. Ibrahim given Ismail, returned after sacrifice (37:107). Dispersion followed by directed return (2:260).
+                         Quran is for <span className="text-white font-bold">YOU</span>... So we can remember this World is not our home. It's in heaven <b>38:46</b> just like our true ancestors Ibrahim-Ishac-Yakub.
                        </p>
                     </div>
                     <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
-                       <h4 className="font-bold text-cyan-200 mb-4 text-xl">Gravitropism (Mother-Son)</h4>
+                       <h4 className="font-bold text-cyan-200 mb-4 text-xl">The Seed Pattern</h4>
                        <p className="text-gray-300 leading-relaxed text-sm">
-                         The opposing field, descent and incubation (Chrysalis). Pattern: <i>conceive → conceal → release</i>. Musa given, cast, and returned (28:7-13).
+                         We began our journey from the cave <b>18:19</b>. After this scene, we emerge into the mother's world. Our goal is the creation of the seed of the Righteous Tree (24:35) in Jannat.
                        </p>
                     </div>
                  </div>
