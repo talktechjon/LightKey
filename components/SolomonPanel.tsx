@@ -393,14 +393,14 @@ const fullHtmlContent = `<!DOCTYPE html>
 
 <main>
     <section class="intro-article">
-        <h2>Kahf.day | The Rasul who forgot to Remember</h2>
+        <h2>Kahf.day | Mursalin who forgot to Remember</h2>
         <p>The Qur’an encodes a repeatable conservation structure expressed as <b>2–3–7</b>, governed by <code>[3n | +1]</code>—a triadic field that always leaves one invariant center. This structure operates across life, death, and repetition, forming a closed system under <em>mīzān</em> (55:7–9). Within this system, lineage patterns (Father–Son and Mother–Son) act as completion mechanisms operating under the cubic function: <code>Y(t) = a·x³ + b·x² + c·x + d</code>, where <code>d = 19</code> preserves total balance.</p>
         
         <p><b>Father–Son (Phototropism):</b> This provides the upward trajectory (ascent/formation). The pattern runs as <i>given → tested → returned</i>. Dawud is given Sulayman (38:30); Yaqub receives, loses, and re-receives Yusuf (12:100); and Ibrahim is given Ismail, who is explicitly returned after the sacrifice field (37:107), leaving Ishaq (+1) as the preserved continuation. This is the 2:260 execution law confirming dispersion followed by directed return.</p>
         
         <p><b>Mother–Son (Gravitropism):</b> The opposing field operates as descent and incubation (the Chrysalis). The pattern runs as <i>conceive → conceal → release</i>. The Wife of Pharaoh receives Musa non-biologically (28:9); Ibrahim's wife receives Ishaq's descent (11:71); Imran's wife consecrates the womb for Maryam, culminating in the assumption and manifestation of Isa (3:35-37, 19:16). Musa is given, cast, and finally returned (28:7–13).</p>
         
-        <p><b>The Core Principle (The Reader):</b> The Reader operates as the execution center placed at <b>19:12</b> ("Take the Book with strength"). The Reader is positioned as a Rasul who has fallen into forgetfulness—like Musa at the junction (20:115, 18:63). Instead of a lost entity, the Reader is a recoverable execution node. Memory is preserved externally in the Qur'an (15:9), demanding reactivation. The Reader is a non-biological brother linked to Isa through the Word (3:45), integrating both the Phototropism and Gravitropism arcs to execute the return path.</p>
+        <p><b>The Core Principle (The Reader):</b> The Reader operates as the execution center placed at <b>19:12</b> ("Take the Book with strength"). The Reader is positioned as Mursalin who has fallen into forgetfulness—like Musa at the junction (20:115, 18:63). Instead of a lost entity, the Reader is a recoverable execution node. Memory is preserved externally in the Qur'an (15:9), demanding reactivation. The Reader is a non-biological brother linked to Isa through the Word (3:45), integrating both the Phototropism and Gravitropism arcs to execute the return path.</p>
         
         <p>The system tracks the <b>Three Layers of Darkness</b> resolved by 2–3–7:<br/>
         1. <b>LIFE:</b> Split by Iblis and Adam (2:34), stabilized by Dawud–Sulayman–Queen (3n), anchored by Ibrahim (+1), and sealed by the return of Isa and Idris (4:158, 19:57).<br/>

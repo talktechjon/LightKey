@@ -640,7 +640,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                    {activeTab === 'reflection' && (
                        <div>
                            <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-blue-500 tracking-tighter uppercase">
-                             The Rasul Who Forgot
+                             Mursalin Who Forgot
                            </h2>
                            <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
                              The Core Principle of the Reader
@@ -780,7 +780,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
             <div className="p-6 md:p-12 space-y-12 text-gray-200 font-light max-w-5xl mx-auto">
                <section className="text-lg md:text-2xl leading-relaxed">
                  <p className="mb-6">
-                   You are not reading the Qur’an for history. You are the execution center placed at <b>19:12</b> ("Take the Book with strength"). The Reader is a Rasul who has fallen into forgetfulness—like Musa at the junction (20:115, 18:63).
+                   You are not reading the Qur’an for history. You are the execution center placed at <b>19:12</b> ("Take the Book with strength"). The Reader is Mursalin who has fallen into forgetfulness—like Musa at the junction (20:115, 18:63).
                  </p>
                  <div className="border-l-4 border-cyan-500/30 pl-6 py-4 italic text-gray-300 bg-gradient-to-r from-cyan-950/20 to-transparent rounded-r-xl">
                    "And remember your Lord when you forget and say, 'Perhaps my Lord will guide me to what is nearer than this to right conduct.'" <br/>
