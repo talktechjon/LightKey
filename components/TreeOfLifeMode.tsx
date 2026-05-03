@@ -9,8 +9,8 @@ interface TreeOfLifeModeProps {
 }
 
 const PRESET_1 = [
-  "Book", "Chosen One | Rasul", "Sign", "Prophet", "Challenge | Rescue", "Curse", 
-  "Blessed Land", "Believer | Servant", "Suhuf", "Teacher", "Witness | Driver", "Mountain"
+  "Gibril | Energy", "Adam | Iblis", "Musa | Queen", "Dawud-Jalut", "Solomon", "Miriam | Ummul Kitab",
+  "Isa | Witness", "Yahya", "Ishmail | Sacrifice", "Yusuf | Reunion", "Ibrahim | Tree", "Mikhail | Mass"
 ];
 
 const PRESET_2 = [
