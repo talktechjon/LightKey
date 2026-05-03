@@ -592,7 +592,7 @@ const MasterLawScales: React.FC = () => {
 };
 
 const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'harvest' | 'reflection' | 'cosmology' | 'vision' | 'nafs' | 'mobius' | 'chainmail'>('harvest');
+  const [activeTab, setActiveTab] = useState<'harvest' | 'reflection' | 'cosmology' | 'calculus' | 'vision' | 'nafs' | 'mobius' | 'chainmail'>('harvest');
 
   const containerClasses = isVisible 
     ? "opacity-100 pointer-events-auto scale-100" 
@@ -620,6 +620,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
              activeTab === 'harvest' ? 'bg-emerald-500/20' : 
              activeTab === 'reflection' ? 'bg-cyan-500/20' : 
              activeTab === 'cosmology' ? 'bg-amber-500/20' : 
+             activeTab === 'calculus' ? 'bg-indigo-500/30' :
              activeTab === 'nafs' ? 'bg-orange-500/20' : 
              activeTab === 'chainmail' ? 'bg-red-500/20' :
              activeTab === 'mobius' ? 'bg-blue-600/20' : 'bg-fuchsia-500/20'}`}></div>
@@ -645,6 +646,17 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                            </h2>
                            <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
                              Memory 237: Adam as the Primary Reader
+                           </p>
+                       </div>
+                   )}
+
+                   {activeTab === 'calculus' && (
+                       <div>
+                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 via-purple-300 to-indigo-600 tracking-tighter uppercase">
+                             Operator Calculus
+                           </h2>
+                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2 uppercase font-mono tracking-widest text-indigo-400/80">
+                             2-3-7: The Differential-Integral Loop
                            </p>
                        </div>
                    )}
@@ -737,6 +749,12 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                  className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'cosmology' ? 'border-amber-400 text-amber-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
                >
                  The Science
+               </button>
+               <button 
+                 onClick={() => setActiveTab('calculus')}
+                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'calculus' ? 'border-indigo-500 text-indigo-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+               >
+                 Calculus
                </button>
                <button 
                  onClick={() => setActiveTab('vision')}
@@ -1307,6 +1325,109 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                   </p>
                </div>
             </div>
+           )}
+
+           {activeTab === 'calculus' && (
+             <div className="p-6 md:p-12 space-y-16 text-gray-200 font-light max-w-6xl mx-auto pb-24">
+                <section className="grid lg:grid-cols-3 gap-8">
+                    {/* 2 - Operator */}
+                    <div className="bg-indigo-900/10 border border-indigo-500/20 p-8 rounded-[2rem] space-y-6">
+                        <div className="flex justify-between items-center border-b border-indigo-500/20 pb-4">
+                            <h3 className="text-4xl font-black text-indigo-400">2</h3>
+                            <span className="text-[10px] uppercase tracking-widest font-mono text-indigo-300/50">Operator (Dual Action)</span>
+                        </div>
+                        <ul className="space-y-4 text-sm md:text-base">
+                            <li className="flex gap-3">
+                                <span className="text-indigo-400 font-bold">Calculus:</span>
+                                <div>
+                                    <p className="font-mono text-lg">d/dx</p>
+                                    <p className="text-gray-400 text-xs mt-1">Differential Operator / Rate of Change</p>
+                                </div>
+                            </li>
+                            <li className="text-gray-300 leading-relaxed pt-4 border-t border-white/5">
+                                Equivalent to <span className="text-white font-bold">separation and tension</span>. It acts on a state to expose contrast/change. Dual evaluation (input vs output).
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* 3 - Manifestation */}
+                    <div className="bg-purple-900/10 border border-purple-500/20 p-8 rounded-[2rem] space-y-6">
+                        <div className="flex justify-between items-center border-b border-purple-500/20 pb-4">
+                            <h3 className="text-4xl font-black text-purple-400">3</h3>
+                            <span className="text-[10px] uppercase tracking-widest font-mono text-purple-300/50">Form (Buffer)</span>
+                        </div>
+                        <ul className="space-y-4 text-sm md:text-base">
+                            <li className="flex gap-3">
+                                <span className="text-purple-400 font-bold">Calculus:</span>
+                                <div>
+                                    <p className="font-mono text-lg">f(x)</p>
+                                    <p className="text-gray-400 text-xs mt-1">Realized Form / State-Space</p>
+                                </div>
+                            </li>
+                            <li className="text-gray-300 leading-relaxed pt-4 border-t border-white/5">
+                                The <span className="text-white font-bold">configuration space</span>. Holds the system so operations don't collapse. The structure where change is expressed and conserved.
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* 7 - Eternal Operation */}
+                    <div className="bg-indigo-900/10 border border-indigo-500/20 p-8 rounded-[2rem] space-y-6">
+                        <div className="flex justify-between items-center border-b border-indigo-500/20 pb-4">
+                            <h3 className="text-4xl font-black text-indigo-400">7</h3>
+                            <span className="text-[10px] uppercase tracking-widest font-mono text-indigo-300/50">Return (Closure)</span>
+                        </div>
+                        <ul className="space-y-4 text-sm md:text-base">
+                            <li className="flex gap-3">
+                                <span className="text-indigo-400 font-bold">Calculus:</span>
+                                <div>
+                                    <p className="font-mono text-lg">∫ f(x) dx</p>
+                                    <p className="text-gray-400 text-xs mt-1">Integral Operator / Accumulation</p>
+                                </div>
+                            </li>
+                            <li className="text-gray-300 leading-relaxed pt-4 border-t border-white/5">
+                                Recombines local changes into a <span className="text-white font-bold">conserved whole</span>. Invariant restoration and final closure.
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section className="bg-black/40 p-8 md:p-12 rounded-[3.5rem] border border-white/5 flex flex-col md:flex-row items-center gap-12">
+                   <div className="flex-1 space-y-6">
+                      <h4 className="text-2xl font-black text-white uppercase tracking-tighter italic">The Compact Loop</h4>
+                      <div className="space-y-4 font-mono text-lg text-indigo-300">
+                         <div className="bg-gray-900/60 p-4 rounded-xl border border-white/5">
+                            7 = ∫ ( 3(x) ) dx
+                         </div>
+                         <div className="bg-gray-900/60 p-4 rounded-xl border border-white/5">
+                            2 = d/dx ( 3(x) )
+                         </div>
+                      </div>
+                   </div>
+                   <div className="flex-1 space-y-4 text-gray-300">
+                      <p className="font-bold text-white uppercase text-xs tracking-widest text-indigo-400">System Insight</p>
+                      <ul className="space-y-2 text-sm md:text-base">
+                         <li><span className="text-indigo-400 font-bold">2</span> generates local change</li>
+                         <li><span className="text-purple-400 font-bold">3</span> holds the form of that change</li>
+                         <li><span className="text-indigo-400 font-bold">7</span> integrates it into a stable invariant</li>
+                      </ul>
+                      <p className="pt-4 border-t border-white/5 font-black text-white">
+                         Differentiate (2) → Form (3) → Integrate (7) → Invariant
+                      </p>
+                   </div>
+                </section>
+
+                <section className="bg-indigo-950/20 p-8 md:p-12 rounded-[3.5rem] border border-indigo-500/20">
+                    <h4 className="text-xl font-bold text-indigo-300 mb-6 uppercase tracking-widest text-center">Why No Zero-State Exists</h4>
+                    <div className="grid md:grid-cols-2 gap-8">
+                       <div className="space-y-4">
+                          <p><span className="text-white font-bold">Differentiation (2)</span> always produces signal. Local change is guaranteed by the tension of existence.</p>
+                       </div>
+                       <div className="space-y-4">
+                          <p><span className="text-white font-bold">Integration (7)</span> always accumulates into a non-null constant (the 19 invariant). The system cannot collapse.</p>
+                       </div>
+                    </div>
+                </section>
+             </div>
            )}
 
            {activeTab === 'cosmology' && (
