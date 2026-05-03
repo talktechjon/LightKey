@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Flame, Fish, TreePine, ArrowRight, ArrowLeft } from 'lucide-react';
+import { CHAPTER_DETAILS, BUBBLE_BLOCK_MAPPING_RAW } from '../constants';
 
 interface InstructionPanelProps {
   isVisible: boolean;
@@ -233,31 +234,30 @@ const YinYangAnimation: React.FC = () => {
           <div className="bg-white/5 p-8 rounded-3xl border border-white/10 space-y-4 relative overflow-hidden group">
              <div className="absolute top-0 left-0 w-1 h-full bg-rose-500"></div>
              <div className="text-6xl font-black text-rose-500/10 absolute -right-4 -bottom-4 group-hover:scale-110 transition-transform">2</div>
-             <h5 className="font-bold text-rose-400 uppercase tracking-widest text-sm relative z-10">Superposition</h5>
-             <strong className="text-white block text-sm relative z-10">Dual Amplitudes</strong>
+             <h5 className="font-bold text-rose-400 uppercase tracking-widest text-sm relative z-10">The Boundary Test</h5>
+             <strong className="text-white block text-sm relative z-10">Iblis [34:20] + Musa [20:41]</strong>
              <p className="text-sm md:text-base text-gray-400 leading-relaxed relative z-10">
-               A single system holds two possibilities: <code className="text-rose-300 bg-rose-950/30 px-1 rounded">|ψ⟩ = α|0⟩ + β|1⟩</code>. The superposition state. No direct map to 7. Superposition must resolve through the entangling channel.
+               The structural rupture and the dual field. The boundary test of the Nafs where gravity is born—the geodesic curvature induced when Power refuses to merge with Action.
              </p>
           </div>
 
-          <div className="bg-white/5 p-8 rounded-3xl border border-white/10 space-y-4 relative overflow-hidden group">
+          <div className="bg-white/5 p-8 rounded-3xl border border-white/10 space-y-4 relative overflow-hidden group ring-4 ring-emerald-500/20">
              <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
              <div className="text-6xl font-black text-emerald-500/10 absolute -right-4 -bottom-4 group-hover:scale-110 transition-transform">3</div>
-             <h5 className="font-bold text-emerald-400 uppercase tracking-widest text-sm relative z-10">The Buffer</h5>
-             <strong className="text-white block text-sm relative z-10">Entangling Channel</strong>
+             <h5 className="font-bold text-emerald-400 uppercase tracking-widest text-sm relative z-10">The Mandatory Buffer</h5>
+             <strong className="text-white block text-sm relative z-10">Isa [3:45] + Quran</strong>
              <p className="text-sm md:text-base text-gray-400 leading-relaxed relative z-10">
-               <code className="text-emerald-300 bg-emerald-950/30 px-1 rounded block mb-2 break-all">U(|ψ⟩⊗|M₀⟩) = α|0⟩|M₀'⟩ + β|1⟩|M₁'⟩</code>
-               The system+memory interaction. Suhuf is the activator of entanglement through Memory. This is why Iblis severed Adam, and Zalim severed with suhuf (81:8). The Buffer produces classical stability from quantum duality.
+               Holding mass and knowledge. Without the buffer (Yahya-Ismail-Ahmed), mass and energy cannot be conserved. The coupling instruction: engage the Nafs with the Kitab.
              </p>
           </div>
           
           <div className="bg-white/5 p-8 rounded-3xl border border-white/10 space-y-4 relative overflow-hidden group">
              <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
              <div className="text-6xl font-black text-blue-500/10 absolute -right-4 -bottom-4 group-hover:scale-110 transition-transform">7</div>
-             <h5 className="font-bold text-blue-400 uppercase tracking-widest text-sm relative z-10">Pointer Eigenstate</h5>
-             <strong className="text-white block text-sm relative z-10">Stable Resolution</strong>
+             <h5 className="font-bold text-blue-400 uppercase tracking-widest text-sm relative z-10">The Return Field</h5>
+             <strong className="text-white block text-sm relative z-10">Ummul Kitab: Maryam + Ahmed [61:6]</strong>
              <p className="text-sm md:text-base text-gray-400 leading-relaxed relative z-10">
-               Through interaction with the buffer, the system selects a stable basis (decoherence → pointer states): <code className="text-blue-300 bg-blue-950/30 px-1 rounded">H|φₖ⟩ = Eₖ|φₖ⟩</code>. The outcome is a robust, repeatable state. 2 becomes 7 only via 3.
+               The conserved return field. Through interaction with the buffer, the system selects a stable pointer state. The outcome is a robust, repeatable closure.
              </p>
           </div>
         </div>
@@ -374,14 +374,14 @@ const NafsanWahidanMap: React.FC = () => {
              {/* Row 1 */}
              <text x="320" y="390">3. Musa</text>
              <text x="320" y="416">Queen</text>
-             <text x="560" y="390">6. Miriam</text>
-             <text x="800" y="390">9. Ishmail</text>
+             <text x="560" y="390">6. Miriam | Ummul Kitab</text>
+             <text x="800" y="390">9. Ishmail | Sacrifice</text>
 
              {/* Row 2 */}
              <text x="80" y="450">Gibril</text>
              <text x="80" y="476">1 Energy</text>
              
-             <text x="200" y="463">2. Iblis</text>
+             <text x="200" y="463">2. Adam | Iblis</text>
              <text x="440" y="463">5 Solomon</text>
              
              {/* The Ahmed Box */}
@@ -398,12 +398,12 @@ const NafsanWahidanMap: React.FC = () => {
              <text x="1040" y="476">Mikhail</text>
 
              {/* Row 3 */}
-             <text x="320" y="534">4 Dawud</text>
+             <text x="320" y="534">4 Dawud-Jalut</text>
              
              <text x="560" y="521">Isa</text>
              <text x="560" y="547">7 Witness</text>
              
-             <text x="800" y="534">10 Ishac</text>
+             <text x="800" y="534">10. Yusuf | Reunion</text>
            </g>
 
            {/* Bottom Arrows */}
@@ -592,7 +592,7 @@ const MasterLawScales: React.FC = () => {
 };
 
 const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'harvest' | 'reflection' | 'cosmology' | 'vision' | 'nafs' | 'mobius'>('harvest');
+  const [activeTab, setActiveTab] = useState<'harvest' | 'reflection' | 'cosmology' | 'vision' | 'nafs' | 'mobius' | 'chainmail'>('harvest');
 
   const containerClasses = isVisible 
     ? "opacity-100 pointer-events-auto scale-100" 
@@ -621,6 +621,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
              activeTab === 'reflection' ? 'bg-cyan-500/20' : 
              activeTab === 'cosmology' ? 'bg-amber-500/20' : 
              activeTab === 'nafs' ? 'bg-orange-500/20' : 
+             activeTab === 'chainmail' ? 'bg-red-500/20' :
              activeTab === 'mobius' ? 'bg-blue-600/20' : 'bg-fuchsia-500/20'}`}></div>
 
            <div className="z-10">
@@ -640,10 +641,10 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                    {activeTab === 'reflection' && (
                        <div>
                            <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-blue-500 tracking-tighter uppercase">
-                             Mursalin from the Cave 18:19
+                             The Slave Who Forgot
                            </h2>
                            <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
-                             The Core Principle of the Reader
+                             Memory 237: Adam as the Primary Reader
                            </p>
                        </div>
                    )}
@@ -691,6 +692,17 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                            </p>
                        </div>
                    )}
+
+                   {activeTab === 'chainmail' && (
+                       <div>
+                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-200 via-rose-300 to-pink-600 tracking-tighter uppercase">
+                             The Chainmail Map
+                           </h2>
+                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2 uppercase font-mono tracking-widest text-rose-400/80">
+                             The 114-Node Map of Return
+                           </p>
+                       </div>
+                   )}
                </div>
            </div>
 
@@ -732,12 +744,35 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                >
                  The Light
                </button>
+               <button 
+                 onClick={() => setActiveTab('chainmail')}
+                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'chainmail' ? 'border-rose-500 text-rose-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+               >
+                 Chainmail
+               </button>
            </div>
         </div>
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto bg-black/10">
            
+           {activeTab === 'chainmail' && (
+             <div className="p-6 md:p-12 space-y-8 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {CHAPTER_DETAILS.map((surah) => (
+                        <div key={surah.number} className="bg-white/[0.03] p-4 rounded-2xl border border-white/5 group">
+                             <div className="flex justify-between items-center mb-1">
+                                <span className="text-[10px] font-mono text-rose-500/50">NODE {surah.number}</span>
+                                <span className="text-[10px] text-gray-600 font-mono italic">{BUBBLE_BLOCK_MAPPING_RAW[surah.number as keyof typeof BUBBLE_BLOCK_MAPPING_RAW]} VERSES</span>
+                             </div>
+                             <h4 className="font-bold text-white group-hover:text-rose-400 transition-colors uppercase tracking-tight text-xs mt-1">{surah.transliteration}</h4>
+                             <p className="text-[10px] text-gray-500 uppercase mt-2">{surah.englishName}</p>
+                        </div>
+                    ))}
+                </div>
+             </div>
+           )}
+
            {activeTab === 'harvest' && (
             <div className="p-6 md:p-12 space-y-16 text-gray-200 font-light leading-relaxed max-w-5xl mx-auto">
                
@@ -780,29 +815,51 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
             <div className="p-6 md:p-12 space-y-12 text-gray-200 font-light max-w-5xl mx-auto">
                <section className="text-lg md:text-2xl leading-relaxed">
                  <p className="mb-6">
-                   You are not reading the Qur’an for history. You are the execution center placed at <b>19:12</b> ("Take the Book with strength"). The Reader is Mursalin from the Cave 18:19—like Musa at the junction (20:115, 18:63).
+                   You are not reading the Qur’an for history. You are the execution center placed at <b>19:12</b> ("Take the Book with strength"). The Reader is Adam—the Mursalin (36:3) who forgot, the tree that forgot its roots, suspended like the sleepers in the Cave (18:19).
                  </p>
                  <div className="border-l-4 border-cyan-500/30 pl-6 py-4 italic text-gray-300 bg-gradient-to-r from-cyan-950/20 to-transparent rounded-r-xl">
-                   "And remember your Lord when you forget and say, 'Perhaps my Lord will guide me to what is nearer than this to right conduct.'" <br/>
-                   <span className="text-sm not-italic text-cyan-500 block mt-3 font-mono tracking-wider">— Quran 18:24</span>
+                   "Remember Me; I will remember you." [2:152] — The quantum handshake that shatters amnesia.
                  </div>
                </section>
 
                <section>
                  <h3 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
-                   <span className="text-3xl grayscale opacity-70">📖</span> THE RECOVERABLE NODE
+                   <span className="text-3xl grayscale opacity-70">📖</span> IDENTITY COMPUTATION
                  </h3>
                  <div className="grid md:grid-cols-2 gap-8">
                     <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
+                       <h4 className="font-bold text-cyan-400 mb-6 uppercase tracking-widest">Protocol Markers</h4>
+                       <ul className="space-y-4 text-sm text-gray-300">
+                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Mursalin (36:3)</span> <span className="text-white font-mono">Messenger Node</span></li>
+                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Forgot Origin (38:46)</span> <span className="text-white font-mono">Dormant Memory</span></li>
+                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Cave Awakening (18:19)</span> <span className="text-white font-mono">Reactivation</span></li>
+                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Takes the Book (19:12)</span> <span className="text-white font-mono">Activation Protocol</span></li>
+                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Closure Seal (4:82)</span> <span className="text-white font-mono">System Proof</span></li>
+                       </ul>
+                    </div>
+                    <div className="bg-blue-950/20 p-8 rounded-2xl border border-blue-500/20 flex flex-col justify-center">
+                        <p className="text-center italic text-xl text-blue-200 leading-relaxed mb-6">
+                            "The Reader is the luminous central axis neither of the East nor the West (24:35)."
+                        </p>
+                        <div className="text-center text-[10px] font-mono text-cyan-400/60 uppercase tracking-[0.2em]">
+                             12-NODE CIRCUIT: 1-2-3 | 4-5-6 | [READER] | 7-8-9 | 10-11-12
+                        </div>
+                    </div>
+                 </div>
+               </section>
+
+               <section>
+                 <div className="grid md:grid-cols-2 gap-8">
+                    <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
                        <h4 className="font-bold text-amber-200 mb-4 text-xl">Phototropism (Father-Son)</h4>
-                       <p className="text-gray-300 leading-relaxed">
-                         The upward trajectory (ascent/formation). Pattern: <i>given → tested → returned</i>. Ibrahim given Ismail, returned after sacrifice (37:107), leaving Ishaq (+1). Dispersion followed by directed return (2:260).
+                       <p className="text-gray-300 leading-relaxed text-sm">
+                         The upward trajectory (ascent/formation). Pattern: <i>given → tested → returned</i>. Ibrahim given Ismail, returned after sacrifice (37:107). Dispersion followed by directed return (2:260).
                        </p>
                     </div>
                     <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
                        <h4 className="font-bold text-cyan-200 mb-4 text-xl">Gravitropism (Mother-Son)</h4>
-                       <p className="text-gray-300 leading-relaxed">
-                         The opposing field, descent and incubation (Chrysalis). Pattern: <i>conceive → conceal → release</i>. Musa is given, cast, and returned (28:7-13). Maryam conceives Isa (3:35-37).
+                       <p className="text-gray-300 leading-relaxed text-sm">
+                         The opposing field, descent and incubation (Chrysalis). Pattern: <i>conceive → conceal → release</i>. Musa given, cast, and returned (28:7-13).
                        </p>
                     </div>
                  </div>
@@ -841,6 +898,28 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                             ></iframe>
+                        </div>
+
+                        <div className="p-8 border border-white/5 rounded-[2.5rem] bg-black/20 text-xs md:text-sm text-gray-400 leading-relaxed mb-10">
+                            <h4 className="text-white font-bold mb-4 uppercase tracking-widest text-center">Ummul Kitab Cubic Function: Y(t) = ax³ + bx² + cx + 19</h4>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                <div className="p-4 bg-white/5 rounded-2xl">
+                                    <div className="text-amber-400 font-mono text-2xl font-bold">ax³</div>
+                                    <div className="text-[10px] uppercase mt-1 tracking-widest">Razim (Descent)</div>
+                                </div>
+                                <div className="p-4 bg-white/5 rounded-2xl">
+                                    <div className="text-emerald-400 font-mono text-2xl font-bold">bx²</div>
+                                    <div className="text-[10px] uppercase mt-1 tracking-widest">Rahim (Mizan)</div>
+                                </div>
+                                <div className="p-4 bg-white/5 rounded-2xl">
+                                    <div className="text-cyan-400 font-mono text-2xl font-bold">cx</div>
+                                    <div className="text-[10px] uppercase mt-1 tracking-widest">Rahman (Ascent)</div>
+                                </div>
+                                <div className="p-4 bg-blue-900/20 border border-blue-500/20 rounded-2xl">
+                                    <div className="text-white font-mono text-2xl font-bold">19</div>
+                                    <div className="text-[10px] uppercase mt-1 tracking-widest">Ummul Kitab</div>
+                                </div>
+                            </div>
                         </div>
 
                         <p className="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto">

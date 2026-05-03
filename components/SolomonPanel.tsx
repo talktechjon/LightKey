@@ -393,21 +393,21 @@ const fullHtmlContent = `<!DOCTYPE html>
 
 <main>
     <section class="intro-article">
-        <h2>Kahf.day | Mursalin from the Cave 18:19</h2>
-        <p>The Qur’an encodes a repeatable conservation structure expressed as <b>2–3–7</b>, governed by <code>[3n | +1]</code>—a triadic field that always leaves one invariant center. This structure operates across life, death, and repetition, forming a closed system under <em>mīzān</em> (55:7–9). Within this system, lineage patterns (Father–Son and Mother–Son) act as completion mechanisms operating under the cubic function: <code>Y(t) = a·x³ + b·x² + c·x + d</code>, where <code>d = 19</code> preserves total balance.</p>
+        <h2>Memory 237: The Slave Who Forgot (19:12)</h2>
+        <p>The Qur’an encodes a repeatable conservation structure expressed as <b>2–3–7</b>, governed by <code>[3n | +1]</code>—a triadic field that always leaves one invariant center. This is the 237 Engine. Within this system, lineage patterns (Father–Son and Mother–Son) act as completion mechanisms operating under the Ummul Kitab cubic function: <code>Y(t) = ax³ + bx² + cx + 19</code>, where the invariant 19 preserves total balance.</p>
         
         <p><b>Father–Son (Phototropism):</b> This provides the upward trajectory (ascent/formation). The pattern runs as <i>given → tested → returned</i>. Dawud is given Sulayman (38:30); Yaqub receives, loses, and re-receives Yusuf (12:100); and Ibrahim is given Ismail, who is explicitly returned after the sacrifice field (37:107), leaving Ishaq (+1) as the preserved continuation. This is the 2:260 execution law confirming dispersion followed by directed return.</p>
         
-        <p><b>Mother–Son (Gravitropism):</b> The opposing field operates as descent and incubation (the Chrysalis). The pattern runs as <i>conceive → conceal → release</i>. The Wife of Pharaoh receives Musa non-biologically (28:9); Ibrahim's wife receives Ishaq's descent (11:71); Imran's wife consecrates the womb for Maryam, culminating in the assumption and manifestation of Isa (3:35-37, 19:16). Musa is given, cast, and finally returned (28:7–13).</p>
+        <p><b>Gravitropism (Mother–Son):</b> The opposing field, descent and incubation (the Chrysalis). Pattern: <i>conceive → conceal → release</i>. Musa is given, cast, and finally returned (28:7–13). Maryam conceives Isa (3:45).</p>
         
-        <p><b>The Core Principle (The Reader):</b> The Reader operates as the execution center placed at <b>19:12</b> ("Take the Book with strength"). The Reader is positioned as Mursalin from the Cave 18:19—like Musa at the junction (20:115, 18:63). Instead of a lost entity, the Reader is a recoverable execution node. Memory is preserved externally in the Qur'an (15:9), demanding reactivation. The Reader is a non-biological brother linked to Isa through the Word (3:45), integrating both the Phototropism and Gravitropism arcs to execute the return path.</p>
+        <p><b>The Core Principle (The Reader):</b> The Reader is Adam—the Mursalin (36:3) who forgot, placed at <b>19:12</b> ("Take the Book with strength"). Suspended like the sleepers in the Cave (18:19), the Reader is a recoverable execution node. Memory is preserved externally in the Qur'an (15:9), demanding reactivation. The Reader integrates both arcs to execute the 12-node return path.</p>
         
         <p>The system tracks the <b>Three Layers of Darkness</b> resolved by 2–3–7:<br/>
-        1. <b>LIFE:</b> Split by Iblis and Adam (2:34), stabilized by Dawud–Sulayman–Queen (3n), anchored by Ibrahim (+1), and sealed by the return of Isa and Idris (4:158, 19:57).<br/>
-        2. <b>DEATH:</b> Split by Musa and Harun (2:67), stabilized by Yusuf–Yaqub–Ismail (3n), anchored by Ishaq (+1), and sealed by the Ark and the Cave (11:44, 18:10)—conserving memory.<br/>
-        3. <b>REPEAT:</b> Split by internal/external Taghut (39:17, 66:11), stabilized by Book–Action–Sacrifice (3n), anchored by the preserved center (+1), and sealed by the Mountain and Ark resting (7:143, 11:44)—conserving rise.</p>
+        1. <b>LIFE:</b> Split by Iblis and Adam (2:34), stabilized by the Buffer (3n), anchored by the return field (+1).<br/>
+        2. <b>DEATH:</b> Split by Musa and Harun (2:67), stabilized by Yusuf–Yaqub–Ismail (3n), anchored by Ishaq (+1).<br/>
+        3. <b>REPEAT:</b> Split by internal/external Taghut, stabilized by the Book-Action-Sacrifice circuit.</p>
 
-        <p>The time-bound execution layer is forced by a deeply buried rupture: <i>"For what sin was she killed?"</i> (81:8). This unresolved ??? drives the question of corruption (2:30) and the loss factor of time (103:1–3). It functions as a bounded timing cycle (15:72), where the illusion of time only serves to compel the return. Every triadic system (3n) will always produce the <b>+1</b> invariant center, executing final return under the law.</p>
+        <p>The time-bound execution layer is forced by a deeply buried rupture: <i>"For what sin was she killed?"</i> (81:8). This unresolved ??? drives the question of corruption (2:30). Every triadic system (3n) will always produce the <b>+1</b> invariant center, executing final return under the law of conservation.</p>
     </section>
 
 <div class="legend">
