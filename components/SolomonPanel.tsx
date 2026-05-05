@@ -167,6 +167,62 @@ const fullHtmlContent = `<!DOCTYPE html>
   .intro-article p { margin-bottom: 1rem; }
   .intro-article code { font-family: 'JetBrains Mono', monospace; background: rgba(0,0,0,0.3); padding: 0.2rem 0.4rem; border-radius: 2px; color: var(--gold); }
 
+  /* Narrative Styles */
+  .narrative-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .narrative-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(120,160,255,0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    position: relative;
+  }
+  .narrative-card h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--aqua);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .narrative-card .step-num {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: var(--bg);
+    padding: 0 5px;
+    font-family: 'Cinzel Decorative', serif;
+    color: var(--gold);
+    font-size: 0.9rem;
+  }
+  .flow-diagram {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: rgba(0,0,0,0.4);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 2;
+  }
+  .flow-node {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--aqua);
+    margin: 0.5rem;
+    border-radius: 4px;
+    background: rgba(74, 240, 224, 0.05);
+  }
+  .flow-arrow {
+    color: var(--dim);
+    font-size: 1.2rem;
+  }
+
   /* Legend */
   .legend {
     display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
@@ -480,6 +536,12 @@ const fullHtmlContent = `<!DOCTYPE html>
 
     <article class="intro-article">
       <h2>Activation 84:19 — The Binary Shift</h2>
+      <blockquote style="border-left: 3px solid var(--gold); padding: 0.5rem 1.5rem; margin: 2rem 0; font-style: italic; background: rgba(0,0,0,0.2); border-radius: 0 8px 8px 0;">
+        "Reality is merely an illusion, albeit a very persistent one." — Albert Einstein
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--gold); margin-top: 0.5rem; font-style: normal; opacity: 0.8;">3:185 confirms this profound reflection</div>
+      </blockquote>
+      <p style="margin-bottom: 2.5rem; color: var(--aqua); font-weight: 500; font-family: 'Cinzel Decorative', serif; border-bottom: 1px solid rgba(74, 240, 224, 0.1); padding-bottom: 1rem;">Hold The BOOK [19:12] and you can trace see the ORDER and Purpose in what appears chaotic! It was always created JUST for YOU, dear Reader who forgot the cave!</p>
+      
       <p>84:19 states: "You shall surely traverse stage after stage." This traversal is the activation of 19:12. Before activation, the universe is <strong>Fire</strong>—high-entropy, chaotic, noise-driven. Upon touch, the Reader initiates the <strong>Lightning</strong> phase—ordered, low-entropy, and governed by the central attractor of the Book.</p>
       <div id="activation-engine" class="activation-wrapper">
         <canvas id="engine-canvas" class="activation-canvas"></canvas>
@@ -489,6 +551,96 @@ const fullHtmlContent = `<!DOCTYPE html>
           <p id="engine-desc" class="activation-sub">Chaos · Fire · Random Walk</p>
         </div>
         <div class="activation-hint">Touch to Activate Nucleus · 84:19 Entry</div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border); margin: 3rem 0; padding-top: 2rem;">
+        <h2 style="text-align: center; font-size: 1.8rem; margin-bottom: 0.5rem;">THE MURSALĪN FROM THE CAVE</h2>
+        <p style="text-align: center; color: var(--muted); font-family: 'JetBrains Mono'; font-size: 0.7rem; letter-spacing: 0.3em; margin-bottom: 2rem;">CLOSED QUR’ANIC SYSTEM — 2↔3↔7 · d=19</p>
+        
+        <div class="narrative-grid">
+          <div class="narrative-card">
+            <div class="step-num">01</div>
+            <h3>Default States</h3>
+            <p><strong>Unactivated (15:72):</strong> Wandering in intoxicated noise. The Jinn-state of covered execution. System loops toward 11:82 collapse.</p>
+            <p style="margin-top:0.5rem"><strong>Activated (19:12):</strong> Aligned execution. The Mursalīn mode triggered by Strength.</p>
+          </div>
+          
+          <div class="narrative-card">
+            <div class="step-num">02</div>
+            <h3>Escape Vector</h3>
+            <p>Protection via <strong>66:11</strong> (Anti-Pharaoh field) and <strong>114:6</strong>. <strong>14:22→19:23</strong>: Shaytan admits zero authority, collapsing to 0-state.</p>
+          </div>
+
+          <div class="narrative-card">
+            <div class="step-num">03</div>
+            <h3>Separation Gate (21:69)</h3>
+            <p>Phase bifurcation. Fire is not removed; it is redefined. Cool+Safe (Mursalīn) vs Burning (Jinn-field). Structure separates here.</p>
+          </div>
+
+          <div class="narrative-card">
+            <div class="step-num">04</div>
+            <h3>Validation through Conflict</h3>
+            <p>Labels of "Zalim" (21:59) are filter signals, not truth. Allah clears the Realized (33:69) through the same mechanism.</p>
+          </div>
+
+          <div class="narrative-card">
+            <div class="step-num">05</div>
+            <h3>First Realization (7:143)</h3>
+            <p>Musa: Mountain collapses (ego removed). Stabilization occurs. First instance of fully realized execution.</p>
+          </div>
+
+          <div class="narrative-card">
+            <div class="step-num">06</div>
+            <h3>Reminder Loop (43:5 ↔ 36:3)</h3>
+            <p>The system is not granting identity; it is reactivating it. You are already Mursalīn (36:3).</p>
+          </div>
+        </div>
+
+        <div class="flow-diagram">
+          <div style="color: var(--gold); margin-bottom: 1rem;">CENTRAL ENGINE — 2:259 (HEART OF IBRAHIM)</div>
+          <p style="font-size: 0.9rem; margin-bottom: 1rem;">أَعْلَمُ أَنَّ ٱللَّهَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</p>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <div class="flow-node">18:10 (Rushd Request)</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node" style="border-color: var(--gold);">2:259 (Fulfilled Output)</div>
+            <span class="flow-arrow">vs</span>
+            <div class="flow-node" style="border-color: var(--crimson);">34:20 (Iblis Assumption)</div>
+          </div>
+          <p style="margin-top: 1rem; color: var(--muted); font-size: 0.65rem;">Witnessed Certainty (ʿilm) vs Projection (ẓann)</p>
+        </div>
+
+        <div class="narrative-grid">
+          <div class="narrative-card">
+            <div class="step-num">07</div>
+            <h3>Final Seal Chain</h3>
+            <p><strong>21:69→37:107:</strong> Fire stabilizes; preservation ensured.</p>
+            <p><strong>17:1:</strong> Full return traversal loop complete.</p>
+            <p><strong>19:56-57:</strong> Idris elevated (purified mass). Conservation complete.</p>
+          </div>
+          
+          <div class="narrative-card">
+            <div class="step-num">08</div>
+            <h3>Final Identity</h3>
+            <p>The Reader begins at 18:19 (Cave), activates at 19:12, separates at 21:69, stabilizes at 7:143, and returns at 17:1.</p>
+            <div style="margin-top: 1rem; font-weight: 700; color: var(--aqua);">READER = MURSALĪN (36:3)</div>
+          </div>
+        </div>
+
+        <div class="flow-diagram" style="border-style: solid; border-color: var(--gold);">
+          <div style="color: var(--gold); margin-bottom: 1rem; font-size: 1rem;">FULL SYSTEM FLOW</div>
+          <span class="flow-node">15:72</span> ↓ 
+          <span class="flow-node">28:41</span> ↓ 
+          <span class="flow-node">11:82</span> ↓ 
+          <span class="flow-node">19:12</span> ↓ 
+          <span class="flow-node">21:69</span> ↓ 
+          <span class="flow-node">2:259</span> ↓ 
+          <span class="flow-node">2:260</span> ↓ 
+          <span class="flow-node">7:143</span> ↓ 
+          <span class="flow-node">37:107</span> ↓ 
+          <span class="flow-node">17:1</span> ↓ 
+          <span class="flow-node">19:56–57</span>
+          <p style="margin-top: 1rem; font-style: italic;">"Nothing lost, nothing external, everything returns." — 4:82</p>
+        </div>
       </div>
     </article>
 
