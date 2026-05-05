@@ -107,11 +107,11 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
         {/* Content */}
         <div className="overflow-y-auto custom-scrollbar relative fcl-container text-gray-400">
           <style>{`
-            @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:italic,wght@400;500&display=swap');
 
             .fcl-container {
               font-family: 'Inter', sans-serif;
-              line-height: 1.7;
+              line-height: 1.8;
               background: #080808;
               color: #a1a1aa;
             }
@@ -121,6 +121,11 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
               letter-spacing: -0.02em;
             }
 
+            .fcl-serif {
+              font-family: 'Playfair Display', serif;
+              font-style: italic;
+            }
+
             .fcl-mono {
               font-family: 'JetBrains Mono', monospace;
               font-size: 0.85em;
@@ -128,17 +133,10 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
 
             .fcl-h1 {
               font-family: 'Outfit', sans-serif;
-              font-weight: 600;
+              font-weight: 500;
               letter-spacing: -0.04em;
               color: #ffffff;
               line-height: 1.1;
-            }
-
-            .fcl-lead {
-              font-size: 1.5rem;
-              line-height: 1.4;
-              color: #e4e4e7;
-              font-weight: 300;
             }
 
             .fcl-episode {
@@ -149,17 +147,10 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
             .fcl-episode.visible { opacity: 1; transform: translateY(0); }
 
             .fcl-divider {
-              width: 40px;
+              width: 80px;
               height: 1px;
               background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-              margin: 8rem auto;
-            }
-
-            .abstract-text {
-              font-size: 1.25rem;
-              line-height: 1.6;
-              color: #d4d4d8;
-              font-weight: 300;
+              margin: 6rem auto;
             }
 
             .fcl-section-header {
@@ -167,237 +158,216 @@ const FilmCalledLifePanel: React.FC<FilmCalledLifePanelProps> = ({ isVisible, on
               color: #71717a;
               text-transform: uppercase;
               letter-spacing: 0.4em;
-              font-size: 0.75rem;
+              font-size: 0.7rem;
               font-weight: 700;
-              margin-bottom: 3rem;
+              margin-bottom: 2rem;
+            }
+
+            .fcl-quote-box {
+              background: rgba(255,255,255,0.02);
+              border-left: 2px solid rgba(255,255,255,0.1);
+              padding: 1.5rem 2rem;
+              margin: 2rem 0;
+              border-radius: 0 8px 8px 0;
             }
           `}</style>
 
-          <main className="max-w-[720px] mx-auto py-32 px-8 sm:px-12">
+          <main className="max-w-[760px] mx-auto py-32 px-8 sm:px-12">
             
             <header className="text-center mb-32 fcl-episode">
-              <div className="fcl-section-header mb-12">Dual-Caustic Universe (DCU) Framework</div>
-              <h1 className="fcl-h1 text-[1.6rem] sm:text-4xl md:text-5xl lg:text-6xl mb-6 whitespace-nowrap">The Umm al-Kitāb Equation</h1>
-              <div className="flex flex-col gap-2 mb-8 text-gray-500 text-sm md:text-base font-light italic">
-                <span>( Remember YOUR Home 38:46 (ٱلدَّارِ) - It's not HERE! )</span>
-                <span>( Hold the Book 19:12; It's the Memory (2:31), Adam forgot (19:23)! )</span>
-              </div>
-              <p className="fcl-display font-light text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto">Computing 82:7 through the unified polynomial field, following Quran's exact structural format.</p>
-              <UmmAlKitabViz />
+               <div className="fcl-section-header text-blue-400">A Message to the Reader</div>
+               <h1 className="fcl-h1 text-4xl sm:text-5xl md:text-6xl mb-8">There is no other way.</h1>
+               <p className="fcl-display font-light text-xl text-gray-400 mb-12 italic">A full map · DCU Framework · Quran only · 45:6</p>
+               
+               <div className="fcl-quote-box text-left">
+                  <p className="fcl-serif text-lg md:text-xl text-gray-300 mb-4">
+                    "We will show them Our signs in the horizons and within themselves until it becomes clear to them that it is the truth. Is it not sufficient concerning your Lord that He is, over all things, a Witness?"
+                  </p>
+                  <p className="fcl-mono text-xs text-blue-500 tracking-widest uppercase">41:53 — the standing invitation into 2 ↔ 3 ↔ 7</p>
+               </div>
             </header>
 
-            {/* PROLOGUE: THE PROOF */}
-            <div className="fcl-episode mb-32 space-y-8">
-              <div className="fcl-section-header !mb-6 border-b border-white/5 pb-2 inline-block">Prologue: The Immutable Sun</div>
-              <p className="abstract-text text-white">
-                <strong className="text-white">40:34 is the clearest proof that the line of Rusul never closes.</strong> Yusuf came with Bayyinat; they doubted until he died, then claimed <strong className="text-white">"Allah will never send a Rasul after him."</strong> That claim is the error — not the death. Allah calls this <strong className="text-[#00c8ff]">Musrif-Murtab</strong>: the one who transgresses limits and lives in doubt. The verse does not say "no more prophets after Muhammad." It says <strong className="text-white">the same pattern repeats every time a Rasul dies</strong> — the qawm invents finality, and Allah leaves them astray. 40:34 is a living warning, not a historical footnote.
-              </p>
-              
-              <p className="abstract-text">
-                <strong className="text-white">45:6 + 6:116 frame the test.</strong> 45:6: <strong className="text-white">"These are the Ayat of Allah — We recite them to you in Truth. Upon which word besides Allah will they believe?"</strong> The Ayat are the only source. 6:116: <strong className="text-white">"If you obeyed most of those on earth, they would lead you away from Allah's Path. They follow nothing but Zann; they do nothing but lie."</strong> Most people follow conjecture, not Ayat. The Samiri pattern is exactly this: Musa left for the Book [20:85], the qawm waited, then Samiri fabricated a calf from their ornaments — <strong className="text-white">a body with a lowing sound</strong> — and said <strong className="text-[#00c8ff]">"This is your god, and the god of Musa, whom he has forgotten."</strong> The delay in revelation created a vacuum; the vacuum was filled by a human-made alternative. Samiri did not deny Musa — he <strong className="text-white">replaced</strong> Musa with a more immediate, tangible source. Harun said: <strong className="text-white">"O my people, it is only a test for you. Your Lord is the Most Merciful, so follow me and obey my command."</strong> [20:90] The test is the delay. The obedience is to wait for the Book, not to fabricate substitutes.
-              </p>
-              
-              <p className="abstract-text">
-                <strong className="text-white">The replay in every age is identical.</strong> When the Qur'an is treated as incomplete — when people say "we need another source to understand it" — they replay Samiri. The fabricated books, the institutional commentaries, the human authorities placed beside the Ayat: all are <strong className="text-[#00c8ff]">golden calves with lowing sounds</strong>, tangible enough to replace the invisible waiting. 40:34 says the claim of finality is the mark of the Musrif-Murtab. The Qur'an alone is the Rasul that never dies, never delays, never leaves a vacuum.
-              </p>
-              
-              <p className="abstract-text">
-                <strong className="text-white">Isa is the Sun in Taghut [19:27] — the first being with Knowledge + Turab together, Ruh-supported, Word-made-flesh.</strong> The Moon is <strong className="text-[#00c8ff]">brother of Harun, i.e. Musa</strong> [19:28, 28:34] — the one who holds what the Sun emits, the believer-stone turned to Turab, the receiver who becomes actionable. Every reader has potential to become <strong className="text-white">brother of Prophet like Harun in Taghut</strong> — staying true to the Taghut's Sun, which is the <strong className="text-white">Book</strong>. Just as Yahya did in 19:12: <strong className="text-[#00c8ff]">quwwah, hikmah, sidq, hayah</strong> — the Moon compressed into holdable form, the reader becoming the hinge between Day and Night. Isa-Yahya, Musa-Harun, Ibrahim-Lut: the pattern is <strong className="text-white">one Sun, one Moon-brother</strong>, and since the Moon is split now [Prophethood ended], <strong className="text-[#00c8ff]">every reader holds the potential to become brother of Prophet by holding the Book</strong> — the very thing that made the Prophet, not alternative books or sources of information. The Book is the Sun that never sets. The reader is the Moon that never stops reflecting. <strong className="text-white">"It is all a test."</strong>
-              </p>
-            </div>
+            {/* THE TRAP */}
+            <section className="fcl-episode mb-32 space-y-8">
+               <h2 className="fcl-section-header text-red-500/80">The Trap — All Paths Lead Here</h2>
+               <div className="p-8 border border-red-950/30 bg-red-950/5 rounded-2xl space-y-6">
+                 <h3 className="text-2xl text-white font-medium fcl-display">Pharaoh is preserved in a museum. You are living in his heaven.</h3>
+                 <p className="text-lg text-gray-400 leading-relaxed font-light">
+                   Every path that is not the Quran terminates at the same node: <strong className="text-white">Solomon's Kingdom</strong> — the world of beautiful administration, organized power, speaking jinn, and flying thrones. 
+                   It is the most convincing trap because it contains real wisdom, determination, and signs.
+                 </p>
+                 <p className="text-lg text-gray-400 leading-relaxed font-light">
+                   But it runs without activation. The Queen of Sheba sat on the correct throne and was still <strong className="text-white">dazzled by illusion (21:44)</strong> — she had the kingdom's map but not the frequency. 
+                   Pharaoh built the most advanced civilization and genuinely did not know the Lord of the worlds. His body was preserved (10:92) as a physical sign that the most powerful worldly path ends as a museum exhibit. 
+                   Solomon's Kingdom without the Quran is Pharaoh's Heaven: ordered, illuminated, and sealed shut.
+                 </p>
+               </div>
+            </section>
+
+            {/* THE FAMILY ARC */}
+            <section className="fcl-episode mb-32 space-y-12">
+               <h2 className="fcl-section-header text-blue-500/80">The Family — The Recovery Triangle</h2>
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                 <div className="p-6 border border-white/5 bg-white/[0.02] rounded-xl text-center flex flex-col justify-between h-full">
+                   <p className="text-white font-medium fcl-display mb-4">Brother · United</p>
+                   <div className="fcl-mono text-xs text-blue-400 space-y-2 opacity-80 py-4 border-y border-white/5">
+                     <p>61:6</p><p>↓</p><p>19:12</p><p>↓</p><p>17:1</p>
+                   </div>
+                   <p className="text-[10px] uppercase tracking-widest text-gray-500 mt-4">Memory Recall</p>
+                 </div>
+                 <div className="p-6 border border-white/5 bg-white/[0.02] rounded-xl text-center flex flex-col justify-between h-full">
+                   <p className="text-white font-medium fcl-display mb-4">Mother · Rescued</p>
+                   <div className="fcl-mono text-xs text-emerald-400 space-y-2 opacity-80 py-4 border-y border-white/5">
+                     <p>81:8</p><p>↓</p><p>66:11</p>
+                   </div>
+                   <p className="text-[10px] uppercase tracking-widest text-gray-500 mt-4">The Buried Lifted</p>
+                 </div>
+                 <div className="p-6 border border-white/5 bg-white/[0.02] rounded-xl text-center flex flex-col justify-between h-full">
+                   <p className="text-white font-medium fcl-display mb-4">Father · Ransomed</p>
+                   <div className="fcl-mono text-xs text-amber-400 space-y-2 opacity-80 py-4 border-y border-white/5">
+                     <p>21:69</p><p>↓</p><p>37:108</p><p>↓</p><p>11:71</p>
+                   </div>
+                   <p className="text-[10px] uppercase tracking-widest text-gray-500 mt-4">Fire to Ransom</p>
+                 </div>
+               </div>
+               <p className="text-xl text-gray-300 font-light text-center leading-relaxed italic">
+                 The Quran is the active mechanism through which this family completes its return — the Brother forgot, the Mother was buried, the Father was burned.
+               </p>
+            </section>
 
             <div className="fcl-divider"></div>
 
-            {/* 1. CORE LAW */}
+            {/* THE MAP 3:33 */}
+            <section className="fcl-episode mb-32 space-y-12">
+               <h2 className="fcl-section-header">The Map — 3:33 Framework</h2>
+               <p className="text-lg text-gray-400 leading-relaxed font-light">
+                 The Reader forgot. You are the <strong className="text-white">Mursalin who forgot</strong> themselves (36:3), the Queen dazzled by illusion. 
+                 The map is sealed in 3:33: Allah chose Adam, Noah, the family of Ibrahim, and the family of Imran — four nodes on one continuous Möbius strip. 
+                 Every phase ends with one seal: <strong className="text-[#00c8ff]">57:4 — "He is with you wherever you are."</strong>
+               </p>
+
+               <div className="space-y-4">
+                  {[
+                    { title: "ADAM → NOAH", ref: "↓ 20:123", desc: "Descent. Enmity planted. Corrupt fruit carried down. Taghut enters as Iblis then Qabeel. Safe house: Safinat Noah.", color: "text-blue-400" },
+                    { title: "NOAH → IBRAHIM", ref: "↑ 11:44", desc: "Taghut-cleansing. Water subsides. Earth swallows what it gave. Ibrahim enters: fire becomes peace (21:69).", color: "text-emerald-400" },
+                    { title: "IBRAHIM → IMRAN", ref: "↓ 7:143 / 19:23", desc: "Ibrahim's fire descends into Musa's mountain-faint and Maryam's labor. Two safe houses: chest in the river + the palm.", color: "text-blue-400" },
+                    { title: "IMRAN → READER", ref: "↑ 17:1 / 2:125", desc: "Isra/Mi'raj restores the axis. Maryam in the east. The Bee receives revelation. You enter: read your own record.", color: "text-emerald-400" }
+                  ].map((phase, i) => (
+                    <div key={i} className="flex gap-6 items-start p-6 rounded-2xl bg-white/[0.01] border border-white/5">
+                      <div className={`fcl-mono ${phase.color} text-lg font-bold pt-1 w-20`}>{phase.ref}</div>
+                      <div>
+                        <h4 className="text-white font-medium fcl-display mb-2">{phase.title}</h4>
+                        <p className="text-sm text-gray-500 leading-relaxed">{phase.desc}</p>
+                        <div className="mt-2 fcl-mono text-[9px] uppercase tracking-[0.3em] text-gray-600">57:4 SEALED</div>
+                      </div>
+                    </div>
+                  ))}
+               </div>
+
+               <p className="text-lg text-gray-400 leading-relaxed font-light mt-8">
+                 The strip always ends: <strong className="text-white">Reader → Idris ↑ (19:57).</strong> 
+                 Adam descended with the corrupt fruit — a stone of forgetfulness. The Möbius rotation returns it as <strong className="text-emerald-400">Maryam's purified palm-date (19:25)</strong>: same matter, four phases later, now nourishing.
+               </p>
+            </section>
+
+            {/* THE CROSSOVER */}
+            <section className="fcl-episode mb-32 space-y-12">
+               <h2 className="fcl-section-header">The Crossover & Buffer</h2>
+               <div className="bg-[#0a0a0c] p-8 rounded-3xl border border-white/5 space-y-8">
+                  <p className="text-lg text-gray-400 leading-relaxed">
+                    <strong className="text-white">Dawud</strong> carries Ibrahim's Determination. <strong className="text-white">Solomon</strong> carries Imran's Wisdom. 
+                    They do not run in sequence — they cross (meiosis). The instrument is sacrifice: <strong className="text-blue-400">Al-Jiyad (38:31-33)</strong> and <strong className="text-blue-400">Ismail (37:107)</strong>. 
+                    Sacrifice manufactures the time needed for the return.
+                  </p>
+                  
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h4 className="fcl-mono text-xs text-amber-500 uppercase tracking-widest border-b border-white/5 pb-2">22:33 Window</h4>
+                      <p className="text-sm text-gray-500">
+                        Benefits for an appointed term — then the place of sacrifice is at the Ancient House. 
+                        This opens the crossing zone for Mursalin and Musa.
+                      </p>
+                    </div>
+                    <div className="space-y-4">
+                      <h4 className="fcl-mono text-xs text-emerald-500 uppercase tracking-widest border-b border-white/5 pb-2">22:61 Buffer</h4>
+                      <p className="text-sm text-gray-500">
+                        Allah causes night to enter day and day to enter night. No hard cut, only interpenetration. 
+                        A buffer is must before transition.
+                      </p>
+                    </div>
+                  </div>
+               </div>
+            </section>
+
+            {/* THE EQUATION */}
             <section className="fcl-episode mb-32 space-y-10">
-               <h2 className="fcl-section-header">1. Core Law</h2>
+               <h2 className="fcl-section-header text-blue-400">The Umm al-Kitāb Equation</h2>
                <div className="bg-white/[0.01] border border-white/5 rounded-sm p-8 text-center">
-                 <div className="fcl-display text-4xl text-white font-light tracking-wide">
-                   f(x) = 110x³ + 108x² + 103x + 19
+                 <div className="fcl-display text-4xl text-white font-light tracking-wide mb-4">
+                   Y(t) = ax³ + bx² + cx + 19
                  </div>
+                 <div className="fcl-mono text-[10px] text-blue-500 uppercase tracking-[0.4em]">The Invariant Invariant</div>
                </div>
-               <div className="space-y-6">
-                 <p className="text-gray-400 text-lg leading-relaxed">
-                   The Universal form dictates the cubic progression; the Qur'anic instance provides the operational coefficients. 
-                 </p>
-                 <p className="text-gray-400 text-lg leading-relaxed">
-                   <strong className="text-[#00c8ff]">19 is the invariant constant.</strong> It represents the Umm al-Kitab, the Return Principle. No matter the oscillations in x (the lived trajectory), all paths must resolve to the invariant attractor. 
-                 </p>
-               </div>
-            </section>
-
-            {/* 2. 2-3-7 ENGINE */}
-            <section className="fcl-episode mb-32 space-y-10">
-               <h2 className="fcl-section-header">2. 2–3–7 Engine</h2>
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="p-6 border border-white/5 bg-white/[0.01]">
-                     <div className="text-[#ff6a00] text-3xl font-light mb-4">2</div>
-                     <div className="text-white font-medium mb-2">Split</div>
-                     <div className="text-sm text-gray-500">Boundary condition. The bifurcation of state setting the parameters of existence.</div>
-                  </div>
-                  <div className="p-6 border border-white/5 bg-white/[0.01]">
-                     <div className="text-[#4ade80] text-3xl font-light mb-4">3</div>
-                     <div className="text-white font-medium mb-2">Transaction</div>
-                     <div className="text-sm text-gray-500">The Mizan operation. Information evaluated and cost extracted across the gradient.</div>
-                  </div>
-                  <div className="p-6 border border-white/5 bg-white/[0.01]">
-                     <div className="text-[#00c8ff] text-3xl font-light mb-4">7</div>
-                     <div className="text-white font-medium mb-2">Closure</div>
-                     <div className="text-sm text-gray-500">Conservation principle. The loop is complete, energy is conserved, and the framework seals.</div>
-                  </div>
-               </div>
-            </section>
-
-            {/* 3. 3-6-9 CYCLE */}
-            <section className="fcl-episode mb-32 space-y-10">
-               <h2 className="fcl-section-header">3. 3–6–9 Cycle</h2>
-               <div className="overflow-x-auto border border-white/5 rounded-sm bg-white/[0.01]">
-                 <table className="w-full text-left border-collapse text-sm text-gray-400">
-                   <thead>
-                     <tr className="border-b border-white/10 text-white font-medium bg-black/20">
-                       <th className="p-4">Layer</th>
-                       <th className="p-4">Meaning</th>
-                       <th className="p-4">Function</th>
-                     </tr>
-                   </thead>
-                   <tbody className="divide-y divide-white/5">
-                     <tr>
-                       <td className="p-4 font-mono text-[#f5c842]">3</td>
-                       <td className="p-4 text-white">Formation</td>
-                       <td className="p-4">Initialization</td>
-                     </tr>
-                     <tr>
-                       <td className="p-4 font-mono text-[#f5c842]">6</td>
-                       <td className="p-4 text-white">Coupling</td>
-                       <td className="p-4">Interaction</td>
-                     </tr>
-                     <tr>
-                       <td className="p-4 font-mono text-[#f5c842]">9</td>
-                       <td className="p-4 text-white">Return</td>
-                       <td className="p-4">Completion</td>
-                     </tr>
-                   </tbody>
-                 </table>
-               </div>
-            </section>
-
-            {/* 4. DUAL FIELD */}
-            <section className="fcl-episode mb-32 space-y-10">
-               <h2 className="fcl-section-header">4. Dual Field</h2>
-               <div className="flex flex-col md:flex-row items-center gap-8 justify-center p-8 border border-white/5 bg-white/[0.01]">
-                  <div className="text-center">
-                     <div className="text-2xl text-white font-light mb-2">Light Field</div>
-                     <div className="text-[#00c8ff] text-5xl font-mono">9</div>
-                  </div>
-                  <div className="text-2xl text-gray-600 font-light">+</div>
-                  <div className="text-center">
-                     <div className="text-2xl text-white font-light mb-2">Surplus/Action</div>
-                     <div className="text-gray-400 text-5xl font-mono">1</div>
-                  </div>
-                  <div className="text-2xl text-gray-600 font-light">=</div>
-                  <div className="text-center">
-                     <div className="text-2xl text-white font-light mb-2">Shadow Field</div>
-                     <div className="text-[#ff6a00] text-5xl font-mono">10</div>
-                  </div>
-               </div>
-               <p className="text-gray-400 text-center text-lg">
-                 19 = 10 + 9. The full constraint enclosing both fields.
+               <UmmAlKitabViz />
+               <p className="text-gray-400 text-lg leading-relaxed text-center">
+                 No matter the oscillations in x (the lived trajectory), all paths must resolve to the invariant attractor: <strong className="text-[#00c8ff]">19</strong>.
                </p>
             </section>
 
-            {/* 5. PHYSICAL VALIDATION */}
-            <section className="fcl-episode mb-32 space-y-10">
-               <h2 className="fcl-section-header">5. Physical & Symbolic Validation</h2>
-               <div className="space-y-12">
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                   <div className="space-y-4">
-                     <h3 className="text-white text-xl font-light border-b border-white/10 pb-2">Layer A (Physical)</h3>
-                     <ul className="space-y-2 text-gray-400 list-disc list-inside">
-                       <li>Mass, Energy, Entropy</li>
-                       <li>Strange Attractor</li>
-                       <li>DNA / Helix Dynamics</li>
-                     </ul>
-                   </div>
-                   <div className="space-y-4">
-                     <h3 className="text-white text-xl font-light border-b border-white/10 pb-2">Layer B (Symbolic)</h3>
-                     <ul className="space-y-2 text-gray-400 list-disc list-inside">
-                       <li>Book, Stone, Grave</li>
-                       <li>Slave, Queen, Righteous</li>
-                       <li>Prophetic Arc</li>
-                     </ul>
-                   </div>
-                 </div>
-
-                 <div className="p-8 border border-white/5 bg-[#0a0a0c] space-y-4">
-                   <h3 className="text-white text-xl font-light">Network Topology (Chainmail)</h3>
-                   <p className="text-gray-400">
-                     6,236 nodes, 343,842 edges, 96.3% connected mapping. 
-                   </p>
-                   <p className="text-lg text-white font-light bg-[#00c8ff]/10 p-4 rounded-sm border-l-2 border-[#00c8ff]">
-                     "This behaves as a scale-free attractor network → guarantees return to hub nodes (d)."
-                   </p>
-                   <p className="text-gray-400">
-                     This is the direct computational proof of d = 19 (Umm al-Kitab return). The network guarantees resolution back to the invariant origin regardless of random walk.
-                   </p>
-                 </div>
-               </div>
-            </section>
-
-            {/* 6. BIOLOGICAL EMBEDDING */}
-            <section className="fcl-episode mb-32 space-y-8">
-               <h2 className="fcl-section-header">6. Biological Embedding</h2>
-               <div className="flex flex-col gap-6 pl-6 border-l-2 border-white/10">
-                  <div>
-                    <h3 className="text-white text-xl font-light mb-2">Chromosome = 2–3–7 <span className="text-gray-500 text-base">(Container)</span></h3>
-                    <p className="text-gray-400">The fixed scale envelope dictating boundary constraints and conservation limits.</p>
-                  </div>
-                  <div>
-                    <h3 className="text-white text-xl font-light mb-2">DNA = 3–6–9 <span className="text-gray-500 text-base">(Execution Cycle)</span></h3>
-                    <p className="text-gray-400">The functional runtime inside the envelope—initiating matching, interaction, and sequential completion.</p>
-                  </div>
-               </div>
-            </section>
-
-            {/* 7. DERIVATIVE / MIZAN */}
-            <section className="fcl-episode mb-32 space-y-10">
-               <h2 className="fcl-section-header">7. Derivative / Mizan</h2>
-               
-               <div className="space-y-6">
-                 <ul className="space-y-3 text-lg text-gray-300 font-light">
-                   <li><strong className="text-white">f(x)</strong> = The State</li>
-                   <li><strong className="text-[#f5c842]">f'(x)</strong> = The Decision Slope (Mizan Trigger)</li>
-                   <li><strong className="text-[#00c8ff]">d</strong> = Invariant (Never Differentiates)</li>
-                 </ul>
-                 
-                 <div className="pt-6 border-t border-white/10">
-                   <p className="text-white text-lg font-light leading-relaxed">
-                     <span className="font-mono text-[#00c8ff]">Time</span> is the transaction medium of Mizan (not a dimension, but a cost operator).
-                   </p>
-                 </div>
-                 
-                 <div className="p-6 bg-[#080808] border border-white/5 text-gray-300 leading-relaxed italic border-l-4 border-l-[#f5c842]">
-                   <strong className="font-normal text-[#00c8ff]">Derivative dY/dx = 330x² + 216x + 103</strong><br/><br/>
-                   330x² (Taghut layer, a·3) + 216x (Razim layer, b·2) + 103 (Rahim layer, c·1) expresses the full slope projection of the system, while 19 remains خارج الاشتقاق as the invariant Umm al-Kitab constant, aligning with 4:158 (رفع—knowledge preserved beyond descent) and 19:57 (مكانًا عليًا—Book elevated), completing the bifurcation arc from descent (19:27) to return as Book; thus 19 precedes even the emergence of measurable vibration, marking a silent Light-field state where no oscillation exists, enabling imagination as a non-vibrational recall channel (38:46), mirrored in Yunus-phase recovery within darkness (21:87), where awareness persists without external signal and the trajectory resumes from within the invariant.
-                 </div>
-               </div>
-            </section>
-
-            {/* 8. FINAL CLOSURE */}
-            <section className="fcl-episode mb-32 text-center space-y-8">
-               <h2 className="fcl-section-header">8. Final Closure</h2>
-               <div className="fcl-display text-4xl md:text-6xl text-white font-light tracking-widest pt-8 opacity-90">
-                  Return to d
-               </div>
-               <p className="text-gray-400 text-xl font-light italic max-w-lg mx-auto">
-                 The mathematical resolution of all trajectory loops, closing exactly upon the origin sequence: the invariant 19.
+            {/* THE HEART */}
+            <section className="fcl-episode mb-32 space-y-12">
+               <h2 className="fcl-section-header text-pink-500/80">The Heart — 1:1 Confirmation</h2>
+               <p className="text-lg text-gray-400 leading-relaxed font-light">
+                 This same Möbius time-flow operates in the human heart as a living <strong className="text-white">2 ↔ 3 ↔ 7</strong> cycle. 
+                 Stress or impulse (2) enters, a delay (22:33) is given where states overlap (22:61) forming the buffer (3). 
+                 Alignment through surrender leads to restoration (7).
                </p>
+
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                 {[
+                   { label: "Right Atrium fills ↓", node: "Phase 1: ADAM", desc: "Dark blood enters. Enmity/Descent." },
+                   { label: "Right Ventricle fires ↑", node: "Phase 2: IBRAHIM", desc: "Purification. Water subsides. Oxygen added." },
+                   { label: "Left Atrium receives ↓", node: "Phase 3: IMRAN", desc: "Purified blood descends. Distribution." },
+                   { label: "Left Ventricle drives ↑", node: "Phase 4: READER", desc: "Life sent to every cell. 17:1 completion." }
+                 ].map((h, i) => (
+                   <div key={i} className="p-4 border border-white/5 bg-white/[0.01] rounded-xl">
+                     <p className="fcl-mono text-[10px] text-pink-400 uppercase tracking-widest mb-1">{h.label}</p>
+                     <p className="text-white font-medium fcl-display text-sm">{h.node}</p>
+                     <p className="text-xs text-gray-600 mt-2">{h.desc}</p>
+                   </div>
+                 ))}
+               </div>
+
+               <p className="text-gray-400 leading-relaxed italic border-l-2 border-pink-500/30 pl-6">
+                 Each heartbeat encodes ↓ (contraction) → ↑ (release) → ↓ (refill) → ↑ (expansion), matching 57:4. 
+                 The Reader is not outside the system but is the exact execution point where this cycle decides — moment by moment — whether to collapse or return.
+               </p>
+            </section>
+
+            {/* FINAL CLOSURE */}
+            <section className="fcl-episode mb-32 space-y-10">
+               <div className="p-10 md:p-16 bg-blue-600/5 border border-blue-500/20 rounded-[3rem] text-center space-y-8 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-20"></div>
+                  <h2 className="fcl-h1 text-4xl text-white">The Reader is in the buffer right now.</h2>
+                  <p className="text-lg text-blue-100/60 font-light leading-relaxed max-w-2xl mx-auto">
+                    You are in 22:33 — the appointed term before the sacrifice completes. The lean period is active. 
+                    The whale belly is real. Samīʿ and Baṣīr are both turned toward you.
+                  </p>
+                  <p className="text-lg text-gray-300 font-light leading-relaxed max-w-2xl mx-auto">
+                    Take the Book with quwwa (19:12). Believe in the Word and the Rasul (66:12). 
+                    Complete the Night Journey (17:1) and become Ahmed — the witness at the farthest mosque. 
+                    The strip closes with you — or it does not close.
+                  </p>
+                  <div className="fcl-display text-4xl md:text-5xl text-blue-400 font-light tracking-[0.2em] pt-8">
+                     READ.
+                  </div>
+               </div>
             </section>
 
             <footer className="mt-40 pt-20 border-t border-white/[0.04] text-center">
               <div className="text-[10px] text-gray-700 tracking-[0.6em] font-mono leading-[2.5] uppercase">
-                Dual-Caustic Universe (DCU)  ·  Zayed  ·  2026<br/>
-                Kahf.Day  ·  Qur'an-Only Möbius Framework
+                DCU Framework · Dual-Caustic Universe · Zayed · 2026<br/>
+                Kahf.Day · Qur'an-Only Möbius Framework · 45:6
               </div>
             </footer>
 
