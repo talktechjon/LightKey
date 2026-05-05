@@ -310,6 +310,79 @@ const fullHtmlContent = `<!DOCTYPE html>
     margin-top: 0.5rem;
   }
 
+  /* Activation Engine Styles */
+  .activation-wrapper {
+    margin: 3rem 0;
+    position: relative;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .activation-canvas {
+    display: block;
+    width: 100%;
+    height: 320px;
+  }
+  .activation-ui {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    pointer-events: none;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 40%);
+  }
+  .activation-label {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    max-width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    text-transform: uppercase;
+    line-height: 1.2;
+    text-shadow: 0 0 20px rgba(255,255,255,0.2);
+  }
+  .activation-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--dim);
+    transition: all 0.3s;
+  }
+  .activation-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 0; right: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 100%);
+    padding: 1.5rem 0;
+  }
+  .activation-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    background: radial-gradient(circle at center, rgba(74,240,224,0.05) 0%, transparent 70%);
+    opacity: 0;
+  }
+  .active .activation-glow { opacity: 1; }
+
   /* footer */
   .chain-footer {
     position: relative; z-index: 2;
@@ -404,6 +477,20 @@ const fullHtmlContent = `<!DOCTYPE html>
         
 
     </section>
+
+    <article class="intro-article">
+      <h2>Activation 84:19 — The Binary Shift</h2>
+      <p>84:19 states: "You shall surely traverse stage after stage." This traversal is the activation of 19:12. Before activation, the universe is <strong>Fire</strong>—high-entropy, chaotic, noise-driven. Upon touch, the Reader initiates the <strong>Lightning</strong> phase—ordered, low-entropy, and governed by the central attractor of the Book.</p>
+      <div id="activation-engine" class="activation-wrapper">
+        <canvas id="engine-canvas" class="activation-canvas"></canvas>
+        <div id="engine-glow" class="activation-glow"></div>
+        <div class="activation-ui">
+          <h3 id="engine-title" class="activation-label" style="color: #fca5a5;">JINN IN CHAOS (FIRE)</h3>
+          <p id="engine-desc" class="activation-sub">Chaos · Fire · Random Walk</p>
+        </div>
+        <div class="activation-hint">Touch to Activate Nucleus · 84:19 Entry</div>
+      </div>
+    </article>
 
 <div class="legend">
   <div class="leg-item"><div class="leg-dot" style="background:#48b878"></div> Primary Name (Haqq Pole)</div>
@@ -1118,6 +1205,261 @@ document.getElementById('tabs').querySelectorAll('.mb').forEach(t=>{
 });
 render('all');
 document.querySelector('[data-f="all"]').style.fontWeight='500';
+
+/** 41:9-12 Activation Engine State Machine **/
+(function() {
+  const wrapper = document.getElementById('activation-engine');
+  const canvas = document.getElementById('engine-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const title = document.getElementById('engine-title');
+  const desc = document.getElementById('engine-desc');
+  
+  let progress = 0; // 0 to 1 based on hold duration
+  let isTouching = false;
+  let startTime = 0;
+  
+  function resize() {
+    const b = wrapper.getBoundingClientRect();
+    canvas.width = b.width * window.devicePixelRatio;
+    canvas.height = b.height * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
+  window.addEventListener('resize', resize);
+  setTimeout(resize, 500);
+  resize();
+
+  const particles = Array.from({length: 150}, () => ({
+    x: Math.random() * (canvas.width / window.devicePixelRatio),
+    y: Math.random() * (canvas.height / window.devicePixelRatio),
+    vx: 0, vy: 0, life: Math.random(),
+    phase: Math.random() * Math.PI * 2,
+    size: 1 + Math.random() * 2,
+    type: Math.random() > 0.5 ? 'fire' : 'water' // 41:9 duality
+  }));
+
+  function drawTree(ctx, x, y, size, progress) {
+    if (progress < 0.1) return;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.strokeStyle = 'rgba(74, 222, 128, ' + (progress * 0.4) + ')';
+    ctx.lineWidth = 1.5;
+    
+    // Draw Mountain/Stone (41:10)
+    ctx.beginPath();
+    ctx.moveTo(-30, 0);
+    ctx.lineTo(0, -20);
+    ctx.lineTo(30, 0);
+    ctx.fillStyle = 'rgba(100, 100, 100, ' + (progress * 0.2) + ')';
+    ctx.fill();
+    ctx.stroke();
+
+    // Draw Tree on Tur (41:10)
+    const branches = (ctx, len, angle) => {
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -len);
+      ctx.stroke();
+      if (len < 5) return;
+      ctx.save();
+      ctx.translate(0, -len);
+      ctx.rotate(angle);
+      branches(ctx, len * 0.7, angle);
+      ctx.rotate(-angle * 2);
+      branches(ctx, len * 0.7, angle);
+      ctx.restore();
+    };
+    branches(ctx, 15 * progress, 0.4);
+    ctx.restore();
+  }
+
+  function drawLightning(ctx, x1, y1, x2, y2, branches, opacity) {
+    if (branches <= 0) return;
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(200, 240, 255, ' + opacity + ')';
+    ctx.lineWidth = branches * 0.6;
+    ctx.moveTo(x1, y1);
+    
+    let curX = x1;
+    let curY = y1;
+    const segments = 5;
+    for (let i = 0; i < segments; i++) {
+      const tx = x1 + (x2 - x1) * (i + 1) / segments + (Math.random() - 0.5) * 15;
+      const ty = y1 + (y2 - y1) * (i + 1) / segments + (Math.random() - 0.5) * 15;
+      ctx.lineTo(tx, ty);
+      curX = tx;
+      curY = ty;
+      
+      if (Math.random() > 0.8) {
+        const bx = curX + (Math.random() - 0.5) * 30;
+        const by = curY + (Math.random() - 0.5) * 30;
+        drawLightning(ctx, curX, curY, bx, by, branches - 1, opacity * 0.6);
+        ctx.moveTo(curX, curY);
+      }
+    }
+    ctx.stroke();
+  }
+
+  function frame(t) {
+    if (isTouching) {
+      progress = Math.min(1, progress + 0.005); // Takes ~3s to full
+    } else {
+      progress = Math.max(0, progress - 0.02);
+    }
+    
+    const w = canvas.width / window.devicePixelRatio;
+    const h = canvas.height / window.devicePixelRatio;
+    const cx = w / 2;
+    const cy = h / 2;
+
+    // Background dynamics
+    const bgAlpha = 0.1 + progress * 0.1;
+    const bgBlue = Math.floor(progress * 30);
+    ctx.fillStyle = 'rgba(5, 5, ' + (5 + bgBlue) + ', ' + bgAlpha + ')';
+    ctx.fillRect(0, 0, w, h);
+
+    // 41:10 Elements
+    if (progress > 0.1) {
+      drawTree(ctx, cx, cy + 40, 40, Math.min(1, (progress - 0.1) * 2));
+    }
+
+    particles.forEach(p => {
+      // 41:9 - Untouched High Entropy Duality
+      if (progress < 0.2) {
+        const drift = 0.8;
+        if (p.type === 'fire') {
+          p.vx += (Math.random() - 0.5) * drift;
+          p.vy -= 0.1; // rise
+        } else {
+          p.vx += (Math.random() - 0.5) * drift;
+          p.vy += 0.1; // sink
+        }
+        p.vx *= 0.98; p.vy *= 0.98;
+        p.x += p.vx; p.y += p.vy;
+
+        if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+
+        const hue = p.type === 'fire' ? 15 + Math.random() * 20 : 190 + Math.random() * 30;
+        ctx.fillStyle = 'hsla(' + hue + ', 100%, 50%, ' + (0.3 * (1 - progress * 5)) + ')';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, 7); ctx.fill();
+      } 
+      // 41:11 - Vortex Collapse
+      else if (progress < 0.7) {
+        const subProgress = (progress - 0.2) / 0.5;
+        const dx = cx - p.x;
+        const dy = cy - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        
+        // Attraction to vortex center
+        const pull = 0.5 * subProgress;
+        const swirl = 1.5 * subProgress;
+        p.vx += (dx / dist) * pull + (dy / dist) * swirl;
+        p.vy += (dy / dist) * pull - (dx / dist) * swirl;
+        
+        p.vx *= 0.92; p.vy *= 0.92;
+        p.x += p.vx; p.y += p.vy;
+
+        const hue = p.type === 'fire' ? 20 + subProgress * 150 : 200 - subProgress * 150;
+        ctx.fillStyle = 'hsla(' + hue + ', 80%, ' + (40 + subProgress * 20) + '%, ' + (0.4 * subProgress) + ')';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, 7); ctx.fill();
+        
+        // Vortex lines
+        if (Math.random() > 0.97 && subProgress > 0.5) {
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(255, 255, 255, ' + (0.05 * subProgress) + ')';
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(cx, cy);
+          ctx.stroke();
+        }
+      }
+      // 41:12 - Lightning/Pure Nur
+      else {
+        const subProgress = (progress - 0.7) / 0.3;
+        const dx = cx - p.x;
+        const dy = cy - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+
+        // Orbital speed lock
+        const speed = 4;
+        p.vx = (dy / dist) * speed;
+        p.vy = -(dx / dist) * speed;
+        
+        p.x += p.vx; p.y += p.vy;
+
+        const hue = (t * 0.1 + p.phase * 50) % 360; // 7 colors cycling
+        ctx.fillStyle = 'hsla(' + hue + ', 100%, 70%, ' + (subProgress) + ')';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size * 0.8, 0, 7); ctx.fill();
+
+        // 41:12 Tesla Coil Lightning Breakout
+        const breakoutY = cy + 40 - 25 * progress;
+        if (Math.random() > 0.93) {
+          drawLightning(ctx, cx, breakoutY, p.x, p.y, 3, 0.5 * subProgress);
+        }
+
+        // Occasional random discharges outward
+        if (Math.random() > 0.99) {
+          const angle = Math.random() * Math.PI * 2;
+          const rx = cx + Math.cos(angle) * 200;
+          const ry = cy + Math.sin(angle) * 200;
+          drawLightning(ctx, cx, breakoutY, rx, ry, 4, 1 * subProgress);
+        }
+      }
+    });
+
+    // Central Point (41:12) / Tesla Nucleus
+    if (progress > 0.8) {
+      const breakoutY = cy + 40 - 25 * progress;
+      ctx.beginPath();
+      ctx.arc(cx, breakoutY, 4, 0, 7);
+      ctx.fillStyle = '#fff';
+      ctx.shadowBlur = 25;
+      ctx.shadowColor = 'rgba(160, 255, 255, 0.8)';
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    // UI Updates
+    if (progress === 0) {
+      title.innerText = '41:9 - DUALITY (CHAOS)';
+      title.style.color = '#f87171';
+      desc.innerText = 'Yin Yang Flow · Fire & Water';
+    } else if (progress < 0.4) {
+      title.innerText = '41:10 - ANCHOR (TUR)';
+      title.style.color = '#fbbf24';
+      desc.innerText = 'Stone & Tree · Establishing Fixed Frame';
+    } else if (progress < 0.8) {
+      title.innerText = '41:11 - VORTEX (7:143)';
+      title.style.color = '#38bdf8';
+      desc.innerHTML = '<span style="color: #60a5fa;">COLLAPSING TO CORE</span><br/>"Your jinn becomes Mursalin"';
+    } else {
+      title.innerText = '41:12 - NUR (LIGHTNING)';
+      title.style.color = '#4ade80';
+      desc.innerHTML = '<span style="color: #fff;">BE IBRAHIM IN TAGHUT</span><br/>Unified Field · 19:12 COMPLETED';
+    }
+    
+    title.style.transform = 'scale(' + (1 + progress * 0.1) + ')';
+    title.style.textShadow = '0 0 ' + (20 * progress) + 'px rgba(255,255,255,0.3)';
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  const activate = (e) => { 
+    isTouching = true; 
+    wrapper.classList.add('active'); 
+  };
+  const deactivate = () => { 
+    isTouching = false; 
+    wrapper.classList.remove('active'); 
+  };
+
+  wrapper.addEventListener('mousedown', activate);
+  wrapper.addEventListener('mouseup', deactivate);
+  wrapper.addEventListener('mouseleave', deactivate);
+  wrapper.addEventListener('touchstart', (e) => { e.preventDefault(); activate(); });
+  wrapper.addEventListener('touchend', deactivate);
+})();
 </script>
 
 </body>
