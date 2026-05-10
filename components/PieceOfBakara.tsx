@@ -100,6 +100,7 @@ const RoastedCattleSpine: React.FC<{ currentIndex: number }> = ({ currentIndex }
 export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex }) => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const isInternalScroll = useRef(false);
+    const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [inputBuffer, setInputBuffer] = useState(bakaraSpineIndex.toString());
     const MAX_PIECES = 286;
     const ITEM_HEIGHT = 44; 
@@ -131,7 +132,16 @@ export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onB
     useEffect(() => {
         if (scrollRef.current && !isInternalScroll.current) {
             const targetTop = (bakaraSpineIndex - 1) * ITEM_HEIGHT;
-            scrollRef.current.scrollTo({ top: targetTop, behavior: 'smooth' });
+            const currentTop = scrollRef.current.scrollTop;
+            if (Math.abs(currentTop - targetTop) > 1) {
+                isInternalScroll.current = true;
+                scrollRef.current.scrollTo({ top: targetTop, behavior: 'smooth' });
+                // Smooth scroll takes time, so we need a buffer before re-enabling handleScroll
+                if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+                scrollTimeoutRef.current = setTimeout(() => { 
+                    isInternalScroll.current = false; 
+                }, 800);
+            }
         }
         if (document.activeElement?.id !== 'manual-tuner') {
             setInputBuffer(bakaraSpineIndex.toString());
@@ -139,13 +149,12 @@ export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onB
     }, [bakaraSpineIndex]);
 
     const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+        if (isInternalScroll.current) return;
         const target = e.currentTarget;
         const index = Math.round(target.scrollTop / ITEM_HEIGHT) + 1;
         const clampedIndex = Math.max(1, Math.min(MAX_PIECES, index));
         if (clampedIndex !== bakaraSpineIndex) {
-            isInternalScroll.current = true;
             setBakaraSpineIndex(clampedIndex);
-            setTimeout(() => { isInternalScroll.current = false; }, 50);
         }
     }, [bakaraSpineIndex, setBakaraSpineIndex]);
 
@@ -153,6 +162,8 @@ export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onB
         const parsed = parseInt(inputBuffer, 10);
         if (!isNaN(parsed)) {
             const clamped = Math.min(MAX_PIECES, Math.max(1, parsed));
+            // Force reset external scroll flag to ensure the dial follows exactly
+            isInternalScroll.current = false; 
             setBakaraSpineIndex(clamped);
             setInputBuffer(clamped.toString());
         } else {
