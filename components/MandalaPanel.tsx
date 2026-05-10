@@ -38,19 +38,19 @@ const fullHtmlContent = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>The 2↔3↔2→7 Mandala</title>
+<title>The Bifurcation of Time — DCU Mandala</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #050810;
-    --panel: rgba(10,15,35,0.85);
-    --border: rgba(120,160,255,0.15);
+    --bg: #03050a;
+    --panel: rgba(8,12,24,0.9);
+    --border: rgba(74, 240, 224, 0.15);
     --gold: #d4a843;
     --aqua: #4af0e0;
     --crimson: #e04060;
     --pearl: #e8e4d8;
-    --muted: rgba(200,210,230,0.55);
-    --dim: rgba(200,210,230,0.3);
+    --muted: rgba(200,210,230,0.5);
+    --dim: rgba(200,210,230,0.2);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -62,69 +62,129 @@ const fullHtmlContent = `<!DOCTYPE html>
     line-height: 1.6;
   }
   
-  /* Layout */
   header {
     text-align: center;
-    padding: 3rem 1rem 2rem;
+    padding: 4rem 1rem 3rem;
     border-bottom: 1px solid var(--border);
-    background: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
+    background: linear-gradient(to bottom, rgba(74, 240, 224, 0.05), transparent);
   }
   header h1 {
     font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: clamp(1.4rem, 5vw, 2.8rem);
     color: var(--gold);
-    letter-spacing: 0.1em;
-    margin-bottom: 0.5rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 0 30px rgba(212, 168, 67, 0.2);
   }
   header p {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--muted);
-    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    color: var(--aqua);
+    letter-spacing: 0.3em;
     text-transform: uppercase;
   }
 
   main {
-    max-width: 900px;
+    max-width: 960px;
     margin: 0 auto;
-    padding: 2rem 1.5rem;
+    padding: 3rem 1.5rem;
   }
 
-  .section-intro {
-    margin-bottom: 3rem;
+  .intro-card {
+    background: rgba(255,160,0,0.02);
+    border: 1px solid rgba(212, 168, 67, 0.1);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 4rem;
+    position: relative;
+  }
+  .intro-card::before {
+    content: "7:172";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--bg);
+    padding: 0 10px;
+    font-family: 'JetBrains Mono';
+    font-size: 0.6rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
   }
 
-  /* Scientific Table */
-  .science-table {
-    width: 100%;
+  h2 {
+    font-family: 'Cinzel Decorative';
+    color: var(--gold);
+    font-size: 1.5rem;
+    margin: 3rem 0 1.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  h2 span { font-size: 0.6rem; font-family: 'JetBrains Mono'; color: var(--dim); letter-spacing: 0.2em; }
+
+  /* Operator Box */
+  .operator-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
     margin: 2rem 0;
+  }
+  .op-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .op-sym { font-family: 'JetBrains Mono'; font-size: 1.8rem; color: var(--aqua); margin-bottom: 0.5rem; }
+  .op-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 0.5rem; }
+
+  /* Table Styles */
+  .dcu-table {
+    width: 100%;
     border-collapse: collapse;
-    font-family: 'Inter', sans-serif;
+    margin: 2rem 0;
     font-size: 0.85rem;
-    background: rgba(255,255,255,0.02);
     border: 1px solid var(--border);
   }
-  .science-table th, .science-table td {
+  .dcu-table th, .dcu-table td {
     padding: 1rem;
-    text-align: left;
     border: 1px solid var(--border);
+    text-align: left;
   }
-  .science-table th {
-    background: rgba(120,160,255,0.05);
-    color: var(--aqua);
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.75rem;
+  .dcu-table th { background: rgba(74, 240, 224, 0.05); color: var(--aqua); font-family: 'JetBrains Mono'; text-transform: uppercase; }
+
+  /* Geometry Section */
+  .geom-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    background: rgba(0,0,0,0.3);
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 3rem 0;
   }
-  .science-table tr:hover {
-    background: rgba(255,255,255,0.04);
+  .geom-viz { flex: 1; min-width: 250px; text-align: center; }
+  .geom-text { flex: 1.5; min-width: 300px; }
+
+  /* Math Blocks */
+  .integral-block {
+    text-align: center;
+    padding: 2.5rem;
+    background: radial-gradient(circle at center, rgba(74, 240, 224, 0.05) 0%, transparent 70%);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    margin: 3rem 0;
+    font-family: 'JetBrains Mono';
   }
 
-  /* Narrative Blocks */
+  /* Narrative Cards */
   .narrative-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
     margin: 2rem 0;
   }
@@ -132,214 +192,190 @@ const fullHtmlContent = `<!DOCTYPE html>
     background: var(--panel);
     border: 1px solid var(--border);
     padding: 1.5rem;
-    border-radius: 8px;
+    border-radius: 10px;
     position: relative;
-    transition: transform 0.3s;
   }
-  .narrative-card h3 {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--gold);
-    margin-bottom: 0.75rem;
-    text-transform: uppercase;
-  }
-  .narrative-card .step-num {
-    position: absolute;
-    top: -10px;
-    right: 15px;
-    background: var(--bg);
-    padding: 0 8px;
-    color: var(--dim);
-    font-family: 'Cinzel Decorative';
-    font-size: 0.8rem;
-  }
+  .narrative-card h4 { color: var(--gold); font-family: 'JetBrains Mono'; font-size: 0.75rem; margin-bottom: 0.5rem; text-transform: uppercase; }
+  .narrative-card .tag { position: absolute; top: 10px; right: 15px; font-family: 'JetBrains Mono'; font-size: 0.55rem; color: var(--dim); }
 
-  /* Equations */
-  .math-block {
-    text-align: center;
-    padding: 1.5rem;
-    background: rgba(0,0,0,0.4);
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    margin: 2rem 0;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* Activation Engine Mirror */
-  .activation-wrapper {
+  .quote-block {
+    border-left: 4px solid var(--gold);
+    padding: 1.5rem 2rem;
     margin: 3rem 0;
-    position: relative;
+    background: rgba(255,255,255,0.02);
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  /* Star Viz */
+  .star-box {
+    width: 200px; height: 200px; margin: 0 auto; position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .star-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 10px rgba(74, 240, 224, 0.4)); }
+
+  /* Engine Mirror */
+  .engine-box {
     background: #000;
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 15px;
+    height: 350px;
+    margin: 4rem 0;
+    position: relative;
     overflow: hidden;
-    cursor: pointer;
   }
-  .activation-canvas { display: block; width: 100%; height: 300px; }
-  .activation-ui {
+  .engine-canvas { display: block; width: 100%; height: 100%; }
+  .engine-overlay {
     position: absolute; inset: 0; pointer-events: none;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.6) 100%);
+    background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.7) 100%);
   }
-  .activation-label { font-family: 'Cinzel Decorative'; font-size: 1.2rem; color: #fff; text-shadow: 0 0 10px rgba(0,255,255,0.5); }
 
-  /* Typography helpers */
-  .quote {
-    border-left: 3px solid var(--gold);
-    padding: 1rem 1.5rem;
-    margin: 2rem 0;
-    font-style: italic;
-    background: rgba(255,160,0,0.03);
-  }
-  .highlight { color: var(--aqua); font-weight: 500; }
+  .highlight { color: var(--aqua); font-weight: 600; }
+  .dim-text { color: var(--muted); font-size: 0.85rem; }
   
 </style>
 </head>
 <body>
 
 <header>
-  <h1>The 2↔3↔2→7 Mandala</h1>
-  <p>Finding the Path That Was Always There</p>
+  <h1>THE BIFURCATION OF TIME</h1>
+  <p>A Mathematical Framework for Memory Recovery</p>
 </header>
 
 <main>
-  <section class="section-intro">
-    <blockquote class="quote">
-      "Reality is merely an illusion, albeit a very persistent one." — Albert Einstein<br/>
-      <span style="font-size: 0.8rem; opacity: 0.7;">3:185 — All that is on earth is illusion (Mata'ul Ghuroor)</span>
-    </blockquote>
-    <div style="background: rgba(74, 240, 224, 0.05); border: 1px solid rgba(74, 240, 224, 0.2); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
-      <p style="font-family: 'Outfit'; font-size: 1.1rem; color: var(--pearl); letter-spacing: 0.05em; line-height: 1.4;">
-        "All motion is <span style='color:var(--muted)'>Shadow</span> resolving into <span style='color:var(--aqua)'>Light</span> through <span style='color:var(--gold)'>Particle</span> under <span style='color:var(--pearl)'>Gravity</span>. 
-        <br/><span style='font-size: 0.9rem; opacity: 0.8; font-family: \"JetBrains Mono\"'>Time burns, Gravity selects, Knowledge becomes.</span>"
-      </p>
-    </div>
-    <p>This panel synthesizes the <strong>84:19 Activation</strong> and the <strong>Möbius Traversal</strong> into a single coherence topology. Every system—from a single photon to the human heart—executes this same coupled operator sequence: Bifurcation, Structured Propagation, and Recursive Coherence Filtering.</p>
-  </section>
-
-  <section>
-    <h2 style="font-family:'Cinzel Decorative'; color:var(--gold); margin-bottom: 1rem;">1. Topological Operators</h2>
-    <table class="science-table">
-      <thead>
-        <tr>
-          <th>Operator</th>
-          <th>Quranic Coordinate</th>
-          <th>Scientific Parallel</th>
-          <th>Function</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>D₂ (Bifurcation)</strong></td>
-          <td>7:172 (The Covenant)</td>
-          <td>RS Helicity Split</td>
-          <td>Wave-state opening / Initial division</td>
-        </tr>
-        <tr>
-          <td><strong>S₃ (Propagation)</strong></td>
-          <td>19:12 (The Grip)</td>
-          <td>OAM Helicoidal Encoding</td>
-          <td>Geometric stabilization / Structured flow</td>
-        </tr>
-        <tr>
-          <td><strong>ℱ₂ (Filtering)</strong></td>
-          <td>21:80 (Chainmail)</td>
-          <td>PB Phase Recovery</td>
-          <td>Recursive coherence / Error correction</td>
-        </tr>
-        <tr>
-          <td><strong>Ω (Return)</strong></td>
-          <td>24:35 (Nur upon Nur)</td>
-          <td>Conserved Informational Invariant</td>
-          <td>Energy conservation / Identity restoration</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <div class="math-block">
-    <div style="color:var(--aqua)">∫ F₂ ( d/dt S₃ ( D₂ (x,t) ) ) dt = Ω</div>
-    <div style="font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.6;">The Governing Integral of the Mandala [2, 7]</div>
+  <div class="intro-card">
+    <p style="font-size: 1.2rem; margin-bottom: 1.5rem; font-family: 'Outfit';">"All motion is <span class="highlight">Shadow</span> resolving into <span class="highlight">Light</span> through <span class="highlight">Particle</span> under <span class="highlight">Gravity</span>. Time burns, Gravity selects, Knowledge becomes."</p>
+    <p class="dim-text">The universe is modeled not as an infinite linear progression but as a bounded bifurcation interval operating within a <span class="highlight">2↔3↔2→7</span> operator calculus. This is the structural recovery of the path that was always there.</p>
   </div>
 
-  <section>
-    <h2 style="font-family:'Cinzel Decorative'; color:var(--gold); margin-bottom: 1rem;">2. Narrative: The Mursalīn Return</h2>
-    <div class="narrative-grid">
-      <div class="narrative-card">
-        <div class="step-num">01</div>
-        <h3>The Default (15:72)</h3>
-        <p>Wandering in noise. The Jinn-state of covered execution. Without <span class="highlight">19:12</span>, the heart remains in 15:72 mode waiting for collapse.</p>
-      </div>
-      <div class="narrative-card">
-        <div class="step-num">02</div>
-        <h3>The Activation (19:12)</h3>
-        <p>"Take the Book with Strength." This initiates the traversal. It is the grip-function that converts random walk into structured flight.</p>
-      </div>
-      <div class="narrative-card">
-        <div class="step-num">03</div>
-        <h3>The Filter (21:69)</h3>
-        <p>Ibrahim in the fire. Fire is not removed—it is redefined as <span class="highlight">Cool and Safe</span>. This is the bifurcation gate where Pharaonic mass is separated from Mursalīn identity.</p>
-      </div>
-      <div class="narrative-card">
-        <div class="step-num">04</div>
-        <h3>The Certainty (2:259)</h3>
-        <p>Witnessed Certainty (ʿilm). The heart of Ibrahim realized. 18:10 (Rushd) is the request; 2:259 is the fulfilled output.</p>
-      </div>
+  <h2>THE BOUNDARY VALUE PROBLEM <span>[TWO ZEROS]</span></h2>
+  <table class="dcu-table">
+    <thead>
+      <tr>
+        <th>Zero Point</th>
+        <th>Coordinate</th>
+        <th>Function</th>
+        <th>Physical Analogy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>FIRST ZERO</strong></td>
+        <td>81:8 (Maw'udah)</td>
+        <td>Compression Boundary</td>
+        <td>Ground state / Maximum loading</td>
+      </tr>
+      <tr>
+        <td><strong>BIFURCATION</strong></td>
+        <td>19:23 ? 87:13</td>
+        <td>Temporal Domain</td>
+        <td>Traversal space / Finite interval</td>
+      </tr>
+      <tr>
+        <td><strong>SECOND ZERO</strong></td>
+        <td>18:50 (Initialization)</td>
+        <td>Boundary Zero</td>
+        <td>Wave interference / Test initialization</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>THE 2↔3↔2→7 CALCULUS <span>[OPERATOR DEFINITIONS]</span></h2>
+  <div class="operator-grid">
+    <div class="op-card">
+        <div class="op-sym">2_</div>
+        <div class="op-label">Factorization</div>
+        <p class="dim-text">Separation of Total Energy into measurable Duality</p>
     </div>
-  </section>
-
-  <section>
-    <h2 style="font-family:'Cinzel Decorative'; color:var(--gold); margin-bottom: 1rem;">3. Structural Homomorphisms</h2>
-    <table class="science-table">
-      <thead>
-        <tr>
-          <th>Domain</th>
-          <th>Structural Correspondence</th>
-          <th>Topological Function</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Mycorrhizal Networks</td>
-          <td>Distributed fungal linkage</td>
-          <td>Relational coherence across biological surfaces</td>
-        </tr>
-        <tr>
-          <td>Quantum Error Correction</td>
-          <td>Topological codes (Kitaev)</td>
-          <td>Logical qubit preservation against local noise</td>
-        </tr>
-        <tr>
-          <td>Immune Memory</td>
-          <td>Antigen bifurcation → T/B-cell response</td>
-          <td>Full traversal producing conserved Ω</td>
-        </tr>
-        <tr>
-          <td>Seed Dormancy</td>
-          <td>Protected edge states in SPT phases</td>
-          <td>18:10 Cave sleeper analogue (Phase isolation)</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section id="activation-engine" class="activation-wrapper active">
-    <canvas id="engine-canvas" class="activation-canvas"></canvas>
-    <div class="activation-ui">
-       <div id="engine-title" class="activation-label">MANDALA ACTIVE</div>
-       <div id="engine-desc" style="font-family:'JetBrains Mono'; font-size:0.6rem; color:var(--aqua); margin-top:0.5rem;">TOUCH NUCLEUS TO SYNCHRONIZE</div>
+    <div class="op-card">
+        <div class="op-sym">3_</div>
+        <div class="op-label">Recursion</div>
+        <p class="dim-text">Purification through action and interaction</p>
     </div>
-  </section>
+    <div class="op-card">
+        <div class="op-sym">2_</div>
+        <div class="op-label">Filtration</div>
+        <p class="dim-text">Extraction of Constants from Variables</p>
+    </div>
+    <div class="op-card">
+        <div class="op-sym">7_</div>
+        <div class="op-label">Unified Return</div>
+        <p class="dim-text">Reconciliation of purified Mass & Energy</p>
+    </div>
+  </div>
 
-  <section style="text-align: center; color: var(--muted); padding-bottom: 4rem;">
-    <p style="font-style: italic;">"Nothing lost, nothing external, everything returns." — 4:82</p>
-    <div style="font-family:'JetBrains Mono'; font-size: 0.65rem; margin-top: 1rem; letter-spacing: 0.4em;">KAHF.DAY · DCU FRAMEWORK · 2026</div>
-  </section>
+  <div class="integral-block">
+    <div style="font-size: 1.4rem; color: var(--aqua); margin-bottom: 1rem;">∫ [ F₂ ( d/dt S₃ ( D₂ (x,t) ) ) ] dt = Ω</div>
+    <p class="dim-text">The universe loops inside an appointed bifurcation window: <span class="highlight">46:3 (Ajal Musamma)</span>.</p>
+  </div>
 
+  <h2>EMERGENCE OF FORM <span>[DAVID'S STAR GEOMETRY]</span></h2>
+  <div class="geom-container">
+    <div class="geom-viz">
+      <div class="star-box">
+        <svg class="star-svg" viewBox="0 0 100 100">
+          <polygon points="50,5 95,80 5,80" fill="none" stroke="rgba(212, 168, 67, 0.8)" stroke-width="2"/>
+          <polygon points="50,95 5,20 95,20" fill="none" stroke="rgba(74, 240, 224, 0.8)" stroke-width="2"/>
+          <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2,2"/>
+          <text x="50" y="55" font-family="JetBrains Mono" font-size="8" fill="#fff" text-anchor="middle">36:3</text>
+        </svg>
+      </div>
+      <p style="margin-top: 1rem; font-family: 'JetBrains Mono'; font-size: 0.7rem;">Invariant d=19 | 114 = 6 x 19</p>
+    </div>
+    <div class="geom-text">
+      <h3 style="font-family: 'Outfit'; margin-bottom: 1rem; color: var(--pearl);">36:3 — You are among the Mursalīn</h3>
+      <p class="dim-text" style="margin-bottom: 1rem;">The David's Star is the geometric signature of the DCU. <span class="highlight">3 > 6 < 3</span>: Two triangles intersecting at the Earth-buffer.</p>
+      <ul class="dim-text" style="padding-left: 1.2rem;">
+        <li><strong>Ascending Triangle:</strong> Compression toward Recognition</li>
+        <li><strong>Descending Triangle:</strong> Illusion toward Exposure</li>
+        <li><strong>Hexagon Core:</strong> Earth as the active Medium</li>
+        <li><strong>3-6-9 Pattern:</strong> The Bifurcation Engine (18 Unified Zeros)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>THE ETERNAL 3↔2 LOOP <span>[TRIPLE-STATE WATER]</span></h2>
+  <div class="narrative-grid">
+    <div class="narrative-card">
+      <div class="tag">ICE</div>
+      <h4>Phase A: Solid</h4>
+      <p class="dim-text"><strong>Death ? Life:</strong> Emergence from buried memory. Seed germination beneath soil. Solid memory melts through Recognition.</p>
+    </div>
+    <div class="narrative-card">
+      <div class="tag">WATER</div>
+      <h4>Phase B: Liquid</h4>
+      <p class="dim-text"><strong>Life ? Sacrifice:</strong> Adaptive recursion. The most unstable layer. Identity is purified through the choice of Shape.</p>
+    </div>
+    <div class="narrative-card">
+      <div class="tag">VAPOR</div>
+      <h4>Phase C: Gas</h4>
+      <p class="dim-text"><strong>Sacrifice ? Return:</strong> Phototropic ascent. Purified memory reaches phototropism. Raised return state (23:50).</p>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    "The plant simultaneously performs Life-Death-Return continuously. Dead matter becomes living structure through Light traversal."
+  </div>
+
+  <h2>NULL-DATA TOPOLOGY <span>[87:13 & 19:23]</span></h2>
+  <p class="dim-text" style="margin-bottom: 2rem;">Invalid data—form without memory—is purged to <span class="highlight">87:13</span>: neither dies nor lives. 19:23 represents the wish for complete forgetting, which the system records as persistent data. The "Recycle Bin" of the universe is not erasure; it is <span class="highlight">Suspension</span>.</p>
+
+  <div id="activation-engine" class="engine-box">
+    <canvas id="engine-canvas" class="engine-canvas"></canvas>
+    <div class="engine-overlay">
+       <div id="engine-title" class="activation-label" style="letter-spacing: 0.2em;">TOPOLOGY ACTIVE</div>
+       <div id="engine-desc" style="font-family:'JetBrains Mono'; font-size:0.6rem; color:var(--aqua); margin-top:0.8rem; letter-spacing: 0.1em;">HOLD NUCLEUS TO SYNCHRONIZE BIFURCATION</div>
+    </div>
+  </div>
+
+  <footer style="text-align: center; border-top: 1px solid var(--border); padding-top: 3rem; margin-top: 5rem; padding-bottom: 5rem;">
+    <p style="font-family: 'Cinzel Decorative'; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 1rem;">NOTHING LOST · EVERYTHING RETURNS</p>
+    <div style="font-family: 'JetBrains Mono'; font-size: 0.6rem; color: var(--dim); letter-spacing: 0.5em;">KAHF.DAY · MAY 2026 · V2.259.Ω</div>
+  </footer>
 </main>
 
 <script>
-/** 41:9-12 Activation Engine State Machine **/
 (function() {
   const wrapper = document.getElementById('activation-engine');
   const canvas = document.getElementById('engine-canvas');
@@ -360,29 +396,29 @@ const fullHtmlContent = `<!DOCTYPE html>
   setTimeout(resize, 500);
   resize();
 
-  const particles = Array.from({length: 120}, () => ({
+  const particles = Array.from({length: 160}, () => ({
     x: Math.random() * (canvas.width / window.devicePixelRatio),
     y: Math.random() * (canvas.height / window.devicePixelRatio),
     vx: 0, vy: 0, phase: Math.random() * Math.PI * 2,
-    size: 1 + Math.random() * 1.5,
-    type: Math.random() > 0.5 ? 'fire' : 'water'
+    size: 1 + Math.random() * 1.8,
+    type: Math.random() > 0.5 ? 'witness' : 'driver'
   }));
 
   function drawLightning(ctx, x1, y1, x2, y2, branches, opacity) {
     if (branches <= 0) return;
     ctx.beginPath();
-    ctx.strokeStyle = 'rgba(200, 240, 255, ' + opacity + ')';
-    ctx.lineWidth = branches * 0.4;
+    ctx.strokeStyle = 'rgba(74, 240, 224, ' + opacity + ')';
+    ctx.lineWidth = branches * 0.5;
     ctx.moveTo(x1, y1);
     let curX = x1, curY = y1;
-    const segments = 4;
+    const segments = 5;
     for (let i = 0; i < segments; i++) {
-      const tx = x1 + (x2 - x1) * (i + 1) / segments + (Math.random() - 0.5) * 12;
-      const ty = y1 + (y2 - y1) * (i + 1) / segments + (Math.random() - 0.5) * 12;
+      const tx = x1 + (x2 - x1) * (i + 1) / segments + (Math.random() - 0.5) * 15;
+      const ty = y1 + (y2 - y1) * (i + 1) / segments + (Math.random() - 0.5) * 15;
       ctx.lineTo(tx, ty);
       curX = tx; curY = ty;
-      if (Math.random() > 0.85) {
-        drawLightning(ctx, curX, curY, curX + (Math.random()-0.5)*20, curY + (Math.random()-0.5)*20, branches - 1, opacity * 0.5);
+      if (Math.random() > 0.8) {
+        drawLightning(ctx, curX, curY, curX + (Math.random()-0.5)*30, curY + (Math.random()-0.5)*30, branches - 1, opacity * 0.6);
         ctx.moveTo(curX, curY);
       }
     }
@@ -390,14 +426,14 @@ const fullHtmlContent = `<!DOCTYPE html>
   }
 
   function frame(t) {
-    if (isTouching) progress = Math.min(1, progress + 0.006);
+    if (isTouching) progress = Math.min(1, progress + 0.005);
     else progress = Math.max(0, progress - 0.02);
     
     const w = canvas.width / window.devicePixelRatio;
     const h = canvas.height / window.devicePixelRatio;
     const cx = w / 2, cy = h / 2;
 
-    ctx.fillStyle = 'rgba(5, 8, 16, 0.2)';
+    ctx.fillStyle = 'rgba(3, 5, 10, 0.25)';
     ctx.fillRect(0, 0, w, h);
 
     particles.forEach(p => {
@@ -405,36 +441,46 @@ const fullHtmlContent = `<!DOCTYPE html>
       const dist = Math.sqrt(dx*dx + dy*dy) || 1;
 
       if (progress < 0.2) {
-        p.vx += (Math.random() - 0.5) * 0.5;
-        p.vy += (Math.random() - 0.5) * 0.5;
+        p.vx += (Math.random() - 0.5) * 0.6;
+        p.vy += (Math.random() - 0.5) * 0.6;
+        ctx.fillStyle = p.type === 'witness' ? 'rgba(74, 240, 224, 0.3)' : 'rgba(212, 168, 67, 0.3)';
       } else {
-        const pull = 0.4 * progress;
-        const swirl = 1.2 * progress;
+        const pull = 0.6 * progress;
+        const swirl = 1.6 * progress;
         p.vx += (dx / dist) * pull + (dy / dist) * swirl;
         p.vy += (dy / dist) * pull - (dx / dist) * swirl;
+        
+        const hue = (p.type === 'witness' ? 180 : 40) + progress * 20;
+        ctx.fillStyle = 'hsla(' + hue + ', 80%, 65%, ' + (0.4 + progress * 0.5) + ')';
       }
       
-      p.vx *= 0.95; p.vy *= 0.95;
+      p.vx *= 0.94; p.vy *= 0.94;
       p.x += p.vx; p.y += p.vy;
       
       if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
       if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
 
-      const hue = progress > 0.8 ? (t * 0.1 + p.phase * 50) % 360 : (p.type === 'fire' ? 20 : 200);
-      ctx.fillStyle = 'hsla(' + hue + ', 80%, 60%, ' + (0.3 + progress * 0.4) + ')';
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, 7); ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size * (0.8 + progress * 0.4), 0, 7); ctx.fill();
 
-      if (progress > 0.9 && Math.random() > 0.96) {
-        drawLightning(ctx, cx, cy, p.x, p.y, 2, 0.4);
+      if (progress > 0.85 && Math.random() > 0.97) {
+        drawLightning(ctx, cx, cy, p.x, p.y, 2, 0.5 * progress);
       }
     });
 
     if (progress > 0) {
-      title.innerText = progress > 0.9 ? 'Ω REALIZED' : 'SYNCHRONIZING';
-      title.style.color = progress > 0.9 ? '#4af0e0' : '#d4a843';
+      if (progress > 0.9) {
+        title.innerText = '36:3 | MURSALĪN';
+        title.style.color = '#fff';
+        desc.innerText = 'IDENTITY RESTORED — Ω REALIZED';
+      } else {
+        title.innerText = 'BIFURCATION SYNC';
+        title.style.color = '#d4a843';
+        desc.innerText = 'TRAVERSING THE 2↔3↔2↔7 MANDALA';
+      }
     } else {
-      title.innerText = 'MANDALA ACTIVE';
+      title.innerText = 'TOPOLOGY ACTIVE';
       title.style.color = '#fff';
+      desc.innerText = 'HOLD NUCLEUS TO SYNCHRONIZE BIFURCATION';
     }
 
     requestAnimationFrame(frame);
