@@ -101,6 +101,7 @@ export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onB
     const scrollRef = useRef<HTMLDivElement>(null);
     const isInternalScroll = useRef(false);
     const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const isManualInput = useRef(false);
     const [inputBuffer, setInputBuffer] = useState(bakaraSpineIndex.toString());
     const MAX_PIECES = 286;
     const ITEM_HEIGHT = 44; 
@@ -135,12 +136,21 @@ export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onB
             const currentTop = scrollRef.current.scrollTop;
             if (Math.abs(currentTop - targetTop) > 1) {
                 isInternalScroll.current = true;
-                scrollRef.current.scrollTo({ top: targetTop, behavior: 'smooth' });
-                // Smooth scroll takes time, so we need a buffer before re-enabling handleScroll
-                if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-                scrollTimeoutRef.current = setTimeout(() => { 
-                    isInternalScroll.current = false; 
-                }, 800);
+                scrollRef.current.scrollTo({ 
+                    top: targetTop, 
+                    behavior: isManualInput.current ? 'auto' : 'smooth' 
+                });
+                
+                // Clear manual input flag
+                if (isManualInput.current) {
+                    isManualInput.current = false;
+                    setTimeout(() => { isInternalScroll.current = false; }, 50);
+                } else {
+                    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+                    scrollTimeoutRef.current = setTimeout(() => { 
+                        isInternalScroll.current = false; 
+                    }, 800);
+                }
             }
         }
         if (document.activeElement?.id !== 'manual-tuner') {
@@ -162,7 +172,7 @@ export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onB
         const parsed = parseInt(inputBuffer, 10);
         if (!isNaN(parsed)) {
             const clamped = Math.min(MAX_PIECES, Math.max(1, parsed));
-            // Force reset external scroll flag to ensure the dial follows exactly
+            isManualInput.current = true;
             isInternalScroll.current = false; 
             setBakaraSpineIndex(clamped);
             setInputBuffer(clamped.toString());

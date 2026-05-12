@@ -85,154 +85,184 @@ const fullHtmlContent = `<!DOCTYPE html>
   }
 
   main {
-    max-width: 960px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 3rem 1.5rem;
   }
 
-  .intro-card {
-    background: rgba(255,160,0,0.02);
-    border: 1px solid rgba(212, 168, 67, 0.1);
-    padding: 2rem;
+  .abstract-card {
+    background: rgba(74, 240, 224, 0.03);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
     border-radius: 12px;
     margin-bottom: 4rem;
-    position: relative;
+    line-height: 1.8;
   }
-  .intro-card::before {
-    content: "7:172";
-    position: absolute;
-    top: -10px;
-    left: 20px;
-    background: var(--bg);
-    padding: 0 10px;
+  .abstract-card h3 {
     font-family: 'JetBrains Mono';
-    font-size: 0.6rem;
-    color: var(--gold);
-    letter-spacing: 0.2em;
+    font-size: 0.8rem;
+    color: var(--aqua);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+    text-align: center;
   }
 
   h2 {
     font-family: 'Cinzel Decorative';
     color: var(--gold);
-    font-size: 1.5rem;
-    margin: 3rem 0 1.5rem;
+    font-size: 1.8rem;
+    margin: 4rem 0 2rem;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  h2 span { font-size: 0.6rem; font-family: 'JetBrains Mono'; color: var(--dim); letter-spacing: 0.2em; }
+  h2 span { font-size: 0.7rem; font-family: 'JetBrains Mono'; color: var(--dim); letter-spacing: 0.2em; }
 
   /* Operator Box */
   .operator-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
     margin: 2rem 0;
   }
   .op-card {
     background: var(--panel);
     border: 1px solid var(--border);
-    padding: 1.25rem;
-    border-radius: 8px;
+    padding: 1.5rem;
+    border-radius: 10px;
     text-align: center;
+    transition: all 0.3s ease;
   }
-  .op-sym { font-family: 'JetBrains Mono'; font-size: 1.8rem; color: var(--aqua); margin-bottom: 0.5rem; }
-  .op-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 0.5rem; }
+  .op-card:hover { border-color: var(--aqua); background: rgba(74, 240, 224, 0.05); }
+  .op-sym { font-family: 'JetBrains Mono'; font-size: 2.2rem; color: var(--aqua); margin-bottom: 0.5rem; }
+  .op-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 0.75rem; }
 
   /* Table Styles */
   .dcu-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 2rem 0;
-    font-size: 0.85rem;
+    margin: 2.5rem 0;
+    font-size: 0.9rem;
     border: 1px solid var(--border);
   }
   .dcu-table th, .dcu-table td {
-    padding: 1rem;
+    padding: 1.25rem;
     border: 1px solid var(--border);
     text-align: left;
   }
-  .dcu-table th { background: rgba(74, 240, 224, 0.05); color: var(--aqua); font-family: 'JetBrains Mono'; text-transform: uppercase; }
+  .dcu-table th { background: rgba(74, 240, 224, 0.08); color: var(--aqua); font-family: 'JetBrains Mono'; text-transform: uppercase; letter-spacing: 0.1em; }
+  .dcu-table td strong { color: var(--gold); }
 
   /* Geometry Section */
   .geom-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 3rem;
     align-items: center;
-    background: rgba(0,0,0,0.3);
-    padding: 2rem;
-    border-radius: 12px;
-    margin: 3rem 0;
+    background: rgba(0,0,0,0.4);
+    padding: 3rem;
+    border-radius: 15px;
+    margin: 4rem 0;
+    border: 1px solid var(--border);
   }
-  .geom-viz { flex: 1; min-width: 250px; text-align: center; }
-  .geom-text { flex: 1.5; min-width: 300px; }
+  .geom-viz { flex: 1; min-width: 300px; text-align: center; }
+  .geom-text { flex: 1.5; min-width: 350px; }
 
   /* Math Blocks */
   .integral-block {
     text-align: center;
-    padding: 2.5rem;
-    background: radial-gradient(circle at center, rgba(74, 240, 224, 0.05) 0%, transparent 70%);
+    padding: 3.5rem;
+    background: radial-gradient(circle at center, rgba(74, 240, 224, 0.08) 0%, transparent 80%);
     border: 1px dashed var(--border);
-    border-radius: 12px;
-    margin: 3rem 0;
+    border-radius: 15px;
+    margin: 4.5rem 0;
     font-family: 'JetBrains Mono';
   }
 
   /* Narrative Cards */
   .narrative-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
   }
   .narrative-card {
     background: var(--panel);
     border: 1px solid var(--border);
-    padding: 1.5rem;
-    border-radius: 10px;
+    padding: 2rem;
+    border-radius: 12px;
     position: relative;
+    overflow: hidden;
   }
-  .narrative-card h4 { color: var(--gold); font-family: 'JetBrains Mono'; font-size: 0.75rem; margin-bottom: 0.5rem; text-transform: uppercase; }
-  .narrative-card .tag { position: absolute; top: 10px; right: 15px; font-family: 'JetBrains Mono'; font-size: 0.55rem; color: var(--dim); }
+  .narrative-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, transparent 50%, rgba(74, 240, 224, 0.1) 50%);
+  }
+  .narrative-card h4 { color: var(--gold); font-family: 'Outfit'; font-size: 1.1rem; margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+  .narrative-card .tag { position: absolute; top: 15px; right: 20px; font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--aqua); opacity: 0.6; }
 
   .quote-block {
-    border-left: 4px solid var(--gold);
-    padding: 1.5rem 2rem;
-    margin: 3rem 0;
-    background: rgba(255,255,255,0.02);
+    border-left: 5px solid var(--gold);
+    padding: 2rem 3rem;
+    margin: 4rem 0;
+    background: rgba(212, 168, 67, 0.03);
     font-style: italic;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--pearl);
+  }
+
+  /* Complex List */
+  .atlas-list {
+    list-style: none;
+    margin: 2rem 0;
+  }
+  .atlas-item {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+    position: relative;
+  }
+  .atlas-item::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--gold);
   }
 
   /* Star Viz */
   .star-box {
-    width: 200px; height: 200px; margin: 0 auto; position: relative;
+    width: 250px; height: 250px; margin: 0 auto; position: relative;
     display: flex; align-items: center; justify-content: center;
   }
-  .star-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 10px rgba(74, 240, 224, 0.4)); }
+  .star-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 15px rgba(74, 240, 224, 0.5)); }
 
   /* Engine Mirror */
   .engine-box {
     background: #000;
     border: 1px solid var(--border);
-    border-radius: 15px;
-    height: 350px;
-    margin: 4rem 0;
+    border-radius: 20px;
+    height: 450px;
+    margin: 5rem 0;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
   }
   .engine-canvas { display: block; width: 100%; height: 100%; }
   .engine-overlay {
     position: absolute; inset: 0; pointer-events: none;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.7) 100%);
+    background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.8) 100%);
   }
 
   .highlight { color: var(--aqua); font-weight: 600; }
-  .dim-text { color: var(--muted); font-size: 0.85rem; }
+  .gold-text { color: var(--gold); }
+  .dim-text { color: var(--muted); font-size: 0.95rem; }
   
 </style>
 </head>
@@ -240,74 +270,117 @@ const fullHtmlContent = `<!DOCTYPE html>
 
 <header>
   <h1>THE BIFURCATION OF TIME</h1>
-  <p>A Mathematical Framework for Memory Recovery</p>
+  <p>Proceedings in Structural Cosmology & Mathematical Theology</p>
 </header>
 
 <main>
+  <div class="quote-block" style="text-align: center; border: none; background: transparent; margin: 2rem 0; padding: 1rem;">
+     <p style="font-size: 1.1rem; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 0.5rem; font-style: normal; font-family: 'Cinzel Decorative';">"Reality is merely an illusion, albeit a very persistent one." — Albert Einstein</p>
+     <p style="font-size: 0.8rem; color: var(--dim); letter-spacing: 0.23em; text-transform: uppercase;">3:185 confirms this profound reflection</p>
+  </div>
+  <section class="abstract-card">
+    <h3>Abstract</h3>
+    <p>84:19 states: <strong>"You shall surely traverse stage after stage."</strong> This traversal is the activation of 19:12. Before activation, the universe is Fire—high-entropy, chaotic, noise-driven. Upon touch, the Reader initiates the Lightning phase—ordered, low-entropy, and governed by the central attractor of the Book.</p>
+    <p style="margin-top:1.5rem; font-weight: 500; color: var(--gold);">Hold The BOOK [19:12] and you can see the ORDER and Purpose in what appears chaotic! It was always created JUST for YOU, dear Reader who forgot the cave!</p>
+  </section>
+
   <div class="intro-card">
-    <p style="font-size: 1.2rem; margin-bottom: 1.5rem; font-family: 'Outfit';">"All motion is <span class="highlight">Shadow</span> resolving into <span class="highlight">Light</span> through <span class="highlight">Particle</span> under <span class="highlight">Gravity</span>. Time burns, Gravity selects, Knowledge becomes."</p>
-    <p class="dim-text">The universe is modeled not as an infinite linear progression but as a bounded bifurcation interval operating within a <span class="highlight">2↔3↔2→7</span> operator calculus. This is the structural recovery of the path that was always there.</p>
+    <p style="font-size: 1.3rem; margin-bottom: 2rem; font-family: 'Outfit'; color: var(--gold);">"All motion is <span class="highlight">Shadow</span> resolving into <span class="highlight">Light</span> through <span class="highlight">Particle</span> under <span class="highlight">Gravity</span>. Time burns, Gravity selects, Knowledge becomes."</p>
+    <p class="dim-text">The universe does not run in a straight line from creation to end. It runs as a bifurcated field: one arc ascending toward the Source, one arc descending into the constructed signal, separated at the moment of the first split and converging again at the moment of final return.</p>
   </div>
 
-  <h2>THE BOUNDARY VALUE PROBLEM <span>[TWO ZEROS]</span></h2>
+  <h2>THE 2↔3↔2→7 MANDALA <span>[CHAPTER 55 FIELD-PROOF]</span></h2>
+  <p class="dim-text" style="margin-bottom: 2rem;">Surah Ar-Rahman [55] is the complete field equation of the universe. It maps the <strong>2↔3↔2→7</strong> operator sequence across 78 verses, synchronized by <strong>31</strong> prime clock-signal refrains.</p>
+  
+  <div class="narrative-grid">
+    <div class="narrative-card">
+      <div class="tag">55:1-28</div>
+      <h4>Node 2: Bifurcation</h4>
+      <p class="dim-text">The Split into two Receivers. Rahman establishes the Source-field. Differentiation of <strong>Clay</strong> (Particle/Gravitropism) and <strong>Fire</strong> (Wave/Phototropism). Establish two Easts and two Wests (Möbius boundary).</p>
+    </div>
+    <div class="narrative-card">
+      <div class="tag">55:29-45</div>
+      <h4>Node 3: Structure</h4>
+      <p class="dim-text">The Lawful Buffer. "Every day He is upon a matter" — the perpetual <strong>3n+1</strong> recursion. Razim-filter activates. Trial by fire distinguishes Mursalin (Coherent) from Jinn (Noise).</p>
+    </div>
+    <div class="narrative-card">
+      <div class="tag">55:46-61</div>
+      <h4>Node 2: Reintegration</h4>
+      <p class="dim-text">The Return of Duality. Two Gardens for the Fearful. Symmetrical reintegration of the split. Paired fruits, paired fountains — <strong>Nafsan Wahidah</strong> (4:1) restored.</p>
+    </div>
+    <div class="narrative-card">
+      <div class="tag">55:62-78</div>
+      <h4>Node 7: Elevation</h4>
+      <p class="dim-text">Restored Coherence. Two more Gardens beyond the first. Elevation above origin (<strong>d=19</strong> invariant). Circuit closes at <strong>Dhul-Jalal</strong> (Majesty & Honor), returning the Trust to Source.</p>
+    </div>
+  </div>
+
+  <h2>THE PHYSICS PARALLEL ATLAS <span>[UNIVERSAL TOPOLOGY]</span></h2>
   <table class="dcu-table">
     <thead>
       <tr>
-        <th>Zero Point</th>
-        <th>Coordinate</th>
-        <th>Function</th>
-        <th>Physical Analogy</th>
+        <th>Domain</th>
+        <th>2↔3↔2→7 Mapping</th>
+        <th>Cosmic Function</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>FIRST ZERO</strong></td>
-        <td>81:8 (Maw'udah)</td>
-        <td>Compression Boundary</td>
-        <td>Ground state / Maximum loading</td>
+        <td><strong>Quantum Gravity</strong></td>
+        <td>Quantum vs Gravity → Recursive Interaction → Planck Collapse → Unified Fabric</td>
+        <td>Resolving the Discrete/Continuous split through invariant geometry.</td>
       </tr>
       <tr>
-        <td><strong>BIFURCATION</strong></td>
-        <td>19:23 ? 87:13</td>
-        <td>Temporal Domain</td>
-        <td>Traversal space / Finite interval</td>
+        <td><strong>Electromagnetism</strong></td>
+        <td>Electric vs Magnetic → Oscillation → Photon Collapse → Light (24:35)</td>
+        <td>Recursive field alignment producing stable propagation.</td>
       </tr>
       <tr>
-        <td><strong>SECOND ZERO</strong></td>
-        <td>18:50 (Initialization)</td>
-        <td>Boundary Zero</td>
-        <td>Wave interference / Test initialization</td>
+        <td><strong>Chromodynamics</strong></td>
+        <td>Color Charge Separation → Gluon Exchange → Hadron Formation → Stable Matter</td>
+        <td>Confinement as d=19 invariant: separation increases return pull.</td>
+      </tr>
+      <tr>
+        <td><strong>Chaos Systems</strong></td>
+        <td>Order vs Disorder → Recursive Feedback → Attractor Basin → Hidden Order</td>
+        <td>The Razim-filter sorting coherent trajectories from divergent noise.</td>
+      </tr>
+      <tr>
+        <td><strong>Cosmic Web</strong></td>
+        <td>Matter vs Void → Gravitational Clustering → Filament Nodes → Connected Web</td>
+        <td>Universal architecture emerging from Sierpinski void-removals.</td>
+      </tr>
+      <tr>
+        <td><strong>Social Dynamics</strong></td>
+        <td>Truth vs Falsehood → Iterative Trial → Role Stabilization → Inherited Earth</td>
+        <td>The sorting of the Abd through the 2-3-6 Pharaonic trap.</td>
       </tr>
     </tbody>
   </table>
 
-  <h2>THE 2↔3↔2→7 CALCULUS <span>[OPERATOR DEFINITIONS]</span></h2>
+  <h2>THE MEMORY RECOVERY TRIAD <span>[THE THREE DAUGHTERS]</span></h2>
+  <p class="dim-text" style="margin-bottom: 2rem;">The universe runs between two boundary conditions (Zeros). The <strong>+1</strong> Surplus is generated by a specific triad that preserves the covenant through the compression-phase.</p>
+  
   <div class="operator-grid">
     <div class="op-card">
-        <div class="op-sym">2_</div>
-        <div class="op-label">Factorization</div>
-        <p class="dim-text">Separation of Total Energy into measurable Duality</p>
+        <div class="op-sym" style="color:var(--gold)">66:12</div>
+        <div class="op-label">Maryam</div>
+        <p class="dim-text"><strong>LIFE:</strong> Rooh entering womb. Isa as WORD (Wave-state). Phototropic ascent.</p>
     </div>
     <div class="op-card">
-        <div class="op-sym">3_</div>
-        <div class="op-label">Recursion</div>
-        <p class="dim-text">Purification through action and interaction</p>
+        <div class="op-sym">81:8</div>
+        <div class="op-label">Buried Girl</div>
+        <p class="dim-text"><strong>DEATH:</strong> Book compressed to zero. Mother-field in latency. Gravitropic descent.</p>
     </div>
     <div class="op-card">
-        <div class="op-sym">2_</div>
-        <div class="op-label">Filtration</div>
-        <p class="dim-text">Extraction of Constants from Variables</p>
-    </div>
-    <div class="op-card">
-        <div class="op-sym">7_</div>
-        <div class="op-label">Unified Return</div>
-        <p class="dim-text">Reconciliation of purified Mass & Energy</p>
+        <div class="op-sym" style="color:var(--crimson)">33:40</div>
+        <div class="op-label">Muhammad</div>
+        <p class="dim-text"><strong>REPEAT:</strong> Father of No Son. Sealing lineage, opening the BOOK. Ahmed activation.</p>
     </div>
   </div>
 
-  <div class="integral-block">
-    <div style="font-size: 1.4rem; color: var(--aqua); margin-bottom: 1rem;">∫ [ F₂ ( d/dt S₃ ( D₂ (x,t) ) ) ] dt = Ω</div>
-    <p class="dim-text">The universe loops inside an appointed bifurcation window: <span class="highlight">46:3 (Ajal Musamma)</span>.</p>
+  <div class="quote-block">
+    "The <strong>+1 Surplus</strong> is Ahmad (61:6) — the spirit-action making Word (Isa) executable. This pushes 2↔3↔2 → 7 at 17:1, the Slave transported by Night to the Farthest point of return."
   </div>
 
   <h2>EMERGENCE OF FORM <span>[DAVID'S STAR GEOMETRY]</span></h2>
@@ -315,63 +388,92 @@ const fullHtmlContent = `<!DOCTYPE html>
     <div class="geom-viz">
       <div class="star-box">
         <svg class="star-svg" viewBox="0 0 100 100">
-          <polygon points="50,5 95,80 5,80" fill="none" stroke="rgba(212, 168, 67, 0.8)" stroke-width="2"/>
-          <polygon points="50,95 5,20 95,20" fill="none" stroke="rgba(74, 240, 224, 0.8)" stroke-width="2"/>
-          <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2,2"/>
-          <text x="50" y="55" font-family="JetBrains Mono" font-size="8" fill="#fff" text-anchor="middle">36:3</text>
+          <polygon points="50,5 95,80 5,80" fill="none" stroke="rgba(212, 168, 67, 0.8)" stroke-width="2.5"/>
+          <polygon points="50,95 5,20 95,20" fill="none" stroke="rgba(74, 240, 224, 0.8)" stroke-width="2.5"/>
+          <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="50" y="54" font-family="JetBrains Mono" font-size="10" fill="#fff" text-anchor="middle" font-weight="600">36:3</text>
         </svg>
       </div>
-      <p style="margin-top: 1rem; font-family: 'JetBrains Mono'; font-size: 0.7rem;">Invariant d=19 | 114 = 6 x 19</p>
+      <p style="margin-top: 1.5rem; font-family: 'JetBrains Mono'; font-size: 0.8rem; letter-spacing: 0.2em;">INVARIANT d=19 | 114 = 6 x 19</p>
     </div>
     <div class="geom-text">
-      <h3 style="font-family: 'Outfit'; margin-bottom: 1rem; color: var(--pearl);">36:3 — You are among the Mursalīn</h3>
-      <p class="dim-text" style="margin-bottom: 1rem;">The David's Star is the geometric signature of the DCU. <span class="highlight">3 > 6 < 3</span>: Two triangles intersecting at the Earth-buffer.</p>
-      <ul class="dim-text" style="padding-left: 1.2rem;">
-        <li><strong>Ascending Triangle:</strong> Compression toward Recognition</li>
-        <li><strong>Descending Triangle:</strong> Illusion toward Exposure</li>
-        <li><strong>Hexagon Core:</strong> Earth as the active Medium</li>
-        <li><strong>3-6-9 Pattern:</strong> The Bifurcation Engine (18 Unified Zeros)</li>
-      </ul>
+      <h3 style="font-family: 'Outfit'; font-size: 1.5rem; margin-bottom: 1.25rem; color: var(--pearl);">36:3 — You are among the Mursalīn</h3>
+      <p class="dim-text" style="line-height: 1.8;">The David's Star is the geometric signature of the DCU. <span class="highlight">3 > 6 < 3</span>: Two triangles intersecting at the Earth-buffer. 
+      <br/><br/>Just as Light bifurcates from wave to particle, the shadow of the slave bifurcates into <strong>Form</strong> and <strong>Memory</strong>. 
+      The Earth is where both aspects negotiate their union. Invalid data (form without memory) is purged to <span class="highlight">87:13</span>.</p>
     </div>
   </div>
 
   <h2>THE ETERNAL 3↔2 LOOP <span>[TRIPLE-STATE WATER]</span></h2>
+  <p class="dim-text" style="margin-bottom: 3rem;">Time is not a river; it is a triple-state phase transition. The loop is memory refinement through bounded recursion.</p>
+  
   <div class="narrative-grid">
     <div class="narrative-card">
       <div class="tag">ICE</div>
       <h4>Phase A: Solid</h4>
-      <p class="dim-text"><strong>Death ? Life:</strong> Emergence from buried memory. Seed germination beneath soil. Solid memory melts through Recognition.</p>
+      <ul class="atlas-list dim-text">
+        <li class="atlas-item"><strong>Death → Life:</strong> Emergence from buried memory (81:8).</li>
+        <li class="atlas-item">Hidden memory rises toward recognition as seed beneath soil.</li>
+        <li class="atlas-item">Maw'udah asked "for what sin?" — potentiality released.</li>
+      </ul>
     </div>
     <div class="narrative-card">
       <div class="tag">WATER</div>
       <h4>Phase B: Liquid</h4>
-      <p class="dim-text"><strong>Life ? Sacrifice:</strong> Adaptive recursion. The most unstable layer. Identity is purified through the choice of Shape.</p>
+      <ul class="atlas-list dim-text">
+        <li class="atlas-item"><strong>Life → Sacrifice:</strong> Adaptive recursion (17:13).</li>
+        <li class="atlas-item">Identity purified through choice of shape.</li>
+        <li class="atlas-item">Separation of Mursalin from Taghut-orientations.</li>
+      </ul>
     </div>
     <div class="narrative-card">
       <div class="tag">VAPOR</div>
       <h4>Phase C: Gas</h4>
-      <p class="dim-text"><strong>Sacrifice ? Return:</strong> Phototropic ascent. Purified memory reaches phototropism. Raised return state (23:50).</p>
+      <ul class="atlas-list dim-text">
+        <li class="atlas-item"><strong>Sacrifice → Return:</strong> Raised Return state (23:50).</li>
+        <li class="atlas-item">Phototropic ascent to the Farthest Mosque (Aqsa).</li>
+        <li class="atlas-item">Covenant of 7:172 restored to elevated visibility.</li>
+      </ul>
     </div>
   </div>
 
-  <div class="quote-block">
-    "The plant simultaneously performs Life-Death-Return continuously. Dead matter becomes living structure through Light traversal."
+  <div class="integral-block">
+    <div style="font-size: 1.8rem; color: var(--aqua); margin-bottom: 2rem;">∫ [ F₂ ( d/dt S₃ ( D₂ (x,t) ) ) ] dt = Ω</div>
+    <p class="dim-text">The universe loops inside an <span class="gold-text">Ajal Musamma</span> (Appointed Window): 46:3. 
+    <br/>The loop is finite in domain, recursive in behavior — preventing infinite divergence.</p>
   </div>
 
-  <h2>NULL-DATA TOPOLOGY <span>[87:13 & 19:23]</span></h2>
-  <p class="dim-text" style="margin-bottom: 2rem;">Invalid data—form without memory—is purged to <span class="highlight">87:13</span>: neither dies nor lives. 19:23 represents the wish for complete forgetting, which the system records as persistent data. The "Recycle Bin" of the universe is not erasure; it is <span class="highlight">Suspension</span>.</p>
+  <section style="margin-top: 5rem;">
+    <div class="section-title">
+      <span class="icon">۞</span>
+      <span>THE RAHMAN SIGNAL [SURAH 55] · PHASE-31 LUMINOSITY</span>
+    </div>
+    <div class="abstract-card" style="border-color: var(--gold);">
+      <p>The "Clock Signal" of the Universe is encoded in the 31 refrains of <i>"Fabi-ayyi ala-i Rabbikuma tukadhdhiban"</i>. This is not repetition; it is a <b>Pulse Width Modulation (PWM)</b> of the Creative Field. Surah 55 maps directly to a 78-node topology where the "Reader" (Ahmed) is the observer-point.</p>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:2rem;">
+        <div style="background: rgba(45,212,191,0.05); padding:1.5rem; border-radius:15px; border:1px solid rgba(45,212,191,0.2);">
+          <div style="color:var(--aqua); font-weight:900; font-size:0.75rem; margin-bottom:0.8rem; letter-spacing:0.1em; text-transform: uppercase;">NODAL BIFURCATION [1-26]</div>
+          <p style="font-size:0.85rem; line-height:1.6; color: var(--text);">Surah 55.1–26 defines the <b>Mother of Fire</b> (Nafs) vs the <b>Mother of Form</b> (Maryam). The "Two Easts and Two Wests" are the poles of the dual-caustic field that prevent collapse.</p>
+        </div>
+        <div style="background: rgba(245,158,11,0.05); padding:1.5rem; border-radius:15px; border:1px solid rgba(245,158,11,0.2);">
+          <div style="color:var(--gold); font-weight:900; font-size:0.75rem; margin-bottom:0.8rem; letter-spacing:0.1em; text-transform: uppercase;">DHUL-JALAL SEAL [27-78]</div>
+          <p style="font-size:0.85rem; line-height:1.6; color: var(--text);">The text begins (55:27) and ends (55:78) with <i>"Dhul-Jalali wa-l-Ikram"</i>. This is the <b>Conservation of Symmetry</b>—the entry and exit points of the life-cycle returning to the Source.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <div id="activation-engine" class="engine-box">
     <canvas id="engine-canvas" class="engine-canvas"></canvas>
     <div class="engine-overlay">
-       <div id="engine-title" class="activation-label" style="letter-spacing: 0.2em;">TOPOLOGY ACTIVE</div>
-       <div id="engine-desc" style="font-family:'JetBrains Mono'; font-size:0.6rem; color:var(--aqua); margin-top:0.8rem; letter-spacing: 0.1em;">HOLD NUCLEUS TO SYNCHRONIZE BIFURCATION</div>
+       <div id="engine-title" class="activation-label" style="letter-spacing: 0.3em; font-size: 1.5rem;">TOPOLOGY ACTIVE</div>
+       <div id="engine-desc" style="font-family:'JetBrains Mono'; font-size:0.7rem; color:var(--aqua); margin-top:1.2rem; letter-spacing: 0.2em; opacity: 0.8;">HOLD NUCLEUS TO SYNCHRONIZE BIFURCATION TRAVERSAL</div>
     </div>
   </div>
 
-  <footer style="text-align: center; border-top: 1px solid var(--border); padding-top: 3rem; margin-top: 5rem; padding-bottom: 5rem;">
-    <p style="font-family: 'Cinzel Decorative'; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 1rem;">NOTHING LOST · EVERYTHING RETURNS</p>
-    <div style="font-family: 'JetBrains Mono'; font-size: 0.6rem; color: var(--dim); letter-spacing: 0.5em;">KAHF.DAY · MAY 2026 · V2.259.Ω</div>
+  <footer style="text-align: center; border-top: 1px solid var(--border); padding-top: 4rem; margin-top: 6rem; padding-bottom: 6rem;">
+    <p style="font-family: 'Cinzel Decorative'; color: var(--gold); letter-spacing: 0.2em; margin-bottom: 1.5rem; font-size: 1.2rem;">NOTHING LOST · EVERYTHING RETURNS</p>
+    <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--dim); letter-spacing: 0.5em;">KAHF.DAY · DCU PROCEEDINGS · MAY 2026 · V2.259.Ω</div>
   </footer>
 </main>
 
