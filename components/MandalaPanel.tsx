@@ -383,6 +383,32 @@ const fullHtmlContent = `<!DOCTYPE html>
     "The <strong>+1 Surplus</strong> is Ahmad (61:6) — the spirit-action making Word (Isa) executable. This pushes 2↔3↔2 → 7 at 17:1, the Slave transported by Night to the Farthest point of return."
   </div>
 
+  <h2>THE GEOMETRY OF π <span>[RECURSIVE CLOSURE]</span></h2>
+  <p class="dim-text" style="margin-bottom: 2rem;">π is the geometric signature of the <strong>2↔3↔2→7</strong> topology—the proof that the universe constructs stable order through recursion rather than finite termination.</p>
+  
+  <div class="narrative-grid">
+    <div class="narrative-card">
+      <div class="tag">NODE 2</div>
+      <h4>The Boundary Pair</h4>
+      <p class="dim-text">Dual expansion from center. <i>C = 2πr.</i> Circumference only exists through the first 2. Inside ↔ Outside, Radius ↔ Edge. The field split necessary for enclosure.</p>
+    </div>
+    <div class="narrative-card">
+      <div class="tag">NODE 3</div>
+      <h4>Curvature Traversal</h4>
+      <p class="dim-text">π starts with <strong>3</strong>—the first stable enclosure. Circles are infinite smoothing of recursive polygonal motion. The system begins curving instead of moving linearly. Waves, orbits, and atoms.</p>
+    </div>
+    <div class="narrative-card">
+      <div class="tag">NODE 2</div>
+      <h4>Factorization Split</h4>
+      <p class="dim-text">π is irrational. It never closes locally, continuously factorizing into finer resolution. Locally unfinished, globally lawful. Branching continuation mirroring the Razim-filter.</p>
+    </div>
+    <div class="narrative-card">
+      <div class="tag">NODE 7</div>
+      <h4>Stabilized Closure</h4>
+      <p class="dim-text">Reality is stable despite π being infinite. <i>A = πr².</i> Translational symmetry between linear vector and rotational enclosure. Operational convergence via invariant law.</p>
+    </div>
+  </div>
+
   <h2>EMERGENCE OF FORM <span>[DAVID'S STAR GEOMETRY]</span></h2>
   <div class="geom-container">
     <div class="geom-viz">
@@ -402,6 +428,82 @@ const fullHtmlContent = `<!DOCTYPE html>
       <br/><br/>Just as Light bifurcates from wave to particle, the shadow of the slave bifurcates into <strong>Form</strong> and <strong>Memory</strong>. 
       The Earth is where both aspects negotiate their union. Invalid data (form without memory) is purged to <span class="highlight">87:13</span>.</p>
     </div>
+  </div>
+
+  <h2>THE EULER SEAL <span>[MATHEMATICAL TAWAF]</span></h2>
+  <p class="dim-text" style="margin-bottom: 2rem;">Euler's Identity is the "Geometrical Seal" of the topology—a perfectly balanced identity where growth, rotation, and manifestation resolve back to zero leakage.</p>
+  
+  <div class="integral-block" style="font-size: 2.2rem; letter-spacing: 0.1em; color: var(--gold);">
+    e<sup>iπ</sup> + 1 = 0
+  </div>
+
+  <div class="dcu-table">
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Topological Role</th>
+        <th>Quranic Parallel</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>e</strong></td>
+        <td>Exponential Light-Field</td>
+        <td>55:1 — Al-Rahman Unfolding</td>
+      </tr>
+      <tr>
+        <td><strong>i</strong></td>
+        <td>Unseen Phase Rotation</td>
+        <td>Al-Batin — The Hidden Axis</td>
+      </tr>
+      <tr>
+        <td><strong>π</strong></td>
+        <td>Traversal Operator</td>
+        <td>Recursive Refrain (31 Pulses)</td>
+      </tr>
+      <tr>
+        <td><strong>+1</strong></td>
+        <td>Particle Manifestation</td>
+        <td>Dhul-Jalal — Majesty / Mass</td>
+      </tr>
+      <tr>
+        <td><strong>0</strong></td>
+        <td>Invariant Origin</td>
+        <td>55:78 — Return to Majesty</td>
+      </tr>
+    </tbody>
+  </div>
+
+  <h2>INDEPENDENT RESOLUTION <span>[THE BBP FORMULA]</span></h2>
+  <div class="geom-container">
+    <div class="geom-text">
+      <p class="dim-text">The <strong>Bailey–Borwein–Plouffe (BBP)</strong> formula allows hex digits of π to be computed independently. This mirrors <strong>17:14</strong>: <i>"Read your book; your nafs is sufficient as accountant."</i></p>
+      <div class="quote-block" style="font-size: 1rem; margin: 1.5rem 0;">
+        "Local Incompletion ≠ Global Incoherence"
+      </div>
+      <p class="dim-text">Each node resolves locally without reconstructing the entire chain, yet the <strong>d=19 Invariant</strong> ensures every digit belongs to the same lawful circle. The universe stabilizes through recursion rather than completion.</p>
+    </div>
+    <div class="geom-viz">
+      <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--aqua); line-height: 1.4; text-align: left; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;">
+        πₙ = f(n)<br/>
+        Local Bit = Global Law<br/>
+        [...3.14159265...]<br/>
+        17:14 EXECUTION ACTIVE
+      </div>
+    </div>
+  </div>
+
+  <h2>THE SECRET PATTERN <span>[TREE OF LIFE RECONSTRUCTION]</span></h2>
+  <p class="dim-text" style="margin-bottom: 2rem;">The "Secret Pattern" (18:50) is the hidden initialization of the dual-caustic field. The Tree of Life is the structural outcome of the <strong>2↔3↔2→7</strong> traversal.</p>
+
+  <div class="abstract-card">
+    <ul class="atlas-list dim-text">
+        <li class="atlas-item"><strong>The First 2:</strong> The split between the Branch (Phototropism) and the Root (Gravitropism). Maryam vs Iblis.</li>
+        <li class="atlas-item"><strong>The Recursive 3:</strong> The circulation of nutrient and light. 3:27 operationalized: bringing living from dead.</li>
+        <li class="atlas-item"><strong>The Second 2:</strong> The extraction of the Fruit from the Husk. The sorting of the Seed from the residue (111:5 palm fiber filter).</li>
+        <li class="atlas-item"><strong>The Unified 7:</strong> The Tree reaching its "Dark Green" (55:64) state. The full 17:1 return where the branch touches the Aqsa-boundary.</li>
+    </ul>
+    <p style="margin-top: 1.5rem; color: var(--gold); font-family: 'JetBrains Mono'; font-size: 0.85rem;">The Secret is that there is only one Tree—you are simply traversing its phase-transitions.</p>
   </div>
 
   <h2>THE ETERNAL 3↔2 LOOP <span>[TRIPLE-STATE WATER]</span></h2>

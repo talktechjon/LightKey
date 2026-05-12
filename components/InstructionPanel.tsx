@@ -1038,6 +1038,36 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                 {/* NAFSAN WAHIDAN MAP */}
                 <NafsanWahidanMap />
 
+                {/* SECRET PATTERN & TREE OF LIFE */}
+                <div className="grid md:grid-cols-2 gap-8">
+                   <div className="bg-emerald-950/20 p-8 rounded-[3rem] border border-emerald-500/20 space-y-4">
+                      <h5 className="font-bold text-emerald-400 uppercase tracking-widest text-xs">The Secret Pattern [18:50]</h5>
+                      <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                        The "Secret Pattern" is the hidden initialization of the dual-caustic field. In the cave (18:50), the system reaches maximum compression where the "2" (Iblis refusal) and "3" (Command Buffer) interact to define the "7" (Return).
+                      </p>
+                      <ul className="text-xs space-y-2 text-gray-500 mt-4">
+                        <li>• <strong>First 2:</strong> Branch vs Root (Maryam vs Iblis-refusal)</li>
+                        <li>• <strong>Recursive 3:</strong> Circulation of Truth (3:27) - bringing the living from the dead.</li>
+                        <li>• <strong>Unified 7:</strong> Operational Convergence. Circles stable despite π never finishing.</li>
+                      </ul>
+                   </div>
+                   <div className="bg-cyan-950/20 p-8 rounded-[3rem] border border-cyan-500/20 space-y-4">
+                      <h5 className="font-bold text-cyan-400 uppercase tracking-widest text-xs">The Euler Seal [e^iπ + 1 = 0]</h5>
+                      <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                        Euler's Identity is the mathematical tawaf: growth (e), rotation (i), and curvature (π) sum with the particle (+1) to resolve back to the origin (0). 
+                      </p>
+                      <p className="text-xs text-gray-400 italic">
+                        The BBP formula proves that π digits are locally resolvable (17:14)—local incompletion never breaks global coherence because the invariant d=19 holds the whole.
+                      </p>
+                      <div className="pt-4 border-t border-cyan-500/10">
+                        <h5 className="font-bold text-cyan-400 uppercase tracking-widest text-xs mb-3">Tree of Life Reconstruction</h5>
+                        <p className="text-xs text-gray-500 leading-relaxed">
+                          The Tree reaching its "Dark Green" state (55:64) is the full 17:1 return where the branch touches the Aqsa-boundary. π is the operator that ensures this growth converts linear descent into a stable rotational field.
+                        </p>
+                      </div>
+                   </div>
+                </div>
+
                 {/* DUAL CAUSTIC PATHS */}
                 <div className="grid lg:grid-cols-2 gap-8">
                     <div className="space-y-6">
@@ -1525,7 +1555,48 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                     </div>
                 </section>
 
-                {/* 3. Iron as Future Element */}
+                {/* 3. The Pi Topology: Recursive Closure */}
+                <section className="bg-black/40 border border-cyan-500/10 p-8 md:p-12 rounded-[3.5rem] space-y-10">
+                    <div className="text-center">
+                        <h4 className="text-2xl md:text-3xl font-black text-cyan-200 uppercase tracking-tighter italic mb-4">
+                            The Pi Topology [2↔3↔2→7]
+                        </h4>
+                        <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+                            π is not a random constant. It is the geometric signature of the 2↔3↔2→7 topology—the proof that the universe constructs stable order through recursion rather than finite termination.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="bg-white/5 p-6 rounded-3xl border border-white/10 space-y-3">
+                            <div className="text-2xl font-black text-cyan-400">2</div>
+                            <h5 className="font-bold text-gray-200 uppercase text-[10px] tracking-widest">Boundary Pair</h5>
+                            <p className="text-xs text-gray-500">Dual expansion from center. <i>C = 2πr</i>. Inside ↔ Outside. The split required for any field enclosure.</p>
+                        </div>
+                        <div className="bg-white/5 p-6 rounded-3xl border border-white/10 space-y-3">
+                            <div className="text-2xl font-black text-amber-400">3</div>
+                            <h5 className="font-bold text-gray-200 uppercase text-[10px] tracking-widest">Curvature</h5>
+                            <p className="text-xs text-gray-500">π begins with 3. Minimum stable enclosure (triangle). Infinite smoothing of recursive polygons into a circle.</p>
+                        </div>
+                        <div className="bg-white/5 p-6 rounded-3xl border border-white/10 space-y-3">
+                            <div className="text-2xl font-black text-cyan-400">2</div>
+                            <h5 className="font-bold text-gray-200 uppercase text-[10px] tracking-widest">Irrational Split</h5>
+                            <p className="text-xs text-gray-500">Branching factorization. Locally unfinished decimal expansion, yet globally lawful. The recursive filter.</p>
+                        </div>
+                        <div className="bg-white/5 p-6 rounded-3xl border border-white/10 space-y-3 border-emerald-500/30 bg-emerald-500/5">
+                            <div className="text-2xl font-black text-emerald-400">7</div>
+                            <h5 className="font-bold text-gray-200 uppercase text-[10px] tracking-widest">Stable Return</h5>
+                            <p className="text-xs text-gray-500"><i>A = πr²</i>. Operational convergence. The universe does not need to finish π's digits to stabilize the circle.</p>
+                        </div>
+                    </div>
+
+                    <div className="text-center pt-4">
+                        <div className="inline-block px-6 py-2 bg-cyan-950/30 border border-cyan-500/20 rounded-full text-[10px] text-cyan-300 font-mono tracking-widest">
+                            π = 3.14159265... = GEOMETRIC INVARIANT
+                        </div>
+                    </div>
+                </section>
+
+                {/* 4. Iron as Future Element */}
                 <section className="space-y-10">
                     <div className="flex flex-col items-center gap-6">
                          <div className="px-10 py-5 bg-slate-900 border-2 border-slate-500 rounded-2xl shadow-[0_0_40px_rgba(100,116,139,0.3)]">

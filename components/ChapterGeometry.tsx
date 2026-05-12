@@ -763,6 +763,11 @@ export const BirdMotion: React.FC<{ rotation: number, isPaused: boolean, onToggl
                             onClick={onToggle}
                             title="Toggle Core Animation Engine"
                         >
+                            {/* Pi Invariant Badge */}
+                            <div className="absolute top-[-25px] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 border border-cyan-500/30 px-3 py-1 rounded-full whitespace-nowrap">
+                                <span className="text-[9px] font-mono text-cyan-300 tracking-tighter">Invariant: π (2↔3↔2→7)</span>
+                            </div>
+
                             {/* Central Bird Silhouette Logo */}
                             <svg 
                                 width="80" 
