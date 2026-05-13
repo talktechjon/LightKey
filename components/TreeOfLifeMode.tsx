@@ -58,7 +58,7 @@ const PRESET_4 = [
   "Angel"
 ];
 
-interface BifurcationStage {
+interface GrowthStage {
   main: number[];
   manualLines: [number, number][];
   isBlackPhase?: boolean;
@@ -68,7 +68,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
   const [labels, setLabels] = useState<string[]>(Array(12).fill(''));
   const [labelOffset, setLabelOffset] = useState(0); 
   const [isCycling, setIsCycling] = useState(false);
-  const [activeMode, setActiveMode] = useState<'linear' | 'bifurcation'>('linear');
+  const [activeMode, setActiveMode] = useState<'linear' | 'growth'>('linear');
   const [highlightedNodes, setHighlightedNodes] = useState<number[]>([]);
   
   const [showLightning, setShowLightning] = useState(false);
@@ -90,7 +90,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
   ];
   const SQUARE_PLUS_LINES: [number, number][] = [[5, 6], [5, 7], [6, 8], [7, 8], [6, 14], [14, 7], [5, 14], [14, 8]];
 
-  const BIFURCATION_STAGES: BifurcationStage[] = useMemo(() => [
+  const GROWTH_STAGES: GrowthStage[] = useMemo(() => [
     { main: [1, 12], manualLines: [], isBlackPhase: true },
     { main: [2, 11], manualLines: LOOP_LINES },
     { main: [3, 10], manualLines: BOLT_3_10_LINES },
@@ -131,13 +131,13 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
 
   const updateVisuals = useCallback((offset: number) => {
     if (activeMode === 'linear') setHighlightedNodes([offset + 1]);
-    else setHighlightedNodes(BIFURCATION_STAGES[offset].main);
-  }, [activeMode, BIFURCATION_STAGES]);
+    else setHighlightedNodes(GROWTH_STAGES[offset].main);
+  }, [activeMode, GROWTH_STAGES]);
 
   const handleShift = useCallback((direction: 'up' | 'down') => {
     setLabelOffset((prev) => {
       const next = direction === 'up' ? (prev + 1) % 12 : (prev - 1 + 12) % 12;
-      if (activeMode === 'bifurcation') {
+      if (activeMode === 'growth') {
         if (prev === 11 && next === 0) { setShowLightning(true); setTimeout(() => setShowLightning(false), 800); }
         if (prev === 5 && next === 6) { setShowExplosion(true); setTimeout(() => setShowExplosion(false), 1200); }
       }
@@ -165,11 +165,11 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
       const nodeId = h[0];
       return from === nodeId || to === nodeId ? 'main' : null;
     }
-    const stage = BIFURCATION_STAGES[offset];
+    const stage = GROWTH_STAGES[offset];
     if (stage.isBlackPhase) return 'black';
     const isManual = stage.manualLines?.some(l => (l[0] === from && l[1] === to) || (l[0] === to && l[1] === from));
     return isManual ? 'main' : null;
-  }, [activeMode, BIFURCATION_STAGES]);
+  }, [activeMode, GROWTH_STAGES]);
 
   const getDisplayIdx = useCallback((nodeIdx: number, offset: number, mode: 'linear' | 'bifurcation') => {
     if (mode === 'linear') return (nodeIdx - offset + 12) % 12;
@@ -180,7 +180,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
   }, []);
 
   const renderDiagram = () => {
-    const isPhase2or8 = activeMode === 'bifurcation' && (labelOffset === 1 || labelOffset === 7);
+    const isPhase2or8 = activeMode === 'growth' && (labelOffset === 1 || labelOffset === 7);
     const extraSilverLines = isPhase2or8 ? [[9, 7], [6, 4]] : [];
 
     return (
@@ -236,7 +236,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
               const isGreenDomain = (GREEN_NODES.includes(line.from) && GREEN_NODES.includes(line.to)) || 
                                    ((line.from === 14 || line.to === 14) && (GREEN_NODES.includes(line.from) || GREEN_NODES.includes(line.to)));
 
-              const isPhase12 = activeMode === 'bifurcation' && labelOffset === 11;
+              const isPhase12 = activeMode === 'growth' && labelOffset === 11;
               const isSilverLine = isPhase12 && (
                 (line.from === 6 && line.to === 8) || (line.from === 8 && line.to === 6) ||
                 (line.from === 8 && line.to === 7) || (line.from === 7 && line.to === 8) ||
@@ -413,7 +413,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
           </div>
           <div className="flex p-1 bg-white/5 rounded-xl md:rounded-2xl gap-1">
             <button onClick={() => { setActiveMode('linear'); setIsCycling(false); }} className={`flex-1 py-2 md:py-3 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-black tracking-widest transition-all ${activeMode === 'linear' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20' : 'text-gray-400'}`}>LINEAR</button>
-            <button onClick={() => { setActiveMode('bifurcation'); setIsCycling(false); }} className={`flex-1 py-2 md:py-3 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-black tracking-widest transition-all ${activeMode === 'bifurcation' ? 'bg-fuchsia-600 text-white shadow-lg shadow-fuchsia-600/20' : 'text-gray-400'}`}>BIFURCATE</button>
+            <button onClick={() => { setActiveMode('growth'); setIsCycling(false); }} className={`flex-1 py-2 md:py-3 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-black tracking-widest transition-all ${activeMode === 'growth' ? 'bg-fuchsia-600 text-white shadow-lg shadow-fuchsia-600/20' : 'text-gray-400'}`}>GROWTH</button>
           </div>
           <div className="grid grid-cols-2 gap-2 md:gap-3">
             <button onClick={() => handleShift('down')} className="bg-white/5 hover:bg-cyan-500/10 py-3 md:py-4 rounded-xl md:rounded-2xl border border-white/5 text-base md:text-lg font-black tracking-widest transition-all uppercase">-</button>

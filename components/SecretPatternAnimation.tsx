@@ -91,11 +91,11 @@ const useDiagramPortal = (listRef: React.RefObject<HTMLDivElement>) => {
 
 export const KatharaDiagram: React.FC<{ rotation: number; isDesktop?: boolean }> = ({ rotation, isDesktop = true }) => {
     const alignedChapters = useMemo(() => {
-        const labels = [
-            'Impulse', 'Shadow Ignition', 'Search', 
-            'Cleanse', 'Alignment', 'Stabilize', 
-            'Express', 'Boundary', 'Surrender', 
-            'Refine', 'Coherence', 'Illumination'
+        const treeLabels = [
+            'The Seed', 'The Rupture', 'The Search', 
+            'The Cleanse', 'The Trunk', 'The Branching', 
+            'The Flowering', 'The Ripening', 'The Harvest', 
+            'The Pressing', 'The Extraction', 'The Oil (Light)'
         ];
         return KATHARA_CLOCK_POINTS.map((pointValue, index) => {
             const slice = getSliceAtPoint(pointValue, rotation);
@@ -108,7 +108,7 @@ export const KatharaDiagram: React.FC<{ rotation: number; isDesktop?: boolean }>
                 muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
                 iconSrc: getChapterIcon(chapterInfo.revelationType),
                 clockIndex: index + 1,
-                clockLabel: labels[index]
+                clockLabel: treeLabels[index]
             };
         }).filter((c): c is AlignedChapter => c !== null);
     }, [rotation]);
@@ -213,11 +213,11 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
     const { isDesktop, floatingRef, portalRoot } = useDiagramPortal(listRef);
 
     const alignedChapters: AlignedChapter[] = useMemo(() => {
-        const labels = [
-            'Impulse', 'Shadow Ignition', 'Search', 
-            'Cleanse', 'Alignment', 'Stabilize', 
-            'Express', 'Boundary', 'Surrender', 
-            'Refine', 'Coherence', 'Illumination'
+        const treeLabels = [
+            'The Seed', 'The Rupture', 'The Search', 
+            'The Cleanse', 'The Trunk', 'The Branching', 
+            'The Flowering', 'The Ripening', 'The Harvest', 
+            'The Pressing', 'The Extraction', 'The Oil (Light)'
         ];
         return KATHARA_CLOCK_POINTS.map((pointValue, index) => {
             const slice = getSliceAtPoint(pointValue, rotation);
@@ -233,7 +233,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                 muqattatLetters: MUQATTAT_LETTERS.get(slice.id),
                 iconSrc: getChapterIcon(chapterInfo.revelationType),
                 clockIndex: index + 1,
-                clockLabel: labels[index]
+                clockLabel: treeLabels[index]
             };
         }).filter((c): c is AlignedChapter => c !== null);
     }, [rotation]);
@@ -302,72 +302,72 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
             
             <div className="mt-4 p-4 bg-black/40 border border-[#00c8ff]/30 rounded-lg text-xs md:text-sm leading-relaxed space-y-4">
                 <p className="text-white">
-                    <strong className="text-[#00c8ff]">Light</strong> = resolved Knowledge (Isa–Solomon), 
-                    <strong className="text-[#4ade80]"> Particle</strong> = embodied Knowledge (Musa–Ahmed), 
-                    <strong className="text-[#f5c842]"> Shadow</strong> = Time–Fire (gradient field).
+                    <strong className="text-[#00c8ff]">The Light</strong> = resolved Knowledge (Isa–Solomon), 
+                    <strong className="text-[#4ade80]"> The Tree</strong> = embodied Knowledge (Musa–Ahmed), 
+                    <strong className="text-[#f5c842]"> The Soil</strong> = Time–Fire (gradient field).
                 </p>
-                <p className="text-white/80">Your 12-node system is a <strong>three-layer coupling</strong>: Shadow generates motion, Particle carries form, Light resolves truth—held together by Gravity.</p>
+                <p className="text-white/80">Your 12-node system is a <strong>divine growth cycle</strong>: The Soil provides the heat, the Tree carries the form, the Light is the final essence—all guided by Gravity.</p>
                 
                 <div className="space-y-3">
-                    <h3 className="text-[#00c8ff] font-bold border-b border-[#00c8ff]/20 pb-1 text-sm uppercase tracking-wide">Updated 12-Node System</h3>
+                    <h3 className="text-[#00c8ff] font-bold border-b border-[#00c8ff]/20 pb-1 text-sm uppercase tracking-wide">The 12 Phases of Growth</h3>
                     
                     <div className="grid grid-cols-1 gap-2 text-white/80 font-light mt-2 text-xs md:text-sm">
                         <div className="flex items-center gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-white/40 flex-shrink-0"></div>
                             <strong className="text-white flex-shrink-0 w-4">1</strong> 
-                            <span>Impulse (Light latent)</span>
+                            <span>The Seed (Light latent)</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-[#f5c842] flex-shrink-0"></div>
                             <strong className="text-white flex-shrink-0 w-4">2</strong> 
-                            <span>Shadow ignition (Time–Fire begins)</span>
+                            <span>The Rupture (Soil activation)</span>
                         </div>
                         
                         <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
                             <strong className="text-[#00c8ff] flex-shrink-0">3 ↔ 4</strong> 
-                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">1st Bifurcation:</span> 
-                            <span>Search (Shadow) + Cleanse (Gravity)</span>
+                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">1st Growth:</span> 
+                            <span>The Search (Root) + The Cleanse (Path)</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-[#4ade80] flex-shrink-0"></div>
                             <strong className="text-white flex-shrink-0 w-4">5</strong> 
-                            <span>Alignment (Particle stabilization)</span>
+                            <span>The Trunk (Prophetic Alignment)</span>
                         </div>
                         
                         <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
                             <strong className="text-[#4ade80] flex-shrink-0">6 ↔ 7</strong> 
-                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">2nd Bifurcation:</span> 
-                            <span>Stabilize (Gravity) + Express (Time)</span>
+                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">2nd Growth:</span> 
+                            <span>The Branching + The Flowering</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0"></div>
                             <strong className="text-white flex-shrink-0 w-4">8</strong> 
-                            <span>Boundary (Gravitational Lock)</span>
+                            <span>The Ripening (Boundary Lock)</span>
                         </div>
                         
                         <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
                             <strong className="text-[#f5c842] flex-shrink-0">9 ↔ 10</strong> 
-                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">3rd Bifurcation:</span> 
-                            <span>Surrender (Gravity) + Refine (Shadow)</span>
+                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">3rd Growth:</span> 
+                            <span>The Harvest + The Pressing</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-blue-300 flex-shrink-0"></div>
                             <strong className="text-white flex-shrink-0 w-4">11</strong> 
-                            <span>Coherence (Light emerges)</span>
+                            <span>The Extraction (Essence emerges)</span>
                         </div>
                         
                         <div className="flex items-center gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-white transition-shadow shadow-[0_0_8px_white] flex-shrink-0"></div>
                             <strong className="text-white flex-shrink-0 w-5">12</strong> 
-                            <span>Illumination (Pure Light)</span>
+                            <span>Illumination (The Oil of Light)</span>
                         </div>
                     </div>
                 </div>
 
                 <div className="space-y-2 pt-3 border-t border-white/10">
-                    <h3 className="text-[#f5c842] font-bold text-sm uppercase tracking-wide">Final Law (Refined)</h3>
-                    <p className="text-white/60 italic text-xs md:text-sm leading-snug">All motion is Shadow resolving into Light through Particle under Gravity. Time burns, Gravity selects, Knowledge becomes.</p>
-                    <p className="text-[#4ade80] font-mono text-[10px] mt-2 font-bold tracking-tight bg-[#4ade80]/10 border border-[#4ade80]/20 p-2 rounded block">12 (LIGHT) → DISTURBANCE → SHADOW → BIFURCATION → PARTICLE → REFINEMENT → 1 (RESET)</p>
+                    <h3 className="text-[#f5c842] font-bold text-sm uppercase tracking-wide">The Law of the Tree</h3>
+                    <p className="text-white/60 italic text-xs md:text-sm leading-snug">All growth is the Seed resolving into Oil through the Trunk under the weight of the Harvest. The Soil burns, the Tree rises, the Light is revealed.</p>
+                    <p className="text-[#4ade80] font-mono text-[10px] mt-2 font-bold tracking-tight bg-[#4ade80]/10 border border-[#4ade80]/20 p-2 rounded block">SEED → RUPTURE → SEARCH → TRUNK → BRANCHING → HARVEST → LIGHT (24:35)</p>
                 </div>
             </div>
 

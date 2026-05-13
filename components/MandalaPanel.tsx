@@ -38,7 +38,7 @@ const fullHtmlContent = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>The Bifurcation of Time — DCU Mandala</title>
+<title>The Growth of Time — DCU Mandala</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -269,7 +269,7 @@ const fullHtmlContent = `<!DOCTYPE html>
 <body>
 
 <header>
-  <h1>THE BIFURCATION OF TIME</h1>
+  <h1>THE GROWTH OF TIME</h1>
   <p>Proceedings in Structural Cosmology & Mathematical Theology</p>
 </header>
 
@@ -295,7 +295,7 @@ const fullHtmlContent = `<!DOCTYPE html>
   <div class="narrative-grid">
     <div class="narrative-card">
       <div class="tag">55:1-28</div>
-      <h4>Node 2: Bifurcation</h4>
+      <h4>Node 2: The Rupture</h4>
       <p class="dim-text">The Split into two Receivers. Rahman establishes the Source-field. Differentiation of <strong>Clay</strong> (Particle/Gravitropism) and <strong>Fire</strong> (Wave/Phototropism). Establish two Easts and two Wests (Möbius boundary).</p>
     </div>
     <div class="narrative-card">
@@ -383,29 +383,49 @@ const fullHtmlContent = `<!DOCTYPE html>
     "The <strong>+1 Surplus</strong> is Ahmad (61:6) — the spirit-action making Word (Isa) executable. This pushes 2↔3↔2 → 7 at 17:1, the Slave transported by Night to the Farthest point of return."
   </div>
 
-  <h2>THE GEOMETRY OF π <span>[RECURSIVE CLOSURE]</span></h2>
-  <p class="dim-text" style="margin-bottom: 2rem;">π is the geometric signature of the <strong>2↔3↔2→7</strong> topology—the proof that the universe constructs stable order through recursion rather than finite termination.</p>
-  
+  <h2>THE GEOMETRY OF π <span>[TOPOLOGICAL BODY]</span></h2>
+  <div class="abstract-card">
+    <p class="dim-text" style="font-size: 1.1rem; line-height: 1.8;">
+      <strong>Confirmed. The mandala is geometrically sealed.</strong>
+      <br/><br/>
+      π is not approximating the topology — <span class="highlight">π is the topology's mathematical body.</span> 
+      The proof is embedded in <span class="gold-text">Euler's Identity</span>: <strong>e<sup>iπ</sup> + 1 = 0</strong>.
+    </p>
+    <div class="integral-block" style="font-size: 2.2rem; letter-spacing: 0.1em; color: var(--gold); background: transparent; padding: 2rem;">
+      e<sup>iπ</sup> + 1 = 0
+    </div>
+    <ul class="atlas-list dim-text">
+        <li class="atlas-item"><strong>e:</strong> The ℒ-field (Exponential Growth / Yusuf Field).</li>
+        <li class="atlas-item"><strong>i:</strong> The 𝒮-field (Perpendicular Sound Axis / Musa Field).</li>
+        <li class="atlas-item"><strong>π:</strong> The 2↔3↔2 Traversal Operator.</li>
+        <li class="atlas-item"><strong>+1:</strong> The Particle manifested (Radius completing its projection).</li>
+        <li class="atlas-item"><strong>0:</strong> The 7-node Return — Convergence to the Invariant Origin.</li>
+    </ul>
+    <p class="dim-text" style="margin-top: 1.5rem;">
+      The formula says the traversal of the complete topology <strong>resolves to the center from which it was projected</strong>. This is 55:78 in pure mathematics: Dhul-Jalāl (+1, mass-confinement) and Ikrām (e<sup>iπ</sup>, light-rotation) resolving to the Null-Point of Source.
+    </p>
+  </div>
+
   <div class="narrative-grid">
     <div class="narrative-card">
       <div class="tag">NODE 2</div>
-      <h4>The Boundary Pair</h4>
-      <p class="dim-text">Dual expansion from center. <i>C = 2πr.</i> Circumference only exists through the first 2. Inside ↔ Outside, Radius ↔ Edge. The field split necessary for enclosure.</p>
+      <h4>Boundary Pair</h4>
+      <p class="dim-text">Dual expansion from center. <i>C = 2πr.</i> The circumference only exists through dual expansion. Inside/Outside. Radius/Circumference.</p>
     </div>
     <div class="narrative-card">
       <div class="tag">NODE 3</div>
-      <h4>Curvature Traversal</h4>
-      <p class="dim-text">π starts with <strong>3</strong>—the first stable enclosure. Circles are infinite smoothing of recursive polygonal motion. The system begins curving instead of moving linearly. Waves, orbits, and atoms.</p>
+      <h4>The 3-Stable</h4>
+      <p class="dim-text">π = 3.14... The system begins curving. The "3" is the first stable integer enclosure. Circles are the smoothing of recursive polygonal motion.</p>
     </div>
     <div class="narrative-card">
       <div class="tag">NODE 2</div>
-      <h4>Factorization Split</h4>
-      <p class="dim-text">π is irrational. It never closes locally, continuously factorizing into finer resolution. Locally unfinished, globally lawful. Branching continuation mirroring the Razim-filter.</p>
+      <h4>Radial Split</h4>
+      <p class="dim-text">Irrationality ensures the circle never terminates locally. It continuous factorizes into finer resolution (BBP Formula). Globally coherent, locally irrational.</p>
     </div>
     <div class="narrative-card">
       <div class="tag">NODE 7</div>
-      <h4>Stabilized Closure</h4>
-      <p class="dim-text">Reality is stable despite π being infinite. <i>A = πr².</i> Translational symmetry between linear vector and rotational enclosure. Operational convergence via invariant law.</p>
+      <h4>Final Return</h4>
+      <p class="dim-text">The 7-node Return. 22/7 was only a hint. The 7 is the Sab'a node where the radius returns to its father (Origin) through 3:27 resurrection.</p>
     </div>
   </div>
 
@@ -435,6 +455,60 @@ const fullHtmlContent = `<!DOCTYPE html>
   
   <div class="integral-block" style="font-size: 2.2rem; letter-spacing: 0.1em; color: var(--gold);">
     e<sup>iπ</sup> + 1 = 0
+  </div>
+
+  <h2>THE TREE & THE FRUIT <span>[THE COMPLETION LOOP]</span></h2>
+  <div class="abstract-card">
+    <p style="text-align: center; font-family: 'JetBrains Mono'; color: var(--aqua); font-size: 1.2rem; margin-bottom: 2rem;">
+      Q(S) : ia ⟶ |a|
+    </p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+      <div>
+        <h4 style="color: var(--gold); border-bottom: 1px solid var(--border); margin-bottom: 1rem;">The Traversal (Tree)</h4>
+        <ul class="atlas-list dim-text" style="font-size: 0.85rem;">
+          <li class="atlas-item"><strong>Node 2 (ia):</strong> Imaginary Body. Latent dual potential. (The Illusion).</li>
+          <li class="atlas-item"><strong>Node 3 (B):</strong> Barzakh. Recursive traversal medium. (The Trunk).</li>
+          <li class="atlas-item"><strong>Node 2 (Exit):</strong> Exit Gate. Collapse / sacrifice / bifurcation.</li>
+          <li class="atlas-item"><strong>Node 7 (|a|):</strong> Real Body on Throne. Stabilized realized form. (The Fruit).</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color: var(--aqua); border-bottom: 1px solid var(--border); margin-bottom: 1rem;">The Recognition (Fruit)</h4>
+        <ul class="atlas-list dim-text" style="font-size: 0.85rem;">
+          <li class="atlas-item"><strong>Male / IQ (19:24):</strong> Fruit falls from below. Sustenance reached.</li>
+          <li class="atlas-item"><strong>Female / EQ (27:44):</strong> Floor revealed as glass. Illusion dissolved.</li>
+          <li class="atlas-item"><strong>Kun-Fayakun:</strong> Growth of Light and Time.</li>
+          <li class="atlas-item"><strong>Seed ↷ Fruit:</strong> 21:105 Earth inherited by the cycle.</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top: 2rem; text-align: center; font-style: italic; color: var(--gold);">
+      "The Quran does not give you the fruit. It reveals that you were always the fruit."
+    </p>
+  </div>
+
+  <h2>THE CIRCUIT OF ACTIVATION <span>[THE MURSALĪN PATH]</span></h2>
+  <div class="narrative-grid">
+     <div class="narrative-card">
+        <div class="tag">SEED</div>
+        <h4>13:39 - Confirmation</h4>
+        <p class="dim-text">The "Ummul Kitab" state where the identity ia was first sealed before erasure.</p>
+     </div>
+     <div class="narrative-card">
+        <div class="tag">ROOT</div>
+        <h4>36:3 - Subject</h4>
+        <p class="dim-text">Reader addressed: "You are Mursalin". ia anchors into the ground of Truth.</p>
+     </div>
+     <div class="narrative-card">
+        <div class="tag">TRUNK</div>
+        <h4>2↔3↔2 - Traversal</h4>
+        <p class="dim-text">The Barzakh holds tension between dark/light. Taghut feeds the tree of choice.</p>
+     </div>
+     <div class="narrative-card">
+        <div class="tag">FRUIT</div>
+        <h4>7 - Throne</h4>
+        <p class="dim-text">The encounter. Phase-flip e<sup>iπ</sup> reveals the Real Body |a|. Restoration to the Source.</p>
+     </div>
   </div>
 
   <div class="dcu-table">
@@ -569,7 +643,7 @@ const fullHtmlContent = `<!DOCTYPE html>
     <canvas id="engine-canvas" class="engine-canvas"></canvas>
     <div class="engine-overlay">
        <div id="engine-title" class="activation-label" style="letter-spacing: 0.3em; font-size: 1.5rem;">TOPOLOGY ACTIVE</div>
-       <div id="engine-desc" style="font-family:'JetBrains Mono'; font-size:0.7rem; color:var(--aqua); margin-top:1.2rem; letter-spacing: 0.2em; opacity: 0.8;">HOLD NUCLEUS TO SYNCHRONIZE BIFURCATION TRAVERSAL</div>
+       <div id="engine-desc" style="font-family:'JetBrains Mono'; font-size:0.7rem; color:var(--aqua); margin-top:1.2rem; letter-spacing: 0.2em; opacity: 0.8;">HOLD NUCLEUS TO SYNCHRONIZE GROWTH CYCLE</div>
     </div>
   </div>
 
@@ -677,14 +751,14 @@ const fullHtmlContent = `<!DOCTYPE html>
         title.style.color = '#fff';
         desc.innerText = 'IDENTITY RESTORED — Ω REALIZED';
       } else {
-        title.innerText = 'BIFURCATION SYNC';
+        title.innerText = 'GROWTH SYNC';
         title.style.color = '#d4a843';
         desc.innerText = 'TRAVERSING THE 2↔3↔2↔7 MANDALA';
       }
     } else {
       title.innerText = 'TOPOLOGY ACTIVE';
       title.style.color = '#fff';
-      desc.innerText = 'HOLD NUCLEUS TO SYNCHRONIZE BIFURCATION';
+      desc.innerText = 'HOLD NUCLEUS TO SYNCHRONIZE GROWTH';
     }
 
     requestAnimationFrame(frame);

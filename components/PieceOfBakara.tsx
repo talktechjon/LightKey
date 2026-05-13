@@ -173,9 +173,15 @@ export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onB
         if (!isNaN(parsed)) {
             const clamped = Math.min(MAX_PIECES, Math.max(1, parsed));
             isManualInput.current = true;
-            isInternalScroll.current = false; 
+            isInternalScroll.current = true; // Lock scroll events before setting index
             setBakaraSpineIndex(clamped);
             setInputBuffer(clamped.toString());
+            
+            // Ensure internal scroll remains locked during the transition
+            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+            scrollTimeoutRef.current = setTimeout(() => {
+                isInternalScroll.current = false;
+            }, 100);
         } else {
             setInputBuffer(bakaraSpineIndex.toString());
         }

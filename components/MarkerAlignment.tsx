@@ -70,10 +70,10 @@ const EnneagramDiagram: React.FC = () => {
 };
 
 const POSITION_LABELS: Record<number, string> = {
-    3: 'c-term • Direction / Rahim [Āyāt]',
-    5: 'd-term • Invariant Center • Umm al-Kitab',
-    6: 'b-term • Balance / Rahman [Hidāyah]',
-    9: 'a-term • Force / Razim [Hayāt]'
+    3: 'The Path • Direction • Rahim [Āyāt]',
+    5: 'The Heart • Invariant Center • Umm al-Kitab',
+    6: 'The Balance • Stabilization • Rahman [Hidāyah]',
+    9: 'The Life • Source • Razim [Hayāt]'
 };
 
 const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({ 
@@ -173,43 +173,43 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                     <div className="bg-gray-800/40 p-4 rounded-xl mt-1 mb-6 border border-gray-700/50">
                          <p className="font-bold text-gray-200 text-xs mb-2 flex items-center justify-between tracking-wide">
                              <span className="flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                                DUAL-MODE ENGINE
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                THE PROPHETIC CYCLE
                              </span>
-                             <span className="text-[9px] opacity-70 font-mono tracking-tighter">f(x) = ax³ [110] + bx² [108] + cx [103] + d [19= 10+9]</span>
+                             <span className="text-[10px] opacity-70 font-serif italic tracking-tighter">"A good word is like a good tree..." (14:24)</span>
                          </p>
                          
                          <p className="text-[11px] text-gray-400 leading-relaxed mb-4">
-                             The system runs in <strong className="text-gray-200 font-semibold">two modes</strong> of the same equation, depending on how transformation is triggered. Both use the same 9→3→6 cycle anchored by the 5.
+                             The system grows in <strong className="text-gray-200 font-semibold">two phases</strong> of the same divine command. Transformation follows the 24:35 pattern from seed to eternal fruit.
                          </p>
 
                          {isMakki ? (
                              <div className="mb-4 space-y-2">
                                  <div className="flex items-center gap-2">
-                                     <span className="px-2 py-0.5 rounded bg-emerald-900/40 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold uppercase tracking-tighter">Makki (Iron Mode)</span>
-                                     <span className="text-[10px] text-gray-400 italic">Internal Activation</span>
+                                     <span className="px-2 py-0.5 rounded bg-emerald-900/40 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold uppercase tracking-tighter">The Root (Makki Phase)</span>
+                                     <span className="text-[10px] text-gray-400 italic">Deep Activation</span>
                                  </div>
                                  <div className="pl-2 border-l-2 border-emerald-500/20 py-1">
                                      <p className="text-[11px] text-gray-300">
-                                         Order: <strong className="text-emerald-400">9 → 3 → 6 → 9</strong>
+                                         Cycle: <strong className="text-emerald-400">Life → Path → Balance</strong>
                                      </p>
                                      <p className="text-[10px] text-gray-500 mt-1 leading-tight">
-                                         Intensity first, then direction, then stabilization. Change begins <strong className="text-gray-400 font-medium">inside</strong>, like heat forging iron.
+                                         Growth begins in the <strong className="text-gray-400 font-medium">hidden core</strong>. The seed must break within the soul before the tree can rise.
                                      </p>
                                  </div>
                              </div>
                          ) : (
                              <div className="mb-4 space-y-2">
                                  <div className="flex items-center gap-2">
-                                     <span className="px-2 py-0.5 rounded bg-amber-900/40 text-amber-400 border border-amber-500/30 text-[10px] font-bold uppercase tracking-tighter">Madani (Mountain Mode)</span>
-                                     <span className="text-[10px] text-gray-400 italic">External Construction</span>
+                                     <span className="px-2 py-0.5 rounded bg-amber-900/40 text-amber-400 border border-amber-500/30 text-[10px] font-bold uppercase tracking-tighter">The Fruit (Madani Phase)</span>
+                                     <span className="text-[10px] text-gray-400 italic">Manifest Realization</span>
                                  </div>
                                  <div className="pl-2 border-l-2 border-amber-500/20 py-1">
                                      <p className="text-[11px] text-gray-300">
-                                         Order: <strong className="text-amber-400">3 → 6 → 9 → 3</strong>
+                                         Cycle: <strong className="text-amber-400">Path → Balance → Life</strong>
                                      </p>
                                      <p className="text-[10px] text-gray-500 mt-1 leading-tight">
-                                         Guidance first, then stabilization, then power. Change begins <strong className="text-gray-400 font-medium">outside</strong>, like building on mountain.
+                                         The fruit is revealed as a <strong className="text-gray-400 font-medium">shelter for the many</strong>. The internal truth becomes the external law of peace.
                                      </p>
                                  </div>
                              </div>
@@ -217,20 +217,20 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
 
                          <div className="grid grid-cols-2 gap-2 font-mono text-[9px] text-gray-400 border-t border-gray-700/30 pt-3">
                              <div className="flex items-center gap-1.5 grayscale opacity-70">
-                                <span className="text-red-400 font-bold text-xs">9</span>
-                                <div><span className="text-red-300/80">a-term</span><br/><span>Force</span></div>
+                                <span className="text-red-400 font-bold text-xs underline decoration-red-500/30">9</span>
+                                <div><span className="text-red-300/80 font-sans font-bold">The Life</span><br/><span>Hidden Pulse</span></div>
                              </div>
                              <div className="flex items-center gap-1.5 grayscale opacity-70">
-                                <span className="text-amber-400 font-bold text-xs">3</span>
-                                <div><span className="text-amber-300/80">c-term</span><br/><span>Direction</span></div>
+                                <span className="text-amber-400 font-bold text-xs underline decoration-amber-500/30">3</span>
+                                <div><span className="text-amber-300/80 font-sans font-bold">The Path</span><br/><span>Direction</span></div>
                              </div>
                              <div className="flex items-center gap-1.5 grayscale opacity-70">
-                                <span className="text-teal-400 font-bold text-xs">6</span>
-                                <div><span className="text-teal-300/80">b-term</span><br/><span>Balance</span></div>
+                                <span className="text-teal-400 font-bold text-xs underline decoration-teal-500/30">6</span>
+                                <div><span className="text-teal-300/80 font-sans font-bold">The Balance</span><br/><span>Stability</span></div>
                              </div>
                              <div className="flex items-center gap-1.5 border border-cyan-500/20 p-1 rounded bg-cyan-500/5">
                                 <span className="text-cyan-400 font-bold text-xs">5</span>
-                                <div><span className="text-cyan-300/80 font-bold font-sans">d-term</span><br/><span className="text-cyan-200/50">Invariant Core</span></div>
+                                <div><span className="text-cyan-300/80 font-bold font-sans">The Heart</span><br/><span className="text-cyan-200/50 italic">The Invariant Root</span></div>
                              </div>
                          </div>
                     </div>
