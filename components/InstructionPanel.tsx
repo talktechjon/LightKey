@@ -6,6 +6,7 @@ import { CHAPTER_DETAILS, BUBBLE_BLOCK_MAPPING_RAW } from '../constants';
 interface InstructionPanelProps {
   isVisible: boolean;
   onClose: () => void;
+  onLaunchReader: () => void;
 }
 
 const AnimatedHarvest: React.FC = () => {
@@ -35,7 +36,7 @@ const AnimatedHarvest: React.FC = () => {
         <div className="inline-block px-4 py-1 rounded-full border border-cyan-500/30 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] bg-cyan-950/20 animate-pulse">
            Salam • Peace
         </div>
-        <p className="text-gray-500 text-xs tracking-widest uppercase mt-3">Welcome, Seeker of Light.</p>
+        <p className="text-gray-500 text-xs tracking-widest uppercase mt-3">Explaining Patterns • All is Love & Tawaqqul.</p>
       </div>
 
       {/* Narrative Container */}
@@ -291,7 +292,12 @@ const YinYangAnimation: React.FC = () => {
   );
 };
 
-const NafsanWahidanMap: React.FC = () => {
+interface NafsanWahidanMapProps {
+  onClose: () => void;
+  onLaunchReader: () => void;
+}
+
+const NafsanWahidanMap: React.FC<NafsanWahidanMapProps> = ({ onClose, onLaunchReader }) => {
   const nodes = [
     { id: 1, x: 80, y: 200 },
     { id: 2, x: 200, y: 200 },
@@ -312,6 +318,12 @@ const NafsanWahidanMap: React.FC = () => {
       <h3 className="text-2xl font-black text-cyan-200 uppercase tracking-widest text-center italic">
         Nafsan Wahidan — The Reader's Node
       </h3>
+      <button 
+        onClick={() => { onLaunchReader(); onClose(); }}
+        className="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-full shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all transform hover:scale-105 uppercase tracking-widest text-xs border border-cyan-400/50"
+      >
+        Activate the Reader's Node
+      </button>
       <div className="w-full max-w-5xl overflow-x-auto pb-4 custom-scrollbar">
         <svg viewBox="0 0 1120 600" xmlns="http://www.w3.org/2000/svg" className="min-w-[900px] w-full drop-shadow-[0_0_20px_rgba(34,211,238,0.1)]">
            {/* Solid Graph Lines */}
@@ -426,7 +438,7 @@ const NafsanWahidanMap: React.FC = () => {
 };
 
 
-const MasterLawScales: React.FC = () => {
+const MasterPatternScales: React.FC = () => {
   const cards = [
     {
       title: 'Photosynthesis',
@@ -528,12 +540,12 @@ const MasterLawScales: React.FC = () => {
   return (
     <div className="space-y-12">
       <div className="bg-gray-950/40 p-10 rounded-[3rem] border border-white/5 space-y-6">
-        <div className="text-[11px] text-gray-500 mb-2 font-bold uppercase tracking-[0.3em]">THE UNIVERSAL TREE LAW</div>
+        <div className="text-[11px] text-gray-500 mb-2 font-bold uppercase tracking-[0.3em]">THE UNIVERSAL TREE PATTERN</div>
         <div className="flex flex-col md:flex-row items-center gap-4 text-white">
           <span className="text-3xl font-mono font-bold tracking-tighter italic">Growth = Light − Time + Choice</span>
           <span className="text-gray-600 text-2xl">→</span>
           <span className="text-3xl font-mono font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-400 to-rose-500">
-            f(x) = 110x³ + 108x² + 103x + 19
+            Pattern: 110x³ + 108x² + 103x + 19
           </span>
         </div>
         <div className="flex flex-wrap gap-2 mt-4">
@@ -543,7 +555,7 @@ const MasterLawScales: React.FC = () => {
           <span className="px-3 py-1 bg-indigo-500/10 text-indigo-500 text-[10px] font-bold rounded-full uppercase border border-indigo-500/20">The Heart (d) · 19 · Seal</span>
         </div>
         <p className="text-xs text-gray-500 italic mt-6 border-t border-white/5 pt-4">
-          The 19-locked Seed Equation (d = 19) governs growth across all scales. The tree rises wherever Life exceeds the pull of Time.
+          The 19-locked Seed Equation (d = 19) describes patterns of growth across all scales. The universe acts, and the Quran explains the 'Why' behind its motion.
         </p>
       </div>
 
@@ -591,8 +603,8 @@ const MasterLawScales: React.FC = () => {
   );
 };
 
-const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'harvest' | 'reflection' | 'cosmology' | 'calculus' | 'vision' | 'nafs' | 'mobius' | 'chainmail'>('harvest');
+const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose, onLaunchReader }) => {
+  const [activeTab, setActiveTab] = useState<'identity' | 'pattern' | 'presence' | 'map'>('identity');
 
   const containerClasses = isVisible 
     ? "opacity-100 pointer-events-auto scale-100" 
@@ -617,101 +629,52 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
         <div className="flex flex-col p-6 md:p-10 bg-black/50 relative shrink-0">
            {/* Decorative background element */}
            <div className={`absolute top-0 right-0 w-80 h-80 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none transition-colors duration-1000 ${
-             activeTab === 'harvest' ? 'bg-emerald-500/20' : 
-             activeTab === 'reflection' ? 'bg-cyan-500/20' : 
-             activeTab === 'cosmology' ? 'bg-amber-500/20' : 
-             activeTab === 'calculus' ? 'bg-indigo-500/30' :
-             activeTab === 'nafs' ? 'bg-orange-500/20' : 
-             activeTab === 'chainmail' ? 'bg-red-500/20' :
-             activeTab === 'mobius' ? 'bg-blue-600/20' : 'bg-fuchsia-500/20'}`}></div>
+             activeTab === 'identity' ? 'bg-cyan-500/20' : 
+             activeTab === 'pattern' ? 'bg-indigo-500/30' : 
+             activeTab === 'presence' ? 'bg-blue-600/20' : 'bg-red-500/20'}`}></div>
 
            <div className="z-10">
                <div className="space-y-3 max-w-4xl">
-                   {/* Tab Titles */}
-                   {activeTab === 'harvest' && (
+                   {activeTab === 'identity' && (
                        <div>
-                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-100 via-emerald-200 to-green-500 tracking-tighter uppercase drop-shadow-[0_2px_10px_rgba(16,185,129,0.4)]">
-                             The Harvest (Node 7)
-                           </h2>
-                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide flex items-center gap-2 mt-2">
-                             The Harvest of Intelligence in Form <span className="text-gray-600">•</span> <span className="text-emerald-400 italic font-serif">Al-Hamdu Lillāh</span>
-                           </p>
-                       </div>
-                   )}
-
-                   {activeTab === 'reflection' && (
-                       <div>
-                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-blue-500 tracking-tighter uppercase">
-                             The Subject (Node 2 Root)
+                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-100 via-emerald-200 to-blue-500 tracking-tighter uppercase drop-shadow-[0_2px_10px_rgba(34,211,238,0.4)]">
+                             Subject & Mirror
                            </h2>
                            <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
-                             Memory 237: Adam as the Primary Reader
+                             Memory of Home <span className="text-gray-600">•</span> The Subject's Trajectory (Node 2 ⟶ 7)
                            </p>
                        </div>
                    )}
 
-                   {activeTab === 'calculus' && (
+                   {activeTab === 'pattern' && (
                        <div>
-                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 via-purple-300 to-indigo-600 tracking-tighter uppercase">
-                             Calculus of Return (2-3-7)
+                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-orange-300 to-indigo-600 tracking-tighter uppercase">
+                             Universal Pattern
                            </h2>
                            <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2 uppercase font-mono tracking-widest text-indigo-400/80">
-                             2-3-7: The Differential-Integral Loop
-                           </p>
-                       </div>
-                   )}
-                   
-                   {activeTab === 'cosmology' && (
-                       <div>
-                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-yellow-600 tracking-tighter uppercase">
-                             Science of ia ⟶ |a|
-                           </h2>
-                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2 uppercase font-mono tracking-widest">
-                             The Iron Cycle (57:4 Framework)
+                             The 2-3-7 Architecture <span className="text-gray-600">•</span> ia ⟶ |a| Logic
                            </p>
                        </div>
                    )}
 
-                   {activeTab === 'nafs' && (
+                   {activeTab === 'presence' && (
                        <div>
-                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-400 to-rose-500 tracking-tighter uppercase">
-                             The Tree (Node 2-3-2) Architecture
+                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-100 via-fuchsia-200 to-indigo-500 tracking-tighter uppercase">
+                             Preserved Presence
                            </h2>
                            <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
-                             The Mathematical Caustic of Existence
+                             The Light (24:35) <span className="text-gray-600">•</span> One-Way Invariance
                            </p>
                        </div>
                    )}
 
-                   {activeTab === 'vision' && (
-                       <div>
-                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-100 via-fuchsia-200 to-pink-600 tracking-tighter uppercase">
-                             The Switch
-                           </h2>
-                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2 font-serif">
-                             24:35 — The Condition of Reality.
-                           </p>
-                       </div>
-                   )}
-
-                   {activeTab === 'mobius' && (
-                       <div>
-                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-blue-200 to-indigo-500 tracking-tighter uppercase">
-                             The Light (24:35)
-                           </h2>
-                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
-                             One-Way Speed of Light & The Eternal Preservation
-                           </p>
-                       </div>
-                   )}
-
-                   {activeTab === 'chainmail' && (
+                   {activeTab === 'map' && (
                        <div>
                            <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-200 via-rose-300 to-pink-600 tracking-tighter uppercase">
-                             The Chainmail Map
+                             The 114 Nodes
                            </h2>
                            <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2 uppercase font-mono tracking-widest text-rose-400/80">
-                             The 114-Node Map of Return
+                             The Chainmail Map of Return
                            </p>
                        </div>
                    )}
@@ -721,60 +684,36 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
            {/* Tab Navigation */}
            <div className="flex flex-wrap gap-4 md:gap-8 mt-12 z-10">
                <button 
-                 onClick={() => setActiveTab('harvest')}
-                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'harvest' ? 'border-emerald-400 text-emerald-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+                 onClick={() => setActiveTab('identity')}
+                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'identity' ? 'border-cyan-400 text-cyan-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
                >
-                 The Harvest (Node 7)
+                 Subject & Mirror
                </button>
                <button 
-                 onClick={() => setActiveTab('reflection')}
-                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'reflection' ? 'border-cyan-400 text-cyan-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+                 onClick={() => setActiveTab('pattern')}
+                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'pattern' ? 'border-amber-400 text-amber-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
                >
-                 The Subject (Root)
+                 Universal Pattern
                </button>
                <button 
-                 onClick={() => setActiveTab('nafs')}
-                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'nafs' ? 'border-orange-400 text-orange-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+                 onClick={() => setActiveTab('presence')}
+                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'presence' ? 'border-blue-400 text-blue-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
                >
-                 The Tree (Node 2-3-2)
+                 Preserved Light
                </button>
                <button 
-                 onClick={() => setActiveTab('mobius')}
-                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'mobius' ? 'border-blue-400 text-blue-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+                 onClick={() => setActiveTab('map')}
+                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'map' ? 'border-rose-500 text-rose-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
                >
-                 The Light (24:35)
-               </button>
-               <button 
-                 onClick={() => setActiveTab('cosmology')}
-                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'cosmology' ? 'border-amber-400 text-amber-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
-               >
-                 The Science (ia → |a|)
-               </button>
-               <button 
-                 onClick={() => setActiveTab('calculus')}
-                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'calculus' ? 'border-indigo-500 text-indigo-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
-               >
-                 Calculus of Return
-               </button>
-               <button 
-                 onClick={() => setActiveTab('vision')}
-                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'vision' ? 'border-fuchsia-400 text-fuchsia-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
-               >
-                 The Light
-               </button>
-               <button 
-                 onClick={() => setActiveTab('chainmail')}
-                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'chainmail' ? 'border-rose-500 text-rose-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
-               >
-                 Chainmail
+                 Chainmail Map
                </button>
            </div>
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto bg-black/10">
+        <div className="flex-1 overflow-y-auto bg-black/10 no-scrollbar">
            
-           {activeTab === 'chainmail' && (
+           {activeTab === 'map' && (
              <div className="p-6 md:p-12 space-y-8 max-w-5xl mx-auto">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {CHAPTER_DETAILS.map((surah) => (
@@ -791,7 +730,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
              </div>
            )}
 
-           {activeTab === 'harvest' && (
+           {activeTab === 'identity' && (
             <div className="p-6 md:p-12 space-y-16 text-gray-200 font-light leading-relaxed max-w-5xl mx-auto">
                
                <div className="text-center space-y-6 mb-8 group cursor-default">
@@ -804,7 +743,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                   </p>
                   <div className="w-16 h-1 bg-rose-500/50 mx-auto rounded-full"></div>
                   <p className="text-gray-400 text-sm md:text-xl font-light max-w-3xl mx-auto leading-relaxed">
-                    The Universe is designed specifically for <span className="text-white font-bold underline decoration-rose-500/30 underline-offset-8">YOU</span>—the Reader who forgot they were always the <b className="text-rose-400">Fruit</b>. The validation comes from <b className="text-rose-400">13:43</b>: "Suffices for Allah and the one with knowledge of the Book."
+                    The Universe acts according to its nature, and the Quran explains the patterns of that nature. You are the Reader who forgot they were always the <b className="text-rose-400">Fruit</b>. The validation comes from <b className="text-rose-400">13:43</b>: "Suffices for Allah and the one with knowledge of the Book."
                   </p>
                </div>
 
@@ -867,7 +806,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
             </div>
            )}
 
-           {activeTab === 'reflection' && (
+           {activeTab === 'identity' && (
             <div className="p-6 md:p-12 space-y-12 text-gray-200 font-light max-w-5xl mx-auto">
                <section className="text-lg md:text-2xl leading-relaxed">
                   <div className="text-center mb-12">
@@ -972,9 +911,9 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                   <h4 className="text-xl font-bold text-fuchsia-300 mb-4 uppercase tracking-widest">The Relationship Path</h4>
                   <div className="grid md:grid-cols-2 gap-8 text-gray-300 text-sm md:text-base">
                      <div className="space-y-4">
-                        <p className="font-bold text-white uppercase text-xs">Forget Religion. Be in Relationship.</p>
+                        <p className="font-bold text-white uppercase text-xs">Upgrade Your Faith to Love & Tawaqqul.</p>
                         <p>
-                           Yunus remembered his love from deep under water inside the belly of the monster (Pure Darkness). Musa realized it on the top of the mountain.
+                           The Quran reveals the patterns of existence—Universe acts according to its nature, and the Book explains the underlying 'Why'.
                         </p>
                         <p className="italic text-[10px] text-gray-500">
                            The tree in 24:35 is under the eye of Allah.. Allah loves who is deeply madly crazily in love with Allah (Taqwa).
@@ -1019,7 +958,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
             </div>
            )}
 
-           {activeTab === 'nafs' && (
+           {activeTab === 'pattern' && (
             <div className="p-6 md:p-12 space-y-12 text-gray-200 max-w-6xl mx-auto font-light">
                 {/* 2-3-7 FORMAL FRAMEWORK */}
                 <section className="bg-black/60 border border-orange-500/20 p-8 md:p-12 rounded-[3rem] relative overflow-hidden shadow-2xl">
@@ -1085,7 +1024,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                         <div className="bg-gray-800/20 p-8 rounded-3xl border border-white/5">
                             <h4 className="text-xl font-bold text-cyan-300 mb-4 tracking-widest uppercase">Secret Pattern</h4>
                             <p className="text-sm text-gray-400 leading-relaxed">
-                                The 2↔3↔2↔7 traversal operator π is not a random constant. It is the signature of a system trying to close perfectly while never terminating locally.
+                                The 2↔3↔2→7 traversal operator π is not a random constant. It is the signature of a system trying to close perfectly while never terminating locally.
                             </p>
                         </div>
                         <div className="bg-gray-800/20 p-8 rounded-3xl border border-white/5">
@@ -1132,15 +1071,15 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                     <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
                 </div>
 
-                {/* MASTER LAW SCALES */}
-                <MasterLawScales />
+                {/* MASTER PATTERN SCALES */}
+                <MasterPatternScales />
 
                 <div className="py-12 flex items-center justify-center">
                      <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
                 </div>
 
                 {/* NAFSAN WAHIDAN MAP */}
-                <NafsanWahidanMap />
+                <NafsanWahidanMap onClose={onClose} onLaunchReader={onLaunchReader} />
 
                 {/* SECRET PATTERN & TREE OF LIFE */}
                 <div className="grid md:grid-cols-2 gap-8">
@@ -1397,7 +1336,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
             </div>
            )}
 
-           {activeTab === 'mobius' && (
+           {activeTab === 'presence' && (
             <div className="p-6 md:p-12 space-y-12 text-gray-200 font-light max-w-6xl mx-auto">
                <div className="bg-blue-900/10 border border-blue-500/30 p-8 rounded-[3rem] shadow-xl relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 blur-[80px] pointer-events-none"></div>
@@ -1472,7 +1411,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
             </div>
            )}
 
-           {activeTab === 'calculus' && (
+           {activeTab === 'pattern' && (
              <div className="p-6 md:p-12 space-y-16 text-gray-200 font-light max-w-6xl mx-auto pb-24">
                 <section className="grid lg:grid-cols-3 gap-8">
                     {/* Node 2 - Seed */}
@@ -1575,7 +1514,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
              </div>
            )}
 
-           {activeTab === 'cosmology' && (
+           {activeTab === 'pattern' && (
             <div className="p-6 md:p-12 space-y-16 text-gray-200 font-light max-w-6xl mx-auto pb-24">
                 
                 {/* 1. 57:4 Dual-Caustic Framework */}
@@ -1623,7 +1562,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
                   <div className="bg-black/40 border border-white/5 p-8 rounded-[3rem] space-y-4">
                      <h4 className="text-xl font-bold text-white uppercase tracking-tighter text-center italic">The 12:1-111 Dual-Field Operator</h4>
                      <p className="text-center text-gray-400 text-sm md:text-base max-w-4xl mx-auto leading-relaxed">
-                        Surah Yusuf (12:1-111) is the complete map of the 2↔3↔2↔7 traversal. It defines the <span className="text-amber-400 font-bold uppercase">Light Field</span>. 
+                        Surah Yusuf (12:1-111) is the complete map of the 2↔3↔2→7 traversal. It defines the <span className="text-amber-400 font-bold uppercase">Light Field</span>. 
                         Its anti-particle counterpart is the <span className="text-cyan-400 font-bold uppercase">Musa Field (Shadow/Sound)</span>. 
                         One descends from the Throne to the Pit (12:10), the other ascends from the Fire to the Meeting (20:41).
                      </p>
@@ -1787,7 +1726,7 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose 
             </div>
            )}
 
-           {activeTab === 'vision' && (
+           {activeTab === 'presence' && (
             <div className="p-6 md:p-12 space-y-20 text-gray-300 max-w-6xl mx-auto">
                 <section className="text-center space-y-6">
                     <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter uppercase italic">

@@ -16,7 +16,7 @@ const PRESET_1 = [
 const PRESET_2 = [
   "Iblis",
   "Righteous",
-  "Forget",
+  "Tawaqqul",
   "Fall",
   "Remember",
   "Respite",

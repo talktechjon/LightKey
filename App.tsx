@@ -15,7 +15,7 @@ import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATT
 import { getVerse, getFullSurah, getVerseDetails } from './data/verseData.ts';
 import { useIdle } from './hooks/useIdle.ts';
 import { processInBatches } from './utils.ts';
-import { TreeIcon, CowIcon, SealOfSolomonIcon } from './components/Icons.tsx';
+import { TreeIcon, CowIcon, SealOfSolomonIcon, SearchIcon } from './components/Icons.tsx';
 
 const App: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);
@@ -183,31 +183,37 @@ const App: React.FC = () => {
   return (
     <main className="w-full lg:h-screen min-h-screen text-gray-100 font-sans relative flex flex-col lg:overflow-hidden">
       {!isLowResourceMode && <StarryBackground />}
-      <InstructionPanel isVisible={isInstructionVisible} onClose={() => setIsInstructionVisible(false)} />
+      <InstructionPanel isVisible={isInstructionVisible} onClose={() => setIsInstructionVisible(false)} onLaunchReader={() => setIsVerseFinderVisible(true)} />
       <MandalaPanel isVisible={isMandalaVisible} onClose={() => setIsMandalaVisible(false)} />
       
       {isTreeOfLifeModeActive && (
         <TreeOfLifeMode rotation={rotation} onClose={() => setIsTreeOfLifeModeActive(false)} />
       )}
 
-      <div className="absolute top-4 left-4 z-50 flex flex-col gap-y-2">
-        <div className="flex gap-x-2">
-          <a href="https://github.com/talktechjon/LightKey" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50" title="GitHub"><svg className="h-5 w-5" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
-          <button onClick={() => setIsMandalaVisible(p => !p)} className={`w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 flex items-center justify-center ${isMandalaVisible ? 'text-amber-400' : 'text-cyan-400'}`} title="The Q(S) Fruit Mapping (Node 7)"><SealOfSolomonIcon /></button>
-          <button onClick={() => setIsSecretModeActive(p => !p)} className={`w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 flex items-center justify-center ${isSecretModeActive ? 'text-cyan-400' : 'text-gray-600'}`} title="The Illusion (ia Potential)"><div className={`w-2 h-2 rounded-full ${isSecretModeActive ? 'bg-cyan-400/70' : 'bg-gray-700'}`}></div></button>
-          <button onClick={() => setIsTreeOfVerseActive(p => !p)} className={`w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 flex items-center justify-center ${isTreeOfVerseActive ? 'text-cyan-400' : 'text-gray-600'}`} title="The Trunk (Barzakh Traversal)"><TreeIcon /></button>
-          <button onClick={() => setIsIdleAnimationEnabled(p => !p)} className={`w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 flex items-center justify-center ${isIdleAnimationEnabled ? 'text-cyan-400' : 'text-gray-600'}`} title="Idle"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
-          <button onClick={() => setIsSettingsVisible(p => !p)} className="w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 text-cyan-400 flex items-center justify-center" title="Settings"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg></button>
-          <button onClick={() => setIsLowResourceMode(p => !p)} className={`w-8 h-8 rounded-full bg-black/20 border border-cyan-500/30 flex items-center justify-center ${isLowResourceMode ? 'text-cyan-400' : 'text-gray-600'}`} title="Performance"><svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9.59 4.59A2 2 0 1 1 11 8H2M12.59 19.41A2 2 0 1 0 14 16H2M19.59 11.41A2 2 0 1 0 21 8H2"/></svg></button>
-          <a href="https://www.youtube.com/@DonJonDoe333" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-rose-600/50 hover:text-white" title="YouTube">
+      <div className="absolute top-4 left-4 z-50 flex flex-col gap-y-3 pointer-events-none">
+        <div className="flex flex-wrap gap-2 pointer-events-auto max-w-[280px] lg:max-w-none">
+          <a href="https://github.com/talktechjon/LightKey" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-cyan-900/50" title="GitHub"><svg className="h-5 w-5" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+          <button onClick={() => setIsVerseFinderVisible(p => !p)} className={`h-8 px-3 rounded-full bg-black/60 backdrop-blur-md border transition-all duration-300 flex items-center gap-x-2 shadow-lg shadow-cyan-950/20 ${isVerseFinderVisible ? 'border-cyan-400 text-cyan-400' : 'border-cyan-500/30 text-gray-400 hover:border-cyan-400/50 hover:text-cyan-300'}`} title="The Reader (Verse Finder)">
+            <SearchIcon />
+            <span className="text-[10px] font-black uppercase tracking-widest">Reader</span>
+          </button>
+          <button onClick={() => setIsMandalaVisible(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isMandalaVisible ? 'text-amber-400' : 'text-cyan-400'} hover:bg-cyan-900/40`} title="The Q(S) Fruit Mapping (Node 7)"><SealOfSolomonIcon /></button>
+          <button onClick={() => setIsSecretModeActive(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isSecretModeActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="The Illusion (ia Potential)"><div className={`w-2 h-2 rounded-full ${isSecretModeActive ? 'bg-cyan-400/70' : 'bg-gray-700'}`}></div></button>
+          <button onClick={() => setIsTreeOfVerseActive(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isTreeOfVerseActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="The Trunk (Barzakh Traversal)"><TreeIcon /></button>
+          <button onClick={() => setIsIdleAnimationEnabled(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isIdleAnimationEnabled ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Idle"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
+          <button onClick={() => setIsSettingsVisible(p => !p)} className="w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 text-cyan-400 flex items-center justify-center hover:bg-cyan-900/40" title="Settings"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg></button>
+          <a href="https://www.youtube.com/@DonJonDoe333" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-rose-600/50 hover:text-white" title="YouTube">
             <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
           </a>
-          <a href="https://www.instagram.com/qurandecoding/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-pink-600/50 hover:text-white" title="Instagram">
+          <a href="https://www.instagram.com/qurandecoding/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all duration-300 hover:bg-pink-600/50 hover:text-white" title="Instagram">
             <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
           </a>
+          <button onClick={() => setIsLowResourceMode(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isLowResourceMode ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Performance"><svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9.59 4.59A2 2 0 1 1 11 8H2M12.59 19.41A2 2 0 1 0 14 16H2M19.59 11.41A2 2 0 1 0 21 8H2"/></svg></button>
         </div>
-        <SettingsPanel isVisible={isSettingsVisible} setIsVisible={setIsSettingsVisible} mode={translationMode} setMode={setTranslationMode} onFileLoad={(data, name) => {setLocalTranslationData(data); setLocalFileName(name); setTranslationMode('local');}} fileName={localFileName} />
-        <VerseFinder isVisible={isVerseFinderVisible} setIsVisible={setIsVerseFinderVisible} content={verseFinderContent} setContent={setVerseFinderContent} translationMode={translationMode} localTranslationData={localTranslationData} query={verseFinderQuery} onQueryChange={setVerseFinderQuery} shouldAutoSearch={shouldAutoSearch} onAutoSearchHandled={() => setShouldAutoSearch(false)} />
+        <div className="pointer-events-auto">
+          <SettingsPanel isVisible={isSettingsVisible} setIsVisible={setIsSettingsVisible} mode={translationMode} setMode={setTranslationMode} onFileLoad={(data, name) => {setLocalTranslationData(data); setLocalFileName(name); setTranslationMode('local');}} fileName={localFileName} />
+          <VerseFinder isVisible={isVerseFinderVisible} setIsVisible={setIsVerseFinderVisible} content={verseFinderContent} setContent={setVerseFinderContent} translationMode={translationMode} localTranslationData={localTranslationData} query={verseFinderQuery} onQueryChange={setVerseFinderQuery} shouldAutoSearch={shouldAutoSearch} onAutoSearchHandled={() => setShouldAutoSearch(false)} />
+        </div>
       </div>
       <div className="relative z-10 flex flex-col lg:flex-row lg:flex-1 lg:min-h-0">
         <div className="h-[45vh] lg:h-full lg:flex-1 flex items-center justify-center p-4 outline-none shrink-0" tabIndex={0} onKeyDown={handleKeyDown} role="application">
@@ -226,7 +232,7 @@ const App: React.FC = () => {
           secretEmojiShift={secretEmojiShift} 
           isLowResourceMode={isLowResourceMode} 
           onVerseSelect={handleVerseSelect} 
-          onBulkExport={handleMarqueeExport} 
+          onBulkExport={handleMarqueeExport}
           bakaraSpineIndex={bakaraSpineIndex}
           setBakaraSpineIndex={setBakaraSpineIndex}
         />

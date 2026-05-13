@@ -753,7 +753,7 @@ const fullHtmlContent = `<!DOCTYPE html>
       } else {
         title.innerText = 'GROWTH SYNC';
         title.style.color = '#d4a843';
-        desc.innerText = 'TRAVERSING THE 2↔3↔2↔7 MANDALA';
+        desc.innerText = 'TRAVERSING THE 2↔3↔2→7 MANDALA';
       }
     } else {
       title.innerText = 'TOPOLOGY ACTIVE';

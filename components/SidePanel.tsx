@@ -307,56 +307,101 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
          )}
 
          {isTreeOfVerseActive ? (
-            <TreeOfVerse 
-                rotation={rotation} 
-                onVerseSelect={onVerseSelect}
-                onBulkExport={onBulkExport}
-            />
+            <div className="space-y-4">
+                <div className="flex items-center gap-x-3 px-2">
+                    <div className="w-1.5 h-10 bg-gradient-to-b from-cyan-500 to-transparent rounded-full shadow-[0_0_8px_rgba(6,182,212,0.5)]"></div>
+                    <div>
+                        <h2 className="text-cyan-400 font-black text-xl uppercase tracking-tighter leading-none">Verbal Arbor</h2>
+                        <p className="text-cyan-900 text-[10px] uppercase font-bold tracking-widest mt-1">The Prophetic Phase: Pharaonic Sorting</p>
+                    </div>
+                </div>
+                <TreeOfVerse 
+                    rotation={rotation} 
+                    onVerseSelect={onVerseSelect}
+                    onBulkExport={onBulkExport}
+                />
+            </div>
          ) : isPieceOfBakaraActive ? (
-            <PieceOfBakara 
-                onVerseSelect={onVerseSelect}
-                onBulkExport={onBulkExport}
-                bakaraSpineIndex={bakaraSpineIndex}
-                setBakaraSpineIndex={setBakaraSpineIndex}
-            />
+            <div className="space-y-4">
+                <div className="flex items-center gap-x-3 px-2">
+                    <div className="w-1.5 h-10 bg-gradient-to-b from-pink-500 to-transparent rounded-full shadow-[0_0_8px_rgba(236,72,153,0.5)]"></div>
+                    <div>
+                        <h2 className="text-pink-400 font-black text-xl uppercase tracking-tighter leading-none">The Heifer's Spine</h2>
+                        <p className="text-pink-900 text-[10px] uppercase font-bold tracking-widest mt-1">The 2 ↔ 3 ↔ 2 Prophetic Filter</p>
+                    </div>
+                </div>
+                <PieceOfBakara 
+                    onVerseSelect={onVerseSelect}
+                    onBulkExport={onBulkExport}
+                    bakaraSpineIndex={bakaraSpineIndex}
+                    setBakaraSpineIndex={setBakaraSpineIndex}
+                />
+            </div>
          ) : (
-            <>
-                <ChapterGeometry 
-                    rotation={rotation}
-                    isLowResourceMode={isLowResourceMode}
-                    showFunctionalTooltip={showFunctionalTooltip}
-                    hideTooltip={hideTooltip}
-                />
+            <div className="space-y-8">
+                <div>
+                   <div className="flex items-center gap-x-2 mb-4 opacity-40">
+                       <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-cyan-500/50"></div>
+                       <span className="text-[8px] uppercase tracking-[0.4em] font-black text-cyan-500">Geometric Matrix</span>
+                       <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-cyan-500/50"></div>
+                   </div>
+                   <ChapterGeometry 
+                        rotation={rotation}
+                        isLowResourceMode={isLowResourceMode}
+                        showFunctionalTooltip={showFunctionalTooltip}
+                        hideTooltip={hideTooltip}
+                    />
+                </div>
 
-                <MarkerAlignment 
-                    isSecretModeActive={isSecretModeActive}
-                    rotation={rotation}
-                    iconDialRotation={iconDialRotation}
-                    setIconDialRotation={setIconDialRotation}
-                    secretEmojiShift={secretEmojiShift}
-                    setCustomSequence={setCustomSequence}
-                    setAnimationMode={setAnimationMode}
-                    createPlaylist={createPlaylist}
-                />
+                <div className="pt-4 border-t border-white/5">
+                    <div className="flex items-center gap-x-2 mb-4 opacity-40">
+                       <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-cyan-500/50"></div>
+                       <span className="text-[8px] uppercase tracking-[0.4em] font-black text-cyan-500">Celestial Resonator</span>
+                       <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-cyan-500/50"></div>
+                    </div>
+                    <MarkerAlignment 
+                        isSecretModeActive={isSecretModeActive}
+                        rotation={rotation}
+                        iconDialRotation={iconDialRotation}
+                        setIconDialRotation={setIconDialRotation}
+                        secretEmojiShift={secretEmojiShift}
+                        setCustomSequence={setCustomSequence}
+                        setAnimationMode={setAnimationMode}
+                        createPlaylist={createPlaylist}
+                    />
+                </div>
+                
                 {isSecretModeActive && (
-                    <>
-                        <KatharaClockAlignment
-                            rotation={rotation}
-                            createPlaylist={createPlaylist}
-                            setCustomSequence={setCustomSequence}
-                            setAnimationMode={setAnimationMode}
-                        />
-                        <SephirotAlignment
-                            rotation={rotation}
-                            createPlaylist={createPlaylist}
-                            setCustomSequence={setCustomSequence}
-                            setAnimationMode={setAnimationMode}
-                            activeTab={sephirotTab}
-                            onTabChange={setSephirotTab}
-                        />
-                    </>
+                    <div className="space-y-8 pt-4 border-t border-cyan-500/10">
+                        <div>
+                             <div className="flex items-center gap-x-2 mb-4">
+                                <span className="text-[8px] uppercase tracking-[0.4em] font-black text-amber-500/60">Clock of the Covenant</span>
+                                <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-amber-500/20"></div>
+                             </div>
+                            <KatharaClockAlignment
+                                rotation={rotation}
+                                createPlaylist={createPlaylist}
+                                setCustomSequence={setCustomSequence}
+                                setAnimationMode={setAnimationMode}
+                            />
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-x-2 mb-4">
+                                <span className="text-[8px] uppercase tracking-[0.4em] font-black text-fuchsia-500/60">The Sephirotic Bloom</span>
+                                <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-fuchsia-500/20"></div>
+                             </div>
+                            <SephirotAlignment
+                                rotation={rotation}
+                                createPlaylist={createPlaylist}
+                                setCustomSequence={setCustomSequence}
+                                setAnimationMode={setAnimationMode}
+                                activeTab={sephirotTab}
+                                onTabChange={setSephirotTab}
+                            />
+                        </div>
+                    </div>
                 )}
-            </>
+            </div>
          )}
       </div>
     </aside>
