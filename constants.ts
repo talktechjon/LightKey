@@ -156,7 +156,7 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 33, englishName: 'Nabi Sealed', transliteration: 'Al-Aḥzāb', arabicName: 'الأحزاب', revelationType: 'Madani', juz: '21-22' },
     { number: 34, englishName: 'Fallen Staff', transliteration: 'Sabaʾ', arabicName: 'سبأ', revelationType: 'Makki', juz: '22' },
     { number: 35, englishName: 'Chosen Carriers', transliteration: 'Fāṭir', arabicName: 'فاطر', revelationType: 'Makki', juz: '22' },
-    { number: 36, englishName: 'Wise Activation', transliteration: 'Yā-Sīn', arabicName: 'يس', revelationType: 'Makki', juz: '22-23' },
+    { number: 36, englishName: 'Mursalin who forgot', transliteration: 'Yā-Sīn', arabicName: 'يس', revelationType: 'Makki', juz: '22-23' },
     { number: 37, englishName: 'Great Ransom', transliteration: 'As-Ṣāffāt', arabicName: 'الصافات', revelationType: 'Makki', juz: '23' },
     { number: 38, englishName: 'Sunset Sacrifice', transliteration: 'Ṣād', arabicName: 'ص', revelationType: 'Makki', juz: '23' },
     { number: 39, englishName: 'Razim Groups', transliteration: 'Az-Zumar', arabicName: 'الزمر', revelationType: 'Makki', juz: '23-24', scienceTooltip: 'Shadow Surplus (+1) / Entropy Term' },
