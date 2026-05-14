@@ -147,7 +147,7 @@ export const CHAPTER_DETAILS: ChapterDetails[] = [
     { number: 24, englishName: 'Light Upon Light', transliteration: 'An-Nūr', arabicName: 'النور', revelationType: 'Madani', juz: '18' },
     { number: 25, englishName: 'Bifurcation Criterion', transliteration: 'Al-Furqān', arabicName: 'الفرقان', revelationType: 'Makki', juz: '18-19' },
     { number: 26, englishName: 'Hollow Accusation', transliteration: 'Ash-Shuʿarāʾ', arabicName: 'الشعرء', revelationType: 'Makki', juz: '19' },
-    { number: 27, englishName: 'Glass Floor', transliteration: 'An-Naml', arabicName: 'النمل', revelationType: 'Makki', juz: '19-20' },
+    { number: 27, englishName: 'Wisdom', transliteration: 'An-Naml', arabicName: 'النمل', revelationType: 'Makki', juz: '19-20' },
     { number: 28, englishName: 'River Cast', transliteration: 'Al-Qaṣaṣ', arabicName: 'القصص', revelationType: 'Makki', juz: '20' },
     { number: 29, englishName: 'Weakest House', transliteration: 'Al-ʿAnkabūt', arabicName: 'العنكبوت', revelationType: 'Makki', juz: '20-21' },
     { number: 30, englishName: 'Living-Dead Law', transliteration: 'Ar-Rūm', arabicName: 'الروم', revelationType: 'Makki', juz: '21' },
