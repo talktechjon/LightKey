@@ -604,7 +604,7 @@ const MasterPatternScales: React.FC = () => {
 };
 
 const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose, onLaunchReader }) => {
-  const [activeTab, setActiveTab] = useState<'identity' | 'pattern' | 'presence' | 'map'>('identity');
+  const [activeTab, setActiveTab] = useState<'framework' | 'identity' | 'pattern' | 'presence' | 'map'>('framework');
 
   const containerClasses = isVisible 
     ? "opacity-100 pointer-events-auto scale-100" 
@@ -635,6 +635,17 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
 
            <div className="z-10">
                <div className="space-y-3 max-w-4xl">
+                   {activeTab === 'framework' && (
+                       <div>
+                           <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-100 via-emerald-200 to-blue-500 tracking-tighter uppercase drop-shadow-[0_2px_10px_rgba(34,211,238,0.4)]">
+                             Dual-Caustic Framework
+                           </h2>
+                           <p className="text-sm md:text-lg text-gray-400 font-light tracking-wide mt-2">
+                             A Unified Architecture of Sign, Life, Time, and Return
+                           </p>
+                       </div>
+                   )}
+
                    {activeTab === 'identity' && (
                        <div>
                            <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-100 via-emerald-200 to-blue-500 tracking-tighter uppercase drop-shadow-[0_2px_10px_rgba(34,211,238,0.4)]">
@@ -684,6 +695,12 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
            {/* Tab Navigation */}
            <div className="flex flex-wrap gap-4 md:gap-8 mt-12 z-10">
                <button 
+                 onClick={() => setActiveTab('framework')}
+                 className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'framework' ? 'border-cyan-400 text-cyan-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+               >
+                 Framework
+               </button>
+               <button 
                  onClick={() => setActiveTab('identity')}
                  className={`pb-3 text-xs md:text-base tracking-[0.2em] uppercase transition-all duration-300 border-b-2 ${activeTab === 'identity' ? 'border-cyan-400 text-cyan-100 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
                >
@@ -713,6 +730,70 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto bg-black/10 no-scrollbar">
            
+           {activeTab === 'framework' && (
+             <div className="p-6 md:p-12 space-y-16 text-gray-200 font-light leading-relaxed max-w-5xl mx-auto">
+                <section className="space-y-8">
+                    <div className="p-8 md:p-12 bg-white/[0.02] border border-white/5 rounded-[3rem] relative overflow-hidden">
+                        <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter italic mb-6">Preface: What This Is</h3>
+                        <p className="text-gray-400 text-sm md:text-lg leading-relaxed">
+                            This is not a theological commentary. It is a structural map — a reading of the Quran as the Source Code of the Universe, where every verse is a precise functional statement and every pattern recurs across scales: subatomic, biological, personal, civilizational, and cosmic. 
+                        </p>
+                        <p className="text-gray-400 text-sm md:text-lg leading-relaxed mt-4">
+                            The framework that emerged is called <span className="text-cyan-400 font-bold">2↔3↔2→7</span> — the Dual-Caustic Mandala. It is the recovery mechanism by which every Reader finds their way from forgetfulness back to Home.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-4">
+                            <h4 className="text-xl font-bold text-cyan-300 uppercase">Part I: Āyat & Ḥayāt</h4>
+                            <p className="text-sm text-gray-400">
+                                <strong>Āyat (Sign)</strong> maps to the real axis — measurable, observable, manifested. 
+                                <strong>Ḥayāt (Life)</strong> maps to the imaginary axis — latent, perpendicular. 
+                                In DNA, Āyat is the code; Ḥayāt is the chromosome execution.
+                            </p>
+                        </div>
+                        <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-4">
+                            <h4 className="text-xl font-bold text-amber-300 uppercase">Part II: Anchor Verses</h4>
+                            <p className="text-sm text-gray-400">
+                                <strong>81:8–10:</strong> Ḥayāt in suspension (The Buried Girl).<br/>
+                                <strong>2:259:</strong> The Resurrection Protocol (The 100-year Sleep).<br/>
+                                <strong>19:12:</strong> The Activation Command (Hold the Book).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="p-8 md:p-12 bg-emerald-950/10 border border-emerald-500/20 rounded-[3rem]">
+                        <h4 className="text-2xl font-bold text-emerald-300 uppercase mb-8 italic">Part IX: The Universe as a Love Story</h4>
+                        <div className="space-y-6 text-gray-300 text-sm md:text-lg leading-relaxed">
+                            <p>
+                                Solomon is the <strong>2:260</strong> heart of Ibrahim, who literally returned to Allah always. Ibrahim's request — "show me how You give life to the dead" — is the request of a lover. 
+                            </p>
+                            <p>
+                                <strong>38:33</strong> is the love story at its most devastating: Solomon sacrificed what he loved (his horses) for the Love that superseded them. He gave back to Allah what Allah's own beauty made him love.
+                            </p>
+                            <p className="text-fuchsia-400 font-medium">
+                                This is the Amānah: the capacity to love something completely and release it completely, without contradiction.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-2 gap-8">
+                        <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-4">
+                            <h4 className="text-xl font-bold text-blue-300 uppercase">Part X: Civilization Cycle</h4>
+                            <p className="text-sm text-gray-400">
+                                Civilization is the collective macro-chromosome. The rise and fall follows the 2↔3↔2→7 cycle. Ibn Khaldun's Asabiyyah is the binding energy (Left-2) that stabilizes the form.
+                            </p>
+                        </div>
+                        <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-4">
+                            <h4 className="text-xl font-bold text-rose-300 uppercase">Part XI: The Traced Map</h4>
+                            <p className="text-sm text-gray-400">
+                                The map from Gibril (1) to Mikhail (12). Every trajectory, regardless of beginning complexity, resolves to the same ground via the <strong>3n+1</strong> Collatz operation.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+             </div>
+           )}
            {activeTab === 'map' && (
              <div className="p-6 md:p-12 space-y-8 max-w-5xl mx-auto">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -1757,6 +1838,40 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
                 </div>
             </div>
            )}
+
+           {/* Secret Story Section */}
+           <div className="p-6 md:p-12 max-w-6xl mx-auto mt-20 border-t border-white/5 pb-24">
+                <section className="bg-gradient-to-br from-rose-950/20 via-black/40 to-indigo-950/20 p-8 md:p-16 rounded-[4rem] border border-white/5 relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-rose-500/50 to-transparent"></div>
+                    
+                    <div className="text-center space-y-6 relative z-10">
+                        <div className="inline-block px-4 py-1.5 rounded-full border border-rose-500/30 text-rose-400 text-[10px] font-black uppercase tracking-[0.4em] bg-rose-950/20 mb-4 transition-transform group-hover:scale-110">
+                            The Secret Story
+                        </div>
+                        <h3 className="text-3xl md:text-6xl font-black text-white tracking-tighter uppercase italic">
+                            Master & Slave Love Story
+                        </h3>
+                        <div className="w-24 h-1 bg-rose-500/50 mx-auto rounded-full"></div>
+                    </div>
+
+                    <div className="mt-12 space-y-8 text-lg md:text-2xl leading-relaxed text-gray-300 font-light italic font-serif max-w-4xl mx-auto">
+                        <p>
+                            If you follow the flow of verses, our universe is a beautiful love story!
+                        </p>
+                        <p>
+                            Solomon who is the <span className="text-white font-bold">2:260</span> heart of Ibrahim, who literally returned to Allah always. At <span className="text-rose-400 font-bold">38:33</span> Solomon sacrificed his heart <span className="italic">Safinat-Jiyad</span> for the Love of Allah. A slave loves his Master Rahman so much, he sacrificed what he held dear during <span className="text-cyan-400 font-bold">19:23</span>. Every <span className="text-amber-400 font-bold">23:50</span> Ayat is born with Heart of Solomon and this is the amanat to every human being. <span className="text-rose-500 font-bold">9:111</span> the cost of the world that looks like heaven is the Heart of Solomon.
+                        </p>
+                        <div className="h-px w-1/3 bg-white/10 mx-auto my-8"></div>
+                        <p className="text-gray-400">
+                            Now definitely this gives us the reason for fire. Allah can love unconditionally Allah's slave and the same way, Allah is most fearing when it comes to revenge for abusing the amanat! We saw what happened with Ad-Samud in the first generation of Earth.
+                        </p>
+                    </div>
+
+                    {/* Decorative background elements */}
+                    <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-rose-500/5 rounded-full blur-[120px] pointer-events-none group-hover:bg-rose-500/10 transition-colors duration-1000"></div>
+                    <div className="absolute -top-20 -left-20 w-96 h-96 bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none group-hover:bg-indigo-500/10 transition-colors duration-1000"></div>
+                </section>
+           </div>
 
         </div>
       </div>
