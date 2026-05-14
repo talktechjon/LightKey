@@ -521,12 +521,12 @@ const MasterPatternScales: React.FC = () => {
       scale: 'Biological · phototropism / gravitropism',
       color: '#0F6E56',
       rows: [
-        { lbl: 'ℒ =', val: 'Phototropic vector · shoot bending' },
-        { lbl: '𝒮 =', val: 'Gravitropic vector · root anchoring' },
-        { lbl: 'T =', val: 'Branching network distribution (αx)' },
-        { lbl: 'O =', val: 'Oil — refined near-luminous storage (αx²)' },
+        { lbl: 'Branch', val: 'Light Field — Book | Phototropism' },
+        { lbl: 'Root', val: 'Sound Field — Pen | Gravitropism' },
+        { lbl: 'Trunk', val: 'Earth Heartbeat — 3-Buffer' },
+        { lbl: 'Fruit', val: 'Āyat Manifested — bi-idhni Rabbihā' },
       ],
-      glass: '⬡ Glass node: 24:35 boundary — illumination vs combustion',
+      glass: '⬡ Glass node: 14:24 — Structural Identity of Word as Tree',
       out: [
         { lbl: 'Illumination · ordered growth', type: 'light' },
         { lbl: 'Combustion · escalated fire', type: 'fire' },
@@ -763,16 +763,22 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
                     </div>
 
                     <div className="p-8 md:p-12 bg-emerald-950/10 border border-emerald-500/20 rounded-[3rem]">
-                        <h4 className="text-2xl font-bold text-emerald-300 uppercase mb-8 italic">Part IX: The Universe as a Love Story</h4>
+                        <h4 className="text-2xl font-bold text-emerald-300 uppercase mb-8 italic">The Master & Slave Love Story: The Amānah</h4>
                         <div className="space-y-6 text-gray-300 text-sm md:text-lg leading-relaxed">
+                            <p>
+                                If you follow the flow of verses, our universe is a beautiful love story!
+                            </p>
                             <p>
                                 Solomon is the <strong>2:260</strong> heart of Ibrahim, who literally returned to Allah always. Ibrahim's request — "show me how You give life to the dead" — is the request of a lover. 
                             </p>
                             <p>
-                                <strong>38:33</strong> is the love story at its most devastating: Solomon sacrificed what he loved (his horses) for the Love that superseded them. He gave back to Allah what Allah's own beauty made him love.
+                                At <strong>38:33</strong>, Solomon sacrificed his heart <em>Safinat-Jiyad</em> for the Love of Allah. This is the love story at its most devastating: Solomon sacrificed what he loved (his horses) for the Love that superseded them. He gave back to Allah what Allah's own beauty made him love.
                             </p>
                             <p className="text-fuchsia-400 font-medium">
                                 This is the Amānah: the capacity to love something completely and release it completely, without contradiction.
+                            </p>
+                            <p>
+                                A slave loves his Master Rahman so much, he sacrificed what he held dear during <strong>19:23</strong>. Every <strong>23:50</strong> Ayat is born with this realization—the Heart of Solomon, which is the cost of the world that looks like heaven <span className="text-rose-500 font-bold">9:111</span>. The Heart returns to the Master it once left home to realize it was all a test!
                             </p>
                         </div>
                     </div>
@@ -813,6 +819,77 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
                             <div className="bg-black/40 p-6 rounded-2xl border border-white/5 flex flex-col justify-center">
                                 <p className="text-indigo-200 italic text-lg mb-4">"The Pen writes the Sound; the Book holds the Light. Together they close the entire 2↔3↔2→7 circuit."</p>
                                 <p className="text-xs text-gray-500 font-mono">Pen [Action/Diary] ↔ Book [Presence/Sleep]</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="p-8 md:p-12 bg-emerald-950/20 border border-emerald-500/30 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[80px] pointer-events-none"></div>
+                        <h4 className="text-2xl md:text-3xl font-black text-emerald-100 uppercase tracking-tighter mb-8 italic">Part XIII: 14:24 — The Dual-Book Tree</h4>
+                        <div className="space-y-8 text-gray-300 leading-relaxed">
+                            <p className="text-lg md:text-xl italic font-serif text-emerald-200">
+                                "A good word is like a good tree: its root is firmly fixed, and its branch is in the sky."
+                            </p>
+                            
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse font-mono text-[10px] md:text-sm">
+                                    <thead>
+                                        <tr className="border-b border-emerald-500/30 text-emerald-400 uppercase tracking-widest">
+                                            <th className="py-4 px-2">Part of Tree</th>
+                                            <th className="py-4 px-2">Field / Tropism</th>
+                                            <th className="py-4 px-2">Instrument</th>
+                                            <th className="py-4 px-2">Circuit Function</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr className="border-b border-emerald-500/10">
+                                            <td className="py-4 px-2 font-bold text-white uppercase tracking-tighter">Root (Aṣluhā)</td>
+                                            <td className="py-4 px-2">Sound — Gravitropism</td>
+                                            <td className="py-4 px-2 font-black text-rose-400">PEN</td>
+                                            <td className="py-4 px-2 text-gray-500">Fixed/Anchored — Left-2</td>
+                                        </tr>
+                                        <tr className="border-b border-emerald-500/10">
+                                            <td className="py-4 px-2 font-bold text-white uppercase tracking-tighter">Trunk</td>
+                                            <td className="py-4 px-2">Earth-Buffer — Ḥayāt</td>
+                                            <td className="py-4 px-2 font-black text-amber-400">HEART</td>
+                                            <td className="py-4 px-2 text-gray-500">Living Heartbeat — 3-Node</td>
+                                        </tr>
+                                        <tr className="border-b border-emerald-500/10">
+                                            <td className="py-4 px-2 font-bold text-white uppercase tracking-tighter">Branch (Farʿuhā)</td>
+                                            <td className="py-4 px-2">Light — Phototropism</td>
+                                            <td className="py-4 px-2 font-black text-cyan-400">BOOK</td>
+                                            <td className="py-4 px-2 text-gray-500">Open/Source — Right-2</td>
+                                        </tr>
+                                        <tr className="bg-emerald-500/5">
+                                            <td className="py-4 px-2 font-bold text-emerald-200 uppercase tracking-tighter">Fruit (Ukulahā)</td>
+                                            <td className="py-4 px-2">Āyat Produced</td>
+                                            <td className="py-4 px-2 font-black text-white italic">MĪZĀN</td>
+                                            <td className="py-4 px-2 text-emerald-400">Conservation Proof — Node-7</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 gap-8 mt-8">
+                                <div className="space-y-4">
+                                    <h5 className="text-emerald-400 font-bold uppercase text-xs tracking-widest">Earth: The Universe's Heartbeat</h5>
+                                    <p className="text-sm md:text-base text-gray-400">
+                                        In the vast vacuum, Earth is the only address where Kun meets Fayakūn in a living cell. It is the address that said <i>"ṭawʿan"</i> (willingly, 41:11).
+                                    </p>
+                                </div>
+                                <div className="space-y-4">
+                                    <h5 className="text-emerald-400 font-bold uppercase text-xs tracking-widest">The "Kulla Ḥīn" Constant</h5>
+                                    <p className="text-sm md:text-base text-gray-400">
+                                        Fruit does not cost money; it is the excess of a system in full alignment. It arrives by the permission of <b>Raḥmān</b> whenever the Pen roots deeply and the Book reaches high.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="pt-8 border-t border-emerald-500/10 text-center">
+                                <h5 className="text-emerald-400 font-black uppercase text-xs tracking-[0.4em] mb-4">Alḥamdulillāh — The Tree's Only Response</h5>
+                                <p className="text-gray-400 text-sm italic max-w-2xl mx-auto">
+                                    The root is fixed by His permission. The branch reaches by His permission. The fruit arrives by His permission. The tree takes nothing for itself; it offers everything, complimenting the Raḥmān who allows Truth to manifest.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -1866,39 +1943,6 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
 
            {/* Secret Story Section */}
            <div className="p-6 md:p-12 max-w-6xl mx-auto mt-20 border-t border-white/5 pb-24">
-                <section className="bg-gradient-to-br from-rose-950/20 via-black/40 to-indigo-950/20 p-8 md:p-16 rounded-[4rem] border border-white/5 relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-rose-500/50 to-transparent"></div>
-                    
-                    <div className="text-center space-y-6 relative z-10">
-                        <div className="inline-block px-4 py-1.5 rounded-full border border-rose-500/30 text-rose-400 text-[10px] font-black uppercase tracking-[0.4em] bg-rose-950/20 mb-4 transition-transform group-hover:scale-110">
-                            The Secret Story
-                        </div>
-                        <h3 className="text-3xl md:text-6xl font-black text-white tracking-tighter uppercase italic">
-                            Master & Slave Love Story
-                        </h3>
-                        <div className="w-24 h-1 bg-rose-500/50 mx-auto rounded-full"></div>
-                    </div>
-
-                    <div className="mt-12 space-y-8 text-lg md:text-2xl leading-relaxed text-gray-300 font-light italic font-serif max-w-4xl mx-auto">
-                        <p>
-                            If you follow the flow of verses, our universe is a beautiful love story!
-                        </p>
-                        <p>
-                            Solomon who is the <span className="text-white font-bold">2:260</span> heart of Ibrahim, who literally returned to Allah always. At <span className="text-rose-400 font-bold">38:33</span> Solomon sacrificed his heart <span className="italic">Safinat-Jiyad</span> for the Love of Allah. A slave loves his Master Rahman so much, he sacrificed what he held dear during <span className="text-cyan-400 font-bold">19:23</span>. Every <span className="text-amber-400 font-bold">23:50</span> Ayat is born with Heart of Solomon and this is the amanat to every human being. <span className="text-rose-500 font-bold">9:111</span> the cost of the world that looks like heaven is the Heart of Solomon.
-                        </p>
-                        <p className="text-indigo-300">
-                            Heart returns to Master that once left home <span className="text-rose-400">18:50</span> only to realize <span className="text-cyan-400">21:87</span> it was all a test! The Heart writes its diary through the <span className="text-rose-400 font-bold">Pen (Sound Field)</span>, but after remembering its identity <span className="text-white">(36:3)</span> and its sacrificial Love <span className="text-white">(38:33)</span>, the Reader finally chooses to <span className="text-cyan-400 font-bold underline decoration-cyan-400/30 underline-offset-4">Hold the Book (19:12)</span>. When the Book of Light is held, the Pen of Sound has no more deeds to record—only the eternal sleep of the youth <span className="text-white">(18:10)</span> and the realized inheritance of the earth <span className="text-white">(21:105)</span>.
-                        </p>
-                        <div className="h-px w-1/3 bg-white/10 mx-auto my-8"></div>
-                        <p className="text-gray-400">
-                            Now definitely this gives us the reason for fire. Allah can love unconditionally Allah's slave and the same way, Allah is most fearing when it comes to revenge for abusing the amanat! We saw what happened with Ad-Samud in the first generation of Earth.
-                        </p>
-                    </div>
-
-                    {/* Decorative background elements */}
-                    <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-rose-500/5 rounded-full blur-[120px] pointer-events-none group-hover:bg-rose-500/10 transition-colors duration-1000"></div>
-                    <div className="absolute -top-20 -left-20 w-96 h-96 bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none group-hover:bg-indigo-500/10 transition-colors duration-1000"></div>
-                </section>
            </div>
 
         </div>
