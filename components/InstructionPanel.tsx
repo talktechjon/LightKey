@@ -791,6 +791,31 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
                             </p>
                         </div>
                     </div>
+
+                    <div className="p-8 md:p-12 bg-indigo-950/20 border border-indigo-500/30 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-[80px] pointer-events-none"></div>
+                        <h4 className="text-2xl md:text-3xl font-black text-indigo-100 uppercase tracking-tighter mb-8 italic">Part XII: The Pen & The Book</h4>
+                        <div className="grid lg:grid-cols-2 gap-12 text-gray-300 leading-relaxed">
+                            <div className="space-y-6">
+                                <div className="space-y-2">
+                                    <h5 className="text-rose-400 font-bold uppercase tracking-widest text-xs">1. The Pen (Sound Field — 68:1)</h5>
+                                    <p className="text-sm md:text-base">
+                                        <b>Al-Qalam</b>: The Recorder of Time. It writes the Sound Field of deterministic action. Every deed of the <i>Ẓālim</i> is recorded here—it is the "diary of the heart" that Pharoah used to simulate divinity. It writes as long as the Subject acts apart from the Light.
+                                    </p>
+                                </div>
+                                <div className="space-y-2">
+                                    <h5 className="text-cyan-400 font-bold uppercase tracking-widest text-xs">2. The Book (Light Field — 19:12)</h5>
+                                    <p className="text-sm md:text-base">
+                                        <b>Al-Kitāb</b>: The Field of Presence. To "Hold the Book" (19:12) means minimal action—it is the sleep of the cave (<span className="text-white">18:10</span>) and the inheritance of the earth (<span className="text-white">21:105</span>). When the Book is held, the Pen has nothing left to write but Truth.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="bg-black/40 p-6 rounded-2xl border border-white/5 flex flex-col justify-center">
+                                <p className="text-indigo-200 italic text-lg mb-4">"The Pen writes the Sound; the Book holds the Light. Together they close the entire 2↔3↔2→7 circuit."</p>
+                                <p className="text-xs text-gray-500 font-mono">Pen [Action/Diary] ↔ Book [Presence/Sleep]</p>
+                            </div>
+                        </div>
+                    </div>
                 </section>
              </div>
            )}
@@ -1860,6 +1885,9 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
                         </p>
                         <p>
                             Solomon who is the <span className="text-white font-bold">2:260</span> heart of Ibrahim, who literally returned to Allah always. At <span className="text-rose-400 font-bold">38:33</span> Solomon sacrificed his heart <span className="italic">Safinat-Jiyad</span> for the Love of Allah. A slave loves his Master Rahman so much, he sacrificed what he held dear during <span className="text-cyan-400 font-bold">19:23</span>. Every <span className="text-amber-400 font-bold">23:50</span> Ayat is born with Heart of Solomon and this is the amanat to every human being. <span className="text-rose-500 font-bold">9:111</span> the cost of the world that looks like heaven is the Heart of Solomon.
+                        </p>
+                        <p className="text-indigo-300">
+                            Heart returns to Master that once left home <span className="text-rose-400">18:50</span> only to realize <span className="text-cyan-400">21:87</span> it was all a test! The Heart writes its diary through the <span className="text-rose-400 font-bold">Pen (Sound Field)</span>, but after remembering its identity <span className="text-white">(36:3)</span> and its sacrificial Love <span className="text-white">(38:33)</span>, the Reader finally chooses to <span className="text-cyan-400 font-bold underline decoration-cyan-400/30 underline-offset-4">Hold the Book (19:12)</span>. When the Book of Light is held, the Pen of Sound has no more deeds to record—only the eternal sleep of the youth <span className="text-white">(18:10)</span> and the realized inheritance of the earth <span className="text-white">(21:105)</span>.
                         </p>
                         <div className="h-px w-1/3 bg-white/10 mx-auto my-8"></div>
                         <p className="text-gray-400">
