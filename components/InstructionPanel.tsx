@@ -914,231 +914,160 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
            )}
 
            {activeTab === 'identity' && (
-            <div className="p-6 md:p-12 space-y-16 text-gray-200 font-light leading-relaxed max-w-5xl mx-auto">
-               
-               <div className="text-center space-y-6 mb-8 group cursor-default">
-                  <div className="inline-block px-4 py-1.5 rounded-full border border-rose-500/30 text-rose-400 text-[10px] font-black uppercase tracking-[0.4em] bg-rose-950/20 mb-4">
-                     The Return Circuit Seal
-                  </div>
-                  <h4 className="text-rose-500 font-mono text-xs tracking-[0.4em] uppercase opacity-50">Acknowledgment 36:3</h4>
-                  <p className="text-3xl md:text-5xl text-white font-black tracking-tighter uppercase italic drop-shadow-[0_0_30px_rgba(244,63,94,0.4)] transition-all group-hover:scale-105 duration-700">
-                    "Indeed, you are of the Mursalīn." (36:3)
-                  </p>
-                  <div className="w-16 h-1 bg-rose-500/50 mx-auto rounded-full"></div>
-                  <p className="text-gray-400 text-sm md:text-xl font-light max-w-3xl mx-auto leading-relaxed">
-                    The Universe acts according to its nature, and the Quran explains the patterns of that nature. You are the Reader who forgot they were always the <b className="text-rose-400">Fruit</b>. The validation comes from <b className="text-rose-400">13:43</b>: "Suffices for Allah and the one with knowledge of the Book."
-                  </p>
-               </div>
+             <div className="p-6 md:p-12 space-y-16 text-gray-200 font-light leading-relaxed max-w-5xl mx-auto pb-24">
+                
+                {/* HERO: 33:40 SEPARATION */}
+                <section className="space-y-12">
+                   <div className="bg-black/60 border border-rose-500/30 p-8 md:p-12 rounded-[3.5rem] relative overflow-hidden shadow-2xl group transition-all duration-700 hover:border-rose-500/50">
+                      <div className="absolute top-0 right-0 w-96 h-96 bg-rose-500/5 blur-[100px] pointer-events-none group-hover:bg-rose-500/10 transition-all duration-1000"></div>
+                      
+                      <div className="text-center space-y-8 relative z-10">
+                         <div className="inline-block px-6 py-2 rounded-full border border-rose-500/30 text-rose-400 text-[10px] font-black uppercase tracking-[0.5em] bg-rose-950/20 mb-4 animate-pulse">
+                            The Seal of Prophecy [Closed vs Open]
+                         </div>
+                         <h3 className="text-3xl md:text-5xl font-black text-rose-100 uppercase tracking-tighter italic">
+                           Prophet ──► Rasul <span className="text-rose-500 font-bold">[CLOSED]</span>
+                         </h3>
+                         <div className="bg-rose-950/20 p-6 rounded-2xl border border-rose-500/20 max-w-2xl mx-auto italic text-rose-200 text-sm md:text-lg">
+                           "Muhammad is not the father of any of your men, but he is the Messenger of Allah and the seal of the Prophets." (33:40)
+                         </div>
+                         <p className="text-gray-400 text-sm md:text-lg leading-relaxed max-w-3xl mx-auto">
+                            The biological gate is sealed. The Prophet-line (Nabī) is closed. What remains is the <b className="text-white">Orphan condition</b> (18:19) — the zero-biological lineage state that exists until Qiyamah.
+                         </p>
+                      </div>
 
-               <AnimatedHarvest />
+                      <div className="mt-12 grid md:grid-cols-2 gap-8 relative z-10">
+                         <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-4">
+                            <h4 className="text-rose-400 font-bold uppercase tracking-widest text-xs">Subject & Mirror</h4>
+                            <p className="text-sm text-gray-300">
+                               The Prophet gate is closed. Now only <b className="text-white">Book ◄── Rasul ──► Mursalin</b> remains open. 
+                            </p>
+                            <ul className="space-y-3 text-[10px] text-gray-400 uppercase tracking-widest">
+                               <li>• Awliyâ / Friends of Allah</li>
+                               <li>• [Hanīfān] Open Loop</li>
+                            </ul>
+                         </div>
+                         <div className="p-8 bg-cyan-950/20 border border-cyan-500/30 rounded-3xl space-y-4">
+                            <h4 className="text-cyan-400 font-bold uppercase tracking-widest text-xs">The Bookline Pendulum</h4>
+                            <div className="space-y-3 text-xs text-gray-300">
+                               <div className="flex justify-between items-center bg-black/40 p-2 rounded">
+                                  <span>Yahya</span>
+                                  <span className="text-white font-bold opacity-50">[Life]</span>
+                               </div>
+                               <div className="flex justify-between items-center bg-black/40 p-2 rounded border border-white/10 shadow-lg scale-105">
+                                  <span>Reader</span>
+                                  <span className="text-rose-400 font-bold">[Death/Sacrifice-Jihad]</span>
+                               </div>
+                               <div className="flex justify-between items-center bg-black/40 p-2 rounded">
+                                  <span>Ishmail</span>
+                                  <span className="text-white font-bold opacity-50">[Ransom]</span>
+                               </div>
+                            </div>
+                            <div className="text-[10px] text-cyan-400 font-mono tracking-widest uppercase pt-2 border-t border-cyan-500/20">
+                               37:107 • Perpetual Sacrifice
+                            </div>
+                         </div>
+                      </div>
+                   </div>
 
-               <div className="grid md:grid-cols-2 gap-12">
-                  <div className="bg-emerald-950/20 p-8 rounded-[2.5rem] border border-emerald-500/20 space-y-6">
-                    <h4 className="text-xl font-bold text-emerald-300 uppercase tracking-widest flex items-center gap-3">
-                      <span className="w-8 h-px bg-emerald-500/50"></span> 1. Intention (13:39)
-                    </h4>
-                    <p className="text-gray-300 text-sm md:text-base">
-                      Creation begins with <b>Umm al-Kitāb</b> as the <b>Seed</b>. Allah establishes the invariant before the world erases it from your memory.
-                      <strong className="text-white block mt-3 italic font-serif">“Allah confirms what He wills—and with Him is the Mother of the Book.” (13:39)</strong>
-                    </p>
-                    <p className="text-xs text-gray-500">Every Reader's identity as Mursalīn was confirmed as <i>ia</i> (imaginary body) in the origin-field before the first split.</p>
-                  </div>
+                   {/* THE BOOKLINE ARTIFACT */}
+                   <div className="bg-gray-950/40 p-8 md:p-12 rounded-[3.5rem] border border-cyan-500/20 shadow-2xl relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent pointer-events-none"></div>
+                      
+                      <div className="text-center space-y-6 mb-12">
+                         <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter italic">
+                           The Return Circuit
+                         </h3>
+                         <p className="text-cyan-400 font-bold tracking-widest uppercase text-[10px]">
+                           "Indeed, you are of the Mursalīn." (36:3)
+                         </p>
+                         <div className="w-24 h-1 bg-cyan-500 mx-auto rounded-full"></div>
+                      </div>
 
-                  <div className="bg-cyan-950/20 p-8 rounded-[2.5rem] border border-cyan-500/20 space-y-6">
-                    <h4 className="text-xl font-bold text-cyan-300 uppercase tracking-widest flex items-center gap-3">
-                      <span className="w-8 h-px bg-cyan-500/50"></span> 2. Root (36:3)
-                    </h4>
-                    <p className="text-gray-300 text-sm md:text-base">
-                      You are the subject addressed directly. The Root anchors through the Reader's recognition.
-                      <strong className="text-white block mt-3 italic font-serif">“Indeed, you are of the Mursalīn.” (36:3)</strong>
-                    </p>
-                    <p className="text-xs text-gray-500">The 36:3 designation (Root anchor) remains intact beneath the 15:72 forgetfulness. You are the "Buried Signal" (81:8) now surfacing.</p>
-                  </div>
-               </div>
+                      <div className="grid md:grid-cols-3 gap-8 mb-12">
+                         <div className="bg-black/60 p-8 rounded-3xl border border-white/5 space-y-4 text-center group hover:bg-cyan-950/20 transition-all">
+                            <div className="text-4xl mb-2 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">🌿</div>
+                            <h5 className="font-bold text-white uppercase tracking-tighter text-xl">Yahya</h5>
+                            <p className="text-cyan-400 font-mono text-xs">19:12</p>
+                            <p className="text-xs text-gray-500 italic">"Grip the Book with strength." Life potential activated through the Book.</p>
+                         </div>
+                         <div className="bg-black/60 p-8 rounded-3xl border border-white/5 ring-2 ring-cyan-500/30 space-y-4 text-center group hover:bg-cyan-950/30 transition-all">
+                            <div className="text-4xl mb-2 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">📖</div>
+                            <h5 className="font-bold text-white uppercase tracking-tighter text-xl">Reader</h5>
+                            <p className="text-cyan-400 font-mono text-xs">36:3</p>
+                            <p className="text-xs text-gray-500 italic">The execution center. Ego-Death / Jihad. The subjective mirror.</p>
+                         </div>
+                         <div className="bg-black/60 p-8 rounded-3xl border border-white/5 space-y-4 text-center group hover:bg-cyan-950/20 transition-all">
+                            <div className="text-4xl mb-2 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">🐏</div>
+                            <h5 className="font-bold text-white uppercase tracking-tighter text-xl">Ishmail</h5>
+                            <p className="text-cyan-400 font-mono text-xs">37:107</p>
+                            <p className="text-xs text-gray-500 italic">"Ransomed with a great sacrifice." Repeatable cycle of preservation.</p>
+                         </div>
+                      </div>
 
-               {/* Circuit Map */}
-               <div className="bg-black/40 p-10 rounded-[3rem] border border-white/5 space-y-10">
-                  <h4 className="text-xs font-bold text-gray-500 uppercase tracking-[0.4em] text-center">The Mursalīn Operation Circuit: Q(S): ia ⟶ |a|</h4>
-                  <div className="flex flex-col md:flex-row justify-between items-center gap-8 relative">
-                    <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent hidden md:block"></div>
-                    <div className="z-10 bg-gray-900 p-4 rounded-2xl border border-emerald-500/30 text-center w-40">
-                      <div className="text-emerald-400 font-mono text-lg mb-1">13:39</div>
-                      <div className="text-[10px] text-gray-500 uppercase tracking-widest">Seed (ia)</div>
-                    </div>
-                    <div className="z-10 bg-gray-900 p-4 rounded-2xl border border-cyan-500/30 text-center w-40">
-                      <div className="text-cyan-400 font-mono text-lg mb-1">36:3</div>
-                      <div className="text-[10px] text-gray-500 uppercase tracking-widest">Root (Subject)</div>
-                    </div>
-                    <div className="z-10 bg-gray-900 p-4 rounded-2xl border border-amber-500/30 text-center w-40">
-                      <div className="text-amber-400 font-mono text-lg mb-1">2↔3↔2</div>
-                      <div className="text-[10px] text-gray-500 uppercase tracking-widest">Tree (Trunk)</div>
-                    </div>
-                    <div className="z-10 bg-gray-900 p-4 rounded-2xl border border-rose-500/30 text-center w-40">
-                      <div className="text-rose-400 font-mono text-lg mb-1">|a|</div>
-                      <div className="text-[10px] text-gray-500 uppercase tracking-widest">Fruit (Throne)</div>
-                    </div>
-                  </div>
-                  <p className="text-center text-[10px] text-gray-400 italic">
-                    "The circuit closes at **19:24** (Male / IQ Fruit) or **27:44** (Female / EQ Queen). The Reader returns as the Fruit of the 24:35 Tree."
-                  </p>
-               </div>
+                      <div className="bg-black/40 p-10 rounded-[2.5rem] border border-white/5 text-center">
+                         <p className="text-sm md:text-lg text-gray-400 leading-relaxed italic max-w-3xl mx-auto">
+                            The Universe acts according to its nature, and the Quran explains the patterns of that nature. You are the Mursalīn who forgot. The validation comes from <b className="text-white">13:43</b>: "Suffices for Allah and the one with knowledge of the Book."
+                         </p>
+                      </div>
+                   </div>
+                </section>
 
-               <div className="pt-8 border-t border-emerald-500/20 text-center pb-8 space-y-6">
-                                <p className="text-emerald-500 font-bold tracking-[0.4em] uppercase text-xs">Al-ḥamdu lillāh. The memory of home returns. You are not alone.</p>
-               </div>
-            </div>
-           )}
+                <AnimatedHarvest />
 
-           {activeTab === 'identity' && (
-            <div className="p-6 md:p-12 space-y-12 text-gray-200 font-light max-w-5xl mx-auto">
-               <section className="text-lg md:text-2xl leading-relaxed">
-                  <div className="text-center mb-12">
-                     <div className="inline-block px-4 py-1.5 rounded-full border border-rose-500/30 text-rose-400 text-[10px] font-black uppercase tracking-[0.4em] bg-rose-950/20 mb-8 animate-pulse">
-                        Phase: The Illusion (Node 2)
-                     </div>
-                     <h4 className="text-white font-mono text-xl md:text-3xl mb-4 italic">"Reality is merely an illusion, albeit a very persistent one."</h4>
-                     <p className="text-gray-500 text-xs md:text-sm uppercase tracking-widest">— Albert Einstein</p>
-                  </div>
+                {/* THE PHASE TRAVERSAL MAP (Bento Style) */}
+                <section className="space-y-12">
+                   <div className="text-center">
+                      <div className="inline-block px-4 py-1.5 rounded-full border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em] bg-emerald-950/20 mb-4">
+                         Identity Computation
+                      </div>
+                      <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter italic">
+                         The Return of the Mother Book
+                      </h3>
+                   </div>
 
-                  <p className="mb-12 text-left text-gray-300">
-                    You are not reading the Qur’an for history. You are the execution center placed at <b>19:12</b> ("Take the Book with strength"). 
-                    <span className="block mt-4 text-rose-300 font-medium italic underline decoration-rose-500/30 underline-offset-8 uppercase tracking-[0.2em] text-xs font-sans">"We are in the Illusion/Imaginary part now."</span>
-                  </p>
+                   <div className="grid md:grid-cols-3 gap-6 auto-rows-[1fr]">
+                      {/* CAVE: THE RESET */}
+                      <div className="bg-orange-950/20 p-8 rounded-[2.5rem] border border-orange-500/20 space-y-4 flex flex-col justify-center">
+                         <div className="text-orange-500 font-mono text-xs font-bold">NODE: CAVE [18:19]</div>
+                         <h5 className="text-white font-black uppercase tracking-tighter text-xl">Journey Origin</h5>
+                         <p className="text-gray-400 text-sm leading-relaxed">
+                            The sleepers of the Cave who journeyed to experience the bifurcation. The field reset for memory recovery.
+                         </p>
+                         <div className="text-[10px] text-orange-400/50 uppercase tracking-widest pt-2 border-t border-white/5 font-mono">Bifurcation • Awakening</div>
+                      </div>
 
-                  <div className="overflow-x-auto bg-black/60 p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/5 mb-12 backdrop-blur-xl shadow-2xl">
-                    <table className="w-full text-left border-collapse font-mono text-[10px] md:text-sm">
-                      <thead>
-                        <tr className="border-b border-white/10 text-rose-400 uppercase tracking-widest">
-                          <th className="py-4 px-2 font-black">Node</th>
-                          <th className="py-4 px-2 font-black">Function</th>
-                          <th className="py-4 px-2 font-black">Universal Meaning</th>
-                        </tr>
-                      </thead>
-                      <tbody className="text-gray-300">
-                        <tr className="border-b border-white/5">
-                          <td className="py-6 px-2 text-white font-bold opacity-30">2</td>
-                          <td className="py-6 px-2 italic text-gray-200">Imaginary Body</td>
-                          <td className="py-6 px-2 text-gray-500 italic">latent dual potential</td>
-                        </tr>
-                        <tr className="border-b border-white/5">
-                          <td className="py-6 px-2 text-white font-bold opacity-30">3</td>
-                          <td className="py-6 px-2 italic text-gray-200">Barzakh</td>
-                          <td className="py-6 px-2 text-gray-500 italic">recursive traversal medium</td>
-                        </tr>
-                        <tr className="border-b border-white/5">
-                          <td className="py-6 px-2 text-white font-bold opacity-30">2</td>
-                          <td className="py-6 px-2 italic text-gray-200">Exit</td>
-                          <td className="py-6 px-2 text-gray-500 italic">collapse / sacrifice / bifurcation</td>
-                        </tr>
-                        <tr>
-                          <td className="py-6 px-2 text-white font-bold">7</td>
-                          <td className="py-6 px-2 italic font-black text-rose-200">Real Body on Throne</td>
-                          <td className="py-6 px-2 text-gray-400 italic">stabilized realized form</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                      {/* MEMORY: THE RECOVERY */}
+                      <div className="bg-indigo-950/20 p-8 rounded-[2.5rem] border border-indigo-500/20 space-y-4 flex flex-col justify-center">
+                         <div className="text-indigo-400 font-mono text-xs font-bold">NODE: RECOVERY [19:23]</div>
+                         <h5 className="text-white font-black uppercase tracking-tighter text-xl">End of Amnesia</h5>
+                         <p className="text-gray-400 text-sm leading-relaxed">
+                            The recovery log for the data lost during your amnesia. surrendering the tree that forgot its roots.
+                         </p>
+                         <div className="text-[10px] text-indigo-400/50 uppercase tracking-widest pt-2 border-t border-white/5 font-mono">Data Retrieval • 19:23</div>
+                      </div>
 
-                  <p className="mb-6 text-left">
-                    The Reader is Adam—the Mursalin (36:3) who forgot, the tree that forgot its roots, suspended like the sleepers in the Cave (18:19).
-                  </p>
-                  <p className="mb-6 text-gray-400 text-base md:text-xl">
-                   The Qur'an is the recovery log for the data lost during your amnesia (19:23). You are the 36:3 activation node. We are the sleepers of the Cave (18:19) who journeyed to experience the bifurcation of dual-caustics, creating the seed of the 24:35 tree from our own choice of alignment.
-                 </p>
-                 <div className="bg-cyan-950/30 border border-cyan-500/30 p-8 rounded-3xl space-y-4">
-                    <h4 className="text-xl font-bold text-white uppercase tracking-tighter">The Relational Mapping</h4>
-                    <p className="text-sm md:text-base text-gray-300">
-                      The Quran acts as an autonomous execution partner: <strong>Brother</strong> (IQ/Male) or <strong>Father</strong> (EQ/Female). It is the relational mode of activation.
-                    </p>
-                    <p className="text-xs text-cyan-400/80">
-                      IQ Path: Confronts as equal, challenges to grow (Yahya/David). <br/>
-                      EQ Path: Holds, guides, gives identity (Maryam/Queen).
-                    </p>
-                 </div>
-                 <div className="border-l-4 border-cyan-500/30 pl-6 py-4 italic text-gray-300 bg-gradient-to-r from-cyan-950/20 to-transparent rounded-r-xl">
-                   "Remember Me; I will remember you." [2:152] — The quantum handshake that shatters amnesia in Truth. Inshallah we'll be home [38:46].
-                 </div>
-               </section>
+                      {/* HOME: THE ANCESTORS */}
+                      <div className="bg-cyan-950/20 p-8 rounded-[2.5rem] border border-cyan-500/20 space-y-4 flex flex-col justify-center">
+                         <div className="text-cyan-400 font-mono text-xs font-bold">NODE: HOME [38:46]</div>
+                         <h5 className="text-white font-black uppercase tracking-tighter text-xl">True Ancestors</h5>
+                         <p className="text-gray-400 text-sm leading-relaxed font-bold">
+                            Ibrahim-Ishac-Yakub. The remembrance of the true home in the Bookline.
+                         </p>
+                         <div className="text-[10px] text-cyan-400 font-mono tracking-[0.2em] font-black uppercase pt-2 border-t border-white/10 italic">Heavenly Origin • 38:46</div>
+                      </div>
+                   </div>
 
-               <section>
-                 <h3 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
-                   <span className="text-3xl grayscale opacity-70">📖</span> IDENTITY COMPUTATION
-                 </h3>
-                 <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
-                       <h4 className="font-bold text-cyan-400 mb-6 uppercase tracking-widest">Protocol Markers</h4>
-                       <ul className="space-y-4 text-sm text-gray-300">
-                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Mursalin (36:3)</span> <span className="text-white font-mono">Messenger Node</span></li>
-                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Memory Recovery (19:23)</span> <span className="text-white font-mono">End of Forgotten</span></li>
-                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Cave Awakening (18:19)</span> <span className="text-white font-mono">Journey Origin</span></li>
-                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Home Remembrance (38:46)</span> <span className="text-white font-mono">True Ancestors</span></li>
-                           <li className="flex justify-between border-b border-white/5 pb-2"><span>Takes the Book (19:12)</span> <span className="text-white font-mono">Hold with Strength</span></li>
-                       </ul>
-                    </div>
-                    <div className="bg-blue-950/20 p-8 rounded-2xl border border-blue-500/20 flex flex-col justify-center">
-                        <p className="text-center italic text-xl text-blue-200 leading-relaxed mb-6">
-                            "Quran is Muhammad and Muhammad is Quran... 19:12 hold it like your brother!"
-                        </p>
-                        <p className="text-gray-400 text-xs text-center uppercase tracking-widest leading-loose">
-                           Isa did same to Muhammad 61:6<br/>
-                           Yusuf did same to save his brother 12:76
-                        </p>
-                        <div className="mt-6 text-center text-[10px] font-mono text-cyan-400/60 uppercase tracking-[0.1em] border-t border-white/5 pt-4">
-                           IBRAHIM • ISHAC • YAKUB (DAWUD-SOLOMON-SABA)
-                        </div>
-                    </div>
-                 </div>
-               </section>
-
-               <section className="bg-black/40 p-8 rounded-[2rem] border border-fuchsia-500/20">
-                  <h4 className="text-xl font-bold text-fuchsia-300 mb-4 uppercase tracking-widest">The Relationship Path</h4>
-                  <div className="grid md:grid-cols-2 gap-8 text-gray-300 text-sm md:text-base">
-                     <div className="space-y-4">
-                        <p className="font-bold text-white uppercase text-xs">Upgrade Your Faith to Love & Tawaqqul.</p>
-                        <p>
-                           The Quran reveals the patterns of existence—Universe acts according to its nature, and the Book explains the underlying 'Why'.
-                        </p>
-                        <p className="italic text-[10px] text-gray-500">
-                           The tree in 24:35 is under the eye of Allah.. Allah loves who is deeply madly crazily in love with Allah (Taqwa).
-                        </p>
-                     </div>
-                     <div className="space-y-4">
-                        <p className="font-bold text-white uppercase text-xs">The One Against The Universe</p>
-                        <p>
-                           The Reader is like Harun-Lut-Zayd [fear of society]... One man against a whole universe of second-hand knowledge.
-                        </p>
-                        <p className="text-cyan-400 font-mono text-[10px]">
-                           Remember the cave: 18:19 (next scene = birth).
-                        </p>
-                     </div>
-                  </div>
-               </section>
-
-               <section>
-                 <div className="grid md:grid-cols-2 gap-8">
-                    <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
-                       <h4 className="font-bold text-amber-200 mb-4 text-xl">The Home (38:46)</h4>
-                       <p className="text-gray-300 leading-relaxed text-sm">
-                         Quran is for <span className="text-white font-bold">YOU</span>... So we can remember this World is not our home. It's in heaven <b>38:46</b> just like our true ancestors Ibrahim-Ishac-Yakub.
-                       </p>
-                    </div>
-                    <div className="bg-gray-900/60 p-8 rounded-2xl border border-gray-800">
-                       <h4 className="font-bold text-cyan-200 mb-4 text-xl">The Seed Pattern</h4>
-                       <p className="text-gray-300 leading-relaxed text-sm">
-                         We began our journey from the cave <b>18:19</b>. After this scene, we emerge into the mother's world. Our goal is the creation of the seed of the Righteous Tree (24:35) in Jannat.
-                       </p>
-                    </div>
-                 </div>
-               </section>
-
-               <section className="mt-8 bg-black/40 p-8 rounded-[2rem] border border-cyan-500/20">
-                 <h4 className="text-xl font-bold text-cyan-300 mb-4 uppercase tracking-widest">Activating the Memory</h4>
-                 <p className="text-gray-300 leading-relaxed">
-                    Instead of a lost entity, you are a recoverable execution node. Memory is preserved externally in the Qur'an (15:9), demanding reactivation. The Reader integrates both arcs to execute the return path. 
-                    The time-bound execution layer is forced by a deeply buried rupture: <i>"For what sin was she killed?"</i> (81:8).
-                 </p>
-               </section>
-            </div>
+                   <div className="bg-black/60 p-8 md:p-12 rounded-[3rem] border border-white/5 text-center shadow-2xl">
+                      <p className="text-xl md:text-3xl text-white font-light italic font-serif leading-relaxed max-w-4xl mx-auto">
+                        "The circuit is open. The Prophet gate is closed. The Bookline is the bridge to the Real Body on the Throne."
+                      </p>
+                      <div className="mt-8 text-[10px] font-bold text-cyan-500 uppercase tracking-[0.5em] opacity-80">
+                         Mursalīn Activity • Q(S): ia ⟶ |a|
+                      </div>
+                   </div>
+                </section>
+             </div>
            )}
 
            {activeTab === 'pattern' && (
