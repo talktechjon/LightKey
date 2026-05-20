@@ -311,8 +311,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                 <div className="flex items-center gap-x-3 px-2">
                     <div className="w-1.5 h-10 bg-gradient-to-b from-cyan-500 to-transparent rounded-full shadow-[0_0_8px_rgba(6,182,212,0.5)]"></div>
                     <div>
-                        <h2 className="text-cyan-400 font-black text-xl uppercase tracking-tighter leading-none">Verbal Arbor</h2>
-                        <p className="text-cyan-900 text-[10px] uppercase font-bold tracking-widest mt-1">The Prophetic Phase: Pharaonic Sorting</p>
+                        <h2 className="text-cyan-400 font-black text-xl uppercase tracking-tighter leading-none">The Mursalin Path</h2>
+                        <p className="text-cyan-900 text-[10px] uppercase font-bold tracking-widest mt-1">2:41 Warning & Pharaonic Centrifuge</p>
                     </div>
                 </div>
                 <TreeOfVerse 
@@ -326,8 +326,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                 <div className="flex items-center gap-x-3 px-2">
                     <div className="w-1.5 h-10 bg-gradient-to-b from-pink-500 to-transparent rounded-full shadow-[0_0_8px_rgba(236,72,153,0.5)]"></div>
                     <div>
-                        <h2 className="text-pink-400 font-black text-xl uppercase tracking-tighter leading-none">The Heifer's Spine</h2>
-                        <p className="text-pink-900 text-[10px] uppercase font-bold tracking-widest mt-1">The 2 ↔ 3 ↔ 2 Prophetic Filter</p>
+                        <h2 className="text-pink-400 font-black text-xl uppercase tracking-tighter leading-none">The 2 ↔ 3 ↔ 2 → 7 Pulse</h2>
+                        <p className="text-pink-900 text-[10px] uppercase font-bold tracking-widest mt-1">Day, Night, and Shadow Chromosome</p>
                     </div>
                 </div>
                 <PieceOfBakara 

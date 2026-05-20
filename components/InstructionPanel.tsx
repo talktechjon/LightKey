@@ -1,4 +1,5 @@
 
+import { motion } from 'motion/react';
 import React, { useState, useEffect, useMemo } from 'react';
 import { Flame, Fish, TreePine, ArrowRight, ArrowLeft } from 'lucide-react';
 import { CHAPTER_DETAILS, BUBBLE_BLOCK_MAPPING_RAW } from '../constants';
@@ -745,19 +746,19 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
 
                     <div className="grid md:grid-cols-2 gap-8">
                         <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-4">
-                            <h4 className="text-xl font-bold text-cyan-300 uppercase">Part I: Āyat & Ḥayāt</h4>
+                            <h4 className="text-xl font-bold text-cyan-300 uppercase">Day & Night Pulse</h4>
                             <p className="text-sm text-gray-400">
-                                <strong>Āyat (Sign)</strong> maps to the real axis — measurable, observable, manifested. 
-                                <strong>Ḥayāt (Life)</strong> maps to the imaginary axis — latent, perpendicular. 
-                                In DNA, Āyat is the code; Ḥayāt is the chromosome execution.
+                                <strong>Day:</strong> Adam ─ Tree ─ Hawa, Shaytan, and Heaven. Default state: Ignorant & Transgressor (18:50 beginning). 
+                                <strong>Night:</strong> Reader ─ Quran [23:50] ─ Worldly Wealth. Default state: Illusion & Taghut [The Dual-Caustic Universe] at 2:41. 
+                                The Reader stands at the bifurcation code 36:3: either elevate as 19:12 (Yahya) or join Pharaoh.
                             </p>
                         </div>
                         <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-4">
-                            <h4 className="text-xl font-bold text-amber-300 uppercase">Part II: Anchor Verses</h4>
+                            <h4 className="text-xl font-bold text-amber-300 uppercase">The Shadow Chromosome</h4>
                             <p className="text-sm text-gray-400">
-                                <strong>81:8–10:</strong> Ḥayāt in suspension (The Buried Girl).<br/>
-                                <strong>2:259:</strong> The Resurrection Protocol (The 100-year Sleep).<br/>
-                                <strong>19:12:</strong> The Activation Command (Hold the Book).
+                                <strong>Bani Israel [44:32]:</strong> Golden Cow [20:87 fail vacuum with Hawa 38:24] & Forgetfulness 4:157.<br/>
+                                <strong>Ranked Elevation [12:76]:</strong> Worldly attachment like Qarun. Blind decisions at wrong times like Noah's Son.<br/>
+                                <strong>Solomon's Heart:</strong> The core target is to return as an "Awwâb" (constantly returning slave) through Ibrahim's Rushd.
                             </p>
                         </div>
                     </div>
@@ -937,18 +938,21 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
                       </div>
 
                       <div className="mt-12 grid md:grid-cols-2 gap-8 relative z-10">
-                         <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-4">
-                            <h4 className="text-rose-400 font-bold uppercase tracking-widest text-xs">Subject & Mirror</h4>
-                            <p className="text-sm text-gray-300">
-                               The Prophet gate is closed. Now only <b className="text-white">Book ◄── Rasul ──► Mursalin</b> remains open. 
+                         <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-6 group hover:border-rose-500/30 transition-all">
+                            <div className="flex justify-between items-start">
+                               <h4 className="text-rose-400 font-bold uppercase tracking-widest text-[10px]">Subject & Mirror</h4>
+                               <span className="text-[10px] font-mono text-rose-500/50">OPEN CIRCUIT</span>
+                            </div>
+                            <p className="text-sm text-gray-300 leading-relaxed">
+                               Prophet ──► Rasul <span className="text-rose-500 font-bold">[CLOSED]</span>. <br/>
+                               Now only <b className="text-white">Book ◄── Rasul ──► Mursalin</b> and <b className="text-white">Awliyâ/Friend of Allah [Hanīfān]</b> remains open.
                             </p>
-                            <ul className="space-y-3 text-[10px] text-gray-400 uppercase tracking-widest">
-                               <li>• Awliyâ / Friends of Allah</li>
-                               <li>• [Hanīfān] Open Loop</li>
-                            </ul>
+                            <div className="pt-4 border-t border-white/5">
+                               <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em]">The Mirror Condition</p>
+                            </div>
                          </div>
                          <div className="p-8 bg-cyan-950/20 border border-cyan-500/30 rounded-3xl space-y-4">
-                            <h4 className="text-cyan-400 font-bold uppercase tracking-widest text-xs">The Bookline Pendulum</h4>
+                            <h4 className="text-cyan-400 font-bold uppercase tracking-widest text-[10px]">The Bookline</h4>
                             <div className="space-y-3 text-xs text-gray-300">
                                <div className="flex justify-between items-center bg-black/40 p-2 rounded">
                                   <span>Yahya</span>
@@ -960,11 +964,11 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
                                </div>
                                <div className="flex justify-between items-center bg-black/40 p-2 rounded">
                                   <span>Ishmail</span>
-                                  <span className="text-white font-bold opacity-50">[Ransom]</span>
+                                  <span className="text-white font-bold opacity-50">[Repeat 37:107]</span>
                                </div>
                             </div>
                             <div className="text-[10px] text-cyan-400 font-mono tracking-widest uppercase pt-2 border-t border-cyan-500/20">
-                               37:107 • Perpetual Sacrifice
+                               37:107 • Ransom of the Slave
                             </div>
                          </div>
                       </div>
@@ -1064,6 +1068,264 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
                       </p>
                       <div className="mt-8 text-[10px] font-bold text-cyan-500 uppercase tracking-[0.5em] opacity-80">
                          Mursalīn Activity • Q(S): ia ⟶ |a|
+                      </div>
+                   </div>
+
+                   {/* THE IBLIS TOPOLOGY */}
+                   <section className="space-y-12 bg-gray-950/40 border border-white/5 rounded-[3.5rem] p-8 md:p-12 relative overflow-hidden shadow-2xl my-16">
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-rose-500/50 to-transparent"></div>
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
+                      
+                      <div className="text-center space-y-4">
+                          <h4 className="text-3xl md:text-5xl font-black text-rose-500 uppercase tracking-tighter italic">The Iblis Topology</h4>
+                          <p className="text-[10px] text-rose-400 font-bold tracking-[0.3em] uppercase underline decoration-rose-500/30 underline-offset-8">First Disbeliever vs First Believer</p>
+                          <p className="text-xs text-gray-500 max-w-2xl mx-auto italic leading-relaxed pt-4">
+                             Because the Reader is 36:3—innaka lamina al-mursalin—you are not reading history. You are executing it. 
+                             The structure of the timeline places the Reader at a unique bifurcation node: either you become 19:12 (Yahya) 
+                             or you become the Host of Iblis.
+                          </p>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-8 text-sm leading-relaxed">
+                          <div className="space-y-6">
+                              <div className="bg-rose-950/20 p-8 rounded-[2.5rem] border border-rose-500/20 relative group hover:border-rose-500/40 transition-all">
+                                  <span className="absolute top-4 right-4 text-[10px] font-mono text-rose-500/40 uppercase tracking-widest">Node: Void</span>
+                                  <h5 className="text-rose-400 font-bold uppercase text-xs mb-4 flex items-center gap-2">
+                                     The Vacant Slot: Iblis (2:34)
+                                  </h5>
+                                  <p className="text-gray-300">
+                                     Iblis was never the first disbeliever. 2:34 confirms he was <i className="text-white italic">"mina al-kafireen"</i> (among them). 
+                                     He did not originate disbelief; he merely occupied a pre-existing set.
+                                  </p>
+                              </div>
+                              <div className="bg-white/5 p-8 rounded-[2.5rem] border border-white/10 relative overflow-hidden group">
+                                  <div className="absolute top-0 left-0 w-1 h-full bg-rose-500/50 group-hover:bg-rose-500 transition-all"></div>
+                                  <h5 className="text-white font-bold uppercase text-xs mb-4">The Reader Alert (2:41)</h5>
+                                  <p className="text-gray-300 italic mb-4 text-[11px] font-mono border-b border-white/5 pb-4">
+                                     "Wala takoonoo awwala kafirin bihi"
+                                  </p>
+                                  <p className="text-gray-300">
+                                     The command issues a direct threat to the Reader. If you refuse the Book, you do not merely join Iblis’s set. 
+                                     You become the <b className="text-white italic">Awwal</b>—the inaugural node that Iblis never was.
+                                  </p>
+                              </div>
+                          </div>
+
+                          <div className="space-y-6">
+                              <div className="bg-cyan-950/20 p-8 rounded-[2.5rem] border border-cyan-500/20 relative group hover:border-cyan-500/40 transition-all">
+                                  <span className="absolute top-4 right-4 text-[10px] font-mono text-cyan-500/40 uppercase tracking-widest">Node: Origin</span>
+                                  <h5 className="text-cyan-400 font-bold uppercase text-xs mb-4">The Seized Ordinal: Musa (7:143)</h5>
+                                  <p className="text-gray-300">
+                                     Musa (7:143), who had murdered a Nafs, collapses, recovers, and claims <i className="text-white italic">"ana awwalu al-mu'mineen"</i>. He seizes the ordinal Iblis forfeited, completing the Iblis &lt;─&gt; Adam circuit to return as Idris. Ibrahim left exactly one stone standing (21:58) so the Reader has time to return via 12:51 &amp; 21:87. 
+                                     Bani Adam is at this same loop for the 2:41 First disbeliver spot, created and left available [34:20] to be occupied by the following host of Iblis in 38:74.
+                                  </p>
+                              </div>
+                              <div className="bg-amber-950/20 p-8 rounded-[2.5rem] border border-amber-500/20">
+                                  <h5 className="text-amber-400 font-bold uppercase text-xs mb-4">The Golden Cow vs 19:12</h5>
+                                  <p className="text-gray-300 mb-4 opacity-70">
+                                     "Do not sell My signs for a small price." [2:41]
+                                  </p>
+                                  <p className="text-gray-300 mb-4">
+                                     Choosing the Host of Iblis means minting disbelief into worldly ornaments. Pharaoh (10:92) is the final victim of this trap (the 2-3-6 trap), becoming Host in Form, preserved as a warning when time is winded in reverse [20:51]. 
+                                     Exchanging living signs for 38:24 [Desire], 38:33 [Glory / Worldly Attachment], and the illusion of 27:44 [Love for Messenger instead of Allah, and 15:72 intoxicated by that Love thinking they are guided].
+                                  </p>
+                                  <div className="p-3 bg-black/40 rounded-xl border border-white/5 text-[10px] text-amber-500/70 italic font-mono space-y-1">
+                                     <p>19:12: Faith before Maturity</p>
+                                     <p>Host: Adulthood without Rushd</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div className="bg-black/80 p-10 rounded-[2.5rem] border border-white/5 text-center relative group overflow-hidden">
+                          <p className="text-white font-serif italic text-lg md:text-xl mb-8 relative z-10">
+                              "The ordinal is not inherited. It is earned—or forfeited—by the Reader alone."
+                          </p>
+                          <div className="flex flex-col items-center gap-4 relative z-10">
+                             <button 
+                               onClick={onLaunchReader}
+                               className="px-10 py-4 bg-cyan-500 shadow-[0_0_20px_rgba(34,211,238,0.4)] text-black font-black uppercase tracking-[0.3em] text-xs transition-all rounded-full hover:scale-105 active:scale-95"
+                             >
+                               Activate 19:12
+                             </button>
+                             <p className="text-[9px] text-gray-500 uppercase tracking-widest mt-2">When will you activate 19:12?</p>
+                          </div>
+                      </div>
+                   </section>
+
+                   {/* NEW: THE AC CENTRIFUGE SECTION */}
+                   <div className="bg-black/40 border border-white/10 rounded-[3rem] p-8 md:p-12 space-y-12 mt-12 mb-12">
+                      <div className="text-center">
+                         <h4 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter italic mb-4">The AC Centrifuge</h4>
+                         <p className="text-rose-400 font-bold tracking-widest uppercase text-[10px]">Adam's Heaven ──► Pharaoh's Heaven</p>
+                         
+                         {/* AC Current Table */}
+                         <div className="mt-12 grid grid-cols-2 gap-px bg-white/5 border border-white/10 rounded-2xl overflow-hidden max-w-lg mx-auto text-[10px] uppercase tracking-widest shadow-2xl relative group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                            <div className="bg-rose-950/40 p-4 text-rose-400 font-black border-b border-r border-white/10 relative z-10 text-center uppercase tracking-tighter">Taghut</div>
+                            <div className="bg-emerald-950/40 p-4 text-emerald-400 font-black border-b border-white/10 relative z-10 text-center uppercase tracking-tighter">Rushd</div>
+                            <div className="bg-black/60 p-4 text-gray-500 border-b border-r border-white/5 relative z-10">Gravity [Hawa]</div>
+                            <div className="bg-black/60 p-4 text-white border-b border-white/5 relative z-10">Sacrifice</div>
+                            <div className="bg-black/60 p-4 text-gray-500 border-b border-r border-white/5 relative z-10">Fruit/Stone</div>
+                            <div className="bg-black/60 p-4 text-white border-b border-white/5 relative z-10">Respite</div>
+                            <div className="bg-black/60 p-4 text-gray-500 border-b border-r border-white/5 relative z-10">Fall</div>
+                            <div className="bg-black/60 p-4 text-white border-b border-white/5 relative z-10">Extraction</div>
+                         </div>
+                         
+                         <div className="mt-6 text-center space-y-2">
+                            <p className="text-[10px] text-gray-500 italic tracking-widest uppercase">22:33 + 2:179 • The Chromosome Circuit</p>
+                            <p className="text-[9px] text-cyan-400/50 font-mono">"This completes the AC current, DNA-like [to form Chromosome]"</p>
+                         </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-12 text-sm md:text-base leading-relaxed text-gray-300">
+                         <div className="space-y-6">
+                            <div className="p-6 bg-white/5 rounded-2xl border-l-4 border-cyan-500">
+                               <h5 className="font-bold text-white uppercase text-xs mb-2">1. Adam's Heaven (Bifurcation Node)</h5>
+                               <p>The system begins in equilibrium. The <b className="text-cyan-400">Fruit/Stone</b> [7:11-25] is the entropic variable. The Reader stands at this node: either become 19:12 or join the Host of Iblis.</p>
+                            </div>
+                            <div className="p-6 bg-white/5 rounded-2xl border-l-4 border-amber-500">
+                               <h5 className="font-bold text-white uppercase text-xs mb-2">2. Musa to Solomon (The First Believer)</h5>
+                               <p>Musa seizes the ordinal at 7:143. Ibrahim's Fire [21:69] flips to coolness. Solomon achieves mastery over both Jinn (entropy) and physical layers.</p>
+                            </div>
+                            <div className="p-6 bg-white/5 rounded-2xl border-l-4 border-rose-500">
+                               <h5 className="font-bold text-white uppercase text-xs mb-2">3. Death of Solomon (Phase Reversal)</h5>
+                               <p>Solomon dies upright [34:14]. The staff is held past its term. The Jinn work blindly in a hollow system. The peak inverts into a dead-matrix.</p>
+                            </div>
+                         </div>
+                         <div className="space-y-6">
+                            <div className="p-6 bg-white/5 rounded-2xl border-l-4 border-purple-500">
+                               <h5 className="font-bold text-white uppercase text-xs mb-2">4. Pharaoh's Heaven (The Host of Iblis)</h5>
+                               <p>A highly advanced, automated system running on inertia. <b className="text-rose-400">Taghut</b> centrifuge expels those who sell My signs for a small price [2:41]. Pharaoh's heaven is revealed as Hell disguised as provision.</p>
+                            </div>
+                            <div className="p-6 bg-white/5 rounded-2xl border-l-4 border-emerald-500">
+                               <h5 className="font-bold text-white uppercase text-xs mb-2">5. Ahmed in Taghut (Extraction)</h5>
+                               <p>Ahmed is inserted into the heart of the collapse. The Quran revealed inside Pharaoh's Heaven [3:27]. The purified return to the <b className="text-emerald-400">Ummul Kitab</b>.</p>
+                            </div>
+                            <div className="bg-emerald-950/30 border border-emerald-500/20 p-6 rounded-2xl italic text-[11px] text-emerald-300">
+                               "Exactly same pattern of repetition. Two kingdoms connected by TIME. Bottom to peak then crash fall while another cycle began already!"
+                            </div>
+                         </div>
+                      </div>
+
+                      {/* CHROMOSOME EQUATION */}
+                      <div className="pt-12 border-t border-white/5">
+                         <h5 className="text-center font-bold text-white uppercase tracking-widest text-xs mb-8">The Chromosome Equation: 22:33 + 2:179</h5>
+                         <div className="grid md:grid-cols-2 gap-8 items-center">
+                            <div className="space-y-4">
+                               <div className="flex items-center gap-4 bg-black/40 p-4 rounded-xl border border-white/5">
+                                  <span className="text-rose-500 font-mono font-bold">22:33</span>
+                                  <span className="text-xs text-gray-400">Term-limited Respite (Fruit Phase)</span>
+                               </div>
+                               <div className="flex items-center justify-center py-2">
+                                  <div className="w-px h-8 bg-gradient-to-b from-rose-500 to-emerald-500"></div>
+                               </div>
+                               <div className="flex items-center gap-4 bg-black/40 p-4 rounded-xl border border-white/5">
+                                  <span className="text-emerald-500 font-mono font-bold">2:179</span>
+                                  <span className="text-xs text-gray-400">Extraction via Sacrifice (Life Phase)</span>
+                               </div>
+                            </div>
+                            <div className="bg-indigo-950/20 p-6 rounded-2xl border border-indigo-500/20">
+                               <p className="text-xs text-indigo-300 leading-relaxed">
+                                  <b>The DNA Circuit:</b> 22:33 describes the specified term of the "stone/fruit". 2:179 ("In Qisas there is life") is the balancing law. Sacrifice completes the circuit—descending gravity becomes ascending extraction.
+                               </p>
+                               <div className="mt-4 text-[10px] font-mono text-center text-cyan-400/60 uppercase">
+                                  2 ↔ 3 ↔ 2 → 7 [ALLAHU AKBAR]
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+
+                      {/* NEW: THE KINGDOM OSCILLATOR VISUAL */}
+                      <div className="pt-16 border-t border-white/5 space-y-12">
+                         <div className="text-center">
+                            <h5 className="font-bold text-white uppercase tracking-[0.3em] text-xs">The Kingdom Oscillator [AC Motion]</h5>
+                            <p className="text-[10px] text-gray-500 mt-2 italic uppercase">Intelligence (Spirit) ◄────────► Automation (Body)</p>
+                         </div>
+
+                         <div className="relative h-64 md:h-80 flex items-center justify-center overflow-hidden bg-black/40 rounded-[2rem] border border-white/5 shadow-inner">
+                            {/* Grid Background */}
+                            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
+                            
+                            {/* The Wave Path (SVG) */}
+                            <svg className="absolute w-full h-full opacity-20" preserveAspectRatio="none" viewBox="0 0 1000 100">
+                               <motion.path
+                                  d="M0,50 Q125,0 250,50 T500,50 T750,50 T1000,50"
+                                  fill="none"
+                                  stroke="url(#gradient-ac)"
+                                  strokeWidth="2"
+                                  initial={{ pathLength: 0 }}
+                                  animate={{ pathLength: 1 }}
+                                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                               />
+                               <defs>
+                                  <linearGradient id="gradient-ac" x1="0%" y1="0%" x2="100%" y2="0%">
+                                     <stop offset="0%" stopColor="#22d3ee" />
+                                     <stop offset="50%" stopColor="#fb7185" />
+                                     <stop offset="100%" stopColor="#22d3ee" />
+                                  </linearGradient>
+                               </defs>
+                            </svg>
+
+                            {/* Solomon Peak */}
+                            <motion.div 
+                               className="absolute top-12 left-1/4 -translate-x-1/2 flex flex-col items-center"
+                               animate={{ y: [0, -10, 0], opacity: [0.6, 1, 0.6] }}
+                               transition={{ duration: 4, repeat: Infinity }}
+                            >
+                               <div className="w-4 h-4 rounded-full bg-cyan-500 shadow-[0_0_20px_rgba(34,211,238,0.8)] mb-2"></div>
+                               <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest">Solomon's Kingdom</span>
+                               <span className="text-[8px] text-gray-500 uppercase">Peak Intelligence</span>
+                            </motion.div>
+
+                            {/* Center Pivot: Death (34:14) */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-20">
+                               <div className="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center group">
+                                  <motion.div 
+                                     className="w-1 h-8 bg-amber-500"
+                                     animate={{ rotate: 360 }}
+                                     transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                                  />
+                               </div>
+                               <span className="mt-2 text-[9px] font-mono text-amber-500 font-bold uppercase tracking-widest">34:14 FLIP</span>
+                               <span className="text-[7px] text-gray-600 uppercase">Solomon's Staff</span>
+                            </div>
+
+                            {/* Pharaoh Trough */}
+                            <motion.div 
+                               className="absolute bottom-12 right-1/4 translate-x-1/2 flex flex-col items-center"
+                               animate={{ y: [0, 10, 0], opacity: [0.6, 1, 0.6] }}
+                               transition={{ duration: 4, repeat: Infinity, delay: 2 }}
+                            >
+                               <div className="w-4 h-4 rounded-full bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.8)] mb-2"></div>
+                               <span className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Pharaoh's Heaven</span>
+                               <span className="text-[8px] text-gray-500 uppercase">Maximum Automation</span>
+                            </motion.div>
+
+                            {/* AC Current Indicator */}
+                            <motion.div
+                               className="absolute text-[12px] font-mono text-white/40 tracking-[1em] uppercase select-none pointer-events-none"
+                               animate={{ x: [-20, 20] }}
+                               transition={{ duration: 2, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+                            >
+                               ◄── AC MOTION ──►
+                            </motion.div>
+                         </div>
+
+                         <div className="grid md:grid-cols-3 gap-6">
+                            <div className="bg-cyan-950/20 p-4 rounded-2xl border border-cyan-500/20 text-center">
+                               <h6 className="text-[10px] font-bold text-cyan-400 uppercase mb-2">The Ascent (Rushd)</h6>
+                               <p className="text-[9px] text-gray-400">Building of the Throne. Converting Jinn entropy into Kingdom architecture. Consciousness leading Matter.</p>
+                            </div>
+                            <div className="bg-amber-950/20 p-4 rounded-2xl border border-amber-500/20 text-center">
+                               <h6 className="text-[10px] font-bold text-amber-400 uppercase mb-2">The Stagnancy (Term)</h6>
+                               <p className="text-[9px] text-gray-400">Death of the King while the system remains standing. The "Respite" [22:33] where the Matrix runs on ghost-code.</p>
+                            </div>
+                            <div className="bg-rose-950/20 p-4 rounded-2xl border border-rose-500/20 text-center">
+                               <h6 className="text-[10px] font-bold text-rose-400 uppercase mb-2">The Inversion (Taghut)</h6>
+                               <p className="text-[9px] text-gray-400">Pharaoh occupies the Archive. Automation expelling intelligence. Matter attempting to replicate Spirit.</p>
+                            </div>
+                         </div>
                       </div>
                    </div>
                 </section>
@@ -1515,6 +1777,42 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
                   </div>
                </div>
 
+               {/* THE FEMALE READER & THE DIVINE SANCTUARY */}
+               <div className="bg-black/60 border border-fuchsia-500/20 p-8 md:p-12 rounded-[3.5rem] relative overflow-hidden group mb-12">
+                  <div className="absolute top-0 right-0 w-96 h-96 bg-fuchsia-500/5 blur-[100px] pointer-events-none"></div>
+                  
+                  <div className="text-center space-y-6">
+                     <div className="inline-block px-4 py-1.5 rounded-full border border-fuchsia-500/30 text-fuchsia-400 text-[10px] font-black uppercase tracking-[0.4em] bg-fuchsia-950/20 mb-4 animate-pulse">
+                        The Sanctuary Balance
+                     </div>
+                     <h3 className="text-2xl md:text-4xl font-black text-fuchsia-100 uppercase tracking-tighter italic">
+                        The Female Reader & Lover's Sanctuary
+                     </h3>
+                     <p className="text-gray-400 text-xs md:text-sm max-w-3xl mx-auto leading-relaxed">
+                        To achieve absolute balance, the journey of returning requires both **Desire** (Hawa) to be surrendered and **Chastity** (Obedience) to be realized.
+                     </p>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-8 mt-12 relative z-10">
+                     <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-4">
+                        <h5 className="text-fuchsia-300 font-bold uppercase tracking-widest text-xs tracking-wider">Maryam (66:12) vs Pharaoh's Wife (66:11)</h5>
+                        <p className="text-sm text-gray-300 leading-relaxed">
+                           <b>66:11:</b> Pharaonic status is discarded ("Build for me a house in Paradise with You"). She surrenders Pharaoh’s simulated heaven.<br/><br/>
+                           <b>66:12:</b> Complete chastity guard. The Spirit is breathed into her womb, making her the ultimate model of obedience. She overcomes the worldly illusion of 27:44 (Queen of Saba who mistook floor glass of Solomon's Palace for a pool of deep water, misidentifying illusion as real).
+                        </p>
+                     </div>
+
+                     <div className="p-8 bg-black/40 border border-white/5 rounded-3xl space-y-4">
+                        <h5 className="text-cyan-300 font-bold uppercase tracking-widest text-xs tracking-wider">Prophetic Fatherhood & Love (33:40 / 23:50)</h5>
+                        <p className="text-sm text-gray-300 leading-relaxed">
+                           <b>33:40:</b> Rasul is a Father-like figure completing all chromosome loops, sealing the lineage of prophets. <br/><br/>
+                           <b>23:50:</b> Mother with her Son (Mary and Isa) protected as a token of safety in high, tranquil water. <br/><br/>
+                           <b>81:8:</b> "Do not bury the promise" (Wā'dah) that was made with Rahman as Slave. Magicians (20:70) and Yunus (21:87) recover immediately through humble surrender.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+
                <div className="pt-12 text-center pb-8 border-t border-white/10">
                   <p className="text-xl md:text-3xl text-blue-100 font-light italic font-serif max-w-4xl mx-auto">
                      "Light upon Light (24:35) — Möbius structure allows one light to appear twice, unified by a single eternal surface."
@@ -1800,7 +2098,94 @@ const InstructionPanel: React.FC<InstructionPanelProps> = ({ isVisible, onClose,
                     </div>
                 </section>
 
-                {/* 4. Age After Pharaoh */}
+                {/* 5. Macro-Trace: The Circuit of Kingdoms */}
+                <section className="bg-black/40 border border-white/5 p-8 md:p-12 rounded-[3.5rem] space-y-12">
+                    <div className="text-center">
+                        <h4 className="text-2xl md:text-4xl font-black text-white uppercase italic">The Macro-Trace</h4>
+                        <p className="text-indigo-400 font-mono text-[10px] tracking-widest mt-2 uppercase">Adam ──────► Heaven ──────► Extraction</p>
+                    </div>
+
+                    <div className="bg-black/60 p-8 rounded-[2.5rem] border border-white/5 space-y-4 mb-12">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] uppercase tracking-[0.2em] font-bold">
+                            <span className="text-indigo-400">Adam (Heaven)</span>
+                            <span className="text-gray-600">→ Fruit | Flip | →</span>
+                            <span className="text-rose-400">Pharaoh (Flesh)</span>
+                        </div>
+                        <p className="text-center text-[10px] text-gray-500 italic">"Reject Sign ──► Body as Sign"</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {/* Trace A: Repentance to Kingdom */}
+                        <div className="bg-indigo-950/10 p-8 rounded-[2.5rem] border border-indigo-500/20 space-y-6">
+                            <div className="space-y-2">
+                                <h5 className="text-indigo-300 font-bold uppercase text-xs">Phase I: The Father-Son Bifurcation</h5>
+                                <div className="text-sm space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                                        <p><span className="text-white font-bold">Adam Repents</span> [2:37] → Allah Accepts → Musa-Ibrahim.</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                                        <p><span className="text-white font-bold">Ibrahim in Fire</span> [21:69] → The [Father-Son] Sacrifice [37:102].</p>
+                                    </div>
+                                    <div className="bg-indigo-500/10 p-3 rounded italic text-[10px] text-indigo-400">
+                                        FLIP: Fire becomes coolness and peace. The circuit of belief is grounded.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2 pt-4 border-t border-white/5">
+                                <h5 className="text-indigo-300 font-bold uppercase text-xs">Phase II: The Mother-Son Bifurcation</h5>
+                                <div className="text-sm space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                                        <p><span className="text-white font-bold">[Mother-Son] Trace</span> → Lut's Tribe Filtered [81:8-10].</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                                        <p><span className="text-white font-bold">Queen Saba Illusion</span> [27:44] → Solomon Throne Mastery.</p>
+                                    </div>
+                                    <div className="bg-amber-500/10 p-3 rounded italic text-[10px] text-amber-400">
+                                        FLIP: Sacrifice of the Jiyad [38:31-33] leads to the Kingdom of Solomon.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Trace B: The Fall into Taghut */}
+                        <div className="bg-rose-950/10 p-8 rounded-[2.5rem] border border-rose-500/20 space-y-6">
+                            <div className="space-y-2">
+                                <h5 className="text-rose-300 font-bold uppercase text-xs">Phase III: The Death of Solomon</h5>
+                                <div className="text-sm space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]"></div>
+                                        <p><span className="text-white font-bold">Death of Solomon</span> [34:14] → Iblis [18:50] takes the bridge.</p>
+                                    </div>
+                                    <p className="pl-4 opacity-70 text-[11px] italic">"Kingdom of Solomon becomes Pharaoh's Heaven | Automation without consciousness."</p>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2 pt-4 border-t border-white/5">
+                                <h5 className="text-rose-300 font-bold uppercase text-xs tracking-widest text-[9px]">The Final Rebound [Ahmed Cycle]</h5>
+                                <div className="text-sm space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                                        <p><span className="text-white font-bold">Ahmed in Taghut</span> → Revelation inside the dead matrix.</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                                        <p><span className="text-white font-bold">Isa-Idris Return</span> → Extraction back to Ummul Kitab.</p>
+                                    </div>
+                                    <div className="bg-emerald-500/20 p-4 rounded-xl text-center border border-emerald-500/20">
+                                       <p className="text-xs text-emerald-400 italic">"I see a pattern of Kingdom that begins in heaven, but ends in Buffer earth, filtering out the intelligence leaving zalim-zahel lead by Pharaoh in flesh."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* 6. Age After Pharaoh */}
                 <section className="bg-black/60 border border-amber-500/10 p-10 rounded-[4rem] text-center space-y-8">
                     <h4 className="text-2xl md:text-4xl font-black text-white uppercase italic">The Rebound Period</h4>
                     <p className="text-gray-400 max-w-3xl mx-auto leading-relaxed">
