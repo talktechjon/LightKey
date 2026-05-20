@@ -111,13 +111,34 @@ export const SEPHIROT_BASE_POINTS = [1, 12, 24, 35, 47, 58, 70, 81, 93, 104];
 export const ZAKKUM_CONFIG = {
     points: [57, 56, 55, 54, 53, 52, 51, 50, 49], point0: 48,
     nodes: [{ id: 1, label: 'Denial', x: 100, y: 30, color: '#fca5a5' }, { id: 2, label: 'Whisper', x: 170, y: 70, color: '#fdba74' }, { id: 3, label: 'Conjecture', x: 30, y: 70, color: '#93c5fd' }, { id: 4, label: 'Disobedient', x: 170, y: 130, color: '#ef4444' }, { id: 5, label: 'Transgress', x: 30, y: 130, color: '#f87171' }, { id: 6, label: 'Fire', x: 100, y: 180, color: '#f97316' }, { id: 7, label: 'Falsehood', x: 170, y: 230, color: '#c084fc' }, { id: 8, label: 'Collapse', x: 30, y: 230, color: '#a8a29e' }, { id: 9, label: 'Fall', x: 100, y: 260, color: '#86efac' }, { id: 0, label: 'Nothingness', x: 100, y: 100, color: '#fb7185', isZero: true }],
-    lines: [{ from: 1, to: 2 }, { from: 1, to: 3 }, { from: 1, to: 0 }, { from: 2, to: 3 }, { from: 2, to: 4 }, { from: 2, to: 0 }, { from: 3, to: 5 }, { from: 3, to: 0 }, { from: 6, to: 0 }, { from: 4, to: 5 }, { from: 4, to: 6 }, { from: 4, to: 7 }, { from: 5, to: 6 }, { from: 5, to: 8 }, { from: 6, to: 7 }, { from: 6, to: 8 }, { from: 6, to: 9 }, { from: 7, to: 8 }, { from: 7, to: 9 }, { from: 8, to: 9 }]
+    lines: [
+        { from: 1, to: 2 }, { from: 1, to: 3 }, { from: 1, to: 0 },
+        { from: 2, to: 3 }, { from: 2, to: 4 }, { from: 2, to: 5 }, { from: 2, to: 6 }, { from: 2, to: 0 },
+        { from: 3, to: 5 }, { from: 3, to: 4 }, { from: 3, to: 6 }, { from: 3, to: 0 },
+        { from: 6, to: 0 },
+        { from: 4, to: 5 }, { from: 4, to: 6 }, { from: 4, to: 7 }, { from: 4, to: 8 },
+        { from: 5, to: 6 }, { from: 5, to: 8 }, { from: 5, to: 7 },
+        { from: 6, to: 7 }, { from: 6, to: 8 }, { from: 6, to: 9 },
+        { from: 7, to: 8 }, { from: 7, to: 9 },
+        { from: 8, to: 9 }
+    ]
 };
 
 export const DATE_PALM_CONFIG = {
     points: SEPHIROT_BASE_POINTS, point0: null,
     nodes: [{ id: 1, label: 'Light', x: 100, y: 30, color: '#FFFFFF' }, { id: 2, label: 'Mercy', x: 170, y: 70, color: '#22d3ee' }, { id: 3, label: 'Earth', x: 30, y: 70, color: '#facc15' }, { id: 4, label: 'Root', x: 170, y: 130, color: '#854d0e' }, { id: 5, label: 'Branch', x: 30, y: 130, color: '#22c55e' }, { id: 6, label: 'Repentance', x: 100, y: 180, color: '#3b82f6' }, { id: 7, label: 'Kingdom', x: 170, y: 230, color: '#a855f7' }, { id: 8, label: 'Sacrifice', x: 30, y: 230, color: '#ef4444' }, { id: 9, label: 'Return', x: 100, y: 260, color: '#8b5cf6' }, { id: 10, label: 'Ascension', x: 100, y: 310, color: '#f59e0b' }, { id: 0, label: 'Emergence', x: 100, y: 100, color: '#9ca3af', isZero: true, stroke: '#4b5563' }],
-    lines: [{ from: 1, to: 2 }, { from: 1, to: 3 }, { from: 1, to: 0 }, { from: 2, to: 3 }, { from: 2, to: 4 }, { from: 2, to: 0 }, { from: 3, to: 5 }, { from: 3, to: 0 }, { from: 6, to: 0 }, { from: 4, to: 5 }, { from: 4, to: 6 }]
+    lines: [
+        { from: 1, to: 2 }, { from: 1, to: 3 }, { from: 1, to: 0 },
+        { from: 2, to: 3 }, { from: 2, to: 4 }, { from: 2, to: 5 }, { from: 2, to: 6 }, { from: 2, to: 0 },
+        { from: 3, to: 5 }, { from: 3, to: 4 }, { from: 3, to: 6 }, { from: 3, to: 0 },
+        { from: 6, to: 0 },
+        { from: 4, to: 5 }, { from: 4, to: 6 }, { from: 4, to: 7 }, { from: 4, to: 8 },
+        { from: 5, to: 6 }, { from: 5, to: 8 }, { from: 5, to: 7 },
+        { from: 6, to: 7 }, { from: 6, to: 8 }, { from: 6, to: 9 },
+        { from: 7, to: 8 }, { from: 7, to: 9 }, { from: 7, to: 10 },
+        { from: 8, to: 9 }, { from: 8, to: 10 },
+        { from: 9, to: 10 }
+    ]
 };
 
 export const CHAPTER_DETAILS: ChapterDetails[] = [
