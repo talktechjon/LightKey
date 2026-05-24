@@ -8,15 +8,13 @@ import StarryBackground from './components/StarryBackground.tsx';
 import VerseFinder from './components/VerseFinder.tsx';
 import SettingsPanel from './components/SettingsPanel.tsx';
 import InstructionPanel from './components/InstructionPanel.tsx';
-import MandalaPanel from './components/MandalaPanel.tsx';
 import TreeOfLifeMode from './components/TreeOfLifeMode.tsx';
-import { EquationHUD } from './components/EquationHUD.tsx';
 import { VisualizationHandle, TooltipContent, VerseFinderContent, LocalTranslationData } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
 import { getVerse, getFullSurah, getVerseDetails } from './data/verseData.ts';
 import { useIdle } from './hooks/useIdle.ts';
 import { processInBatches } from './utils.ts';
-import { TreeIcon, CowIcon, SealOfSolomonIcon, SearchIcon } from './components/Icons.tsx';
+import { TreeIcon, CowIcon, SearchIcon } from './components/Icons.tsx';
 
 const App: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);
@@ -40,8 +38,6 @@ const App: React.FC = () => {
   const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(null);
   const [localFileName, setLocalFileName] = useState<string | null>(null);
   const [isInstructionVisible, setIsInstructionVisible] = useState(false); 
-  const [isMandalaVisible, setIsMandalaVisible] = useState(false);
-  const [isEquationHUDVisible, setIsEquationHUDVisible] = useState(false);
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
   const [bakaraSpineIndex, setBakaraSpineIndex] = useState(1);
   
@@ -186,8 +182,6 @@ const App: React.FC = () => {
     <main className="w-full lg:h-screen min-h-screen text-gray-100 font-sans relative flex flex-col lg:overflow-hidden">
       {!isLowResourceMode && <StarryBackground />}
       <InstructionPanel isVisible={isInstructionVisible} onClose={() => setIsInstructionVisible(false)} onLaunchReader={() => setIsVerseFinderVisible(true)} />
-      <MandalaPanel isVisible={isMandalaVisible} onClose={() => setIsMandalaVisible(false)} />
-      <EquationHUD isVisible={isEquationHUDVisible} onClose={() => setIsEquationHUDVisible(false)} />
       
       {isTreeOfLifeModeActive && (
         <TreeOfLifeMode rotation={rotation} onClose={() => setIsTreeOfLifeModeActive(false)} />
@@ -200,8 +194,6 @@ const App: React.FC = () => {
             <SearchIcon />
             <span className="text-[10px] font-black uppercase tracking-widest">Reader</span>
           </button>
-          <button onClick={() => setIsMandalaVisible(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isMandalaVisible ? 'text-amber-400' : 'text-cyan-400'} hover:bg-cyan-900/40`} title="The 2↔3↔2→7 Mandala"><SealOfSolomonIcon /></button>
-          <button onClick={() => setIsEquationHUDVisible(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center font-serif text-xs font-black transition-all ${isEquationHUDVisible ? 'text-amber-400 border-amber-500/40 shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'text-cyan-400 hover:text-cyan-300'}`} title="Equation HUD (The Blueprint of Reality)">𝔹</button>
           <button onClick={() => setIsSecretModeActive(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isSecretModeActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="The Illusion (ia Potential)"><div className={`w-2 h-2 rounded-full ${isSecretModeActive ? 'bg-cyan-400/70' : 'bg-gray-700'}`}></div></button>
           <button onClick={() => setIsTreeOfVerseActive(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isTreeOfVerseActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="The Trunk (Barzakh Traversal)"><TreeIcon /></button>
           <button onClick={() => setIsIdleAnimationEnabled(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isIdleAnimationEnabled ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Idle"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
