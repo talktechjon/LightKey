@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { CollatzTreeExplorer } from './CollatzTreeExplorer.tsx';
 
 const cosmicTreeEyeImg = "/src/assets/images/cosmic_tree_eye_1779355304582.png";
 
@@ -210,6 +211,8 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
                           <span className="px-4 py-2 bg-cyan-900 rounded-lg border border-cyan-500 text-cyan-200 shadow-[0_0_15px_rgba(6,182,212,0.4)]">Seed</span>
                         </div>
                      </div>
+
+                     <CollatzTreeExplorer />
 
                   </div>
                 )}
