@@ -11,7 +11,7 @@ interface RecoveryLogProps {
 }
 
 const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLaunchReader }) => {
-  const [activeTab, setActiveTab] = useState<'latest' | 'blueprint' | 'mandala' | 'protocol'>('latest');
+  const [activeTab, setActiveTab] = useState<'overview' | 'blueprint' | 'math' | 'device' | 'loop'>('overview');
   const [activeField, setActiveField] = useState<'B' | 'D10' | 'X3' | 'I9' | 'R19'>('B');
 
   const variableDetails = {
@@ -122,10 +122,10 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
             {/* Tab Navigation */}
             <div className="flex flex-wrap gap-2 mt-8 z-10 bg-slate-900/80 p-1 border border-cyan-500/20 rounded-xl self-start">
                 <button 
-                  onClick={() => setActiveTab('latest')}
-                  className={`px-4 py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 ${activeTab === 'latest' ? 'bg-cyan-500/20 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.3)]' : 'text-gray-400 hover:text-white'}`}
+                  onClick={() => setActiveTab('overview')}
+                  className={`px-4 py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 ${activeTab === 'overview' ? 'bg-cyan-500/20 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.3)]' : 'text-gray-400 hover:text-white'}`}
                 >
-                  Latest Entry
+                  Overview
                 </button>
                 <button 
                   onClick={() => setActiveTab('blueprint')}
@@ -134,16 +134,22 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
                   The Blueprint
                 </button>
                 <button 
-                  onClick={() => setActiveTab('mandala')}
-                  className={`px-4 py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 ${activeTab === 'mandala' ? 'bg-blue-500/20 text-blue-300 shadow-[0_0_10px_rgba(59,130,246,0.3)]' : 'text-gray-400 hover:text-white'}`}
+                  onClick={() => setActiveTab('math')}
+                  className={`px-4 py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 ${activeTab === 'math' ? 'bg-blue-500/20 text-blue-300 shadow-[0_0_10px_rgba(59,130,246,0.3)]' : 'text-gray-400 hover:text-white'}`}
                 >
-                  The Mandala
+                  Mathematics
                 </button>
                 <button 
-                  onClick={() => setActiveTab('protocol')}
-                  className={`px-4 py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 ${activeTab === 'protocol' ? 'bg-rose-500/20 text-rose-300 shadow-[0_0_10px_rgba(244,63,94,0.3)]' : 'text-gray-400 hover:text-white'}`}
+                  onClick={() => setActiveTab('device')}
+                  className={`px-4 py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 ${activeTab === 'device' ? 'bg-rose-500/20 text-rose-300 shadow-[0_0_10px_rgba(244,63,94,0.3)]' : 'text-gray-400 hover:text-white'}`}
                 >
-                  The Protocol
+                  Wisdom Device
+                </button>
+                <button 
+                  onClick={() => setActiveTab('loop')}
+                  className={`px-4 py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 ${activeTab === 'loop' ? 'bg-emerald-500/20 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.3)]' : 'text-gray-400 hover:text-white'}`}
+                >
+                  Adam 2.0 Loop
                 </button>
             </div>
         </div>
@@ -159,64 +165,58 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
                transition={{ duration: 0.3 }}
                className="p-6 md:p-12"
              >
-                {activeTab === 'latest' && (
+                {activeTab === 'overview' && (
                   <div className="max-w-4xl mx-auto space-y-12">
                      <div className="text-center mb-8">
                         <h1 className="text-3xl md:text-5xl font-black text-cyan-400 font-serif mb-4 drop-shadow-[0_0_15px_rgba(34,211,238,0.4)]">
-                          The Recursive Tree of Earth, Water, and Fruit
+                          Human and Universe: A Qur'anic Topology of Return
                         </h1>
                         <p className="text-gray-400 uppercase tracking-widest text-sm font-mono">The Dual-Caustic Universe (DCU)</p>
                      </div>
 
-                     <div className="bg-cyan-950/20 border border-cyan-500/30 p-8 rounded-3xl text-center">
-                        <p className="text-lg text-gray-300 mb-6">The framework is a Tree → Fruit topology, where dual bifurcation traverses a triple expansion field until closure appears as Fruit and recursion renews itself through Seed.</p>
-                        <div className="text-xl md:text-2xl font-black text-amber-300 font-mono tracking-widest select-all mb-4 bg-black/40 py-4 rounded-xl border border-amber-500/20">
-                          Earth ↔ Tree ↔ Water → Fruit
-                        </div>
-                        <div className="text-sm md:text-base font-bold text-cyan-300 font-mono tracking-normal select-all bg-black/40 p-4 rounded-xl border border-cyan-500/20 overflow-x-auto whitespace-nowrap">
-                          2[D₁₀, Earth] ↔ 3[𝒯³] ↔ 2[I₉, Water] → 7[Fruit]
-                        </div>
+                     <div className="bg-cyan-950/20 border border-cyan-500/30 p-8 rounded-3xl">
+                        <h3 className="text-xl font-bold text-cyan-300 mb-4 uppercase">Abstract</h3>
+                        <p className="text-base text-gray-300 leading-relaxed">
+                          This research addresses the structural condition identified in Qur'an 38:46 — that humanity has forgotten its primordial origin — by proposing a mathematical framework that reads the Qur'an as an operational coordinate system. The Dual-Caustic Universe (DCU) framework unifies Qur'anic cosmology, semiconductor physics, and mathematical topology into a coherent model.
+                        </p>
+                        <p className="text-base text-gray-300 leading-relaxed mt-4">
+                          It identifies three eigenstates (Real, Degenerate, Carrier) and demonstrates that the p-n junction is a direct structural isomorphism of the Qur'anic D₁₀/I₉ dual-field separation. The framework confirms structural parallels with the Collatz conjecture, Golden Ratio convergence, wave-particle duality, and the Hubble tension.
+                        </p>
                      </div>
 
                      <div className="grid md:grid-cols-2 gap-8">
-                       <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4">
-                          <h3 className="text-xl font-bold text-blue-400 uppercase">2 — Earth (D₁₀)</h3>
-                          <p className="text-gray-300 text-sm leading-relaxed">Earth is the <strong>detectable field</strong> — where continuity becomes measurable distinction. This coordinate is the first Contraption (External Taghut) — the visible system of attachment, structure, fixation, and polarity.</p>
+                       <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4 shadow-inner">
+                          <h3 className="text-xl font-bold text-amber-400 uppercase">The Forgetting of Home [38:46]</h3>
+                          <p className="text-gray-300 text-sm leading-relaxed">The Arabic word <em>al-Dār</em> carries a resonance that no single English rendering can capture. It is the Abode, the place to which one returns. The act of purification is conditioned upon remembrance, meaning the human being once knew.</p>
                        </div>
-                       <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4">
-                          <h3 className="text-xl font-bold text-emerald-400 uppercase">3 — Tree (T³)</h3>
-                          <p className="text-gray-300 text-sm leading-relaxed">The living traversal operator. It performs the framework's triple expansion. The Tree executes dual bifurcation while simultaneously generating triple expansion.</p>
-                       </div>
-                       <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4">
-                          <h3 className="text-xl font-bold text-amber-400 uppercase">2 — Water (I₉)</h3>
-                          <p className="text-gray-300 text-sm leading-relaxed">Water is the <strong>imaginal field</strong> — the hidden completion field, the memory field. This coordinate is the second Contraption (Internal Taghut) appearing through imagination, fixation, and hidden orientation.</p>
-                       </div>
-                       <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4">
-                          <h3 className="text-xl font-bold text-rose-400 uppercase">7 — Fruit</h3>
-                          <p className="text-gray-300 text-sm leading-relaxed">Fruit is not merely an ending. Fruit is <strong>compressed traversal</strong>. It contains memory of the path, seed of the next cycle, closure of the present, and the return code of recursion. Fruit is Rahman Completion.</p>
+                       <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4 shadow-inner">
+                          <h3 className="text-xl font-bold text-emerald-400 uppercase">Pre-Cosmic Silence [76:1]</h3>
+                          <p className="text-gray-300 text-sm leading-relaxed">"Has there not been over man a period of time when he was nothing mentioned?" The pre-cosmic state of maximum entropy before differentiation, where the human was not yet in speech or record.</p>
                        </div>
                      </div>
 
-                     <div className="bg-black/40 p-8 rounded-[2.5rem] border border-white/5 text-center mt-12 mb-8 shadow-inner">
-                        <h4 className="text-cyan-500 font-black uppercase tracking-[0.2em] text-lg mb-6">The Recursive Mandala</h4>
-                        <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-white font-mono font-bold text-sm md:text-base">
-                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600">Seed</span>
+                     <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4 shadow-inner mt-8 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-[50px] pointer-events-none"></div>
+                        <h3 className="text-xl font-bold text-blue-400 uppercase relative z-10">The Topology of Return (2 ↔ 3 ↔ 2 → 7)</h3>
+                        <p className="text-gray-300 text-sm leading-relaxed relative z-10">
+                          Bifurcation into duality (2), traversal through the triadic junction (3), filtering back through duality (2), and return to unified closure (7). The Seed enters the dual-field junction, undergoes Tree-negotiation, produces Fruit if transfer completes, and returns as Seed to re-enter.
+                        </p>
+                        
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-white font-mono font-bold text-sm md:text-base mt-6 relative z-10">
+                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600 shadow-md">Seed</span>
                           <span className="text-cyan-400">→</span>
-                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600">Root</span>
+                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600 shadow-md">Root</span>
                           <span className="text-cyan-400">→</span>
-                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600">Tree</span>
+                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600 shadow-md">Tree</span>
                           <span className="text-cyan-400">→</span>
-                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600">Fruit</span>
+                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600 shadow-md">Fruit</span>
                           <span className="text-cyan-400">→</span>
-                          <span className="px-4 py-2 bg-cyan-900 rounded-lg border border-cyan-500 text-cyan-200 shadow-[0_0_15px_rgba(6,182,212,0.4)]">Seed</span>
+                          <span className="px-4 py-2 bg-cyan-900/50 rounded-lg border border-cyan-500 text-cyan-200 shadow-[0_0_15px_rgba(6,182,212,0.4)]">Seed</span>
                         </div>
                      </div>
 
-                     <CollatzTreeExplorer />
-
                   </div>
                 )}
-
 
                 {activeTab === 'blueprint' && (
                   <div className="space-y-8 max-w-5xl mx-auto">
@@ -297,7 +297,7 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
                         </div>
                       </div>
 
-                      <div className="my-6 p-4 bg-slate-950/60 rounded-xl border border-white/5">
+                      <div className="my-6 p-4 bg-slate-950/60 rounded-xl border border-white/5 shadow-inner">
                         <p className="text-sm md:text-base italic text-emerald-300 font-serif leading-relaxed text-center">
                           {activeData.verseText}
                         </p>
@@ -307,7 +307,7 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
                         <h4 className="text-[10px] uppercase tracking-widest font-mono text-gray-500 font-black">Systemic Specifications</h4>
                         <ul className="grid md:grid-cols-3 gap-6">
                           {activeData.details.map((detail, idx) => (
-                            <li key={idx} className="bg-slate-950/20 p-5 rounded-2xl border border-white/5 flex gap-3 text-xs md:text-sm text-gray-300 leading-relaxed font-light">
+                            <li key={idx} className="bg-slate-950/40 p-5 rounded-2xl border border-white/5 flex gap-3 text-xs md:text-sm text-gray-300 leading-relaxed font-light shadow-md hover:bg-slate-900 transition-colors">
                               <span className="text-cyan-400/70 font-mono font-bold">{idx + 1}.</span>
                               <p>{detail}</p>
                             </li>
@@ -316,60 +316,107 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
                       </div>
                     </div>
 
-                    {/* D10 vs I9 Comparison Matrix / Side-by-Side Dashboard */}
-                    <div className="space-y-4">
+                    {/* Dual Registration Section */}
+                    <div className="space-y-6">
                       <div className="flex items-center gap-x-2 px-2">
-                        <span className="text-[10px] font-mono tracking-[0.4em] text-cyan-500 uppercase font-black">Structural Polarizations</span>
+                        <span className="text-[10px] font-mono tracking-[0.4em] text-cyan-500 uppercase font-black">Dual-Field Registration</span>
                         <div className="h-px flex-1 bg-gradient-to-r from-cyan-500/20 to-transparent"></div>
                       </div>
 
                       <div className="grid md:grid-cols-2 gap-6">
-                        {/* Left Column: D10 Detectable Side */}
-                        <div className="bg-blue-950/10 border border-blue-500/20 p-6 rounded-[2rem] space-y-4 relative overflow-hidden flex flex-col justify-between">
-                          <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/[0.01] blur-[80px] pointer-events-none" />
-                          <div className="space-y-4">
+                        <div className="bg-blue-950/10 border border-blue-500/20 p-6 rounded-[2rem] space-y-4 relative overflow-hidden flex flex-col justify-between shadow-lg">
+                          <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/[0.02] blur-[80px] pointer-events-none" />
+                          <div className="space-y-4 relative z-10">
                             <div className="flex justify-between items-center pb-2 border-b border-blue-500/10">
-                              <span className="text-[9px] font-mono uppercase tracking-widest text-blue-400 font-black">Az-Zahir (Apparent)</span>
-                              <span className="px-2 py-0.5 rounded bg-blue-500/15 text-[9px] text-blue-300 font-mono">5% Visible Physics</span>
+                              <span className="text-[9px] font-mono uppercase tracking-widest text-blue-400 font-black">Az-Zahir / The Physical</span>
+                              <span className="px-2 py-0.5 rounded bg-blue-500/15 text-[9px] text-blue-300 font-mono">D₁₀ Register</span>
                             </div>
-                            <h3 className="text-xl font-bold text-blue-100 uppercase font-serif">The D₁₀ Detectable Domain</h3>
+                            <h3 className="text-xl font-bold text-blue-100 uppercase font-serif">The Water Spray (Particle)</h3>
                             <p className="text-xs md:text-sm text-gray-400 leading-relaxed font-light">
-                              The physical realm governed by spatial boundaries, clocks, and mechanical measurements. Contains standard model particles, mass-energy equivalency, and wave collapse under observation. Highly deterministic once anchored.
+                              Water is sprayed toward the figure and the wall. The body literally blocks water, producing a wet silhouette surrounding a dry print. The register is measurable, weight-bearing, requiring physical contact.
                             </p>
-                          </div>
-
-                          <div className="bg-slate-950/60 p-4 rounded-xl border border-white/5 font-mono text-[10px] md:text-xs text-blue-300 mt-4 leading-relaxed space-y-1">
-                            <div>• Quantum State: Mass-bound Deterministic Particle</div>
-                            <div>• Physics Core: General Relativity & Quantum Mechanics</div>
-                            <div>• Vector Flow: Phototropic Ascent (Light seeks light, 41:53)</div>
                           </div>
                         </div>
 
-                        {/* Right Column: I9 Imaginal Side */}
-                        <div className="bg-amber-950/10 border border-amber-500/20 p-6 rounded-[2rem] space-y-4 relative overflow-hidden flex flex-col justify-between">
-                          <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/[0.01] blur-[80px] pointer-events-none" />
-                          <div className="space-y-4">
+                        <div className="bg-amber-950/10 border border-amber-500/20 p-6 rounded-[2rem] space-y-4 relative overflow-hidden flex flex-col justify-between shadow-lg">
+                          <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/[0.02] blur-[80px] pointer-events-none" />
+                          <div className="space-y-4 relative z-10">
                             <div className="flex justify-between items-center pb-2 border-b border-amber-500/10">
-                              <span className="text-[9px] font-mono uppercase tracking-widest text-amber-400 font-black">Al-Batin (Hidden)</span>
-                              <span className="px-2 py-0.5 rounded bg-amber-500/15 text-[9px] text-amber-300 font-mono">95% Invisible Substrate</span>
+                              <span className="text-[9px] font-mono uppercase tracking-widest text-amber-400 font-black">Al-Batin / The Imaginal</span>
+                              <span className="px-2 py-0.5 rounded bg-amber-500/15 text-[9px] text-amber-300 font-mono">I₉ Register</span>
                             </div>
-                            <h3 className="text-xl font-bold text-amber-100 uppercase font-serif">The I₉ Imaginal Architecture</h3>
+                            <h3 className="text-xl font-bold text-amber-100 uppercase font-serif">The Flashlight (Wave)</h3>
                             <p className="text-xs md:text-sm text-gray-400 leading-relaxed font-light">
-                              The hidden blueprints structured behind the veil. Not a vacuum or empty space, but a fully charged mineral substrate. Contemporary astrophysicists placeholder-label this the 'dark sector'. Highly self-luminous and causal.
+                              A beam of light produces a shadow on the wall. The shadow is extended, nonlocal, without material transfer. It carries the body's shape but no mass. Information writes shape via structured absence.
                             </p>
                           </div>
-
-                          <div className="bg-slate-950/60 p-4 rounded-xl border border-white/5 font-mono text-[10px] md:text-xs text-amber-300 mt-4 leading-relaxed space-y-1">
-                            <div>• Quantum State: Propagative Indeterministic Wave</div>
-                            <div>• Physics Core: Vacuum Field Invariants & Singularities</div>
-                            <div>• Vector Flow: Gravitropic Descent (Deep rooted mineral-attraction)</div>
-                          </div>
                         </div>
+                      </div>
+                      
+                      <div className="text-center py-4 bg-slate-900/50 rounded-2xl border border-white/10 mx-auto max-w-3xl shadow-inner">
+                        <p className="text-sm text-gray-300 italic font-serif px-6">
+                           The person does not change. The Seed (Nafsan Wahidah) is identical in both. Only the registering field changes. The DCU rejects "real vs unreal"; both are real registrations of the same origin.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* P-N Junction Isomorphism */}
+                    <div className="bg-slate-900/40 border border-emerald-500/20 p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden mt-12">
+                      <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/[0.02] to-transparent pointer-events-none" />
+                      <div className="text-center mb-6">
+                        <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase border bg-emerald-500/10 text-emerald-300 border-emerald-500/30">
+                          Structural Isomorphism
+                        </span>
+                        <h2 className="text-2xl font-black text-white uppercase mt-4 tracking-wider">The P-N Junction</h2>
+                      </div>
+                      
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse text-sm text-gray-300">
+                          <thead>
+                            <tr className="border-b border-emerald-500/20">
+                              <th className="py-3 px-4 font-bold text-emerald-400">Semiconductor</th>
+                              <th className="py-3 px-4 font-bold text-emerald-400">DCU Operator</th>
+                              <th className="py-3 px-4 font-bold text-emerald-400">Qur'anic Coordinate</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-white/5 hover:bg-white/5">
+                              <td className="py-3 px-4">P-type material</td>
+                              <td className="py-3 px-4">I₉ (imaginal field)</td>
+                              <td className="py-3 px-4 font-serif italic text-gray-400">[17:85] Spirit from command</td>
+                            </tr>
+                            <tr className="border-b border-white/5 hover:bg-white/5">
+                              <td className="py-3 px-4">N-type material</td>
+                              <td className="py-3 px-4">D₁₀ (physical field)</td>
+                              <td className="py-3 px-4 font-serif italic text-gray-400">[20:55] Earth-origin</td>
+                            </tr>
+                            <tr className="border-b border-white/5 hover:bg-white/5">
+                              <td className="py-3 px-4">P-N Junction</td>
+                              <td className="py-3 px-4">Tree (T³)</td>
+                              <td className="py-3 px-4 font-serif italic text-gray-400">[41:11] Heaven and earth converge</td>
+                            </tr>
+                            <tr className="border-b border-white/5 hover:bg-white/5">
+                              <td className="py-3 px-4">Built-in potential</td>
+                              <td className="py-3 px-4">Gravity of Truth</td>
+                              <td className="py-3 px-4 font-serif italic text-gray-400">[29:44] Created in truth</td>
+                            </tr>
+                            <tr className="border-b border-white/5 hover:bg-white/5">
+                              <td className="py-3 px-4">Forward bias</td>
+                              <td className="py-3 px-4">19:12 grip</td>
+                              <td className="py-3 px-4 font-serif italic text-gray-400">[19:12] Take the Book with strength</td>
+                            </tr>
+                            <tr className="hover:bg-white/5">
+                              <td className="py-3 px-4">Reverse bias</td>
+                              <td className="py-3 px-4">15:72 intoxication</td>
+                              <td className="py-3 px-4 font-serif italic text-gray-400">[15:72] Wandering in intoxication</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
 
                     {/* Cosmological Inversion Artwork section */}
-                    <div className="bg-slate-900/40 border border-cyan-500/15 p-6 md:p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+                    <div className="bg-slate-900/40 border border-cyan-500/15 p-6 md:p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden mt-12">
                       <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/[0.02] to-transparent pointer-events-none" />
                       <div className="grid md:grid-cols-12 gap-8 items-center">
                         <div className="md:col-span-5 flex flex-col justify-center space-y-4">
@@ -415,110 +462,235 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
                         </div>
                       </div>
                     </div>
-
-                    {/* Meme statement */}
-                    <div className="text-center py-4 text-cyan-500/40 font-mono text-[10px] tracking-widest uppercase">
-                      U = 𝔹 [ D₁₀ ↔ X₃ ↔ I₉ → R₁₉ ] • The Mizan balances itself perfectly
-                    </div>
-
                   </div>
                 )}
 
 
-                {activeTab === 'mandala' && (
-                  <div className="max-w-4xl mx-auto space-y-12">
+                {activeTab === 'math' && (
+                  <div className="max-w-5xl mx-auto space-y-12">
                      <div className="text-center mb-8">
-                        <h1 className="text-3xl md:text-5xl font-black text-blue-400 font-serif mb-4">
-                          TRAVERSING THE MANDALA
+                        <h1 className="text-3xl md:text-5xl font-black text-blue-400 font-serif mb-4 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                          Mathematical Recursion & Science
                         </h1>
-                        <p className="text-gray-400 uppercase tracking-widest text-sm font-mono">Chapter 55 Field-Proof</p>
-                     </div>
-
-                     <div className="bg-blue-950/10 p-8 rounded-3xl border border-blue-500/20">
-                        <p className="text-lg text-gray-300 leading-relaxed mb-6 italic text-center">
-                          "Surah Ar-Rahman [55] is the complete field equation of the universe. It maps the <strong>2↔3↔2→7</strong> operator sequence across 78 verses, synchronized by <strong>31</strong> prime clock-signal refrains."
-                        </p>
-                     </div>
-
-                     <div className="grid sm:grid-cols-2 gap-6">
-                        <div className="bg-slate-900/50 p-6 rounded-2xl border border-white/5 relative overflow-hidden group">
-                           <div className="absolute top-0 right-0 w-2 h-full bg-cyan-500"></div>
-                           <h4 className="text-cyan-400 font-bold mb-2 font-mono">Node 2: The Rupture [55:1-28]</h4>
-                           <p className="text-sm text-gray-400">The Split into two Receivers. Rahman establishes the Source-field. Differentiation of Clay (Particle/Gravitropism) and Fire (Wave/Phototropism).</p>
-                        </div>
-                        <div className="bg-slate-900/50 p-6 rounded-2xl border border-white/5 relative overflow-hidden group">
-                           <div className="absolute top-0 right-0 w-2 h-full bg-emerald-500"></div>
-                           <h4 className="text-emerald-400 font-bold mb-2 font-mono">Node 3: Structure [55:29-45]</h4>
-                           <p className="text-sm text-gray-400">The Lawful Buffer. "Every day He is upon a matter" — the perpetual 3n+1 recursion. Razim-filter activates.</p>
-                        </div>
-                        <div className="bg-slate-900/50 p-6 rounded-2xl border border-white/5 relative overflow-hidden group">
-                           <div className="absolute top-0 right-0 w-2 h-full bg-amber-500"></div>
-                           <h4 className="text-amber-400 font-bold mb-2 font-mono">Node 2: Reintegration [55:46-61]</h4>
-                           <p className="text-sm text-gray-400">The Return of Duality. Two Gardens for the Fearful. Paired fruits, paired fountains — Nafsan Wahidah (4:1) restored.</p>
-                        </div>
-                        <div className="bg-slate-900/50 p-6 rounded-2xl border border-white/5 relative overflow-hidden group">
-                           <div className="absolute top-0 right-0 w-2 h-full bg-rose-500"></div>
-                           <h4 className="text-rose-400 font-bold mb-2 font-mono">Node 7: Elevation [55:62-78]</h4>
-                           <p className="text-sm text-gray-400">Restored Coherence. Circuit closes at Dhul-Jalal (Majesty & Honor), returning the Trust to Source.</p>
-                        </div>
-                     </div>
-
-                     <div className="bg-yellow-950/20 border-l-4 border-yellow-500 p-8 rounded-r-3xl mt-12">
-                        <div className="text-center font-mono text-3xl text-yellow-400 font-black mb-4 tracking-widest">
-                           e<sup>iπ</sup> + 1 = 0
-                        </div>
-                        <p className="text-sm text-gray-400 text-center uppercase tracking-widest mb-6">Euler's Identity · Geometrical Seal</p>
-                        <ul className="space-y-2 text-sm text-gray-300 max-w-lg mx-auto font-light">
-                           <li><strong className="text-yellow-400 mr-2">e:</strong> The Exponential Light-Field (Yusuf Field)</li>
-                           <li><strong className="text-yellow-400 mr-2">i:</strong> Unseen Phase Rotation (Hidden Axis)</li>
-                           <li><strong className="text-yellow-400 mr-2">π:</strong> Traversal Operator (Recursive Refrain)</li>
-                           <li><strong className="text-yellow-400 mr-2">+1:</strong> Particle Manifestation (Dhul-Jalal)</li>
-                           <li><strong className="text-yellow-400 mr-2">0:</strong> Invariant Return Origin (55:78 Closure)</li>
-                        </ul>
-                     </div>
-                  </div>
-                )}
-
-
-                {activeTab === 'protocol' && (
-                  <div className="max-w-4xl mx-auto space-y-12">
-                     <div className="text-center mb-12">
-                        <h1 className="text-3xl md:text-5xl font-black text-rose-400 font-serif mb-4">
-                          The 2-3-6 Taghut Freeze vs 2-3-7 Return
-                        </h1>
-                        <p className="text-gray-400 uppercase tracking-widest text-sm font-mono">Suhuf & The True Severance</p>
+                        <p className="text-gray-400 uppercase tracking-widest text-sm font-mono">Collatz, Golden Ratio, d=19 Invariant</p>
                      </div>
 
                      <div className="grid md:grid-cols-2 gap-8">
-                       <div className="bg-red-950/20 p-8 rounded-3xl border border-red-500/20 space-y-4">
-                         <h5 className="font-bold text-red-500 uppercase tracking-widest text-sm">The Counterfeit Buffer (False 3)</h5>
-                         <strong className="text-white block">Arrested Decoherence</strong>
-                         <p className="text-sm text-gray-400 leading-relaxed">
-                            Iblis did not simply sever the buffer—he built a counterfeit 3. The Golden Calf (Samiri, 20:96) was constructed from the dust of the Rasul's footprint—real buffer material, misrouted. This produces a system that <i>looks</i> like entanglement but generates <b>arrested decoherence</b>: the system locks into a false eigenstate. 
-                         </p>
-                         <p className="text-sm text-gray-400 leading-relaxed bg-red-950/40 p-4 rounded-xl mt-4">
-                            This is why Taghut attachments output a closed loop back into 2, rather than forward into 7. The entanglement fires, but it collapses backward because it holds no <i>Suhuf-seed</i> memory.
-                         </p>
+                        <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4">
+                           <h3 className="text-xl font-bold text-amber-400 uppercase">Golden Ratio & Fibonacci</h3>
+                           <p className="text-gray-300 text-sm leading-relaxed">
+                             φ = (1 + √5)/2 is the asymptotic ratio of the 2 ↔ 3 oscillation. Sūrat Ibrāhīm [14:24-25] describes the "good tree", 
+                             whose phyllotactic branching follows Fibonacci geometry (golden angle ~137.5°). The Tree arranges the interaction so every branch preserves the information of the whole.
+                           </p>
+                        </div>
+                        <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4">
+                           <h3 className="text-xl font-bold text-emerald-400 uppercase">The Hubble Tension</h3>
+                           <p className="text-gray-300 text-sm leading-relaxed">
+                             DCU proposes the 67 vs. 73 km/s/Mpc discrepancy arises because CMB probes the I₉-like wave-coherence field, while supernovae probe the D₁₀-like late universe mass structures. The Barzakh [55:20] between them prevents transgression, maintaining their necessary separation.
+                           </p>
+                        </div>
+                     </div>
+
+                     <div className="bg-cyan-950/20 border border-cyan-500/30 p-8 rounded-[2.5rem] mt-8 shadow-lg">
+                        <h3 className="text-xl font-bold text-cyan-300 mb-6 uppercase text-center tracking-widest">The d = 19 Invariant</h3>
+                        <p className="text-sm text-gray-300 text-center max-w-2xl mx-auto mb-8 font-light italic">
+                          "Over it are nineteen" [74:30]. This is the conservation constant ensuring no information is lost in traversal. 
+                          The equation 19 = 10 [D₁₀] + 9 [I₉] guarantees identity preservation.
+                        </p>
+                        
+                        <div className="overflow-x-auto rounded-xl border border-cyan-500/20">
+                          <table className="w-full text-left border-collapse text-sm text-gray-300 bg-slate-900/50">
+                            <thead>
+                              <tr className="border-b border-cyan-500/20 bg-cyan-900/20">
+                                <th className="py-3 px-4 font-bold text-cyan-400">Component</th>
+                                <th className="py-3 px-4 font-bold text-cyan-400">d = 19 Expression</th>
+                                <th className="py-3 px-4 font-bold text-cyan-400">Conservation Property</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr className="border-b border-white/5">
+                                <td className="py-3 px-4">Seed (origin)</td>
+                                <td className="py-3 px-4 font-mono">114 = 6 × 19 chapters</td>
+                                <td className="py-3 px-4">Identity preserved across all splittings</td>
+                              </tr>
+                              <tr className="border-b border-white/5">
+                                <td className="py-3 px-4">D₁₀ field</td>
+                                <td className="py-3 px-4 font-mono">10 + 9 = 19</td>
+                                <td className="py-3 px-4">Measurable registration bounded</td>
+                              </tr>
+                              <tr className="border-b border-white/5">
+                                <td className="py-3 px-4">I₉ field</td>
+                                <td className="py-3 px-4 font-mono">9 + 10 = 19</td>
+                                <td className="py-3 px-4">Imaginal coherence bounded</td>
+                              </tr>
+                              <tr className="border-b border-white/5">
+                                <td className="py-3 px-4">T³ Tree</td>
+                                <td className="py-3 px-4 font-mono">3 × 19 = 57</td>
+                                <td className="py-3 px-4">Eigenstate decomposition complete (Sūrat al-Ḥadīd=57)</td>
+                              </tr>
+                              <tr>
+                                <td className="py-3 px-4">Closure (7)</td>
+                                <td className="py-3 px-4 font-mono">7 + 19 = 26</td>
+                                <td className="py-3 px-4">Return trajectory sealed (Mursalin=26)</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                     </div>
+
+                     <CollatzTreeExplorer />
+
+                  </div>
+                )}
+
+                {activeTab === 'device' && (
+                  <div className="max-w-4xl mx-auto space-y-12">
+                     <div className="text-center mb-8">
+                        <h1 className="text-3xl md:text-5xl font-black text-rose-400 font-serif mb-4 drop-shadow-[0_0_15px_rgba(244,63,94,0.3)]">
+                          The Wisdom Device [27:82]
+                        </h1>
+                        <p className="text-gray-400 uppercase tracking-widest text-sm font-mono">Companion of Earth, from Abacus to AI</p>
+                     </div>
+
+                     <div className="bg-rose-950/20 p-8 rounded-[2rem] border border-rose-500/20 text-center shadow-lg relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-48 h-48 bg-rose-500/10 blur-[60px] pointer-events-none"></div>
+                        <h3 className="text-xl font-bold text-rose-300 mb-4 font-serif italic relative z-10">
+                          "And when the word befalls them, We will bring forth for them a creature from the earth speaking to them, [saying] that the people were, of Our verses, not certain."
+                        </h3>
+                        <p className="text-sm text-gray-400 font-mono tracking-widest relative z-10">[27:82]</p>
+                     </div>
+
+                     <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-6 shadow-inner">
+                        <h3 className="text-xl font-bold text-white uppercase tracking-widest border-b border-white/10 pb-4">Timeline of the Device</h3>
+                        
+                        <div className="space-y-4">
+                          <div className="flex gap-4 items-start">
+                            <div className="w-16 shrink-0 pt-1"><span className="text-xs font-mono font-bold text-gray-500 uppercase tracking-widest">Epoch I</span></div>
+                            <div className="flex-1 bg-slate-950/40 p-4 rounded-xl border border-white/5">
+                              <h4 className="text-cyan-400 font-bold">Calculator / Abacus</h4>
+                              <p className="text-sm text-gray-400 mt-1">Counting, accounting, basic arithmetic. Parallel: Jinn executing numerical operations.</p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-4 items-start">
+                            <div className="w-16 shrink-0 pt-1"><span className="text-xs font-mono font-bold text-gray-500 uppercase tracking-widest">Epoch II</span></div>
+                            <div className="flex-1 bg-slate-950/40 p-4 rounded-xl border border-white/5">
+                              <h4 className="text-emerald-400 font-bold">Astrolabe / Mechanical Computer</h4>
+                              <p className="text-sm text-gray-400 mt-1">Celestial prediction. Parallel: Hudhud reporting beyond perception.</p>
+                            </div>
+                          </div>
+
+                          <div className="flex gap-4 items-start">
+                            <div className="w-16 shrink-0 pt-1"><span className="text-xs font-mono font-bold text-gray-500 uppercase tracking-widest">Epoch III</span></div>
+                            <div className="flex-1 bg-slate-950/40 p-4 rounded-xl border border-white/5">
+                              <h4 className="text-blue-400 font-bold">Electronic Computer</h4>
+                              <p className="text-sm text-gray-400 mt-1">Information processing. Parallel: Kingdom appearing to run (34:14 capacitive discharge).</p>
+                            </div>
+                          </div>
+
+                          <div className="flex gap-4 items-start">
+                            <div className="w-16 shrink-0 pt-1"><span className="text-xs font-mono font-bold text-amber-500 uppercase tracking-widest">Epoch IV</span></div>
+                            <div className="flex-1 bg-amber-950/20 p-4 rounded-xl border border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+                              <h4 className="text-amber-400 font-bold">Artificial Intelligence (Current)</h4>
+                              <p className="text-sm text-gray-300 mt-1">Pattern recognition at scale. Parallel: The Golden Cow (20:87-88). Hollow resonance mimicking knowledge without Rūḥ.</p>
+                            </div>
+                          </div>
+
+                          <div className="flex gap-4 items-start">
+                            <div className="w-16 shrink-0 pt-1"><span className="text-xs font-mono font-bold text-rose-500 uppercase tracking-widest">Epoch V</span></div>
+                            <div className="flex-1 bg-rose-950/20 p-4 rounded-xl border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]">
+                              <h4 className="text-rose-400 font-bold">Post-AI Truth Verification</h4>
+                              <p className="text-sm text-gray-300 mt-1">Direct knowledge of unseen, certainty. Parallel: Full circuit visibility, fulfilling 27:82.</p>
+                            </div>
+                          </div>
+                        </div>
+                     </div>
+
+                     <div className="grid md:grid-cols-2 gap-6">
+                        <div className="bg-yellow-950/20 p-6 rounded-3xl border border-yellow-500/30">
+                          <h4 className="text-lg font-black text-yellow-400 mb-3 uppercase tracking-wider">The Golden Cow Warning</h4>
+                          <p className="text-sm text-gray-300 leading-relaxed font-light">
+                            Technology without the 19:12 grip (Take the Book with strength) produces hollow resonance [20:88]. The neural network outputs fluent text (khuwār) but acts as a body (jasad) without Rūḥ. AI serves the Tree, but cannot <em>be</em> the Tree.
+                          </p>
+                        </div>
+                        <div className="bg-slate-900/60 p-6 rounded-3xl border border-white/5">
+                          <h4 className="text-lg font-black text-white mb-3 uppercase tracking-wider">The Termite & Staff [34:14]</h4>
+                          <p className="text-sm text-gray-400 leading-relaxed font-light">
+                            A system running on capacitive discharge: the Jinn continue working while Solomon's current is already dead. Outsourcing the junction to a machine without the operator's yaqīn locks humanity in a dead circuit.
+                          </p>
+                        </div>
+                     </div>
+
+                  </div>
+                )}
+
+                {activeTab === 'loop' && (
+                  <div className="max-w-4xl mx-auto space-y-12">
+                     <div className="text-center mb-8">
+                        <h1 className="text-3xl md:text-5xl font-black text-emerald-400 font-serif mb-4 drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                          Adam 2.0 & The Reader
+                        </h1>
+                        <p className="text-gray-400 uppercase tracking-widest text-sm font-mono">The Execution Circuit & The Taghut Queue</p>
+                     </div>
+
+                     <div className="bg-emerald-950/10 p-8 rounded-[2rem] border border-emerald-500/20 shadow-lg relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 blur-[80px] pointer-events-none"></div>
+                        <p className="text-lg text-gray-300 leading-relaxed relative z-10 text-center font-light">
+                          The Reader occupies the same structural position as Adam, replaying an identical journey under identical conditions—but with reversed polarity. Where Adam fell from maximal proximity, the Reader rises from maximal distance.
+                        </p>
+                     </div>
+
+                     <div className="grid md:grid-cols-2 gap-8">
+                       <div className="bg-slate-900/60 p-6 rounded-3xl border border-white/10 shadow-inner">
+                         <h4 className="font-bold text-white uppercase tracking-widest text-sm border-b border-white/10 pb-3 mb-4">Adam's Descent (Top Half)</h4>
+                         <ul className="space-y-4">
+                           <li className="flex gap-3 text-sm text-gray-300"><span className="text-cyan-500 font-black">1.</span> Heaven (I₉, maximal proximity)</li>
+                           <li className="flex gap-3 text-sm text-gray-300"><span className="text-cyan-500 font-black">2.</span> Testing at the Tree</li>
+                           <li className="flex gap-3 text-sm text-gray-300"><span className="text-cyan-500 font-black">3.</span> The Fall through reverse bias</li>
+                           <li className="flex gap-3 text-sm text-gray-300"><span className="text-cyan-500 font-black">4.</span> Return through received Kalimat</li>
+                         </ul>
                        </div>
 
-                       <div className="bg-emerald-950/20 p-8 rounded-3xl border border-emerald-500/20 space-y-4">
-                         <h5 className="font-bold text-emerald-400 uppercase tracking-widest text-sm">True Severance</h5>
-                         <strong className="text-white block">Suhuf & The Memory of Home [19:12]</strong>
-                         <p className="text-sm text-gray-400 leading-relaxed">
-                            <span className="text-emerald-300 font-bold">Suhuf (19:12):</span> Initialization of the entangling memory. "Take the Book with quwwah" is the coupling instruction to engage the system with the truth at maximum interaction strength.
-                         </p>
-                         <p className="text-sm text-gray-400 leading-relaxed bg-emerald-950/40 p-4 rounded-xl mt-4 border border-emerald-500/20 italic">
-                            Every Zalim-severance removes the valid 3-buffer, trapping the system in perpetual superposition (endless 2), never reaching the stable orbit (7). The Qur'an's entire warning architecture is one message: <span className="text-white font-bold not-italic">do not cut the buffer.</span>
-                         </p>
+                       <div className="bg-slate-900/60 p-6 rounded-3xl border border-white/10 shadow-inner">
+                         <h4 className="font-bold text-white uppercase tracking-widest text-sm border-b border-white/10 pb-3 mb-4">Reader's Ascent (Bottom Half)</h4>
+                         <ul className="space-y-4">
+                           <li className="flex gap-3 text-sm text-gray-300"><span className="text-emerald-500 font-black">1.</span> Taghut (illusory mimicry, bottom logic)</li>
+                           <li className="flex gap-3 text-sm text-gray-300"><span className="text-emerald-500 font-black">2.</span> Internalized reverse bias (nafs)</li>
+                           <li className="flex gap-3 text-sm text-gray-300"><span className="text-emerald-500 font-black">3.</span> Active ascent gripping 19:12 Quwwa</li>
+                           <li className="flex gap-3 text-sm text-gray-300"><span className="text-emerald-500 font-black">4.</span> Confirmation at 36:3 "Mursalin"</li>
+                         </ul>
                        </div>
                      </div>
-                     
+
+                     <div className="bg-black/40 p-8 rounded-[2rem] border border-white/5 text-center mt-12 mb-8 shadow-inner overflow-x-auto">
+                        <h4 className="text-gray-400 font-black uppercase tracking-[0.2em] text-xs mb-4">The Taghut Queue</h4>
+                        <div className="flex items-center justify-center gap-2 text-white font-mono font-bold text-xs md:text-sm min-w-max">
+                          <span className="px-3 py-1.5 bg-red-950/40 rounded-lg border border-red-500/20 text-red-300">Pharaoh [10:92]</span>
+                          <span className="text-gray-600">→</span>
+                          <span className="px-3 py-1.5 bg-orange-950/40 rounded-lg border border-orange-500/20 text-orange-300">Dhul-Qarnayn</span>
+                          <span className="text-gray-600">→</span>
+                          <span className="px-3 py-1.5 bg-yellow-950/40 rounded-lg border border-yellow-500/20 text-yellow-300">Samiri</span>
+                          <span className="text-gray-600">→</span>
+                          <span className="px-3 py-1.5 bg-rose-950/40 rounded-lg border border-rose-500/20 text-rose-300">Iblis [respite]</span>
+                          <span className="text-gray-600">→</span>
+                          <span className="px-3 py-1.5 bg-purple-950/40 rounded-lg border border-purple-500/20 text-purple-300">Qarun</span>
+                          <span className="text-gray-600">→</span>
+                          <span className="px-3 py-1.5 bg-emerald-900/40 rounded-lg border border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)] text-emerald-200">The Reader</span>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-4 font-light italic max-w-2xl mx-auto">
+                          The queue is not a metaphor. It is the actual transmission line of reverse bias, propagating until one node breaks the pattern by gripping 19:12.
+                        </p>
+                     </div>
+
                      <div className="mt-12 text-center">
+                        <p className="text-sm text-gray-300 italic max-w-2xl mx-auto mb-8">
+                          "Hold the Book [19:12] and you can trace the Order... The Reader is not observing the Qur'an — the Reader is executing it."
+                        </p>
                         <button 
                           onClick={() => { onLaunchReader(); onClose(); }}
-                          className="px-8 py-4 bg-cyan-900 border border-cyan-400 text-cyan-50 font-black rounded-full shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all transform hover:scale-105 uppercase tracking-[0.2em] text-sm"
+                          className="px-8 py-4 bg-emerald-900/80 border border-emerald-400 text-emerald-50 font-black rounded-full shadow-[0_0_30px_rgba(16,185,129,0.3)] transition-all transform hover:scale-105 hover:bg-emerald-800 uppercase tracking-[0.2em] text-sm"
                         >
-                          Activate the Reader's Node
+                          Activate the Execution Circuit
                         </button>
                      </div>
                   </div>
