@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CollatzTreeExplorer } from './CollatzTreeExplorer.tsx';
+import { AdamLoopDiode } from './AdamLoopDiode.tsx';
 
 const cosmicTreeEyeImg = "/src/assets/images/cosmic_tree_eye_1779355304582.png";
 
@@ -639,6 +640,8 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
                           The Reader occupies the same structural position as Adam, replaying an identical journey under identical conditions—but with reversed polarity. Where Adam fell from maximal proximity, the Reader rises from maximal distance.
                         </p>
                      </div>
+
+                     <AdamLoopDiode />
 
                      <div className="grid md:grid-cols-2 gap-8">
                        <div className="bg-slate-900/60 p-6 rounded-3xl border border-white/10 shadow-inner">
