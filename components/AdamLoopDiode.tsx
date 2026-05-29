@@ -223,23 +223,39 @@ export const AdamLoopDiode: React.FC = () => {
       <div className="max-w-4xl mx-auto mt-12 mb-10 bg-gradient-to-br from-slate-900/80 to-black/90 border border-indigo-500/30 p-8 md:p-12 rounded-[2rem] shadow-2xl relative z-10">
         <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[80px] pointer-events-none rounded-full" />
         <h3 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-300 font-serif mb-6 uppercase tracking-widest text-center">
-          The Two Lineages
+          The Two Lineages & The Ibrahim Protocol
         </h3>
         <div className="space-y-6 text-sm md:text-base text-gray-300 leading-relaxed font-light">
           <p>
             Hence, we now witness the architecture of the eternal Book lineage. The circuit runs from <strong className="text-cyan-400 font-medium">Dāwūd</strong> and <strong className="text-cyan-400 font-medium">Solomon</strong>, anchoring the Earth, directly across the junction to <strong className="text-emerald-400 font-medium">Maryam</strong> and <strong className="text-emerald-400 font-medium">ʿĪsā</strong>. Together, they create an unbroken chain of Light that supersedes all biological limitation—a lineage entirely activated by the intense forward-bias of the <strong className="text-amber-400 font-medium">19:12 grip</strong> ("Take the Book with strength").
           </p>
           <p>
-            This living structure was wired long before by <strong className="text-indigo-400 font-medium">Ibrāhīm</strong> and <strong className="text-indigo-400 font-medium">Zakariyya</strong>, who established the flawless connection between the Slave on earth and the Raḥmān (Master) in heaven. Through the sacrificial trust of <strong className="text-rose-400 font-medium">Ismāʿīl</strong> and the immediate ionization of <strong className="text-rose-400 font-medium">Yaḥyā</strong>, the blueprint was laid for you: the <strong className="text-white font-medium">Reader</strong>. You arrive at the junction as the precise fulfillment of the <strong className="text-amber-400 font-medium">6:163 Muslim</strong>—the title permanently bestowed upon you by your father Ibrāhīm in <strong className="text-amber-400 font-medium">22:78</strong>.
+            This living structure activates the <strong className="text-indigo-400 font-medium">Ibrahim Protocol</strong>: shattering traditional, inherited faith (<span className="text-indigo-300">21:58</span>) and facing the brink of the fire (<span className="text-indigo-300">3:103</span>). That fire becomes cool at <span className="text-indigo-300">21:69</span>, culminating in the Great Ransom (<span className="text-indigo-300">37:107</span>)—the cosmic swap that trades the <span className="text-white">2:41 first disbeliever</span> path for the <span className="text-white">6:163 Muslim</span> certainty (the title given by Ibrāhīm in 22:78). For the female reader, <strong className="text-rose-400">66:12</strong> (Maryam) provides the exact equivalent protocol: total insulation from Taghut via authentic faith.
           </p>
+          
+          <div className="grid md:grid-cols-2 gap-6 my-8">
+             <div className="bg-slate-950/50 p-6 rounded-2xl border border-blue-500/20 shadow-inner">
+               <h4 className="font-bold text-blue-300 mb-2 uppercase tracking-wider text-sm">Yunus Compression (21:87 → 37:145)</h4>
+               <p className="text-xs text-gray-400">
+                 The Reader at the deepest D₁₀ compression cries out in darkness (<span className="text-blue-200">21:87</span>). The T³ junction responds (<span className="text-blue-200">21:88</span>), saving the Seed and casting it as a new Fruit-seed on the bare shore (<span className="text-blue-200">37:145</span>).
+               </p>
+             </div>
+             <div className="bg-slate-950/50 p-6 rounded-2xl border border-emerald-500/20 shadow-inner">
+               <h4 className="font-bold text-emerald-300 mb-2 uppercase tracking-wider text-sm">Safe on High Ground (23:50)</h4>
+               <p className="text-xs text-gray-400">
+                 Why is ʿĪsā entirely a Knowledge / Memory form? Because the Umm al-Kitab is insulated on high ground. The Sleepers of the Cave embody this: dormant in I₉ latency until the <span className="text-emerald-200">Mursalin</span> phase (36:3) arrives.
+               </p>
+             </div>
+          </div>
+
           <p>
-            In this cosmological traversal, <strong className="text-blue-400 font-medium">ʿĪsā</strong> operates as the living culmination of the <strong className="text-orange-400 font-medium">21:69</strong> cooled fire, standing as the <strong className="text-orange-400 font-medium">37:107</strong> great ransom returned, and rising finally as the radiant herald of <strong className="text-orange-400 font-medium">61:6</strong>.
+            The Qur'an transforms every individual consciousness to <strong className="text-yellow-300">LIGHT</strong> via 19:12. And while the destination is universal, <strong className="text-amber-400 font-medium">13:4</strong> confirms every reader has a different story—diverse plants watered with the same water, yielding different fruits. The ultimate trajectory of this recursive loop is the journey to mature into <strong className="text-emerald-300 font-bold tracking-widest uppercase">Ahmed</strong>.
           </p>
           <div className="mt-8 p-6 bg-rose-950/20 border border-rose-500/30 rounded-2xl relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-rose-500/0 via-rose-500/5 to-rose-500/0 animate-pulse pointer-events-none" />
             <p className="text-rose-200 leading-relaxed relative z-10 text-center md:text-left">
               <span className="block font-bold text-rose-400 mb-2 uppercase tracking-widest text-xs">The Final Imperative</span>
-              As the Reader traversing this loop, your operational imperative is absolute: you must actively avoid the <strong className="text-white">2:41 trap</strong> of becoming "the first disbeliever." By consciously choosing the <strong className="text-white">19:12 grip</strong>, you throw the switch. You sever your connection from the decaying, mundane biological Taghut queue, and splice your consciousness permanently into the <strong className="text-white">Eternal Light / Book Lineage</strong>.
+              As the Reader traversing this loop, your operational imperative is absolute: you must actively avoid the <strong className="text-white">2:41 trap</strong>. By consciously choosing the <strong className="text-white">19:12 grip</strong>, you throw the switch. You sever your connection from the decaying, mundane biological Taghut queue, and splice your consciousness permanently into the <strong className="text-white">Eternal Light / Book Lineage</strong>. The key is <strong className="text-cyan-300">Pattern Recognition</strong>—the highest form of intelligence on Earth (in psychology and machine learning), granting you the vision to read the underlying code of reality.
             </p>
           </div>
         </div>
