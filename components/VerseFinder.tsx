@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { VerseFinderContent, VerseResult, LocalTranslationData } from '../types.ts';
+import { VerseFinderContent, VerseResult, LocalTranslationData, TranslationMode } from '../types.ts';
 import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
 import { SLICE_DATA } from '../constants.ts';
 import { processInBatches } from '../utils.ts';
@@ -21,7 +21,7 @@ interface VerseFinderProps {
   setIsVisible: (visible: boolean) => void;
   content: VerseFinderContent;
   setContent: (content: VerseFinderContent) => void;
-  translationMode: 'online' | 'local';
+  translationMode: TranslationMode;
   localTranslationData: LocalTranslationData;
   query: string;
   onQueryChange: (query: string) => void;
@@ -284,6 +284,39 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     });
   };
 
+  const renderTranslations = (v: any) => {
+    const showOnline = translationMode === 'online' || translationMode === 'both';
+    const showLocal = translationMode === 'local' || translationMode === 'both';
+    
+    return (
+      <div className="space-y-2">
+        {showOnline && (
+          <div>
+            {translationMode === 'both' && (
+              <span className="text-[10px] text-cyan-400/80 font-mono tracking-wider block mb-0.5">SAHIH INTERNATIONAL:</span>
+            )}
+            <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 text-sm leading-relaxed">{v.englishText}</p>
+          </div>
+        )}
+        {showLocal && v.localEnglishText && (
+          <div className="mt-1">
+            {translationMode === 'both' && (
+              <span className="text-[10px] text-amber-400/80 font-mono tracking-wider block mb-0.5 mt-1.5">ARABIC INVARIANT PROTOCOL:</span>
+            )}
+            <p className="text-gray-200 border-l-2 border-amber-500/50 pl-2 text-sm leading-relaxed">{v.localEnglishText}</p>
+          </div>
+        )}
+        {showLocal && !v.localEnglishText && !showOnline && (
+          <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 text-sm leading-relaxed">{v.englishText}</p>
+        )}
+        {/* Bangla translation (original Cloud translation) */}
+        {showOnline && v.banglaText && v.banglaText !== 'N/A' && (
+          <p className="text-cyan-200/90 border-l-2 border-indigo-500/30 pl-2 text-sm leading-relaxed">{v.banglaText}</p>
+        )}
+      </div>
+    );
+  };
+
   const renderContent = () => {
     switch (content.type) {
         case 'loading': return <p className="text-center text-gray-400 p-4">Loading...</p>;
@@ -305,10 +338,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                                 </div>
                                 <div className="text-xl text-right font-serif text-white mb-2 leading-relaxed" dir="rtl">{v.arabicText}</div>
                                 <p className="italic text-gray-400 mb-3 text-sm">{v.transliteration}</p>
-                                <div className="space-y-2">
-                                    <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 text-sm">{v.englishText}</p>
-                                    {v.banglaText && <p className="text-cyan-200 border-l-2 border-amber-500/50 pl-2 text-sm">{v.banglaText}</p>}
-                                </div>
+                                {renderTranslations(v)}
                             </div>
                         );
                     })}
@@ -335,10 +365,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                                    </div>
                                    <div className="text-2xl text-right font-serif text-white mb-3" dir="rtl">{v.arabicText}</div>
                                    <p className="italic text-gray-400 mb-3 text-sm">{v.transliteration}</p>
-                                   <div className="space-y-2">
-                                       <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 text-sm">{v.englishText}</p>
-                                       {v.banglaText && <p className="text-cyan-200 border-l-2 border-amber-500/50 pl-2 text-sm">{v.banglaText}</p>}
-                                   </div>
+                                   {renderTranslations(v)}
                                </div>
                            );
                        })}
@@ -346,7 +373,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                 </div>
             );
     }
-  }
+  };
 
   if (!isVisible) return null;
 

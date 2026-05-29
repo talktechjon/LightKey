@@ -9,7 +9,7 @@ import VerseFinder from './components/VerseFinder.tsx';
 import SettingsPanel from './components/SettingsPanel.tsx';
 import InstructionPanel from './components/InstructionPanel.tsx';
 import TreeOfLifeMode from './components/TreeOfLifeMode.tsx';
-import { VisualizationHandle, TooltipContent, VerseFinderContent, LocalTranslationData } from './types.ts';
+import { VisualizationHandle, TooltipContent, VerseFinderContent, LocalTranslationData, TranslationMode } from './types.ts';
 import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
 import { getVerse, getFullSurah, getVerseDetails } from './data/verseData.ts';
 import { useIdle } from './hooks/useIdle.ts';
@@ -34,7 +34,7 @@ const App: React.FC = () => {
   const [shouldAutoSearch, setShouldAutoSearch] = useState(false);
   const [isLowResourceMode, setIsLowResourceMode] = useState(false);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
-  const [translationMode, setTranslationMode] = useState<'online' | 'local'>('online');
+  const [translationMode, setTranslationMode] = useState<TranslationMode>('online');
   const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(null);
   const [localFileName, setLocalFileName] = useState<string | null>(null);
   const [isInstructionVisible, setIsInstructionVisible] = useState(false); 

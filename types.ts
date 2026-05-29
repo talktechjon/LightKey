@@ -72,6 +72,8 @@ export interface FunctionalTooltipContent {
 
 export type TooltipContent = VerseTooltipContent | ChapterTooltipContent | FunctionalTooltipContent;
 
+export type TranslationMode = 'online' | 'local' | 'both' | 'none';
+
 export interface SurahVerse {
   numberInSurah: number;
   absoluteNumber: number;
@@ -80,6 +82,8 @@ export interface SurahVerse {
   banglaText: string;
   transliteration: string;
   fullVerseAudioUrl: string;
+  localEnglishText?: string;
+  localBanglaText?: string;
 }
 
 export interface SurahData {
@@ -103,6 +107,8 @@ export interface VerseResult {
     englishText: string;
     banglaText: string;
     fullVerseAudioUrl: string;
+    localEnglishText?: string;
+    localBanglaText?: string;
 }
 
 export type VerseFinderContent = 

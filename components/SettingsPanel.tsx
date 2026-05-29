@@ -1,13 +1,13 @@
 
 import React, { useState, useRef, useMemo } from 'react';
 import { DownloadIcon } from './Icons.tsx';
-import { LocalTranslationData } from '../types.ts';
+import { LocalTranslationData, TranslationMode } from '../types.ts';
 
 interface SettingsPanelProps {
   isVisible: boolean;
   setIsVisible: (visible: boolean) => void;
-  mode: 'online' | 'local';
-  setMode: (mode: 'online' | 'local') => void;
+  mode: TranslationMode;
+  setMode: (mode: TranslationMode) => void;
   onFileLoad: (data: LocalTranslationData, fileName: string) => void;
   fileName: string | null;
 }
@@ -120,9 +120,27 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
     reader.readAsText(file);
   };
 
-  const handleModeToggle = () => {
-    const newMode = mode === 'online' ? 'local' : 'online';
-    setMode(newMode);
+  const isOnlineActive = mode === 'online' || mode === 'both';
+  const isLocalActive = mode === 'local' || mode === 'both';
+
+  const handleOnlineToggle = () => {
+    let nextMode: TranslationMode;
+    if (isOnlineActive) {
+      nextMode = isLocalActive ? 'local' : 'none';
+    } else {
+      nextMode = isLocalActive ? 'both' : 'online';
+    }
+    setMode(nextMode);
+  };
+
+  const handleLocalToggle = () => {
+    let nextMode: TranslationMode;
+    if (isLocalActive) {
+      nextMode = isOnlineActive ? 'online' : 'none';
+    } else {
+      nextMode = isOnlineActive ? 'both' : 'local';
+    }
+    setMode(nextMode);
   };
   
   if (!isVisible) return null;
@@ -137,22 +155,32 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
       </div>
       <div className="p-4 space-y-4 text-sm">
         <div className="flex items-center justify-between">
-          <label htmlFor="mode-toggle" className="text-gray-300">Translation Source</label>
-          <button 
-            id="mode-toggle"
-            onClick={handleModeToggle} 
-            className="px-3 py-1 rounded-md text-xs font-medium transition-colors"
-            style={{
-                backgroundColor: mode === 'online' ? '#0891b2' : '#4b5563',
-                color: 'white'
-            }}
-            aria-live="polite"
-          >
-            {mode === 'online' ? 'Online' : 'Local File'}
-          </button>
+          <label className="text-gray-300">Translation Source</label>
+          <div className="flex space-x-2">
+            <button
+              onClick={handleOnlineToggle}
+              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors border ${
+                isOnlineActive 
+                  ? 'bg-cyan-600 text-white border-cyan-400/40' 
+                  : 'bg-gray-800 text-gray-400 border-gray-700 hover:bg-gray-700'
+              }`}
+            >
+              Online
+            </button>
+            <button
+              onClick={handleLocalToggle}
+              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors border ${
+                isLocalActive 
+                  ? 'bg-cyan-600 text-white border-cyan-400/40' 
+                  : 'bg-gray-800 text-gray-400 border-gray-700 hover:bg-gray-700'
+              }`}
+            >
+              Local File
+            </button>
+          </div>
         </div>
         
-        {mode === 'local' && (
+        {isLocalActive && (
           <div className="pt-2 border-t border-cyan-500/20">
             <p className="text-gray-400 mb-2">Load your custom translation file.</p>
              <div className="flex items-center space-x-2">

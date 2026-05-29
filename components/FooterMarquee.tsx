@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { TRIANGLE_POINTS, SLICE_DATA, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, KATHARA_CLOCK_POINTS } from '../constants.ts';
 import { getSliceIdAtPoint } from '../utils.ts';
 import { getVerse } from '../data/verseData.ts';
-import { LocalTranslationData } from '../types.ts';
+import { LocalTranslationData, TranslationMode } from '../types.ts';
 
 interface VerseItem {
   type: 'verse';
@@ -25,7 +25,7 @@ type MarqueeItem = VerseItem | StaticItem;
 
 interface FooterMarqueeProps {
   rotation: number;
-  translationMode: 'online' | 'local';
+  translationMode: TranslationMode;
   localTranslationData: LocalTranslationData;
   isSecretModeActive: boolean;
   onExport: (verseIds: string[]) => void;
