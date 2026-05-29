@@ -43,29 +43,67 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
       try {
         const text = e.target?.result;
         if (typeof text !== 'string') throw new Error("File could not be read.");
-        const rawData = JSON.parse(text);
         
-        if (typeof rawData !== 'object' || rawData === null || Array.isArray(rawData)) {
-          throw new Error("Invalid format: JSON must be an object with 'S:A' keys.");
-        }
-        
-        const normalizedData: Record<string, string[]> = {};
-        const keyRegex = /^\d+:\d+$/;
+        let normalizedData: Record<string, string[]> = {};
 
-        for (const key in rawData) {
-            if (!Object.prototype.hasOwnProperty.call(rawData, key)) continue;
-            if (!keyRegex.test(key)) {
-                throw new Error(`Invalid key format: "${key}". Must be "Surah:Ayah".`);
-            }
-            
-            const value = rawData[key];
-            if (typeof value === 'string') {
-                normalizedData[key] = [value];
-            } else if (Array.isArray(value) && value.every(item => typeof item === 'string')) {
-                normalizedData[key] = value;
-            } else {
-                throw new Error(`Invalid value for key "${key}". Must be a string or an array of strings.`);
-            }
+        if (file.name.endsWith('.json')) {
+          const rawData = JSON.parse(text);
+          if (typeof rawData !== 'object' || rawData === null || Array.isArray(rawData)) {
+            throw new Error("Invalid format: JSON must be an object with 'S:A' keys.");
+          }
+          const keyRegex = /^\d+:\d+$/;
+          for (const key in rawData) {
+              if (!Object.prototype.hasOwnProperty.call(rawData, key)) continue;
+              if (!keyRegex.test(key)) {
+                  throw new Error(`Invalid key format: "${key}". Must be "Surah:Ayah".`);
+              }
+              const value = rawData[key];
+              if (typeof value === 'string') {
+                  normalizedData[key] = [value];
+              } else if (Array.isArray(value) && value.every(item => typeof item === 'string')) {
+                  normalizedData[key] = value;
+              } else {
+                  throw new Error(`Invalid value for key "${key}". Must be a string or an array of strings.`);
+              }
+          }
+        } else if (file.name.endsWith('.txt')) {
+          const lines = text.split(/\r?\n/);
+          for (const line of lines) {
+             const trimLine = line.trim();
+             if (!trimLine) continue;
+             
+             const match = trimLine.match(/^(\d+:\d+)\s+(.+)$/);
+             if (match) {
+                 const id = match[1];
+                 const content = match[2];
+                 const parts = content.split(' - ');
+                 
+                 let englishStartIndex = -1;
+                 for (let i = 0; i < parts.length; i++) {
+                    if (!/[\u0600-\u06FF]/.test(parts[i])) {
+                       englishStartIndex = i;
+                       break;
+                    }
+                 }
+                 
+                 let englishText = "";
+                 if (englishStartIndex !== -1) {
+                    englishText = parts.slice(englishStartIndex).join(' - ').trim();
+                 } else {
+                    englishText = parts[parts.length - 1].trim();
+                 }
+                 
+                 if (englishText) {
+                     normalizedData[id] = [englishText];
+                 }
+             }
+          }
+          
+          if (Object.keys(normalizedData).length === 0) {
+              throw new Error("No valid Surah:Ayah formats found in the text file.");
+          }
+        } else {
+          throw new Error("Unsupported file type. Please upload a .json or .txt file.");
         }
         
         onFileLoad(normalizedData, file.name);
@@ -121,10 +159,10 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".json"
+                accept=".json,.txt"
                 onChange={handleFileChange}
                 className="hidden"
-                aria-label="Upload custom translation JSON file"
+                aria-label="Upload custom translation JSON or TXT file"
               />
               <button
                   onClick={() => fileInputRef.current?.click()}
@@ -149,16 +187,28 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
                 <p className="text-red-400 mt-2 text-xs">{error}</p>
             )}
             <div className="mt-4 text-xs text-gray-500">
-                <p className="font-semibold">Required JSON format:</p>
-                <pre className="mt-1 p-2 bg-gray-800/50 rounded-md overflow-x-auto">
+                <p className="font-semibold text-gray-400 mb-1">Supported Formats:</p>
+                <div className="space-y-3">
+                  <div>
+                    <p className="font-medium text-cyan-500/80 mb-1">1. Text File (.txt):</p>
+                    <p className="text-[10px] leading-relaxed mb-1">Must contain Surah:Ayah followed by Arabic then English separation like so:</p>
+                    <pre className="p-2 bg-gray-800/50 rounded-md overflow-x-auto text-[10px] text-gray-400 border border-gray-700/50">
+1:1 بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ... - In the name of Allah...
+1:2 ٱلْحَمْدُ لِلَّهِ رَبِّ ... - The praise is for Allah...
+                    </pre>
+                  </div>
+                  <div>
+                    <p className="font-medium text-cyan-500/80 mb-1">2. JSON File (.json):</p>
+                    <pre className="p-2 bg-gray-800/50 rounded-md overflow-x-auto text-[10px] text-gray-400 border border-gray-700/50">
 {`{
   "1:1": [
-    "Primary translation",
-    "Secondary translation"
+    "Primary translation"
   ],
   "1:2": "Single translation"
 }`}
-                </pre>
+                    </pre>
+                  </div>
+                </div>
             </div>
           </div>
         )}
