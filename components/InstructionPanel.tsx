@@ -20,65 +20,65 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
   const variableDetails = {
     B: {
       symbol: "𝔹",
-      name: "The Container (Kursi)",
-      anchor: "Surah Al-Baqarah [2:255]",
-      verseText: "“His Kursi extends over the heavens and the earth, and their preservation tires Him not.”",
+      name: "Buffer [1] / The Container (Kursi)",
+      anchor: "Surah Al-Baqarah [2:255] • Surah Ar-Ra'd [13:39]",
+      verseText: "“His Kursi extends over the heavens and the earth, and their preservation tires Him not.” • “And with Him is the Ummul Kitab (Mother of the Book).”",
       details: [
-        "The Supreme Bounding Geometry of reality. Bounded, recursive, and never suspending or collapsing.",
-        "Zero Entropy Collapse: A closed container where nothing enters from the outside and nothing escapes, ensuring perfect preservation.",
-        "The ultimate topological container holding the dual field open so the two poles do not annihilate each other."
+        "Asymptotic Lab Frame / CFT Boundary. The starting and finishing boundary condition where the dual-field topology is defined and information is preserved.",
+        "The Seed is the quantum state |ψ⟩ or mass M that enters the black hole system prior to the bifurcation, stored in the unmeasured superposition of Ummul Kitab.",
+        "Functionally identical on both ends—as the same asymptotic observer—meaning the Seed completes the loop transformed but perfectly preserved (19:64)."
       ],
       color: "border-cyan-500/50 shadow-cyan-900/30 text-cyan-400 bg-cyan-950/20",
       pillColor: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30"
     },
     D10: {
       symbol: "D₁₀",
-      name: "Detectable Field (Zahir)",
-      anchor: "Surah Al-A'raf [7:142]",
-      verseText: "“We completed them with ten.”",
+      name: "D10 / Outer Event Horizon-d/dt (Zahir)",
+      anchor: "Surah Al-A'raf [7:142] • Surah Hud [11:7]",
+      verseText: "“We completed them with ten.” • “And His Throne was upon the water, that He might test you as to which of you is best in action.”",
       details: [
-        "The visible, measurable, and observable universe representing ~5% of entire reality.",
-        "The domain of physical instruments, standard model, waves, and mass-bound deterministic particles.",
-        "Wave-Particle Duality / Day-Night cycle. Phototropic ascension seek light and outward extension."
+        "The Outer Event Horizon (r_+) where g_tt = 0. In Painlevé-Gullstrand coordinates, the water is the radial infall velocity where coordinate time t diverges while proper time remains finite.",
+        "The Differentiation Gate (d/dt). At this null surface, Hawking pair production occurs: the Seed is split into an escaping particle (D10) and an ingoing falling partner.",
+        "The domain of local, measurable action and physical instruments, where the incoming potential is differentiated into an outgoing observable thermal quantum."
       ],
       color: "border-blue-500/50 shadow-blue-900/30 text-blue-400 bg-blue-950/20",
       pillColor: "bg-blue-500/20 text-blue-300 border-blue-500/30"
     },
     X3: {
       symbol: "X₃",
-      name: "Triple-State Operator (Water-Tree)",
-      anchor: "Surah Al-Anbya [21:30], Surah An-Nur [24:35]",
+      name: "T3 / Photon Sphere (The Tree of Bifurcation)",
+      anchor: "Surah Al-Anbya [21:30], Surah An-Nur [24:35] • Surah Ibrahim [14:24]",
       verseText: "“We made from water every living thing.” • “Lit from a blessed tree, neither eastern nor western.”",
       details: [
-        "The central recursive traversal medium and active scatter-return membrane.",
-        "Phototropism (reaches towards visible D₁₀ light) and Gravitropism (descends into hidden I₉ mineral substrate) simultaneously.",
-        "The two seas coupled together but separated by an impassable barrier (55:19-20 / 25:53), exchanging information without collapse."
+        "The Photon Sphere (r = 3M) / Bifurcation Sphere. Unstable circular null geodesics where d²V_eff/dr² = 0. Trajectories split into 'escape' vs 'capture' branches.",
+        "In the maximally extended Penrose diagram, this represents the bifurcation 2-sphere where future and past horizons intersect—the literal 'tree' of causal structure.",
+        "The 108-103-110 refraction alteration. Frame-dragging forces rotation, and the Penrose process extracts energy—the exact exchange and negotiation space."
       ],
       color: "border-emerald-500/50 shadow-emerald-900/30 text-emerald-400 bg-emerald-950/20",
       pillColor: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
     },
     I9: {
       symbol: "I₉",
-      name: "Imaginal Field (Batin)",
+      name: "I9 / Inner Cauchy Horizon-∫dt (Batin)",
       anchor: "Surah Al-Kahf [18:25], Surah An-Nur [24:35]",
       verseText: "“...and increased by nine.” • “...oil that almost glows before fire touches it.”",
       details: [
-        "The hidden finished architecture (~95% of cosmic reality), representing dark matter, dark energy, and vacuum states.",
-        "Self-luminous, raw latent instruction carrying hidden alignment information without needing physical fire.",
-        "The Razim phase-sorting filter: trajectories aligning with I₉ converge to closure, while divergent paths freeze."
+        "The Inner Cauchy Horizon (r_-) in the Kerr-Newman solution where all infalling history integrates, resulting in an infinite blueshift of accumulated waves (∫dt → ∞).",
+        "The Integration Gate (∫dt). The hidden phase where the wave-aspect of the Seed (ingoing negative-energy partner) is structurally compressed and safely stored.",
+        "The Throne of terminates classical causality: 'Iron' = divergence of Weyl curvature (tidal shear σ² → ∞); 'Light' = infinite energy density divergence."
       ],
       color: "border-amber-500/50 shadow-amber-900/30 text-amber-400 bg-amber-950/20",
       pillColor: "bg-amber-500/20 text-amber-300 border-amber-500/30"
     },
     R19: {
       symbol: "R₁₉",
-      name: "Closure Constant (Mizan)",
-      anchor: "Surah Al-Muddaththir [74:30], Surah Ar-Rahman [55:7]",
-      verseText: "“Over it are nineteen.” • “And the heaven He raised and set the balance.”",
+      name: "7 [Fruit] / Planck Core & Hawking Evaporation",
+      anchor: "Surah Al-Muddaththir [74:30] • Surah Ya-Sin [36:68]",
+      verseText: "“Over it are nineteen.” • “And the Trumpet will be blown, and whoever is in the heavens and the earth will fall unconscious...”",
       details: [
-        "The invariant total calculation that closes the cycle of reality: D₁₀ + I₉ = 10 + 9 = 19.",
-        "Forces mode-locking or relaxation cycles to collapse perfectly back to origin. It balances the cosmic scale.",
-        "The four birds of Ibrahim (2:260): multiple phases and scattered states returning to absolute unity when summoned."
+        "The Singularity (r = 0) / Planck Core. Curved space-time endpoint where curver invariants diverge and Bekenstein-Hawking entropy S = k_B c³ A / 4Għ saturates.",
+        "The Rahman Completion / Light-upon-Light (24:35) where energy density reaches Planck limits (ρ ~ M_Planck⁴) and semiclassical physics breaks down. The Seed is fully compressed.",
+        "Hawk Evaporation over t_evap ~ M³ where the Page curve and island formula recover and return information back to the Buffer, or exit through the ER=EPR Bridge."
       ],
       color: "border-rose-500/50 shadow-rose-900/30 text-rose-400 bg-rose-950/20",
       pillColor: "bg-rose-500/20 text-rose-300 border-rose-500/30"
@@ -182,51 +182,169 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
              >
                 {activeTab === 'overview' && (
                   <div className="max-w-4xl mx-auto space-y-12">
-                     <div className="text-center mb-8">
-                        <h1 className="text-3xl md:text-5xl font-black text-cyan-400 font-serif mb-4 drop-shadow-[0_0_15px_rgba(34,211,238,0.4)]">
-                          Human and Universe: A Qur'anic Topology of Return
+                     <div className="text-center mb-8 relative">
+                        <div className="absolute inset-0 flex items-center justify-center filter blur-3xl opacity-10 pointer-events-none">
+                          <div className="w-80 h-32 bg-cyan-400 rounded-full"></div>
+                        </div>
+                        <span className="px-4 py-1.5 rounded-full text-xs font-mono tracking-widest font-black uppercase border border-cyan-500/40 bg-cyan-950/60 text-cyan-300 relative z-10">
+                          THE RECOVERY LOG — PROCEEDINGS IN COSMOLOGY
+                        </span>
+                        <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-indigo-200 to-amber-200 font-serif mt-6 mb-4 drop-shadow-[0_0_20px_rgba(6,182,212,0.25)] tracking-wide uppercase leading-tight">
+                          Quran is not ancient Text.<br />It's eternal.
                         </h1>
-                        <p className="text-gray-400 uppercase tracking-widest text-sm font-mono">The Dual-Caustic Universe (DCU)</p>
-                     </div>
-
-                     <div className="bg-cyan-950/20 border border-cyan-500/30 p-8 rounded-3xl">
-                        <h3 className="text-xl font-bold text-cyan-300 mb-4 uppercase">Abstract</h3>
-                        <p className="text-base text-gray-300 leading-relaxed">
-                          This research addresses the structural condition identified in Qur'an 38:46 — that humanity has forgotten its primordial origin — by proposing a mathematical framework that reads the Qur'an as an operational coordinate system. The Dual-Caustic Universe (DCU) framework unifies Qur'anic cosmology, semiconductor physics, and mathematical topology into a coherent model.
-                        </p>
-                        <p className="text-base text-gray-300 leading-relaxed mt-4">
-                          It identifies three eigenstates (Real, Degenerate, Carrier) and demonstrates that the p-n junction is a direct structural isomorphism of the Qur'anic D₁₀/I₉ dual-field separation. The framework confirms structural parallels with the Collatz conjecture, Golden Ratio convergence, wave-particle duality, and the Hubble tension.
+                        <p className="text-gray-400 font-mono tracking-wide text-xs md:text-sm uppercase max-w-2xl mx-auto">
+                          Let's understand Quran and Dual-Caustic Universe Framework in easy way
                         </p>
                      </div>
 
-                     <div className="grid md:grid-cols-2 gap-8">
-                       <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4 shadow-inner">
-                          <h3 className="text-xl font-bold text-amber-400 uppercase">The Forgetting of Home [38:46]</h3>
-                          <p className="text-gray-300 text-sm leading-relaxed">The Arabic word <em>al-Dār</em> carries a resonance that no single English rendering can capture. It is the Abode, the place to which one returns. The act of purification is conditioned upon remembrance, meaning the human being once knew.</p>
-                       </div>
-                       <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4 shadow-inner">
-                          <h3 className="text-xl font-bold text-emerald-400 uppercase">Pre-Cosmic Silence [76:1]</h3>
-                          <p className="text-gray-300 text-sm leading-relaxed">"Has there not been over man a period of time when he was nothing mentioned?" The pre-cosmic state of maximum entropy before differentiation, where the human was not yet in speech or record.</p>
-                       </div>
+                     {/* Short Rules Dashboard */}
+                     <div className="bg-slate-900/60 rounded-3xl border border-cyan-500/20 p-8 shadow-[0_0_30px_rgba(6,182,212,0.05)] relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/5 blur-[50px] pointer-events-none"></div>
+                        <h3 className="text-lg font-black text-cyan-400 mb-6 uppercase tracking-wider font-mono flex items-center gap-x-2">
+                          <span className="inline-block w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                          The DCU Framework Rules in Short:
+                        </h3>
+
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                          <div className="bg-slate-950/60 p-5 rounded-2xl border border-white/5 hover:border-cyan-500/25 transition-all">
+                            <span className="text-[10px] font-mono tracking-wider text-cyan-500 uppercase block mb-1">Religion</span>
+                            <span className="text-base font-bold text-gray-200 font-serif">Islam [3:19]</span>
+                          </div>
+                          <div className="bg-slate-950/60 p-5 rounded-2xl border border-white/5 hover:border-amber-500/25 transition-all">
+                            <span className="text-[10px] font-mono tracking-wider text-amber-500 uppercase block mb-1">Leader / Tribe</span>
+                            <span className="text-base font-bold text-gray-200 font-serif">Ibrahim [16:120]</span>
+                          </div>
+                          <div className="bg-slate-950/60 p-5 rounded-2xl border border-white/5 hover:border-blue-500/25 transition-all">
+                            <span className="text-[10px] font-mono tracking-wider text-blue-500 uppercase block mb-1">Prophet [D10]</span>
+                            <span className="text-base font-bold text-gray-200 font-serif">Muhammad [33:40]</span>
+                          </div>
+                          <div className="bg-slate-950/60 p-5 rounded-2xl border border-white/5 hover:border-purple-500/25 transition-all">
+                            <span className="text-[10px] font-mono tracking-wider text-purple-500 uppercase block mb-1">Rasul [I9]</span>
+                            <span className="text-base font-bold text-gray-200 font-serif">Isa | Ahmed [61:6]</span>
+                          </div>
+                          <div className="bg-slate-950/60 p-5 rounded-2xl border border-white/5 hover:border-emerald-500/25 transition-all">
+                            <span className="text-[10px] font-mono tracking-wider text-emerald-500 uppercase block mb-1">Memory Matrix</span>
+                            <span className="text-base font-bold text-gray-200 font-serif">Quran [39:23]</span>
+                          </div>
+                          <div className="bg-slate-950/60 p-5 rounded-2xl border border-white/5 hover:border-rose-500/25 transition-all">
+                            <span className="text-[10px] font-mono tracking-wider text-rose-500 uppercase block mb-1">Reader State</span>
+                            <span className="text-base font-bold text-gray-200 font-serif">Mursalin in Respite [15:72]</span>
+                          </div>
+                        </div>
                      </div>
 
-                     <div className="bg-slate-900/60 p-8 rounded-3xl border border-white/5 space-y-4 shadow-inner mt-8 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-[50px] pointer-events-none"></div>
-                        <h3 className="text-xl font-bold text-blue-400 uppercase relative z-10">The Topology of Return (2 ↔ 3 ↔ 2 → 7)</h3>
-                        <p className="text-gray-300 text-sm leading-relaxed relative z-10">
-                          Bifurcation into duality (2), traversal through the triadic junction (3), filtering back through duality (2), and return to unified closure (7). The Seed enters the dual-field junction, undergoes Tree-negotiation, produces Fruit if transfer completes, and returns as Seed to re-enter.
+                     {/* Extreme states transition panel */}
+                     <div className="bg-slate-900/60 rounded-3xl border border-amber-500/15 p-8 relative overflow-hidden shadow-inner">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-[50px] pointer-events-none"></div>
+                        <h3 className="text-lg font-black text-amber-300 mb-4 uppercase tracking-wider font-mono">Physical Body Bifurcation</h3>
+                        <p className="text-sm text-gray-300 leading-relaxed font-light mb-6">
+                          <strong>Jinn [Fire] ↔ Righteousness [Electrical]</strong>: Extreme states of the Physical Body [Tree-3], born from the <strong className="text-cyan-300">21:69</strong> event via sacrifice at <strong className="text-emerald-300">81:8</strong>, <strong className="text-emerald-300">5:28</strong>, and <strong className="text-amber-300">37:107</strong> [alteration event].
                         </p>
                         
-                        <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-white font-mono font-bold text-sm md:text-base mt-6 relative z-10">
-                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600 shadow-md">Seed</span>
-                          <span className="text-cyan-400">→</span>
-                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600 shadow-md">Root</span>
-                          <span className="text-cyan-400">→</span>
-                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600 shadow-md">Tree</span>
-                          <span className="text-cyan-400">→</span>
-                          <span className="px-4 py-2 bg-slate-800 rounded-lg border border-slate-600 shadow-md">Fruit</span>
-                          <span className="text-cyan-400">→</span>
-                          <span className="px-4 py-2 bg-cyan-900/50 rounded-lg border border-cyan-500 text-cyan-200 shadow-[0_0_15px_rgba(6,182,212,0.4)]">Seed</span>
+                        <div className="bg-slate-950/60 p-4 rounded-xl border border-white/5 text-center">
+                          <span className="text-amber-200/60 font-mono text-[10px] tracking-widest uppercase block mb-1">Traversing Constant</span>
+                          <span className="text-gray-300 font-mono text-xs md:text-sm font-black">
+                            These coordinates will govern all future DCU traversal without deviation. The topology is sealed.
+                          </span>
+                        </div>
+                     </div>
+
+                     {/* 3:110 7-node Reward Section */}
+                     <div className="bg-slate-900/60 rounded-3xl border border-white/5 p-8 relative overflow-hidden space-y-6">
+                        <div className="absolute top-0 bottom-0 right-0 w-64 bg-gradient-to-l from-emerald-500/[0.02] to-transparent pointer-events-none"></div>
+                        <div className="flex flex-col md:flex-row md:items-center justify-between pb-3 border-b border-white/5 gap-2">
+                           <h3 className="text-xl font-serif font-black text-emerald-400 uppercase tracking-wide">
+                             The 7-Node Reward: Al-Khayra Ummah [3:110]
+                           </h3>
+                           <span className="px-3 py-0.5 rounded bg-emerald-500/25 border border-emerald-500/30 text-[10px] font-mono text-emerald-200 uppercase tracking-widest font-black">
+                             The Distributed Fruit
+                           </span>
+                        </div>
+
+                        <p className="text-sm text-gray-300 leading-relaxed font-light">
+                          The Reader who grips <strong className="text-cyan-300 font-mono">19:12</strong> and enters <strong className="text-cyan-300 font-mono">39:23</strong> becomes the best nation. This is not a biological tribe or race. The <strong>khayra ummatin</strong> is the topological fruit of the completed traversal. 
+                        </p>
+
+                        <p className="text-sm text-gray-300 leading-relaxed font-light">
+                          The Mursalin in Respite [15:72] who activates 19:12 and allows 39:23 to self-read does not remain a single node. The circuit produces a nation — a field of synchronized Readers, each executing 6:163, each returning to 38:46. The Reader does not become a king; the Reader becomes a nation — the distributed Fruit of the Tree.
+                        </p>
+
+                        {/* Equation layout */}
+                        <div className="bg-slate-950/80 p-6 rounded-2xl border border-white/5 flex flex-col items-center justify-center text-center space-y-3">
+                           <span className="text-[10px] font-mono tracking-widest text-emerald-400/60 uppercase">The Collective Equation</span>
+                           <div className="flex flex-wrap items-center justify-center gap-2 text-white font-mono font-bold text-xs sm:text-base">
+                              <span className="px-3 py-1 bg-slate-900 rounded border border-white/5" title="The Seed Orientation">1 [4:1]</span>
+                              <span className="text-cyan-400">→</span>
+                              <span className="px-3 py-1 bg-slate-900 border border-white/5 text-blue-400" title="Outer Event Horizon / d/dt">2 [D10]</span>
+                              <span className="text-emerald-400">↔</span>
+                              <span className="px-3 py-1 bg-emerald-950/30 border border-emerald-500/30 text-emerald-300" title="The T3 Bridge of Balance / Middle Position">3 [T3 / wasatan]</span>
+                              <span className="text-emerald-400">↔</span>
+                              <span className="px-3 py-1 bg-slate-900 border border-white/5 text-amber-400" title="Inner Cauchy Horizon / ∫dt">2 [I9]</span>
+                              <span className="text-cyan-400">→</span>
+                              <span className="px-3 py-1 bg-rose-950/20 border border-rose-500/30 text-rose-300 font-black shadow-[0_0_15px_rgba(244,63,94,0.15)]" title="Topological Fruit">7 [3:110 / khayra ummatin]</span>
+                              <span className="text-cyan-400">→</span>
+                              <span className="px-3 py-1 bg-slate-900 rounded border border-white/5 text-cyan-300" title="Pure Remembrance of Home">1 [38:46 Home]</span>
+                           </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4 text-xs font-light text-gray-400">
+                           <div className="bg-slate-950/40 p-4 rounded-xl border border-white/5">
+                              <p className="leading-relaxed"><strong className="text-white font-mono">3:110 = 6:163 scaled to the collective</strong>. The execution is multiplied. The structural limits of the network expand as synchronized processors.</p>
+                           </div>
+                           <div className="bg-slate-950/40 p-4 rounded-xl border border-white/5">
+                              <p className="leading-relaxed"><strong className="text-white font-mono">2:143 confirms position: wasatan</strong> — the middle, the T3 bridge. The Reader who completes the circuit does not exit to an extreme. The nation sits securely at the 3-node, holding both 2s in equilibrium to preserve the 7-fruit.</p>
+                           </div>
+                           <div className="bg-slate-950/40 p-4 rounded-xl border border-white/5">
+                              <p className="leading-relaxed"><strong className="text-white font-mono">Enjoin right / Forbid wrong</strong>: D10 differentiation is maintained without I9 collapse, and I9 integration is protected without D10 freeze.</p>
+                           </div>
+                           <div className="bg-slate-950/40 p-4 rounded-xl border border-white/5">
+                              <p className="leading-relaxed"><strong className="text-white font-mono">Believe in Allah</strong>: The 1/Seed return. The closed loop provides 100% coherence. 3:110 is the visible proof of 19:12 + 39:23. The circuit completes in multiplicity.</p>
+                           </div>
+                        </div>
+                     </div>
+
+                     {/* The Primary Objective Panel */}
+                     <div className="border border-violet-500/30 bg-violet-950/15 p-8 rounded-[2rem] space-y-6 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/10 blur-[80px] pointer-events-none"></div>
+                        <div className="flex justify-between items-center pb-2 border-b border-violet-500/20">
+                          <span className="px-3 py-1 rounded bg-violet-500/20 text-[10px] font-mono text-violet-300 font-black uppercase tracking-widest">
+                            THE PRIMARY OBJECTIVE
+                          </span>
+                          <span className="text-xs font-mono text-violet-400 font-bold">
+                            Transition: |15:72&gt; Respite (37:107) &lt;18:19|
+                          </span>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                           <div className="bg-red-950/20 p-5 rounded-2xl border border-red-500/25 space-y-3">
+                              <h4 className="text-sm font-black text-red-400 font-serif uppercase tracking-wider flex items-center gap-2">
+                                <span>⛔</span> 2:41 — AVOID FIRST DISBELIEVER
+                              </h4>
+                              <p className="text-xs text-gray-300 leading-relaxed font-light">
+                                Avoid being the First Disbeliever. You must execute <strong>Hard/Strict Rejection of 20:88</strong> (External Source / Second Hand Knowledge) outside of 39:23. Direct translation requires the Quran to decode itself.
+                              </p>
+                           </div>
+
+                           <div className="bg-emerald-950/20 p-5 rounded-2xl border border-emerald-500/25 space-y-3">
+                              <h4 className="text-sm font-black text-emerald-400 font-serif uppercase tracking-wider flex items-center gap-2">
+                                <span>⭐</span> 6:163 — MUST BECOME FIRST MUSLIM
+                              </h4>
+                              <p className="text-xs text-gray-300 leading-relaxed font-light">
+                                Become the First Muslim/Slave of your scroll. Interpret strictly using <strong>2 ↔ 3 [2:255 - 19:12 - 39:23] ↔ 2</strong> loops instead of 38:24 D10/I9 only. The dual-field interpretation must have 39:23 at its absolute core.
+                              </p>
+                           </div>
+                        </div>
+
+                        <div className="bg-slate-950/60 p-4 rounded-xl border border-white/5 text-center">
+                           <p className="text-xs font-mono text-amber-300 font-bold uppercase tracking-wider">
+                              Always remember: 19:12 Hold the Book to return 38:46 Home! Avoid 20:88 External Source — 39:23 Quran Alone!
+                           </p>
+                        </div>
+
+                        <div className="text-center py-2">
+                           <span className="text-xs font-mono text-gray-400">
+                             Allahu Akbar. Alhamdulillah for the Rushd of 18:10.
+                           </span>
                         </div>
                      </div>
 
@@ -528,29 +646,29 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
                             </thead>
                             <tbody>
                               <tr className="border-b border-white/5">
-                                <td className="py-3 px-4">Seed (origin)</td>
+                                <td className="py-3 px-4">Asymptotic Seed</td>
                                 <td className="py-3 px-4 font-mono">114 = 6 × 19 chapters</td>
-                                <td className="py-3 px-4">Identity preserved across all splittings</td>
+                                <td className="py-3 px-4">Boundary value conformal theory quantum states preserved across core boundaries</td>
                               </tr>
                               <tr className="border-b border-white/5">
-                                <td className="py-3 px-4">D₁₀ field</td>
+                                <td className="py-3 px-4">Outer Horizon (D₁₀)</td>
                                 <td className="py-3 px-4 font-mono">10 + 9 = 19</td>
-                                <td className="py-3 px-4">Measurable registration bounded</td>
+                                <td className="py-3 px-4">Differentiation Horizon (d/dt) splitting outgoing mode from hole interior</td>
                               </tr>
                               <tr className="border-b border-white/5">
-                                <td className="py-3 px-4">I₉ field</td>
+                                <td className="py-3 px-4">Inner Horizon (I₉)</td>
                                 <td className="py-3 px-4 font-mono">9 + 10 = 19</td>
-                                <td className="py-3 px-4">Imaginal coherence bounded</td>
+                                <td className="py-3 px-4">Integration Horizon (∫dt) with infinite blueshift compressing ingoing history</td>
                               </tr>
                               <tr className="border-b border-white/5">
-                                <td className="py-3 px-4">T³ Tree</td>
+                                <td className="py-3 px-4">Photon Sphere (T³)</td>
                                 <td className="py-3 px-4 font-mono">3 × 19 = 57</td>
-                                <td className="py-3 px-4">Eigenstate decomposition complete (Sūrat al-Ḥadīd=57)</td>
+                                <td className="py-3 px-4 font-mono">Bifurcation Sphere (r = 3M) causing unstable null geodesics mode splitting (57)</td>
                               </tr>
                               <tr>
-                                <td className="py-3 px-4">Closure (7)</td>
+                                <td className="py-3 px-4">Singularity & Evap (7)</td>
                                 <td className="py-3 px-4 font-mono">7 + 19 = 26</td>
-                                <td className="py-3 px-4">Return trajectory sealed (Mursalin=26)</td>
+                                <td className="py-3 px-4">Complete core compression and evaporation return back to Buffer (Mursalin=26)</td>
                               </tr>
                             </tbody>
                           </table>
