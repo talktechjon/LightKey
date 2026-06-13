@@ -2,6 +2,7 @@ import React, { useRef, useLayoutEffect } from 'react';
 import { motion } from 'motion/react';
 import { TooltipContent } from '../types.ts';
 import { getChapterIcon } from '../utils.ts';
+import { MUQATTAT_DEFINITIONS } from '../data/muqattatDefinitions.ts';
 
 interface TooltipProps {
   visible: boolean;
@@ -96,6 +97,17 @@ const Tooltip: React.FC<TooltipProps> = ({ visible, content, position }) => {
                         <span dir="rtl" className="font-mono text-lg ml-2 muqattat-glow">
                             {muqattat.join(' ')}
                         </span>
+                        <div className="mt-2 space-y-2">
+                            {muqattat.flatMap(m => m.split('')).map(char => {
+                                const def = MUQATTAT_DEFINITIONS[char];
+                                return def ? (
+                                    <div key={char} className="text-[11px] bg-slate-900/80 p-2 rounded border border-cyan-500/20">
+                                        <span className="font-bold text-cyan-400">{char}:</span> {def.name} <span className="text-gray-500">[{def.field}]</span><br/>
+                                        <span className="text-gray-300">{def.function}</span>
+                                    </div>
+                                ) : null;
+                            })}
+                        </div>
                     </div>
                 )}
             </div>

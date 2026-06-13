@@ -360,7 +360,7 @@ const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotatio
     );
 };
 
-export const BirdMotion: React.FC<{ rotation: number, isPaused: boolean, onToggle: () => void }> = ({ rotation, isPaused, onToggle }) => {
+export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle: () => void }> = ({ rotation, isPaused, onToggle }) => {
     const [time, setTime] = React.useState(0);
     const timeRef = React.useRef(0);
 
@@ -380,395 +380,301 @@ export const BirdMotion: React.FC<{ rotation: number, isPaused: boolean, onToggl
         return () => cancelAnimationFrame(frame);
     }, [isPaused]);
 
-    const heartGeometry = useMemo(() => {
-        // 1. DATA EXTRACTION: Get the 6 active chapters in the current geometry rotation
-        const s1 = getSliceAtPoint(1, rotation);       // Slave 🌴
-        const s95 = getSliceAtPoint(95, rotation);     // Mountain 🕋
-        const s77 = getSliceAtPoint(77, rotation);     // Righteous 💧
-        const s19 = getSliceAtPoint(19, rotation);     // Book 🔆
-        const s110 = getSliceAtPoint(110, rotation);   // Return 🏆
-        const s57 = getSliceAtPoint(57, rotation);     // Boat 🐟
+    const torusGeometry = useMemo(() => {
+        // 1. DATA EXTRACTION: Get the 6 active chapters in the Qun-Fayaqun sequence
+        const s1 = getSliceAtPoint(1, rotation);       // Slave [Qun ▼]
+        const s39 = getSliceAtPoint(39, rotation);     // Queen [FayaQun ▲]
+        const s77 = getSliceAtPoint(77, rotation);     // Righteous [Qun ▼]
+        const s19 = getSliceAtPoint(19, rotation);     // Book [FayaQun ▲]
+        const s95 = getSliceAtPoint(95, rotation);     // Mountain [Qun ▼]
+        const s57 = getSliceAtPoint(57, rotation);     // Orphan [FayaQun ▲]
         
-        const nodes = [s1, s95, s77, s19, s110, s57];
+        const nodes = [s1, s39, s77, s19, s95, s57];
         
-        // 2. NORMALIZATION: Map chapters and verses to a [0, 1] energy space
-        const pts = nodes.map(n => ({
-            x: n.id / 114,
-            y: n.blockCount / 286 // Normalized Verse Energy
-        }));
+        // 2. METRIC CALCULATION: Unique Mathematical Signature based on 114 & 286
+        const maxId = 114;
+        const maxVerses = 286;
 
-        // 3. COEFFICIENT SOLVING (Umm al-Kitab Engine):
-        // f(x) = ax³ + bx² + cx + d 
-        const rawC = (pts[5].y - pts[0].y) / 0.5; // Linear Spread (Boat 57 - Slave 1)
-        const rawB = pts[2].y * 2;               // Quadratic Arch (Righteous 77)
-        const rawA = (pts[4].y - pts[1].y) / 0.3; // Cubic Lift (Return 110 - Mountain 95)
-
-        // Stabilization
-        const stabilize = (val: number, limit: number) => Math.max(-limit, Math.min(limit, val));
-
-        const c = stabilize(rawC, 1.2);
-        const b = stabilize(rawB, 1.5);
-        const a = stabilize(rawA, 2.0);
-
-        // 4. DELTA DYNAMICS: Wave Propagation Velocity
-        const deltas = nodes.map((n, i) => Math.abs(nodes[(i + 1) % nodes.length].blockCount - n.blockCount));
-        const averageDelta = deltas.reduce((acc, v) => acc + v, 0) / 6;
-        const waveVelocity = 0.5 * (1 + (averageDelta / 60)); // Propagation velocity 'v'
-
-        // 5. MECHANICAL HEART TIMELINE (Pressure -> Delta Scale)
-        const true_s = waveVelocity * time; 
-        const phase = ((true_s % 1) + 1) % 1; 
-
-        // Mechanical Mapping: 6-Step Cycle to Cardiac Phase volume 'u'
-        const getBaseVolume = (p: number) => {
-            if (p < 0.15) return p / 0.15 * 0.3;                                // Slave: Atrial fill (expand)
-            if (p < 0.25) return 0.3 - ((p - 0.15) / 0.10) * 0.2;               // Mountain: Atrial contract (tighten)
-            if (p < 0.40) return 0.1 - Math.pow((p - 0.25) / 0.15, 2) * 1.1;    // Righteous: Ventricular contract (full squeeze)
-            if (p < 0.50) return -1.0 + ((p - 0.40) / 0.10) * 0.2;              // Book: Valve flash (anchor hold)
-            if (p < 0.70) return -0.8 + ((p - 0.50) / 0.20) * 0.8;              // Return: Ventricular relaxation (expand back)
-            return 0;                                                           // Boat: Passive filling
-        };
-
-        const u = getBaseVolume(phase);
+        // Fayaqun (▲) Expansion Forces
+        const expVerses = nodes[1].blockCount + nodes[3].blockCount + nodes[5].blockCount;
+        const expForce = expVerses / (3 * maxVerses);
+        const expComplexity = (nodes[1].id + nodes[3].id + nodes[5].id) / (3 * maxId);
         
-        // Umm al-Kitab Pressure Evolution:
-        const pressure = a * Math.pow(u, 3) + b * Math.pow(u, 2) + c * u;
+        // Qun (▼) Contraction Forces
+        const conVerses = nodes[0].blockCount + nodes[2].blockCount + nodes[4].blockCount;
+        const conForce = conVerses / (3 * maxVerses);
+        const conComplexity = (nodes[0].id + nodes[2].id + nodes[4].id) / (3 * maxId);
 
-        // 6. VISUAL CUE MAPPING
-        let activePhase = "Boat";
-        let visualCue = "Passive filling";
-        let color = "#3b82f6"; // blue
-        let flash = 0;
+        // 3. DCU TORUS PARAMETERS (Mapping Narratives to Geometry)
+        const R_major = 22 + expForce * 22; // Expansion pushes the torus outward (22 to 44)
+        const r_minor_base = 5 + conForce * 15; // Contraction thickens the inner flow (5 to 20)
 
-        if (phase < 0.15) {
-            activePhase = "Slave";
-            visualCue = "Atrial filling";
-            color = "#60a5fa"; // light blue
-        } else if (phase < 0.25) {
-            activePhase = "Mountain";
-            visualCue = "Atrial contraction";
-            color = "#c084fc"; // purple
-        } else if (phase < 0.40) {
-            activePhase = "Righteous";
-            visualCue = "Ventricular squeeze";
-            color = "#ef4444"; // intense red
-        } else if (phase < 0.50) {
-            activePhase = "Book";
-            visualCue = "Valve transition";
-            color = "#fbbf24"; // yellow flare
-            flash = 1 - (phase - 0.40) / 0.10; // flash fades
-        } else if (phase < 0.70) {
-            activePhase = "Return";
-            visualCue = "Ventricular release";
-            color = "#2dd4bf"; // teal
+        const levels = Math.floor(10 + expComplexity * 26); // Tubular Levels: 10 to 36
+        const segments = Math.floor(16 + conComplexity * 24); // Radial Segments: 16 to 40
+        const tilt = Math.PI / 3.5 + (expForce - conForce) * 0.4; // Tilt varies dynamically
+
+        const flowVelocity = 0.3 + ((expForce + conForce) / 2) * 1.5;
+        const true_s = flowVelocity * time;
+        const phase = ((true_s % 1) + 1) % 1;
+
+        let activePhase = "Orphan";
+        let color = COLORS.triangle1; 
+        let isQun = false;
+
+        const cycleIdx = Math.floor(phase * 6);
+        const currentNode = nodes[cycleIdx] || nodes[5];
+
+        if (phase < 1/6) {
+            activePhase = "Slave"; color = COLORS.triangle2; isQun = true;
+        } else if (phase < 2/6) {
+            activePhase = "Queen"; color = COLORS.triangle1; isQun = false;
+        } else if (phase < 3/6) {
+            activePhase = "Righteous"; color = COLORS.triangle2; isQun = true;
+        } else if (phase < 4/6) {
+            activePhase = "Book"; color = COLORS.triangle1; isQun = false;
+        } else if (phase < 5/6) {
+            activePhase = "Mountain"; color = COLORS.triangle2; isQun = true;
         }
 
-        // 7. REALISTIC ANATOMICAL HEART GEOMETRY
-        let atrialScale = 1.0;
-        let ventScale = 1.0;
-        let avOpen = 0; // Atrioventricular valves (Mitral/Tricuspid)
-        let slOpen = 0; // Semilunar valves (Aortic/Pulmonary)
-        let fillFlow = 0;
-        let ejectFlow = 0;
-
-        if (phase < 0.15) { // Slave -> Passive Filling
-            atrialScale = 1.0 + (phase / 0.15) * 0.1;
-            ventScale = 1.0 + (phase / 0.15) * 0.1;
-            avOpen = 1;
-            slOpen = 0;
-            fillFlow = 1;
-        } else if (phase < 0.25) { // Mountain -> Atrial Contraction
-            const p = (phase - 0.15) / 0.10;
-            atrialScale = 1.1 - p * 0.2; // contracts strongly
-            ventScale = 1.1 + p * 0.1; // fills completely
-            avOpen = 1;
-            slOpen = 0;
-            fillFlow = 1 + p * 2; // rush of blood
-        } else if (phase < 0.40) { // Righteous -> Ventricular Contraction (Systole Peak)
-            const p = (phase - 0.25) / 0.15;
-            atrialScale = 0.9 + p * 0.1; // starts relaxing
-            ventScale = 1.2 - Math.pow(p, 1.5) * 0.35; // contracts deeply
-            // Isovolumetric initially, then ejects
-            if (p < 0.15) {
-                avOpen = 0;
-                slOpen = 0;
-                ejectFlow = 0;
-            } else {
-                avOpen = 0;
-                slOpen = Math.sin((p - 0.15) / 0.85 * Math.PI); // opens and closes
-                ejectFlow = slOpen * 2;
-            }
-        } else if (phase < 0.50) { // Book -> Isovolumetric Relaxation (Valves close)
-            const p = (phase - 0.40) / 0.10;
-            atrialScale = 1.0 + p * 0.05;
-            ventScale = 0.85;
-            avOpen = 0;
-            slOpen = 0;
-            ejectFlow = 0;
-        } else if (phase < 0.70) { // Return -> Ventricular filling starts
-            const p = (phase - 0.50) / 0.20;
-            atrialScale = 1.05 - p * 0.05;
-            ventScale = 0.85 + Math.pow(p, 0.5) * 0.15; // rapid fill
-            avOpen = p; // slowly opening
-            slOpen = 0;
-            fillFlow = p;
-        } else { // Boat -> Passive Filling
-            atrialScale = 1.0;
-            ventScale = 1.0;
-            avOpen = 1;
-            slOpen = 0;
-            fillFlow = 1;
-        }
+        // 4. PARAMETRIC BREATHING (Force vs Gravity)
+        const breathMod = isQun 
+            ? (1.0 - (phase % (1/6)) * 6 * 0.25) // Qun contracts by 25%
+            : (0.75 + (phase % (1/6)) * 6 * 0.25); // Fayaqun expands by 25%
+            
+        const tubeRadius = r_minor_base * breathMod;
 
         return {
-            atrialScale,
-            ventScale,
-            avOpen,
-            slOpen,
-            fillFlow,
-            ejectFlow,
+            scale: 0.8 + ((expForce + conForce) / 4), // 0.8 to 1.3
             activePhase,
-            visualCue,
             color,
-            flash,
+            isQun,
             phase,
-            pressure
+            levels,
+            segments,
+            tubeRadius,
+            R_major,
+            tilt,
+            flowVelocity,
+            currentNode,
+            expForce,
+            conForce
         };
     }, [rotation, time]);
 
     const dataPairs = useMemo(() => {
-        const p1 = getSliceAtPoint(1, rotation);
-        const p95 = getSliceAtPoint(95, rotation);
-        const p77 = getSliceAtPoint(77, rotation);
-        const p57 = getSliceAtPoint(57, rotation);
-        const p39 = getSliceAtPoint(39, rotation);
-        const p19 = getSliceAtPoint(19, rotation);
-        return { p1, p95, p77, p57, p39, p19 };
+        const p1 = getSliceAtPoint(1, rotation);       // Slave
+        const p39 = getSliceAtPoint(39, rotation);     // Queen
+        const p77 = getSliceAtPoint(77, rotation);     // Righteous
+        const p19 = getSliceAtPoint(19, rotation);     // Book
+        const p95 = getSliceAtPoint(95, rotation);     // Mountain
+        const p57 = getSliceAtPoint(57, rotation);     // Orphan
+        return { p1, p39, p77, p19, p95, p57 };
     }, [rotation]);
 
     return (
         <div className="flex flex-col w-full space-y-4">
-            <div className="relative w-full h-[220px] bg-black/90 rounded-xl border border-gray-800/80 shadow-inner flex flex-col items-center justify-center overflow-hidden transition-colors duration-500" style={{ boxShadow: `inset 0 0 ${20 + heartGeometry.flash * 40}px ${heartGeometry.color}20` }}>
+            <div className="relative w-full h-[240px] bg-black/95 rounded-xl border border-gray-800/80 shadow-2xl flex flex-col items-center justify-center overflow-hidden transition-colors duration-500" style={{ boxShadow: `inset 0 0 40px ${torusGeometry.color}15` }}>
                 
-                <div className="absolute top-2 left-2 flex flex-col z-20">
-                    <span className="text-[11px] font-bold tracking-wider uppercase transition-colors duration-200" style={{ color: heartGeometry.color }}>
-                        Umm al-Kitab<br/>Equation
-                    </span>
-                </div>
-                
-                {/* Background Grid */}
-                <div className="absolute inset-0 z-0 opacity-[0.15] pointer-events-none">
-                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
-                                <path d="M 10 0 L 0 0 0 10" fill="none" stroke={heartGeometry.color} strokeWidth="0.5" className="transition-all duration-300"/>
-                            </pattern>
-                            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                                <rect width="50" height="50" fill="url(#smallGrid)"/>
-                                <path d="M 50 0 L 0 0 0 50" fill="none" stroke={heartGeometry.color} strokeWidth="1" className="transition-all duration-300"/>
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#grid)" />
-                    </svg>
-                </div>
-
-                {/* Beating Heart Canvas */}
+                {/* Parametric Torus Geometry */}
                 <svg viewBox="0 0 100 100" className="w-[100%] h-[100%] overflow-visible z-10" preserveAspectRatio="xMidYMid meet">
-                    {/* Valve Transition Flash */}
-                    {heartGeometry.flash > 0 && (
-                        <circle cx="50" cy="50" r={10 + heartGeometry.flash * 40} fill="#fbbf24" opacity={heartGeometry.flash * 0.4} style={{ filter: "blur(8px)" }} />
-                    )}
-                    
-                    <g transform="translate(50, 50) scale(0.7) translate(-50, -50)">
-                        <g className="transition-all duration-75">
-                            {/* DEF GRADIENTS FOR MRI LOOK */}
-                            <defs>
-                                <radialGradient id="raGrad" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.8" />
-                                    <stop offset="100%" stopColor="#1e3a8a" stopOpacity="0.2" />
-                                </radialGradient>
-                                <radialGradient id="laGrad" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stopColor="#ef4444" stopOpacity="0.8" />
-                                    <stop offset="100%" stopColor="#7f1d1d" stopOpacity="0.2" />
-                                </radialGradient>
-                                <radialGradient id="rvGrad" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stopColor="#1d4ed8" stopOpacity="0.6" />
-                                    <stop offset="100%" stopColor="#0f172a" stopOpacity="0.3" />
-                                </radialGradient>
-                                <radialGradient id="lvGrad" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stopColor="#b91c1c" stopOpacity="0.6" />
-                                    <stop offset="100%" stopColor="#0f172a" stopOpacity="0.3" />
-                                </radialGradient>
-                            </defs>
+                    <defs>
+                        <linearGradient id="torusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor={torusGeometry.color} stopOpacity="0.8" />
+                            <stop offset="50%" stopColor="#FFFFFF" stopOpacity="0.4" />
+                            <stop offset="100%" stopColor={torusGeometry.color} stopOpacity="0.1" />
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="1.2" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
 
-                            {/* RIGHT ATRIUM */}
-                            <g transform={`translate(35, 30) scale(${heartGeometry.atrialScale}) translate(-35, -30)`}>
-                                {/* S/I Vena Cava */}
-                                <path d="M 28 5 L 40 5 L 40 30 L 28 30 Z" fill="#1e3a8a" opacity="0.4" />
-                                <path d="M 28 40 L 40 40 L 40 60 L 28 60 Z" fill="#1e3a8a" opacity="0.4" />
-                                <path d="M 21 41 C 15 30, 20 15, 35 15 C 42 15, 48 25, 48 41 Z" fill="url(#raGrad)" stroke="#60a5fa" strokeWidth="0.8" />
-                            </g>
-
-                            {/* LEFT ATRIUM */}
-                            <g transform={`translate(65, 30) scale(${heartGeometry.atrialScale}) translate(-65, -30)`}>
-                                {/* Pulmonary Veins */}
-                                <path d="M 60 15 L 75 15 L 75 30 L 60 30 Z" fill="#7f1d1d" opacity="0.4" />
-                                <path d="M 52 41 C 52 25, 58 15, 65 15 C 80 15, 85 30, 79 41 Z" fill="url(#laGrad)" stroke="#f87171" strokeWidth="0.8" />
-                            </g>
-
-                            {/* RIGHT VENTRICLE */}
-                            <g transform={`translate(40, 65) scale(${heartGeometry.ventScale}) translate(-40, -65)`}>
-                                <path d="M 48 45 L 20 45 C 10 65, 25 90, 48 95 C 47 75, 47 55, 48 45 Z" fill="url(#rvGrad)" stroke="#2563eb" strokeWidth="0.8" />
-                            </g>
-
-                            {/* LEFT VENTRICLE */}
-                            <g transform={`translate(60, 65) scale(${heartGeometry.ventScale}) translate(-60, -65)`}>
-                                <path d="M 52 45 L 80 45 C 90 70, 70 93, 46 95 C 50 75, 51 55, 52 45 Z" fill="url(#lvGrad)" stroke="#dc2626" strokeWidth="0.8" />
-                            </g>
-
-                            {/* SEPTUM (Dividing Wall) */}
-                            <g transform={`translate(50, 70) scale(${heartGeometry.ventScale}) translate(-50, -70)`}>
-                                <path d="M 47 45 L 53 45 L 50 94 L 46 95 Z" fill="#334155" opacity="0.9" />
-                            </g>
-
-                            {/* MITRAL & TRICUSPID VALVES (Atrioventricular) */}
-                            <g strokeWidth="1.5" strokeLinecap="round">
-                                {/* Tricuspid */}
-                                <line x1="22" y1="45" x2="43" y2="45" stroke="#475569" strokeWidth="1" />
-                                <line x1="22" y1="45" x2="32.5" y2={45 + heartGeometry.avOpen * 8} stroke="white" opacity="0.9" />
-                                <line x1="43" y1="45" x2="32.5" y2={45 + heartGeometry.avOpen * 8} stroke="white" opacity="0.9" />
-
-                                {/* Mitral */}
-                                <line x1="57" y1="45" x2="78" y2="45" stroke="#475569" strokeWidth="1" />
-                                <line x1="57" y1="45" x2="67.5" y2={45 + heartGeometry.avOpen * 8} stroke="white" opacity="0.9" />
-                                <line x1="78" y1="45" x2="67.5" y2={45 + heartGeometry.avOpen * 8} stroke="white" opacity="0.9" />
-                            </g>
-
-                            {/* AORTA & PULMONARY ARTERY */}
-                            <g>
-                                {/* Pulmonary Artery */}
-                                <path d="M 48 41 C 48 20, 60 15, 75 15" fill="none" stroke="#3b82f6" strokeWidth="8" opacity="0.7" />
-                                {/* Aorta */}
-                                <path d="M 52 41 C 52 25, 45 10, 55 5 C 65 0, 75 10, 65 20" fill="none" stroke="#ef4444" strokeWidth="8" opacity="0.7" />
-                            </g>
-
-                            {/* SEMILUNAR VALVES */}
-                            <g strokeWidth="2" strokeLinecap="round">
-                                {/* Pulmonary Valve */}
-                                <line x1="45" y1="36" x2="52" y2="34" stroke="#475569" strokeWidth="1" />
-                                {heartGeometry.slOpen > 0 && (
-                                    <>
-                                    <line x1="45" y1="36" x2={48 - heartGeometry.slOpen * 4} y2={30 - heartGeometry.slOpen * 5} stroke="#fcd34d" />
-                                    <line x1="52" y1="34" x2={48 + heartGeometry.slOpen * 2} y2={30 - heartGeometry.slOpen * 5} stroke="#fcd34d" />
-                                    </>
-                                )}
-
-                                {/* Aortic Valve */}
-                                <line x1="48" y1="34" x2="55" y2="36" stroke="#475569" strokeWidth="1" />
-                                {heartGeometry.slOpen > 0 && (
-                                    <>
-                                    <line x1="48" y1="34" x2={52 - heartGeometry.slOpen * 2} y2={30 - heartGeometry.slOpen * 5} stroke="#fcd34d" />
-                                    <line x1="55" y1="36" x2={52 + heartGeometry.slOpen * 4} y2={30 - heartGeometry.slOpen * 5} stroke="#fcd34d" />
-                                    </>
-                                )}
-                            </g>
-
-                            {/* FLUID DYNAMICS */}
-                            <g stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeDasharray="2 8">
-                                {heartGeometry.fillFlow > 0 && (
-                                    <g opacity={heartGeometry.fillFlow}>
-                                        <path d="M 32.5 35 L 32.5 60" style={{ strokeDashoffset: -(time * 20) % 10 }} />
-                                        <path d="M 67.5 35 L 67.5 60" style={{ strokeDashoffset: -(time * 20) % 10 }} />
-                                    </g>
-                                )}
+                    <g transform={`translate(50, 50) scale(${torusGeometry.scale})`}>
+                        {/* 3D Parametric Wireframe Projection */}
+                        {(() => {
+                            const R_major = torusGeometry.R_major;
+                            const r_minor = torusGeometry.tubeRadius;
+                            const rotation_angle = time * torusGeometry.flowVelocity * 0.8;
+                            const rotX = time * 0.6 + torusGeometry.tilt; // Continuous tumble X
+                            const rotY = time * 0.4; // Continuous tumble Y
+                            
+                            const project = (u: number, v: number) => {
+                                // Basic Torus Parametric Equations
+                                const x0 = (R_major + r_minor * Math.cos(v)) * Math.cos(u + rotation_angle);
+                                const y0 = (R_major + r_minor * Math.cos(v)) * Math.sin(u + rotation_angle);
+                                const z0 = r_minor * Math.sin(v);
                                 
-                                {heartGeometry.ejectFlow > 0 && (
-                                    <g opacity={heartGeometry.ejectFlow}>
-                                        {/* RV -> Pulmonary flow */}
-                                        <path d="M 48 45 C 48 20, 60 15, 75 15" style={{ strokeDashoffset: -(time * 30) % 10 }} strokeWidth="2" strokeDasharray="3 6" />
-                                        {/* LV -> Aorta flow */}
-                                        <path d="M 52 45 C 52 25, 45 10, 55 5 C 65 0, 75 10, 65 20" style={{ strokeDashoffset: -(time * 30) % 10 }} strokeWidth="2" strokeDasharray="3 6" />
-                                    </g>
-                                )}
-                            </g>
-                        </g>
+                                // Rotate around X-axis
+                                const y1 = y0 * Math.cos(rotX) - z0 * Math.sin(rotX);
+                                const z1 = y0 * Math.sin(rotX) + z0 * Math.cos(rotX);
+                                
+                                // Rotate around Y-axis
+                                const x2 = x0 * Math.cos(rotY) + z1 * Math.sin(rotY);
+                                
+                                return { x: x2, y: y1 };
+                            };
+
+                            const paths = [];
+                            
+                            // Longitudinal Rings (Major Axis)
+                            for (let i = 0; i < torusGeometry.levels; i++) {
+                                const v = (i / torusGeometry.levels) * Math.PI * 2;
+                                let d = "";
+                                for (let j = 0; j <= 32; j++) {
+                                    const u = (j / 32) * Math.PI * 2;
+                                    const p = project(u, v);
+                                    d += `${j === 0 ? 'M' : 'L'} ${p.x} ${p.y}`;
+                                }
+                                paths.push(
+                                    <path 
+                                        key={`v-${i}`} 
+                                        d={d} fill="none" 
+                                        stroke="#e5e7eb" 
+                                        strokeWidth="0.25" 
+                                        opacity={0.1 + (i % 2 === 0 ? 0.15 : 0)} 
+                                    />
+                                );
+                            }
+
+                            // Latitudinal Rings (Minor Axis)
+                            for (let i = 0; i < torusGeometry.segments; i++) {
+                                const u = (i / torusGeometry.segments) * Math.PI * 2;
+                                let d = "";
+                                for (let j = 0; j <= 16; j++) {
+                                    const v = (j / 16) * Math.PI * 2;
+                                    const p = project(u, v);
+                                    d += `${j === 0 ? 'M' : 'L'} ${p.x} ${p.y}`;
+                                }
+                                paths.push(
+                                    <path 
+                                        key={`u-${i}`} 
+                                        d={d} fill="none" 
+                                        stroke="#e5e7eb" 
+                                        strokeWidth="0.3" 
+                                        opacity={0.2 + (Math.cos(u + rotation_angle) + 1) * 0.15} 
+                                    />
+                                );
+                            }
+
+                            return paths;
+                        })()}
+
+                        {/* Quantum Flow Particles on 3D Path */}
+                        {Array.from({ length: 30 }).map((_, i) => {
+                            const u = ((i / 30) * Math.PI * 2) + (time * 0.6);
+                            const v = (time * 2.8) + (i * 0.4);
+                            const r_minor = torusGeometry.tubeRadius;
+                            const R_major = torusGeometry.R_major;
+                            const rotation_angle = time * torusGeometry.flowVelocity * 0.8;
+                            const rotX = time * 0.6 + torusGeometry.tilt;
+                            const rotY = time * 0.4;
+                            
+                            const x0 = (R_major + r_minor * Math.cos(v)) * Math.cos(u + rotation_angle);
+                            const y0 = (R_major + r_minor * Math.cos(v)) * Math.sin(u + rotation_angle);
+                            const z0 = r_minor * Math.sin(v);
+                            
+                            const y1 = y0 * Math.cos(rotX) - z0 * Math.sin(rotX);
+                            const z1 = y0 * Math.sin(rotX) + z0 * Math.cos(rotX);
+
+                            const x2 = x0 * Math.cos(rotY) + z1 * Math.sin(rotY);
+                            
+                            return (
+                                <circle 
+                                    key={`dot-${i}`}
+                                    cx={x2} cy={y1} r="0.5"
+                                    fill={i % 2 === 0 ? "#fff" : torusGeometry.color}
+                                    style={{ filter: "url(#glow)" }}
+                                    opacity={0.6 + Math.sin(time + i) * 0.3}
+                                />
+                            );
+                        })}
+
+                        {/* Central Core Glow */}
+                        <ellipse 
+                            cx="0" cy="0" rx="14" ry="6" 
+                            fill={torusGeometry.color}
+                            opacity="0.1"
+                            filter="url(#glow)"
+                        />
                     </g>
                 </svg>
                 
-                {/* Left side minimal indicators */}
-                <div className="absolute bottom-2 left-3 flex space-x-1 z-20">
-                    {[0.1, 0.2, 0.35, 0.45, 0.6, 0.85].map((target, i) => (
-                        <div key={i} className={`w-1.5 h-1.5 rounded-full border border-gray-600 transition-all duration-100 ${Math.abs(heartGeometry.phase - target) <= 0.1 ? 'scale-150' : 'opacity-40'}`} style={{ backgroundColor: Math.abs(heartGeometry.phase - target) <= 0.1 ? heartGeometry.color : 'transparent' }} />
+                {/* Visual Telemetry Dots */}
+                <div className="absolute bottom-3 left-3 flex items-center space-x-1.5 z-20">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <div 
+                            key={i} 
+                            className={`w-1.5 h-1.5 rounded-full border border-gray-700 transition-all duration-500 ${Math.floor(torusGeometry.phase * 6) === i ? 'scale-125 shadow-[0_0_10px_currentColor] border-white/20' : 'opacity-20'}`} 
+                            style={{ 
+                                backgroundColor: Math.floor(torusGeometry.phase * 6) === i ? torusGeometry.color : 'transparent',
+                                color: torusGeometry.color
+                            }} 
+                        />
                     ))}
                 </div>
             </div>
-
-            {/* Geometric Bird Data Legend Box */}
+ 
+            {/* Geometric Data Legend Box */}
             <div className="w-full bg-black/40 border border-gray-800 rounded-xl p-4 sm:p-6 overflow-hidden">
                 <div className="grid grid-cols-3 gap-y-8 relative">
-                    {/* Row 1: Slave -> Mountain -> Righteous */}
+                    {/* Row 1: Slave -> Queen -> Righteous */}
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-2xl sm:text-3xl">🌴</span>
                         <div className="text-center flex flex-col items-center w-full">
                             <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">{dataPairs.p1.id}:{dataPairs.p1.blockCount}</div>
-                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p1.id)?.englishName}>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p1.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Slave</div>
-                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p1.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
-                                {MUQATTAT_LETTERS.get(dataPairs.p1.id)?.join(' ') || '—'}
-                            </div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 uppercase tracking-tighter mt-0.5">Slave [Qun ▼]</div>
                         </div>
                     </div>
-
+ 
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">🕋</span>
+                        <span className="text-2xl sm:text-3xl">🐝</span>
                         <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p95.id}:{dataPairs.p95.blockCount}</div>
-                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p95.id)?.englishName}>
-                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p95.id)?.englishName}
+                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p39.id}:{dataPairs.p39.blockCount}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p39.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Mountain</div>
-                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p95.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
-                                {MUQATTAT_LETTERS.get(dataPairs.p95.id)?.join(' ') || '—'}
-                            </div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 uppercase tracking-tighter mt-0.5">Queen [FayaQun ▲]</div>
                         </div>
                     </div>
-
+ 
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-2xl sm:text-3xl">💧</span>
                         <div className="text-center flex flex-col items-center w-full">
                             <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">{dataPairs.p77.id}:{dataPairs.p77.blockCount}</div>
-                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p77.id)?.englishName}>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p77.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Righteous</div>
-                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p77.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
-                                {MUQATTAT_LETTERS.get(dataPairs.p77.id)?.join(' ') || '—'}
-                            </div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 uppercase tracking-tighter mt-0.5">Righteous [Qun ▼]</div>
                         </div>
                     </div>
-
-                    {/* Middle Arrows Section */}
-                    <div className="col-span-3 flex justify-between items-center px-4 -my-4 relative h-16 sm:h-20">
-                        {/* Up Arrow (connecting Boat to Slave) */}
+ 
+                    {/* Middle Transition Layer */}
+                    <div className="col-span-3 flex items-center justify-center px-4 -my-4 relative h-16 sm:h-20">
+                        {/* Up Arrow (connecting Bottom elements to Top) */}
                         <div className="z-10 text-cyan-400">
                              <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
                                 <path d="M 8 20 L 8 4 M 8 4 L 3 9 M 8 4 L 13 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                              </svg>
                         </div>
+
+                        <div className="h-px bg-gray-800 flex-grow mx-12 opacity-30"></div>
                         
                         <div 
                             className="absolute inset-0 flex items-center justify-center group z-20"
                             onClick={onToggle}
-                            title="Toggle Core Animation Engine"
                         >
                             {/* Pi Invariant Badge */}
                             <div className="absolute top-[-25px] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 border border-cyan-500/30 px-3 py-1 rounded-full whitespace-nowrap">
                                 <span className="text-[9px] font-mono text-cyan-300 tracking-tighter">Invariant: π (2↔3↔2→7)</span>
                             </div>
 
-                            {/* Central Bird Silhouette Logo */}
+                            {/* Central Bird Silhouette Logo Restored */}
                             <svg 
                                 width="80" 
                                 height="40" 
@@ -792,7 +698,7 @@ export const BirdMotion: React.FC<{ rotation: number, isPaused: boolean, onToggl
 
                         <div className="h-px bg-gray-800 flex-grow mx-12 opacity-30"></div>
                         
-                        {/* Down Arrow (connecting Righteous to Book) */}
+                        {/* Down Arrow (connecting Top to Bottom) */}
                         <div className="z-10 text-pink-500">
                              <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
                                 <path d="M 8 0 L 8 16 M 8 16 L 3 11 M 8 16 L 13 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -800,46 +706,37 @@ export const BirdMotion: React.FC<{ rotation: number, isPaused: boolean, onToggl
                         </div>
                     </div>
 
-                    {/* Row 2: Boat -> Queen -> Book */}
-                    <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">🐟</span>
-                        <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p57.id}:{dataPairs.p57.blockCount}</div>
-                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p57.id)?.englishName}>
-                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p57.id)?.englishName}
-                            </div>
-                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Boat</div>
-                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p57.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
-                                {MUQATTAT_LETTERS.get(dataPairs.p57.id)?.join(' ') || '—'}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">🐝</span>
-                        <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">{dataPairs.p39.id}:{dataPairs.p39.blockCount}</div>
-                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p39.id)?.englishName}>
-                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p39.id)?.englishName}
-                            </div>
-                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Queen</div>
-                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p39.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
-                                {MUQATTAT_LETTERS.get(dataPairs.p39.id)?.join(' ') || '—'}
-                            </div>
-                        </div>
-                    </div>
-
+                    {/* Row 2: Book -> Mountain -> Orphan */}
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-2xl sm:text-3xl">🔆</span>
                         <div className="text-center flex flex-col items-center w-full">
                             <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p19.id}:{dataPairs.p19.blockCount}</div>
-                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full" title={CHAPTER_DETAILS.find(c => c.number === dataPairs.p19.id)?.englishName}>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p19.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-tighter mt-0.5">Book</div>
-                            <div className={`mt-1 font-mono text-[11px] sm:text-xs h-4 ${MUQATTAT_CHAPTERS.has(dataPairs.p19.id) ? "muqattat-glow text-white" : "text-gray-700 font-bold opacity-30"}`}>
-                                {MUQATTAT_LETTERS.get(dataPairs.p19.id)?.join(' ') || '—'}
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 uppercase tracking-tighter mt-0.5">Book [FayaQun ▲]</div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
+                        <span className="text-2xl sm:text-3xl">🕋</span>
+                        <div className="text-center flex flex-col items-center w-full">
+                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">{dataPairs.p95.id}:{dataPairs.p95.blockCount}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p95.id)?.englishName}
                             </div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 uppercase tracking-tighter mt-0.5">Mountain [Qun ▼]</div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
+                        <span className="text-2xl sm:text-3xl">🐟</span>
+                        <div className="text-center flex flex-col items-center w-full">
+                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p57.id}:{dataPairs.p57.blockCount}</div>
+                            <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p57.id)?.englishName}
+                            </div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 uppercase tracking-tighter mt-0.5">Orphan [FayaQun ▲]</div>
                         </div>
                     </div>
                 </div>
@@ -847,6 +744,7 @@ export const BirdMotion: React.FC<{ rotation: number, isPaused: boolean, onToggl
         </div>
     );
 };
+
 
 export const DNAHelixAnimation: React.FC<{
     isPaused: boolean;
@@ -1186,7 +1084,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                 </div>
 
                 <div className="mt-8">
-                    <BirdMotion rotation={rotation} isPaused={!isSystemActive} onToggle={() => setIsSystemActive(!isSystemActive)} />
+                    <TorusFlow rotation={rotation} isPaused={!isSystemActive} onToggle={() => setIsSystemActive(!isSystemActive)} />
                 </div>
 
                 <div className="mt-4 p-5 bg-gray-950/40 border border-gray-800/60 rounded-xl space-y-7 shadow-2xl relative overflow-hidden">

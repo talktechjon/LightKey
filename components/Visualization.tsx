@@ -199,7 +199,38 @@ const MOON_DIAL_HOURS = [
   }
 ];
 
+const MoonPhase = ({ phase, size = 32 }: { phase: number; size: number }) => {
+  const r = size / 2;
+  const moonColor = "#fefce8"; // Light yellow
+  const shadowColor = "#0f172a"; // Dark blue-gray
+  
+  const sweep = Math.abs(Math.cos(phase * 2 * Math.PI)) * r;
+  
+  if (phase <= 0.5) { // Waxing (Light on right)
+    return (
+      <g>
+        <circle cx="0" cy="0" r={r} fill={shadowColor} />
+        <path
+          d={`M 0 ${-r} A ${r} ${r} 0 0 1 0 ${r} A ${sweep} ${r} 0 0 ${phase < 0.25 ? 0 : 1} 0 ${-r}`}
+          fill={moonColor}
+        />
+      </g>
+    );
+  } else { // Waning (Light on left)
+    return (
+      <g>
+        <circle cx="0" cy="0" r={r} fill={moonColor} />
+        <path
+          d={`M 0 ${-r} A ${r} ${r} 0 0 1 0 ${r} A ${sweep} ${r} 0 0 ${phase < 0.75 ? 0 : 1} 0 ${-r}`}
+          fill={shadowColor}
+        />
+      </g>
+    );
+  }
+};
+
 const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rotation, iconDialRotation, setRotation, isSpinning, onSpinStart, onSpinEnd, isSecretModeActive, secretEmojiShift, showTooltip, hideTooltip, onSliceSelect, isLowResourceMode }, ref) => {
+
   const animationFrameId = useRef<number | null>(null);
   const center = SIZES.width / 2;
   const svgRef = useRef<SVGSVGElement>(null);
@@ -530,19 +561,13 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
       return (
           <g id="moondial-clocks-layer">
               {/* Distinct outer dotted background guideline rings */}
-              <circle cx={center} cy={center} r={448} fill="none" stroke="rgba(6,182,212,0.12)" strokeWidth="1" />
-              <circle cx={center} cy={center} r={498} fill="none" stroke="rgba(6,182,212,0.06)" strokeWidth="1" />
-              <circle cx={center} cy={center} r={443} fill="none" stroke="rgba(255,255,255,0.04)" strokeDasharray="4 8" strokeWidth="1" />
+              <circle cx={center} cy={center} r={460} fill="none" stroke="rgba(6,182,212,0.1)" strokeWidth="0.5" />
               
-              {MOON_DIAL_HOURS.map((hour) => {
+              {MOON_DIAL_HOURS.map((hour, index) => {
                   const isHovered = hoveredHourId === hour.hourId;
-                  const pathD = describeDonutSlice(center, center, 448, 498, hour.angle - 14, hour.angle + 14);
-                  const breathColor = hour.breath === '10' ? '#ec4899' : '#06b6d4';
-                  const innerArcD = describeDonutSlice(center, center, 443, 446, hour.angle - 14, hour.angle + 14);
-                  
-                  const labelPos = polarToCartesian(center, center, 471, hour.angle);
-                  const chapPos = polarToCartesian(center, center, 456, hour.angle);
-                  const dotPos = polarToCartesian(center, center, 488, hour.angle);
+                  const phase = (index / 12); // Mapping 12 hours to 0-1 cycle
+                  const moonSize = isHovered ? 48 : 40;
+                  const pos = polarToCartesian(center, center, 470, hour.angle);
                   
                   return (
                       <g 
@@ -552,67 +577,36 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
                           onMouseMove={(e) => handleMoondialMouseEnter(e, hour)}
                           onMouseLeave={handleMoondialMouseLeave}
                       >
-                          {/* Segment Panel */}
-                          <path 
-                              d={pathD}
-                              fill={isHovered ? 'rgba(9, 10, 15, 0.94)' : 'rgba(9, 10, 15, 0.52)'}
-                              stroke={isHovered ? hour.color : 'rgba(255, 255, 255, 0.05)'}
-                              strokeWidth={isHovered ? 1.5 : 0.8}
-                              style={{ transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)' }}
-                          />
+                          {/* Invisible hit area for easier interactions */}
+                          <circle cx={pos.x} cy={pos.y} r={35} fill="transparent" />
                           
-                          {/* Inner Breath Arc / AC Current Flow */}
-                          <path 
-                              d={innerArcD}
-                              fill={breathColor}
-                              opacity={isHovered ? 0.95 : 0.4}
-                              style={{ transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)', filter: isHovered ? `drop-shadow(0 0 4px ${breathColor})` : undefined }}
-                          />
-                          
-                          {/* Upright Central Hour */}
-                          <text
-                              x={labelPos.x}
-                              y={labelPos.y}
-                              textAnchor="middle"
-                              dominantBaseline="middle"
-                              fill={isHovered ? '#fff' : 'rgba(255,255,255,0.65)'}
-                              fontSize="11"
-                              fontWeight="extrabold"
-                              className="font-sans select-none pointer-events-none"
-                              style={{ transition: 'all 0.3s ease-out' }}
-                          >
-                              {hour.hourId}
-                          </text>
-                          
-                          {/* Chapters Span */}
-                          <text
-                              x={chapPos.x}
-                              y={chapPos.y}
-                              textAnchor="middle"
-                              dominantBaseline="middle"
-                              fill={isHovered ? hour.color : 'rgba(255,255,255,0.3)'}
-                              fontSize="7.5"
-                              fontWeight="black"
-                              className="font-mono select-none pointer-events-none"
-                              style={{ transition: 'all 0.3s ease-out' }}
-                          >
-                              {hour.chapters}
-                          </text>
-                          
-                          {/* Outer Node Dot */}
-                          <circle 
-                              cx={dotPos.x}
-                              cy={dotPos.y}
-                              r={isHovered ? 4.5 : 2.5}
-                              fill={hour.color}
-                              style={{ transition: 'all 0.3s ease-out', filter: isHovered ? `drop-shadow(0 0 6px ${hour.color})` : undefined }}
-                          />
+                          {/* Moon Phase Icon */}
+                          <g transform={`translate(${pos.x}, ${pos.y}) rotate(${hour.angle - 90})`}>
+                              <MoonPhase phase={phase} size={moonSize} />
+                          </g>
+
+                          {/* Subtle Hour Marker if hovered */}
+                          {isHovered && (
+                              <text
+                                  x={pos.x}
+                                  y={pos.y + 35}
+                                  textAnchor="middle"
+                                  dominantBaseline="middle"
+                                  fill="#fff"
+                                  fontSize="10"
+                                  fontWeight="bold"
+                                  className="font-sans select-none pointer-events-none"
+                              >
+                                  {hour.hourId}:00
+                              </text>
+                          )}
                       </g>
                   );
               })}
           </g>
       );
   };
+
 
   return (
     <div className="w-full h-full">
