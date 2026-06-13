@@ -628,7 +628,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p1.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 uppercase tracking-tighter mt-0.5">Slave [Qun ▼]</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Slave [Qun ▼]</div>
                         </div>
                     </div>
  
@@ -639,7 +639,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p39.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 uppercase tracking-tighter mt-0.5">Queen [FayaQun ▲]</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Queen [FayaQun ▲]</div>
                         </div>
                     </div>
  
@@ -650,7 +650,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p77.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 uppercase tracking-tighter mt-0.5">Righteous [Qun ▼]</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Righteous [Qun ▼]</div>
                         </div>
                     </div>
  
@@ -714,7 +714,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p19.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 uppercase tracking-tighter mt-0.5">Book [FayaQun ▲]</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Book [FayaQun ▲]</div>
                         </div>
                     </div>
 
@@ -725,7 +725,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p95.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 uppercase tracking-tighter mt-0.5">Mountain [Qun ▼]</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Mountain [Qun ▼]</div>
                         </div>
                     </div>
 
@@ -736,7 +736,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p57.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 uppercase tracking-tighter mt-0.5">Orphan [FayaQun ▲]</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Orphan [FayaQun ▲]</div>
                         </div>
                     </div>
                 </div>
