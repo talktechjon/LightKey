@@ -40,6 +40,165 @@ const describeDonutSlice = (x: number, y: number, innerRadius: number, outerRadi
     return d;
 };
 
+const MOON_DIAL_HOURS = [
+  {
+    hourId: 12,
+    hourStr: '12:00',
+    angle: 0,
+    chapters: '106–114, 1',
+    title: 'Seed & Return Singularity',
+    role: 'Return / Whispering closes — One — Home. Circular boundary returns back to the pre-temporal coordinate center.',
+    keyVerse: '114:6 / 112:1 / 38:46',
+    breath: '10',
+    breathDesc: 'I9 / T3 Singularity voltage (closing asymmetry)',
+    influence: 'New Moon (Seed hidden in 1:1)',
+    color: '#a855f7'
+  },
+  {
+    hourId: 1,
+    hourStr: '1:00',
+    angle: 30,
+    chapters: '2–10',
+    title: 'D10 Entry Corridors',
+    role: 'D10 entry — Throne upon Water. Transition outward into the manifest grid coordinates.',
+    keyVerse: '2:255 / 11:7 / 7:143',
+    breath: '9',
+    breathDesc: 'I9 compression (inhale / hidden / retreat)',
+    influence: 'Waxing crescent → first quarter',
+    color: '#3b82f6'
+  },
+  {
+    hourId: 2,
+    hourStr: '2:00',
+    angle: 60,
+    chapters: '11–19',
+    title: 'Book / Grip Nodes',
+    role: 'Centromere locks — Book taken with strength and insulation from external Taghut forces.',
+    keyVerse: '19:12 / 18:50',
+    breath: '9',
+    breathDesc: 'I9 compression (inhale / hidden / retreat)',
+    influence: 'Waxing crescent → first quarter',
+    color: '#06b6d4'
+  },
+  {
+    hourId: 3,
+    hourStr: '3:00',
+    angle: 90,
+    chapters: '20–29',
+    title: 'T3 Bridge Traversal',
+    role: 'T3 traversal — Fish / Cave / Spider. Traversing the horizontal wormhole boundary.',
+    keyVerse: '21:87 / 18:19 / 29:41',
+    breath: '10',
+    breathDesc: 'D10 expansion (exhale / manifest / advance)',
+    influence: 'Waxing gibbous → full moon',
+    color: '#10b981'
+  },
+  {
+    hourId: 4,
+    hourStr: '4:00',
+    angle: 120,
+    chapters: '30–39',
+    title: 'Queen / Tesseract Nodes',
+    role: 'Tesseract unfolds — Book reads Reader. Double-time breathing nodes sync on even hours.',
+    keyVerse: '39:23 / 33:40',
+    breath: '10',
+    breathDesc: 'D10 expansion (exhale / manifest / advance)',
+    influence: 'Waxing gibbous → full moon',
+    color: '#22c55e'
+  },
+  {
+    hourId: 5,
+    hourStr: '5:00',
+    angle: 150,
+    chapters: '40–48',
+    title: 'I9 Ascent Corridor',
+    role: 'I9 announcement — Opening / Seal. Pure asymmetric rise towards the iron deployment.',
+    keyVerse: '48:29 / 61:6 / 40:60',
+    breath: '9',
+    breathDesc: 'I9 compression (inhale / hidden / retreat)',
+    influence: 'Waxing gibbous → full moon',
+    color: '#84cc16'
+  },
+  {
+    hourId: 6,
+    hourStr: '6:00',
+    angle: 180,
+    chapters: '49–57',
+    title: 'Orphan / Iron Nodes',
+    role: 'Iron materializes — Kursi deployed. The core physical extraction and solid manifestation.',
+    keyVerse: '57:25 / 50:21',
+    breath: '9',
+    breathDesc: 'I9 compression (inhale / hidden / retreat)',
+    influence: 'Full Moon (Orphan extracted — Iron visible)',
+    color: '#eab308'
+  },
+  {
+    hourId: 7,
+    hourStr: '7:00',
+    angle: 210,
+    chapters: '58–67',
+    title: 'Judgment / Record Corridor',
+    role: 'Record presents — Dominion / Form. Cosmic weighing and alignment registers on the dial.',
+    keyVerse: '58:7 / 67:1 / 64:3',
+    breath: '10',
+    breathDesc: 'D10 expansion (exhale / manifest / advance)',
+    influence: 'Waning gibbous → last quarter',
+    color: '#f97316'
+  },
+  {
+    hourId: 8,
+    hourStr: '8:00',
+    angle: 240,
+    chapters: '68–77',
+    title: 'Righteous / Fire Nodes',
+    role: 'Fire made safe — Mursalat sent. The cooling formula is delivered to safe-guard the traveler.',
+    keyVerse: '77:1 / 21:69 / 74:30',
+    breath: '10',
+    breathDesc: 'D10 expansion (exhale / manifest / advance)',
+    influence: 'Waning gibbous → last quarter',
+    color: '#ef4444'
+  },
+  {
+    hourId: 9,
+    hourStr: '9:00',
+    angle: 270,
+    chapters: '78–86',
+    title: 'Compression / Pen Corridor',
+    role: 'Pen writes — Sun folds — Blast. Dynamic torque curls the field back into high density.',
+    keyVerse: '81:8 / 84:19 / 79:14',
+    breath: '9',
+    breathDesc: 'I9 compression (inhale / hidden / retreat)',
+    influence: 'Waning crescent → new moon',
+    color: '#ec4899'
+  },
+  {
+    hourId: 10,
+    hourStr: '10:00',
+    angle: 300,
+    chapters: '87–95',
+    title: 'Mountain / Collapse Nodes',
+    role: 'Mountain crumbles — Best stature tested. High torque collapse into the lower arcs of return.',
+    keyVerse: '95:4 / 7:143',
+    breath: '9',
+    breathDesc: 'I9 compression (inhale / hidden / retreat)',
+    influence: 'Waning crescent → new moon',
+    color: '#f43f5e'
+  },
+  {
+    hourId: 11,
+    hourStr: '11:00',
+    angle: 330,
+    chapters: '96–105',
+    title: 'Command / Read Corridor',
+    role: 'Read — Night outweighs — Measure tips. Core directive triggers the pre-temporal return sequence.',
+    keyVerse: '96:1 / 97:1 / 101:9',
+    breath: '10',
+    breathDesc: 'D10 expansion (exhale / manifest / advance)',
+    influence: 'Waning crescent → new moon',
+    color: '#d946ef'
+  }
+];
+
 const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rotation, iconDialRotation, setRotation, isSpinning, onSpinStart, onSpinEnd, isSecretModeActive, secretEmojiShift, showTooltip, hideTooltip, onSliceSelect, isLowResourceMode }, ref) => {
   const animationFrameId = useRef<number | null>(null);
   const center = SIZES.width / 2;
@@ -68,6 +227,19 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
   
   const [displayedVerseCounts, setDisplayedVerseCounts] = useState(() => calculateTargetVerseCounts(rotation));
   const wasSpinning = useRef(false);
+
+  // Moondial Clock Hover State & Handlers
+  const [hoveredHourId, setHoveredHourId] = useState<number | null>(null);
+
+  const handleMoondialMouseEnter = (event: React.MouseEvent, hour: typeof MOON_DIAL_HOURS[0]) => {
+    setHoveredHourId(hour.hourId);
+    showTooltip(event, -100, JSON.stringify(hour));
+  };
+
+  const handleMoondialMouseLeave = () => {
+    setHoveredHourId(null);
+    hideTooltip();
+  };
 
   // Phase Pendulum State Logic
   const currentSlice = getSliceAtPoint(1, rotation);
@@ -354,6 +526,94 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
       });
   };
 
+  const renderMoondialLayer = () => {
+      return (
+          <g id="moondial-clocks-layer">
+              {/* Distinct outer dotted background guideline rings */}
+              <circle cx={center} cy={center} r={448} fill="none" stroke="rgba(6,182,212,0.12)" strokeWidth="1" />
+              <circle cx={center} cy={center} r={498} fill="none" stroke="rgba(6,182,212,0.06)" strokeWidth="1" />
+              <circle cx={center} cy={center} r={443} fill="none" stroke="rgba(255,255,255,0.04)" strokeDasharray="4 8" strokeWidth="1" />
+              
+              {MOON_DIAL_HOURS.map((hour) => {
+                  const isHovered = hoveredHourId === hour.hourId;
+                  const pathD = describeDonutSlice(center, center, 448, 498, hour.angle - 14, hour.angle + 14);
+                  const breathColor = hour.breath === '10' ? '#ec4899' : '#06b6d4';
+                  const innerArcD = describeDonutSlice(center, center, 443, 446, hour.angle - 14, hour.angle + 14);
+                  
+                  const labelPos = polarToCartesian(center, center, 471, hour.angle);
+                  const chapPos = polarToCartesian(center, center, 456, hour.angle);
+                  const dotPos = polarToCartesian(center, center, 488, hour.angle);
+                  
+                  return (
+                      <g 
+                          key={`hour-sec-${hour.hourId}`}
+                          style={{ cursor: 'pointer' }}
+                          onMouseEnter={(e) => handleMoondialMouseEnter(e, hour)}
+                          onMouseMove={(e) => handleMoondialMouseEnter(e, hour)}
+                          onMouseLeave={handleMoondialMouseLeave}
+                      >
+                          {/* Segment Panel */}
+                          <path 
+                              d={pathD}
+                              fill={isHovered ? 'rgba(9, 10, 15, 0.94)' : 'rgba(9, 10, 15, 0.52)'}
+                              stroke={isHovered ? hour.color : 'rgba(255, 255, 255, 0.05)'}
+                              strokeWidth={isHovered ? 1.5 : 0.8}
+                              style={{ transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)' }}
+                          />
+                          
+                          {/* Inner Breath Arc / AC Current Flow */}
+                          <path 
+                              d={innerArcD}
+                              fill={breathColor}
+                              opacity={isHovered ? 0.95 : 0.4}
+                              style={{ transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)', filter: isHovered ? `drop-shadow(0 0 4px ${breathColor})` : undefined }}
+                          />
+                          
+                          {/* Upright Central Hour */}
+                          <text
+                              x={labelPos.x}
+                              y={labelPos.y}
+                              textAnchor="middle"
+                              dominantBaseline="middle"
+                              fill={isHovered ? '#fff' : 'rgba(255,255,255,0.65)'}
+                              fontSize="11"
+                              fontWeight="extrabold"
+                              className="font-sans select-none pointer-events-none"
+                              style={{ transition: 'all 0.3s ease-out' }}
+                          >
+                              {hour.hourId}
+                          </text>
+                          
+                          {/* Chapters Span */}
+                          <text
+                              x={chapPos.x}
+                              y={chapPos.y}
+                              textAnchor="middle"
+                              dominantBaseline="middle"
+                              fill={isHovered ? hour.color : 'rgba(255,255,255,0.3)'}
+                              fontSize="7.5"
+                              fontWeight="black"
+                              className="font-mono select-none pointer-events-none"
+                              style={{ transition: 'all 0.3s ease-out' }}
+                          >
+                              {hour.chapters}
+                          </text>
+                          
+                          {/* Outer Node Dot */}
+                          <circle 
+                              cx={dotPos.x}
+                              cy={dotPos.y}
+                              r={isHovered ? 4.5 : 2.5}
+                              fill={hour.color}
+                              style={{ transition: 'all 0.3s ease-out', filter: isHovered ? `drop-shadow(0 0 6px ${hour.color})` : undefined }}
+                          />
+                      </g>
+                  );
+              })}
+          </g>
+      );
+  };
+
   return (
     <div className="w-full h-full">
       <style>{`
@@ -419,6 +679,8 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
         <g ref={iconRotatingGroupRef}>
             {renderIconLayer()}
         </g>
+
+        {renderMoondialLayer()}
         
         <g>
           {TRIANGLE_POINTS.map(triangle => ( <g key={triangle.name}> {renderTriangle(triangle)} </g> ))}

@@ -129,6 +129,46 @@ const Tooltip: React.FC<TooltipProps> = ({ visible, content, position }) => {
         );
     }
 
+    if (content.type === 'moondial') {
+        const { hourStr, chapters, title, role, keyVerse, breath, breathDesc, influence, color } = content;
+        return (
+            <div className="flex flex-col gap-2 min-w-[300px]">
+                <div className="flex items-center justify-between border-b border-gray-700/65 pb-2 mb-1">
+                    <span className="text-lg font-black uppercase tracking-wider text-white" style={{ textShadow: `0 0 8px ${color}` }}>
+                        {hourStr} Dial
+                    </span>
+                    <span className="text-[10px] font-mono text-gray-200 px-2.5 py-0.5 rounded-full bg-slate-950/70 border border-white/5" style={{ color }}>
+                        {breath} chapters
+                    </span>
+                </div>
+                <div>
+                    <h3 className="font-bold text-xs tracking-wide text-gray-200 uppercase">
+                        {title}
+                    </h3>
+                    <p className="text-[11px] text-gray-400">{influence}</p>
+                </div>
+                <div className="bg-slate-950/50 border border-white/5 rounded-xl py-2.5 px-3.5 my-1 space-y-1.5 shadow-inner">
+                    <div className="text-[9px] font-black uppercase tracking-[0.15em] text-cyan-400">Memory Recovery Protocol</div>
+                    <div className="text-xs text-gray-200 leading-relaxed font-light">{role}</div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-[10px] bg-slate-950/20 py-1.5 px-2.5 rounded-lg border border-white/5">
+                    <div>
+                        <span className="text-gray-400 font-medium block text-[9px] uppercase">Chapters:</span>
+                        <span className="text-gray-200 font-mono font-bold">{chapters}</span>
+                    </div>
+                    <div>
+                        <span className="text-gray-400 font-medium block text-[9px] uppercase">Key Verses:</span>
+                        <span className="text-gray-200 font-mono font-bold text-cyan-400">{keyVerse}</span>
+                    </div>
+                </div>
+                <div className="border-t border-gray-700/60 pt-2 mt-1 flex justify-between items-center text-[10px]">
+                    <span className="uppercase font-mono text-gray-500 text-[8px] tracking-widest">Torque torque breath</span>
+                    <span className="font-semibold text-gray-300" style={{ color }}>{breathDesc}</span>
+                </div>
+            </div>
+        );
+    }
+
     // 'verse' type
     const directLink = `https://reader.wikisubmission.org/quran/${content.surah}:${content.verse}`;
     return (

@@ -4,8 +4,8 @@ export const TOTAL_SLICES = 114;
 export const TOTAL_VERSES = 6236;
 
 export const SIZES = {
-  width: 900,
-  height: 900,
+  width: 1020,
+  height: 1020,
   dialRadius: 60,
   layer1InnerRadius: 205,
   layer1OuterRadius: 305,

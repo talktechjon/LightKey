@@ -29,9 +29,12 @@ interface SidePanelProps {
   onBulkExport: (verseIds: string[]) => void;
   bakaraSpineIndex: number;
   setBakaraSpineIndex: (index: number) => void;
+  treeRootVerse: { surah: number, ayah: number };
+  setTreeRootVerse: React.Dispatch<React.SetStateAction<{ surah: number, ayah: number }>>;
+  treeTrines: { surah: number, ayah: number }[][];
 }
 
-const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showFunctionalTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showFunctionalTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex, treeRootVerse, setTreeRootVerse, treeTrines }) => {
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -319,6 +322,9 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                     rotation={rotation} 
                     onVerseSelect={onVerseSelect}
                     onBulkExport={onBulkExport}
+                    treeRootVerse={treeRootVerse}
+                    setTreeRootVerse={setTreeRootVerse}
+                    treeTrines={treeTrines}
                 />
             </div>
          ) : isPieceOfBakaraActive ? (
@@ -350,6 +356,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                         isLowResourceMode={isLowResourceMode}
                         showFunctionalTooltip={showFunctionalTooltip}
                         hideTooltip={hideTooltip}
+                        setCustomSequence={setCustomSequence}
+                        setAnimationMode={setAnimationMode}
                     />
                 </div>
 

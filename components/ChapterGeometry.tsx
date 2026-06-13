@@ -3,14 +3,14 @@ import { TRIANGLE_POINTS, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS, 
 import { TrianglePoint } from '../types.ts';
 import { getSliceAtPoint, getChapterIcon } from '../utils.ts';
 import VersePolygon from './VersePolygon.tsx';
-import { BirdAudioEngine } from '../lib/BirdAudioEngine.ts';
-import { Play, Square } from 'lucide-react';
 
 interface ChapterGeometryProps {
     rotation: number;
     isLowResourceMode: boolean;
     showFunctionalTooltip: (e: React.MouseEvent, message: string, chapterId: number, color: string) => void;
     hideTooltip: () => void;
+    setCustomSequence?: (value: string) => void;
+    setAnimationMode?: (mode: 'play' | 'step' | 'off') => void;
 }
 
 type PointWithColor = TrianglePoint & { color: string };
@@ -1002,39 +1002,27 @@ export const DNAHelixAnimation: React.FC<{
     );
 };
 
-const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResourceMode, showFunctionalTooltip, hideTooltip }) => {
+const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ 
+    rotation, 
+    isLowResourceMode, 
+    showFunctionalTooltip, 
+    hideTooltip,
+    setCustomSequence,
+    setAnimationMode
+}) => {
     const [isSystemActive, setIsSystemActive] = React.useState(true);
-    const audioEngineRef = React.useRef<BirdAudioEngine | null>(null);
-    const [isBirdSinging, setIsBirdSinging] = React.useState(false);
-    const [activeNodeIdx, setActiveNodeIdx] = React.useState<number | null>(null);
 
-    React.useEffect(() => {
-        audioEngineRef.current = new BirdAudioEngine();
-        return () => audioEngineRef.current?.stop();
-    }, []);
-
-    React.useEffect(() => {
-        if (isBirdSinging && audioEngineRef.current) {
-            const currentNodes = [1, 95, 77, 57, 39, 19]
-                .map(p => getSliceAtPoint(p, rotation))
-                .map(s => ({ id: s.id, blockCount: s.blockCount, isMuqattat: MUQATTAT_CHAPTERS.has(s.id) }));
-            audioEngineRef.current.updateNodes(currentNodes);
+    const handleLoadSequenceClick = () => {
+        if (!setCustomSequence) return;
+        
+        const helixSequence = [1, 39, 77, 19, 95, 57];
+        const ids = helixSequence.map(pointValue => getSliceAtPoint(pointValue, rotation).id);
+        
+        const sequenceStr = ids.join(', ');
+        setCustomSequence(sequenceStr);
+        if (setAnimationMode) {
+            setAnimationMode('off');
         }
-    }, [rotation, isBirdSinging]);
-
-    const handleBirdClick = () => {
-        if (!audioEngineRef.current) return;
-        const currentNodes = [1, 95, 77, 57, 39, 19]
-            .map(p => getSliceAtPoint(p, rotation))
-            .map(s => ({ id: s.id, blockCount: s.blockCount, isMuqattat: MUQATTAT_CHAPTERS.has(s.id) }));
-        const playing = audioEngineRef.current.toggle(currentNodes, (idx) => {
-            setActiveNodeIdx(idx);
-            setTimeout(() => {
-                setActiveNodeIdx(current => current === idx ? null : current);
-            }, 300);
-        });
-        setIsBirdSinging(playing);
-        if (!playing) setActiveNodeIdx(null);
     };
 
     
@@ -1055,7 +1043,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
     
     return (
         <div>
-            <div className="flex justify-between items-center pr-2">
+            <div className="flex justify-between items-center pr-1 sm:pr-2">
                 <div className="flex flex-col">
                     <h2 className="text-lg font-bold text-gray-200 tracking-widest uppercase leading-none">
                         Umm al-Kitab
@@ -1064,9 +1052,26 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                         The Mother Equation
                     </span>
                 </div>
-                <h2 className="text-xl font-bold text-cyan-300 tracking-wider drop-shadow-md">
-                    ▼🕋▲
-                </h2>
+                <div className="flex items-center gap-x-2.5">
+                    {setCustomSequence && (
+                        <button
+                            onClick={handleLoadSequenceClick}
+                            className="w-7 h-7 flex items-center justify-center rounded border border-cyan-500/30 bg-black/40 hover:bg-cyan-950/30 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300 transition-all duration-200 shadow-[0_0_8px_rgba(6,182,212,0.15)] focus:outline-none cursor-pointer"
+                            title="Load Slave-Queen-Righteous-book-mountain-orphan sequence for all 1-114 points"
+                            aria-label="Load Slave-Queen-Righteous-book-mountain-orphan sequence"
+                        >
+                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" strokeDasharray="3 3" />
+                                <circle cx="12" cy="12" r="4" />
+                            </svg>
+                        </button>
+                    )}
+                    <h2 className="text-[20px] font-bold text-cyan-300 tracking-wider drop-shadow-md flex items-center gap-x-0.5">
+                        <span className="text-xs text-cyan-400/80">▼</span>
+                        <span>🕋</span>
+                        <span className="text-xs text-cyan-400/80">▲</span>
+                    </h2>
+                </div>
             </div>
             <div className="w-full h-px bg-gray-500/50 mt-2 mb-4"></div>
 
@@ -1183,52 +1188,6 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ rotation, isLowResour
                 <div className="mt-8">
                     <BirdMotion rotation={rotation} isPaused={!isSystemActive} onToggle={() => setIsSystemActive(!isSystemActive)} />
                 </div>
-
-                <button 
-                    onClick={handleBirdClick}
-                    className={`mt-4 w-full p-4 bg-black/40 border transition-colors rounded-xl flex items-center justify-between shadow-inner relative overflow-hidden group cursor-pointer ${isBirdSinging ? 'border-amber-400/60 shadow-[0_0_15px_rgba(251,191,36,0.15)]' : 'border-amber-500/30 hover:bg-black/60'}`}
-                >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/5 to-transparent mix-blend-screen"></div>
-                    {isBirdSinging && (
-                        <div className="absolute left-0 top-0 w-full h-[2px] bg-amber-400/50">
-                            <div className="h-full bg-amber-400 animate-pulse w-1/3"></div>
-                        </div>
-                    )}
-                    <div className="flex items-center gap-3 relative z-10">
-                        <span className={`text-lg drop-shadow-[0_0_8px_rgba(251,191,36,0.6)] ${isBirdSinging ? 'opacity-100 animate-pulse text-amber-300' : 'text-amber-400 opacity-80 group-hover:opacity-100'}`}>🪶</span>
-                        <div className="flex flex-col items-start leading-none text-left">
-                            <span className="text-[9px] text-amber-500/80 font-mono tracking-[0.2em] uppercase mb-1">Mantiq al-Tayr (27:16)</span>
-                            <span className="text-gray-200 font-bold uppercase tracking-[0.2em] text-[12px] drop-shadow-md">Bird's Language</span>
-                            
-                            {/* Node Visualization */}
-                            <div className="flex items-center gap-1.5 mt-2">
-                                {[
-                                    { icon: '🌴', color: 'text-cyan-400' },
-                                    { icon: '🕋', color: 'text-pink-400' },
-                                    { icon: '💧', color: 'text-cyan-400' },
-                                    { icon: '🐟', color: 'text-pink-400' },
-                                    { icon: '🐝', color: 'text-cyan-400' },
-                                    { icon: '🔆', color: 'text-pink-400' }
-                                ].map((node, i) => (
-                                    <div 
-                                        key={i} 
-                                        className={`transition-all duration-300 flex items-center justify-center
-                                            ${activeNodeIdx === i 
-                                                ? `scale-150 ${node.color} drop-shadow-[0_0_6px_currentColor]` 
-                                                : isBirdSinging 
-                                                    ? 'scale-75 opacity-40 grayscale-[0.5]' 
-                                                    : 'scale-75 opacity-20 grayscale'}`}
-                                    >
-                                        <span className="text-[10px]">{node.icon}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="relative z-10 p-2 rounded-full border border-amber-500/30 bg-black/50 text-amber-400 group-hover:bg-amber-500/10 group-hover:border-amber-400/50 transition-all">
-                        {isBirdSinging ? <Square className="w-4 h-4 fill-amber-400/80" /> : <Play className="w-4 h-4 ml-0.5 fill-amber-400/80" />}
-                    </div>
-                </button>
 
                 <div className="mt-4 p-5 bg-gray-950/40 border border-gray-800/60 rounded-xl space-y-7 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-px bg-gradient-to-l from-cyan-500/10 to-transparent w-full h-px"></div>

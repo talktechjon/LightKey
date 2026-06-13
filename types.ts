@@ -70,7 +70,21 @@ export interface FunctionalTooltipContent {
   color: string;
 }
 
-export type TooltipContent = VerseTooltipContent | ChapterTooltipContent | FunctionalTooltipContent;
+export interface MoondialTooltipContent {
+  type: 'moondial';
+  hourStr: string;
+  chapters: string;
+  title: string;
+  role: string;
+  keyVerse: string;
+  breath: string;
+  breathDesc: string;
+  phase: string;
+  influence: string;
+  color: string;
+}
+
+export type TooltipContent = VerseTooltipContent | ChapterTooltipContent | FunctionalTooltipContent | MoondialTooltipContent;
 
 export type TranslationMode = 'online' | 'local' | 'both' | 'none';
 

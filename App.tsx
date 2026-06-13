@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useCallback, useDeferredValue, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useDeferredValue, useEffect, useMemo } from 'react';
 import Visualization from './components/Visualization.tsx';
 import SidePanel from './components/SidePanel.tsx';
 import FooterMarquee from './components/FooterMarquee.tsx';
@@ -9,11 +9,13 @@ import VerseFinder from './components/VerseFinder.tsx';
 import SettingsPanel from './components/SettingsPanel.tsx';
 import InstructionPanel from './components/InstructionPanel.tsx';
 import TreeOfLifeMode from './components/TreeOfLifeMode.tsx';
+import TreeOfVerseCenter from './components/TreeOfVerseCenter.tsx';
 import { VisualizationHandle, TooltipContent, VerseFinderContent, LocalTranslationData, TranslationMode } from './types.ts';
-import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS } from './constants.ts';
+import { TOTAL_SLICES, SLICE_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_LETTERS, KATHARA_CLOCK_POINTS, TOTAL_VERSES } from './constants.ts';
 import { getVerse, getFullSurah, getVerseDetails } from './data/verseData.ts';
+import { defaultTranslation } from './data/defaultTranslation.ts';
 import { useIdle } from './hooks/useIdle.ts';
-import { processInBatches } from './utils.ts';
+import { processInBatches, getGlobalVerseIndex, getVerseAddressFromGlobalIndex } from './utils.ts';
 import { TreeIcon, CowIcon, SearchIcon } from './components/Icons.tsx';
 
 const App: React.FC = () => {
@@ -34,12 +36,33 @@ const App: React.FC = () => {
   const [shouldAutoSearch, setShouldAutoSearch] = useState(false);
   const [isLowResourceMode, setIsLowResourceMode] = useState(false);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
-  const [translationMode, setTranslationMode] = useState<TranslationMode>('online');
-  const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(null);
-  const [localFileName, setLocalFileName] = useState<string | null>(null);
+  const [translationMode, setTranslationMode] = useState<TranslationMode>('local');
+  const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(defaultTranslation);
+  const [localFileName, setLocalFileName] = useState<string | null>("Default Translation");
   const [isInstructionVisible, setIsInstructionVisible] = useState(false); 
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
   const [bakaraSpineIndex, setBakaraSpineIndex] = useState(1);
+
+  // Tree of Verse lifted state
+  const [treeRootVerse, setTreeRootVerse] = useState({ surah: 1, ayah: 1 });
+
+  const verseScalingFactor = TOTAL_VERSES / TOTAL_SLICES;
+  const rotationOffset = (rotation / 360) * TOTAL_VERSES;
+
+  const treeTrines = useMemo(() => {
+    const rootIndex = getGlobalVerseIndex(treeRootVerse.surah, treeRootVerse.ayah);
+    const baseIndex = rootIndex - rotationOffset;
+
+    return KATHARA_CLOCK_POINTS.map((pointValue) => {
+        const pointOffset = (pointValue - 1) * verseScalingFactor;
+        const startIdx = Math.round(baseIndex + pointOffset);
+        
+        return [0, 1, 2].map(offset => {
+            const globalIdx = ((startIdx + offset - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
+            return getVerseAddressFromGlobalIndex(globalIdx);
+        });
+    });
+  }, [treeRootVerse, rotation, verseScalingFactor, rotationOffset]);
   
   const isIdle = useIdle(15000, isIdleAnimationEnabled && !isLowResourceMode);
   const idleIntervalRef = useRef<number | null>(null);
@@ -142,6 +165,19 @@ const App: React.FC = () => {
   };
 
   const showChapterTooltip = useCallback((event: React.MouseEvent, sliceId: number, color: string) => {
+      if (sliceId === -100) {
+          try {
+              const hourData = JSON.parse(color);
+              setTooltipContent({
+                  type: 'moondial',
+                  ...hourData
+              });
+              setTooltipPosition({ x: event.clientX, y: event.clientY });
+          } catch (e) {
+              console.error("Failed to parse moondial tooltip payload:", e);
+          }
+          return;
+      }
       const chapterDetails = CHAPTER_DETAILS.find(c => c.number === sliceId);
       const sliceData = SLICE_DATA.find(s => s.id === sliceId);
       if (!chapterDetails || !sliceData) return;
@@ -218,7 +254,16 @@ const App: React.FC = () => {
       </div>
       <div className="relative z-10 flex flex-col lg:flex-row lg:flex-1 lg:min-h-0">
         <div className="h-[45vh] lg:h-full lg:flex-1 flex items-center justify-center p-4 outline-none shrink-0" tabIndex={0} onKeyDown={handleKeyDown} role="application">
-          <Visualization ref={vizRef} rotation={rotation} iconDialRotation={iconDialRotation} setRotation={setRotation} isSpinning={isSpinning} onSpinStart={() => setIsSpinning(true)} onSpinEnd={() => setIsSpinning(false)} isSecretModeActive={isSecretModeActive} secretEmojiShift={secretEmojiShift} showTooltip={showChapterTooltip} hideTooltip={() => setTooltipContent(null)} onSliceSelect={loadSurahInFinder} isLowResourceMode={isLowResourceMode} />
+          {isTreeOfVerseActive ? (
+            <TreeOfVerseCenter 
+              rotation={rotation}
+              treeRootVerse={treeRootVerse}
+              treeTrines={treeTrines}
+              onVerseSelect={handleVerseSelect}
+            />
+          ) : (
+            <Visualization ref={vizRef} rotation={rotation} iconDialRotation={iconDialRotation} setRotation={setRotation} isSpinning={isSpinning} onSpinStart={() => setIsSpinning(true)} onSpinEnd={() => setIsSpinning(false)} isSecretModeActive={isSecretModeActive} secretEmojiShift={secretEmojiShift} showTooltip={showChapterTooltip} hideTooltip={() => setTooltipContent(null)} onSliceSelect={loadSurahInFinder} isLowResourceMode={isLowResourceMode} />
+          )}
         </div>
         <SidePanel 
           rotation={rotation} 
@@ -236,6 +281,9 @@ const App: React.FC = () => {
           onBulkExport={handleMarqueeExport}
           bakaraSpineIndex={bakaraSpineIndex}
           setBakaraSpineIndex={setBakaraSpineIndex}
+          treeRootVerse={treeRootVerse}
+          setTreeRootVerse={setTreeRootVerse}
+          treeTrines={treeTrines}
         />
       </div>
       {!isLowResourceMode && <FooterMarquee rotation={deferredRotation} translationMode={translationMode} localTranslationData={localTranslationData} isSecretModeActive={isSecretModeActive} onExport={handleMarqueeExport} />}
