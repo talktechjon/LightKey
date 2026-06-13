@@ -88,6 +88,16 @@ export type TooltipContent = VerseTooltipContent | ChapterTooltipContent | Funct
 
 export type TranslationMode = 'online' | 'local' | 'both' | 'none';
 
+export interface WordData {
+  id: number;
+  position: number;
+  audio_url: string | null;
+  char_type_name: string;
+  text_uthmani: string;
+  translation: { text: string; language_name?: string };
+  transliteration: { text: string | null; language_name?: string };
+}
+
 export interface SurahVerse {
   numberInSurah: number;
   absoluteNumber: number;
@@ -98,6 +108,7 @@ export interface SurahVerse {
   fullVerseAudioUrl: string;
   localEnglishText?: string;
   localBanglaText?: string;
+  words?: WordData[];
 }
 
 export interface SurahData {
@@ -123,6 +134,7 @@ export interface VerseResult {
     fullVerseAudioUrl: string;
     localEnglishText?: string;
     localBanglaText?: string;
+    words?: WordData[];
 }
 
 export type VerseFinderContent = 

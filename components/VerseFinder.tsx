@@ -3,6 +3,7 @@ import { VerseFinderContent, VerseResult, LocalTranslationData, TranslationMode 
 import { getFullSurah, getVerseDetails } from '../data/verseData.ts';
 import { SLICE_DATA } from '../constants.ts';
 import { processInBatches } from '../utils.ts';
+import { InteractiveArabicText } from './InteractiveArabicText.tsx';
 import {
   PlayIcon, PauseIcon, PlaylistPlayIcon, PlaylistPauseIcon, RepeatIcon, ShuffleIcon,
   MaximizeIcon, MinimizeIcon, CopyIcon, CheckIcon
@@ -336,7 +337,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                                         {isCurrent ? <PauseIcon /> : <PlayIcon />}
                                     </button>
                                 </div>
-                                <div className="text-xl text-right font-serif text-white mb-2 leading-relaxed" dir="rtl">{v.arabicText}</div>
+                                <InteractiveArabicText surah={v.surah.number} ayah={v.numberInSurah} fallbackText={v.arabicText} />
                                 <p className="italic text-gray-400 mb-3 text-sm">{v.transliteration}</p>
                                 {renderTranslations(v)}
                             </div>
@@ -363,7 +364,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                                            {isCurrent ? <PauseIcon /> : <PlayIcon />}
                                        </button>
                                    </div>
-                                   <div className="text-2xl text-right font-serif text-white mb-3" dir="rtl">{v.arabicText}</div>
+                                   <InteractiveArabicText surah={content.data.number} ayah={v.numberInSurah} fallbackText={v.arabicText} />
                                    <p className="italic text-gray-400 mb-3 text-sm">{v.transliteration}</p>
                                    {renderTranslations(v)}
                                </div>

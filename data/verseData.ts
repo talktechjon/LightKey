@@ -1,9 +1,13 @@
-import { SurahData, SurahVerse, VerseResult, LocalTranslationData, TranslationMode } from '../types.ts';
+import { SurahData, SurahVerse, VerseResult, LocalTranslationData, TranslationMode, WordData } from '../types.ts';
 
 // In-memory cache for fetched surahs
 const surahCache = new Map<number, SurahData>();
 // In-flight requests to prevent duplicate fetches for the same surah
 const surahPromises = new Map<number, Promise<SurahData | null>>();
+
+// Cache and in-flight tracking for words
+const wordsCache = new Map<string, WordData[]>();
+const wordsPromises = new Map<string, Promise<WordData[] | null>>();
 
 interface FullVerseData {
   englishText: string;
@@ -257,4 +261,36 @@ export const getVerseDetails = async (surah: number, ayah: number, mode: Transla
         console.error(`Failed to fetch verse details for ${surah}:${ayah}:`, e);
         return null;
     }
+};
+
+export const getVerseWords = async (surah: number, ayah: number): Promise<WordData[] | null> => {
+    const key = `${surah}:${ayah}`;
+    
+    if (wordsCache.has(key)) {
+        return wordsCache.get(key) || null;
+    }
+
+    if (!wordsPromises.has(key)) {
+        const fetchPromise = requestLimiter.add(async () => {
+            try {
+                const response = await fetchWithRetry(`https://api.quran.com/api/v4/verses/by_key/${key}?words=true&word_fields=text_uthmani,audio_url`);
+                const data = await response.json();
+                
+                if (data && data.verse && data.verse.words) {
+                    wordsCache.set(key, data.verse.words);
+                    return data.verse.words;
+                }
+                return null;
+            } catch (error) {
+                console.error(`Failed to fetch words for verse ${key}:`, error);
+                return null;
+            } finally {
+                wordsPromises.delete(key);
+            }
+        });
+        
+        wordsPromises.set(key, fetchPromise);
+    }
+    
+    return wordsPromises.get(key) || null;
 };
