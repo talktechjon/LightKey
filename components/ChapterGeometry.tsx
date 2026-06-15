@@ -385,11 +385,12 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         const s1 = getSliceAtPoint(1, rotation);       // Slave [Qun ▼]
         const s39 = getSliceAtPoint(39, rotation);     // Queen [FayaQun ▲]
         const s77 = getSliceAtPoint(77, rotation);     // Righteous [Qun ▼]
-        const s19 = getSliceAtPoint(19, rotation);     // Book [FayaQun ▲]
-        const s95 = getSliceAtPoint(95, rotation);     // Mountain [Qun ▼]
         const s57 = getSliceAtPoint(57, rotation);     // Orphan [FayaQun ▲]
+        const s95 = getSliceAtPoint(95, rotation);     // Mountain [Qun ▼]
+        const s19 = getSliceAtPoint(19, rotation);     // Book [FayaQun ▲]
         
-        const nodes = [s1, s39, s77, s19, s95, s57];
+        // Sequence: Slave -> Queen -> Righteous -> Orphan -> Mountain -> Book
+        const nodes = [s1, s39, s77, s57, s95, s19];
         
         // 2. METRIC CALCULATION: Unique Mathematical Signature based on 114 & 286
         const maxId = 114;
@@ -406,16 +407,14 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         const conComplexity = (nodes[0].id + nodes[2].id + nodes[4].id) / (3 * maxId);
 
         // 3. DCU TORUS PARAMETERS (Mapping Narratives to Geometry)
-        const R_major = 22 + expForce * 22; // Expansion pushes the torus outward (22 to 44)
-        const r_minor_base = 5 + conForce * 15; // Contraction thickens the inner flow (5 to 20)
+        const levels = Math.floor(12 + expComplexity * 20); // Tubular Levels
+        const segments = Math.floor(20 + conComplexity * 20); // Radial Segments
+        const tilt = Math.PI / 2.5 + (expForce - conForce) * 0.2; // Tilt angle
 
-        const levels = Math.floor(10 + expComplexity * 26); // Tubular Levels: 10 to 36
-        const segments = Math.floor(16 + conComplexity * 24); // Radial Segments: 16 to 40
-        const tilt = Math.PI / 3.5 + (expForce - conForce) * 0.4; // Tilt varies dynamically
-
-        const flowVelocity = 0.3 + ((expForce + conForce) / 2) * 1.5;
-        const true_s = flowVelocity * time;
-        const phase = ((true_s % 1) + 1) % 1;
+        // Time and Phase
+        const flowVelocity = 0.15 + ((expForce + conForce) / 2) * 0.5; // Scaled down for slower breathing
+        const true_s = flowVelocity * time * 0.5; // Scale down time slightly for the breath
+        const phase = ((true_s % 1) + 1) % 1; // 0 to 1
 
         let activePhase = "Orphan";
         let color = COLORS.triangle1; 
@@ -431,27 +430,52 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         } else if (phase < 3/6) {
             activePhase = "Righteous"; color = COLORS.triangle2; isQun = true;
         } else if (phase < 4/6) {
-            activePhase = "Book"; color = COLORS.triangle1; isQun = false;
+            activePhase = "Orphan"; color = COLORS.triangle1; isQun = false;
         } else if (phase < 5/6) {
             activePhase = "Mountain"; color = COLORS.triangle2; isQun = true;
+        } else {
+            activePhase = "Book"; color = COLORS.triangle1; isQun = false;
         }
 
-        // 4. PARAMETRIC BREATHING (Force vs Gravity)
-        const breathMod = isQun 
-            ? (1.0 - (phase % (1/6)) * 6 * 0.25) // Qun contracts by 25%
-            : (0.75 + (phase % (1/6)) * 6 * 0.25); // Fayaqun expands by 25%
-            
-        const tubeRadius = r_minor_base * breathMod;
+        // 4. PARAMETRIC BREATHING (Implosion-Explosion)
+        // Extract the progress within the current phase (0 to 1)
+        const subPhase = (phase % (1/6)) * 6;
+        
+        // Easing function for smoother breathing
+        const easeInOut = (t: number) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        const easedPhase = easeInOut(subPhase);
+
+        // Calculate dynamic dimensions based on Implosion/Explosion state
+        // Qun = Implosion (R_major shrinks, r_minor grows)
+        // FayaQun = Explosion (R_major grows, r_minor shrinks)
+
+        let R_major, r_minor;
+        
+        // Base values mapped from forces
+        const min_R_major = 10 + conForce * 10;
+        const max_R_major = 35 + expForce * 15;
+        const min_r_minor = 3 + expForce * 5;
+        const max_r_minor = 12 + conForce * 8;
+
+        if (isQun) {
+            // Imploding: R_major goes max -> min, r_minor goes min -> max
+            R_major = max_R_major - easedPhase * (max_R_major - min_R_major);
+            r_minor = min_r_minor + easedPhase * (max_r_minor - min_r_minor);
+        } else {
+            // Exploding: R_major goes min -> max, r_minor goes max -> min
+            R_major = min_R_major + easedPhase * (max_R_major - min_R_major);
+            r_minor = max_r_minor - easedPhase * (max_r_minor - min_r_minor);
+        }
 
         return {
-            scale: 0.8 + ((expForce + conForce) / 4), // 0.8 to 1.3
+            scale: 0.9, 
             activePhase,
             color,
             isQun,
             phase,
             levels,
             segments,
-            tubeRadius,
+            r_minor,
             R_major,
             tilt,
             flowVelocity,
@@ -471,12 +495,60 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         return { p1, p39, p77, p19, p95, p57 };
     }, [rotation]);
 
+    const phaseDataMap = {
+        "Slave": { ...dataPairs.p1, label: "Slave ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Queen": { ...dataPairs.p39, label: "Queen ▲", icon: "🐝", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Righteous": { ...dataPairs.p77, label: "Righteous ▼", icon: "💧", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Orphan": { ...dataPairs.p57, label: "Orphan ▲", icon: "🐟", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Mountain": { ...dataPairs.p95, label: "Mountain ▼", icon: "🕋", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Book": { ...dataPairs.p19, label: "Book ▲", icon: "🔆", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+    };
+    const activePhaseData = phaseDataMap[torusGeometry.activePhase as keyof typeof phaseDataMap];
+    const activeChapter = CHAPTER_DETAILS.find(c => c.number === activePhaseData?.id);
+
     return (
         <div className="flex flex-col w-full space-y-4">
             <div className="relative w-full h-[240px] bg-black/95 rounded-xl border border-gray-800/80 shadow-2xl flex flex-col items-center justify-center overflow-hidden transition-colors duration-500" style={{ boxShadow: `inset 0 0 40px ${torusGeometry.color}15` }}>
                 
+                {/* Active State Indicator integrated with Visual Telemetry Dots */}
+                <div className="absolute bottom-3 left-4 right-4 z-10 flex items-start justify-start pointer-events-none">
+                    {/* The 2 pulsing dots representing Qun/FayaQun polarity */}
+                    <div className="flex items-center space-x-1 mr-2 mt-1 shrink-0">
+                        <div 
+                            className={`w-1.5 h-1.5 rounded-full border border-gray-700 transition-all duration-500 ${torusGeometry.isQun ? 'scale-125 shadow-[0_0_10px_currentColor] border-white/20' : 'opacity-30'}`} 
+                            style={{ 
+                                backgroundColor: torusGeometry.isQun ? torusGeometry.color : 'transparent',
+                                color: torusGeometry.color
+                            }} 
+                        />
+                        <div 
+                            className={`w-1.5 h-1.5 rounded-full border border-gray-700 transition-all duration-500 ${!torusGeometry.isQun ? 'scale-125 shadow-[0_0_10px_currentColor] border-white/20' : 'opacity-30'}`} 
+                            style={{ 
+                                backgroundColor: !torusGeometry.isQun ? torusGeometry.color : 'transparent',
+                                color: torusGeometry.color
+                            }} 
+                        />
+                    </div>
+
+                    {/* Active State Text integrated beside the pulsing dots */}
+                    {activePhaseData && activeChapter && (
+                        <div className="flex flex-col gap-0.5 text-[10px] sm:text-[11px] font-mono font-medium min-w-0 transition-opacity duration-300 leading-tight">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="text-white font-bold">{activePhaseData.id}:{activePhaseData.blockCount}</span>
+                                <span className="text-gray-300">{activeChapter.englishName}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <span className="text-gray-500">State →</span>
+                                <span className={`flex-shrink-0 ${activePhaseData.colorClass} font-bold transition-colors duration-500 drop-shadow-md flex items-center gap-1`}>
+                                    {activePhaseData.icon} {activePhaseData.label}
+                                </span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                
                 {/* Parametric Torus Geometry */}
-                <svg viewBox="0 0 100 100" className="w-[100%] h-[100%] overflow-visible z-10" preserveAspectRatio="xMidYMid meet">
+                <svg viewBox="0 0 100 100" className="w-[100%] h-[100%] overflow-visible z-20" preserveAspectRatio="xMidYMid meet">
                     <defs>
                         <linearGradient id="torusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" stopColor={torusGeometry.color} stopOpacity="0.8" />
@@ -496,16 +568,25 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                         {/* 3D Parametric Wireframe Projection */}
                         {(() => {
                             const R_major = torusGeometry.R_major;
-                            const r_minor = torusGeometry.tubeRadius;
-                            const rotation_angle = time * torusGeometry.flowVelocity * 0.8;
-                            const rotX = time * 0.6 + torusGeometry.tilt; // Continuous tumble X
-                            const rotY = time * 0.4; // Continuous tumble Y
+                            const r_minor = torusGeometry.r_minor; // Use r_minor from geometry
+                            
+                            // To create the inside-out rolling effect (poloidal flow):
+                            const poloidal_flow = time * torusGeometry.flowVelocity * 1.5;
+                            // To create toroidal rotation:
+                            const toroidal_flow = time * torusGeometry.flowVelocity * 0.4;
+                            
+                            const rotX = time * 0.2 + torusGeometry.tilt; // Tumble X
+                            const rotY = time * 0.15; // Tumble Y
                             
                             const project = (u: number, v: number) => {
+                                // Add offset for rolling inside out effect
+                                const actual_v = v + poloidal_flow;
+                                const actual_u = u + toroidal_flow;
+
                                 // Basic Torus Parametric Equations
-                                const x0 = (R_major + r_minor * Math.cos(v)) * Math.cos(u + rotation_angle);
-                                const y0 = (R_major + r_minor * Math.cos(v)) * Math.sin(u + rotation_angle);
-                                const z0 = r_minor * Math.sin(v);
+                                const x0 = (R_major + r_minor * Math.cos(actual_v)) * Math.cos(actual_u);
+                                const y0 = (R_major + r_minor * Math.cos(actual_v)) * Math.sin(actual_u);
+                                const z0 = r_minor * Math.sin(actual_v);
                                 
                                 // Rotate around X-axis
                                 const y1 = y0 * Math.cos(rotX) - z0 * Math.sin(rotX);
@@ -514,7 +595,10 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                                 // Rotate around Y-axis
                                 const x2 = x0 * Math.cos(rotY) + z1 * Math.sin(rotY);
                                 
-                                return { x: x2, y: y1 };
+                                // Very simple perspective projection
+                                const perspective = 150 / (150 + z1);
+                                
+                                return { x: x2 * perspective, y: y1 * perspective };
                             };
 
                             const paths = [];
@@ -522,9 +606,13 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             // Longitudinal Rings (Major Axis)
                             for (let i = 0; i < torusGeometry.levels; i++) {
                                 const v = (i / torusGeometry.levels) * Math.PI * 2;
+                                const actual_v = v + poloidal_flow;
+                                const isOuter = Math.cos(actual_v) > 0;
+                                const oppositeColor = torusGeometry.color === COLORS.triangle1 ? COLORS.triangle2 : COLORS.triangle1;
+                                
                                 let d = "";
-                                for (let j = 0; j <= 32; j++) {
-                                    const u = (j / 32) * Math.PI * 2;
+                                for (let j = 0; j <= 40; j++) {
+                                    const u = (j / 40) * Math.PI * 2;
                                     const p = project(u, v);
                                     d += `${j === 0 ? 'M' : 'L'} ${p.x} ${p.y}`;
                                 }
@@ -532,9 +620,10 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                                     <path 
                                         key={`v-${i}`} 
                                         d={d} fill="none" 
-                                        stroke="#e5e7eb" 
-                                        strokeWidth="0.25" 
-                                        opacity={0.1 + (i % 2 === 0 ? 0.15 : 0)} 
+                                        stroke={isOuter ? torusGeometry.color : oppositeColor} 
+                                        strokeWidth={isOuter ? "0.6" : "0.3"} 
+                                        opacity={isOuter ? 0.6 : 0.25} 
+                                        style={{ transition: 'stroke 1s ease' }}
                                     />
                                 );
                             }
@@ -542,9 +631,10 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             // Latitudinal Rings (Minor Axis)
                             for (let i = 0; i < torusGeometry.segments; i++) {
                                 const u = (i / torusGeometry.segments) * Math.PI * 2;
+                                
                                 let d = "";
-                                for (let j = 0; j <= 16; j++) {
-                                    const v = (j / 16) * Math.PI * 2;
+                                for (let j = 0; j <= 20; j++) {
+                                    const v = (j / 20) * Math.PI * 2;
                                     const p = project(u, v);
                                     d += `${j === 0 ? 'M' : 'L'} ${p.x} ${p.y}`;
                                 }
@@ -552,9 +642,10 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                                     <path 
                                         key={`u-${i}`} 
                                         d={d} fill="none" 
-                                        stroke="#e5e7eb" 
-                                        strokeWidth="0.3" 
-                                        opacity={0.2 + (Math.cos(u + rotation_angle) + 1) * 0.15} 
+                                        stroke={torusGeometry.color} 
+                                        strokeWidth="0.2" 
+                                        opacity={0.15} 
+                                        style={{ transition: 'stroke 1s ease' }}
                                     />
                                 );
                             }
@@ -563,31 +654,38 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                         })()}
 
                         {/* Quantum Flow Particles on 3D Path */}
-                        {Array.from({ length: 30 }).map((_, i) => {
-                            const u = ((i / 30) * Math.PI * 2) + (time * 0.6);
-                            const v = (time * 2.8) + (i * 0.4);
-                            const r_minor = torusGeometry.tubeRadius;
+                        {Array.from({ length: 90 }).map((_, i) => {
+                            const u = ((i / 90) * Math.PI * 2 * 3) + (time * 0.3); // Spiral wrapping
+                            const v = (time * 1.5) + (i * 0.1); // Slower poloidal flow
+
+                            const r_minor = torusGeometry.r_minor;
                             const R_major = torusGeometry.R_major;
-                            const rotation_angle = time * torusGeometry.flowVelocity * 0.8;
-                            const rotX = time * 0.6 + torusGeometry.tilt;
-                            const rotY = time * 0.4;
+
+                            const actual_v = v;
+                            const actual_u = u + (time * torusGeometry.flowVelocity * 0.8);
+
+                            const rotX = time * 0.2 + torusGeometry.tilt;
+                            const rotY = time * 0.15;
                             
-                            const x0 = (R_major + r_minor * Math.cos(v)) * Math.cos(u + rotation_angle);
-                            const y0 = (R_major + r_minor * Math.cos(v)) * Math.sin(u + rotation_angle);
-                            const z0 = r_minor * Math.sin(v);
+                            const x0 = (R_major + r_minor * Math.cos(actual_v)) * Math.cos(actual_u);
+                            const y0 = (R_major + r_minor * Math.cos(actual_v)) * Math.sin(actual_u);
+                            const z0 = r_minor * Math.sin(actual_v);
                             
                             const y1 = y0 * Math.cos(rotX) - z0 * Math.sin(rotX);
                             const z1 = y0 * Math.sin(rotX) + z0 * Math.cos(rotX);
 
                             const x2 = x0 * Math.cos(rotY) + z1 * Math.sin(rotY);
                             
+                            const perspective = 150 / (150 + z1);
+
                             return (
                                 <circle 
                                     key={`dot-${i}`}
-                                    cx={x2} cy={y1} r="0.5"
-                                    fill={i % 2 === 0 ? "#fff" : torusGeometry.color}
+                                    cx={x2 * perspective} cy={y1 * perspective} 
+                                    r={1.0 * perspective}
+                                    fill="#ffffff"
                                     style={{ filter: "url(#glow)" }}
-                                    opacity={0.6 + Math.sin(time + i) * 0.3}
+                                    opacity={0.7 + Math.sin(time * 2 + i) * 0.3}
                                 />
                             );
                         })}
@@ -602,19 +700,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                     </g>
                 </svg>
                 
-                {/* Visual Telemetry Dots */}
-                <div className="absolute bottom-3 left-3 flex items-center space-x-1.5 z-20">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                        <div 
-                            key={i} 
-                            className={`w-1.5 h-1.5 rounded-full border border-gray-700 transition-all duration-500 ${Math.floor(torusGeometry.phase * 6) === i ? 'scale-125 shadow-[0_0_10px_currentColor] border-white/20' : 'opacity-20'}`} 
-                            style={{ 
-                                backgroundColor: Math.floor(torusGeometry.phase * 6) === i ? torusGeometry.color : 'transparent',
-                                color: torusGeometry.color
-                            }} 
-                        />
-                    ))}
-                </div>
+                {/* (Visual Telemetry Dots Moved Above) */}
             </div>
  
             {/* Geometric Data Legend Box */}
@@ -628,7 +714,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p1.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Slave [Qun ▼]</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Slave ▼</div>
                         </div>
                     </div>
  
@@ -639,7 +725,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p39.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Queen [FayaQun ▲]</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Queen ▲</div>
                         </div>
                     </div>
  
@@ -650,7 +736,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p77.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Righteous [Qun ▼]</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Righteous ▼</div>
                         </div>
                     </div>
  
@@ -666,11 +752,11 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                         <div className="h-px bg-gray-800 flex-grow mx-12 opacity-30"></div>
                         
                         <div 
-                            className="absolute inset-0 flex items-center justify-center group z-20"
+                            className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer z-20"
                             onClick={onToggle}
                         >
-                            {/* Pi Invariant Badge */}
-                            <div className="absolute top-[-25px] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 border border-cyan-500/30 px-3 py-1 rounded-full whitespace-nowrap">
+                            {/* Pi Invariant Text always visible above the bird */}
+                            <div className="bg-black/60 border border-cyan-500/20 px-2.5 py-0.5 rounded-full mb-1 select-none whitespace-nowrap backdrop-blur-[2px]">
                                 <span className="text-[9px] font-mono text-cyan-300 tracking-tighter">Invariant: π (2↔3↔2→7)</span>
                             </div>
 
@@ -706,15 +792,15 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                         </div>
                     </div>
 
-                    {/* Row 2: Book -> Mountain -> Orphan */}
+                    {/* Row 2: Orphan -> Mountain -> Book */}
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">🔆</span>
+                        <span className="text-2xl sm:text-3xl">🐟</span>
                         <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p19.id}:{dataPairs.p19.blockCount}</div>
+                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p57.id}:{dataPairs.p57.blockCount}</div>
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
-                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p19.id)?.englishName}
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p57.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Book [FayaQun ▲]</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Orphan ▲</div>
                         </div>
                     </div>
 
@@ -725,18 +811,18 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p95.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Mountain [Qun ▼]</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Mountain ▼</div>
                         </div>
                     </div>
 
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">🐟</span>
+                        <span className="text-2xl sm:text-3xl">🔆</span>
                         <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p57.id}:{dataPairs.p57.blockCount}</div>
+                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p19.id}:{dataPairs.p19.blockCount}</div>
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
-                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p57.id)?.englishName}
+                                {CHAPTER_DETAILS.find(c => c.number === dataPairs.p19.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Orphan [FayaQun ▲]</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Book ▲</div>
                         </div>
                     </div>
                 </div>
