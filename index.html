@@ -92,6 +92,25 @@
     </script>
 
     <link rel="stylesheet" href="/index.css">
+    
+    <!-- PWA Manifest & Icons -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => {
+              console.log('Kahf.day Service Worker registered with scope:', reg.scope);
+            })
+            .catch((err) => {
+              console.warn('Kahf.day Service Worker registration failed:', err);
+            });
+        });
+      }
+    </script>
 </head>
   <body class="bg-black">
     <div id="root"></div>

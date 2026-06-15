@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="128" fill="#090a0f" />
+  <circle cx="256" cy="256" r="230" fill="none" stroke="#22d3ee" stroke-opacity="0.1" stroke-width="4" />
+  <!-- Dual Field Torus / Geometry -->
+  <g transform="translate(256, 256) scale(0.95)" stroke-linecap="round">
+    <!-- Orbital Rings (Cyan and Pink/Violet) -->
+    <ellipse cx="0" cy="0" rx="160" ry="70" fill="none" stroke="#22d3ee" stroke-width="8" transform="rotate(-30)" opacity="0.85" />
+    <ellipse cx="0" cy="0" rx="160" ry="70" fill="none" stroke="#d946ef" stroke-width="8" transform="rotate(30)" opacity="0.85" />
+    <ellipse cx="0" cy="0" rx="160" ry="70" fill="none" stroke="#06b6d4" stroke-width="4" transform="rotate(90)" opacity="0.6" />
+    <ellipse cx="0" cy="0" rx="160" ry="70" fill="none" stroke="#ec4899" stroke-width="4" transform="rotate(0)" opacity="0.6" />
+    <!-- Pulse Center Point -->
+    <circle cx="0" cy="0" r="16" fill="#22d3ee" />
+    <circle cx="0" cy="0" r="32" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="4,4" />
+    <!-- Geometric Star Dots (The 3-6-9 nodes) -->
+    <circle cx="0" cy="-160" r="10" fill="#22d3ee" />
+    <circle cx="138" cy="-80" r="10" fill="#d946ef" />
+    <circle cx="138" cy="80" r="10" fill="#22d3ee" />
+    <circle cx="0" cy="160" r="10" fill="#d946ef" />
+    <circle cx="-138" cy="80" r="10" fill="#22d3ee" />
+    <circle cx="-138" cy="-80" r="10" fill="#d946ef" />
+  </g>
+</svg>

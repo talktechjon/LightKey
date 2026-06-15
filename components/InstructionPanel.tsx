@@ -218,9 +218,12 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose, onLa
                             <span className="text-[10px] font-mono tracking-wider text-blue-500 uppercase block mb-1">Prophet [D10]</span>
                             <span className="text-base font-bold text-gray-200 font-serif">Muhammad [33:40]</span>
                           </div>
-                          <div className="bg-slate-950/60 p-5 rounded-2xl border border-white/5 hover:border-purple-500/25 transition-all">
-                            <span className="text-[10px] font-mono tracking-wider text-purple-500 uppercase block mb-1">Rasul [I9]</span>
-                            <span className="text-base font-bold text-gray-200 font-serif">Isa | Ahmed [61:6]</span>
+                          <div className="bg-slate-950/60 p-5 rounded-2xl border border-white/5 hover:border-purple-500/25 transition-all flex flex-col justify-between">
+                            <div>
+                              <span className="text-[10px] font-mono tracking-wider text-purple-500 uppercase block mb-1">Rasul [I9]</span>
+                              <span className="text-base font-bold text-gray-200 font-serif block">Rasul is Eternal</span>
+                            </div>
+                            <span className="text-[10px] font-mono text-purple-400 font-semibold mt-2 block border-t border-white/5 pt-1.5 leading-tight">61:6+40:34+33:40 Isa till Ahmed</span>
                           </div>
                           <div className="bg-slate-950/60 p-5 rounded-2xl border border-white/5 hover:border-emerald-500/25 transition-all">
                             <span className="text-[10px] font-mono tracking-wider text-emerald-500 uppercase block mb-1">Memory Matrix</span>
