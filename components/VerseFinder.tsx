@@ -274,7 +274,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
     if (content.type !== 'search' && content.type !== 'surah') return;
     const versesToCopy = content.type === 'search' ? content.verses : content.data.verses;
     if (versesToCopy.length === 0) return;
-    const textToCopy = versesToCopy.map(v => {
+    const textToCopy = versesToCopy.map((v: any) => {
         const surahNumber = 'surah' in v ? v.surah.number : (content as any).data.number;
         const surahName = 'surah' in v ? v.surah.englishName : (content as any).data.englishName;
         return `${surahName} [${surahNumber}:${v.numberInSurah}]\nAr: ${v.arabicText}\nEn: ${v.englishText}\nBn: ${v.banglaText}\nTr: ${v.transliteration}`;
@@ -330,7 +330,17 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                         const id = { surah: v.surah.number, ayah: v.numberInSurah, abs: v.absoluteNumber };
                         const isCurrent = isPlaying && currentlyPlaying?.surah === v.surah.number && currentlyPlaying?.ayah === v.numberInSurah;
                         return (
-                            <div key={`${v.surah.number}-${v.numberInSurah}`} ref={el => el ? verseElementsRef.current.set(`${v.surah.number}-${v.numberInSurah}`, el) : verseElementsRef.current.delete(`${v.surah.number}-${v.numberInSurah}`)} className="p-3 bg-gray-900/50 border border-gray-700 rounded-md">
+                            <div 
+                                key={`${v.surah.number}-${v.numberInSurah}`} 
+                                ref={el => {
+                                    if (el) {
+                                        verseElementsRef.current.set(`${v.surah.number}-${v.numberInSurah}`, el);
+                                    } else {
+                                        verseElementsRef.current.delete(`${v.surah.number}-${v.numberInSurah}`);
+                                    }
+                                }} 
+                                className="p-3 bg-gray-900/50 border border-gray-700 rounded-md"
+                            >
                                 <div className="flex justify-between items-center mb-4">
                                     <h4 className="font-bold text-cyan-400">{v.surah.englishName} [{v.surah.number}:{v.numberInSurah}]</h4>
                                     <button onClick={() => handlePlayToggle(id)} className={isCurrent ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}>
@@ -357,7 +367,17 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                            const id = { surah: content.data.number, ayah: v.numberInSurah, abs: v.absoluteNumber };
                            const isCurrent = isPlaying && currentlyPlaying?.surah === content.data.number && currentlyPlaying?.ayah === v.numberInSurah;
                            return (
-                               <div key={`${content.data.number}-${v.numberInSurah}`} ref={el => el ? verseElementsRef.current.set(`${content.data.number}-${v.numberInSurah}`, el) : verseElementsRef.current.delete(`${content.data.number}-${v.numberInSurah}`)} className="p-3 bg-gray-900/50 border border-gray-700 rounded-md">
+                               <div 
+                                   key={`${content.data.number}-${v.numberInSurah}`} 
+                                   ref={el => {
+                                       if (el) {
+                                           verseElementsRef.current.set(`${content.data.number}-${v.numberInSurah}`, el);
+                                       } else {
+                                           verseElementsRef.current.delete(`${content.data.number}-${v.numberInSurah}`);
+                                       }
+                                   }} 
+                                   className="p-3 bg-gray-900/50 border border-gray-700 rounded-md"
+                               >
                                    <div className="flex justify-between items-center mb-4">
                                        <h4 className="font-bold text-cyan-400">{content.data.number}:{v.numberInSurah}</h4>
                                        <button onClick={() => handlePlayToggle(id)} className={isCurrent ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}>

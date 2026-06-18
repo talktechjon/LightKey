@@ -84,7 +84,16 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
                 >
                   {point.type}
                 </p>
-                <p className="text-gray-300 text-sm mt-0.5">
+                <p className="text-gray-300 text-sm mt-0.5 flex items-center justify-center gap-1">
+                  {direction === 'downward' ? (
+                    <svg width="10" height="12" viewBox="0 0 16 20" fill="none" className="text-cyan-400 shrink-0">
+                        <path d="M 8 0 L 8 16 M 8 16 L 3 11 M 8 16 L 13 11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  ) : (
+                    <svg width="10" height="12" viewBox="0 0 16 20" fill="none" className="text-pink-500 shrink-0">
+                        <path d="M 8 20 L 8 4 M 8 4 L 3 9 M 8 4 L 13 9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
                   <span className={`font-bold ${isMuqattat ? 'muqattat-glow' : ''}`}>{slice.id}</span>:<span className="font-medium">{slice.blockCount}</span>
                 </p>
                  <p className="text-gray-400 w-full flex items-center justify-center gap-1 text-[9px] sm:text-[10px]" title={chapterInfo.englishName}>

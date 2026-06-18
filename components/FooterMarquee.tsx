@@ -36,7 +36,7 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
   
   const marqueeRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
 
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);

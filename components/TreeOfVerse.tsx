@@ -14,25 +14,25 @@ interface TreeOfVerseProps {
 }
 
 const TREE_LABELS = [
-    'The Seed', 'The Rupture', 'The Search', 
-    'The Cleanse', 'The Trunk', 'The Branching', 
-    'The Flowering', 'The Ripening', 'The Harvest', 
-    'The Pressing', 'The Extraction', 'The Oil (Light)'
+    'Seed / Identity', 'D10 / Bifurcation', 'Tension [19:12]', 
+    'I9 / Memory', 'Attractor / State 7', 'Phase Transition',
+    'Witness Integration', 'Driver Collapse', 'Loop Sealing', 
+    'The 39:23 Reading', 'The 38:46 Return', 'The 19:64 Source'
 ];
 
 const TREE_EXPLANATIONS = [
-    'Pure Light compressed into the Seed of Memory.',
-    'The Seed breaks in the soil of Time-Fire.',
-    'Roots explore the shadows of possibility.',
-    'Gravity selects the path of survival.',
-    'The Prophetic Trunk; Knowledge becomes embodied form.',
-    'Stability through the weight of the Branch.',
-    'Expressing the beauty of the divine command.',
-    'The Guarded Boundary; Knowledge preserved in form.',
-    'Surrendering the self to the center of the Fruit.',
-    'Refinement through the pressure of the press.',
-    'Pure Light emerges from the crushed particle.',
-    'The 24:35 illumination; Knowledge fully resolved as Oil.'
+    'Pure Light compressed into the Seed (4:1).',
+    'Manifest field splits into manifest/memory (18:50).',
+    'The Centromere grip that holds the voltage (19:12).',
+    'Infinite container field of Information.',
+    'Where Witness and Driver cease friction.',
+    'Oscillation between poles (38:24 / 38:34).',
+    'Sa’iq = Shahid = Soul synchronization.',
+    'Recognition breaks the manifestation spell.',
+    'System stabilizes at the singularity.',
+    'The Book reads itself through the Reader.',
+    'Pure remembrance of Home returned.',
+    'The circuit seals in the Lord of Memory.'
 ];
 
 export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelect, onBulkExport, treeRootVerse, setTreeRootVerse, treeTrines }) => {

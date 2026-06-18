@@ -683,7 +683,7 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
         <g onClick={handleSpin} style={{ cursor: isSpinning ? 'default' : 'pointer' }} className={isSpinning ? 'is-spinning' : ''}>
             <circle cx={center} cy={center} r={SIZES.dialRadius} fill="#111" stroke="#333" strokeWidth="2" />
             <foreignObject x={center - SIZES.dialRadius} y={center - SIZES.dialRadius} width={SIZES.dialRadius * 2} height={SIZES.dialRadius * 2}>
-                <div xmlns="http://www.w3.org/1999/xhtml" style={{width: '100%', height: '100%'}}>
+                <div style={{width: '100%', height: '100%'}}>
                     <CentralAnimation animationRotation={animationRotation} />
                 </div>
             </foreignObject>

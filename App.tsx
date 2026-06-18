@@ -16,7 +16,7 @@ import { getVerse, getFullSurah, getVerseDetails } from './data/verseData.ts';
 import { defaultTranslation } from './data/defaultTranslation.ts';
 import { useIdle } from './hooks/useIdle.ts';
 import { processInBatches, getGlobalVerseIndex, getVerseAddressFromGlobalIndex } from './utils.ts';
-import { TreeIcon, CowIcon, SearchIcon } from './components/Icons.tsx';
+import { TreeIcon, CowIcon, SearchIcon, EyeIcon } from './components/Icons.tsx';
 
 const App: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);
@@ -217,7 +217,7 @@ const App: React.FC = () => {
   return (
     <main className="w-full lg:h-screen min-h-screen text-gray-100 font-sans relative flex flex-col lg:overflow-hidden">
       {!isLowResourceMode && <StarryBackground />}
-      <InstructionPanel isVisible={isInstructionVisible} onClose={() => setIsInstructionVisible(false)} onLaunchReader={() => setIsVerseFinderVisible(true)} />
+      <InstructionPanel isVisible={isInstructionVisible} onClose={() => setIsInstructionVisible(false)} />
       
       {isTreeOfLifeModeActive && (
         <TreeOfLifeMode rotation={rotation} onClose={() => setIsTreeOfLifeModeActive(false)} />
@@ -230,7 +230,7 @@ const App: React.FC = () => {
             <SearchIcon />
             <span className="text-[10px] font-black uppercase tracking-widest">Reader</span>
           </button>
-          <button onClick={() => setIsSecretModeActive(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isSecretModeActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="The Illusion (ia Potential)"><div className={`w-2 h-2 rounded-full ${isSecretModeActive ? 'bg-cyan-400/70' : 'bg-gray-700'}`}></div></button>
+          <button onClick={() => setIsSecretModeActive(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isSecretModeActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Third Eye (Rushd)"><EyeIcon /></button>
           <button onClick={() => setIsTreeOfVerseActive(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isTreeOfVerseActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="The Trunk (Barzakh Traversal)"><TreeIcon /></button>
           <button onClick={() => setIsIdleAnimationEnabled(p => !p)} className={`w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isIdleAnimationEnabled ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Idle"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
           <button onClick={() => setIsSettingsVisible(p => !p)} className="w-8 h-8 rounded-full bg-black/40 border border-cyan-500/30 text-cyan-400 flex items-center justify-center hover:bg-cyan-900/40" title="Settings">

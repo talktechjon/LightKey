@@ -371,10 +371,10 @@ export const TreeOfVerseCenter: React.FC<TreeOfVerseCenterProps> = ({ rotation, 
                     // Determine text anchors & offset coordinates for node labels
                     let labelX = point.x;
                     let labelY = point.y;
-                    let labelAnchor = 'middle';
+                    let labelAnchor: 'start' | 'middle' | 'end' = 'middle';
                     let verseX = point.x;
                     let verseY = point.y;
-                    let verseAnchor = 'middle';
+                    let verseAnchor: 'start' | 'middle' | 'end' = 'middle';
 
                     const isSpineNode = node.x === 75;
 

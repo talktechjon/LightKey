@@ -171,7 +171,7 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
     return isManual ? 'main' : null;
   }, [activeMode, GROWTH_STAGES]);
 
-  const getDisplayIdx = useCallback((nodeIdx: number, offset: number, mode: 'linear' | 'bifurcation') => {
+  const getDisplayIdx = useCallback((nodeIdx: number, offset: number, mode: 'linear' | 'growth') => {
     if (mode === 'linear') return (nodeIdx - offset + 12) % 12;
     const step = offset % 6;
     const hasCrossed = offset >= 6;
