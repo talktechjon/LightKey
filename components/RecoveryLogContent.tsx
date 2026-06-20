@@ -1,9 +1,99 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import { motion } from 'framer-motion';
 
-const recoveryContent = `# For Those Who Want to Remember
-## Activating 19:12 and Recovering the Forgotten Memory
-### A DCU Topological Guide — kahf.day
+const ThroneVisual = () => (
+    <div className="relative w-full h-80 flex items-center justify-center mb-16 mt-8">
+        {/* Background Glows */}
+        <div className="absolute w-[300px] h-[300px] bg-amber-500/5 rounded-full blur-[100px]" />
+        <div className="absolute w-[200px] h-[200px] bg-cyan-500/5 rounded-full blur-[80px]" />
+
+        {/* Throne Structure */}
+        <div className="relative z-10 flex flex-col items-center">
+            <svg viewBox="0 0 200 240" className="w-64 h-64 lg:w-80 lg:h-80 drop-shadow-[0_0_20px_rgba(245,158,11,0.2)]">
+                {/* Back of Throne - Golden Thread */}
+                <path 
+                    d="M60 180 V60 Q60 30 100 30 Q140 30 140 60 V180" 
+                    fill="none" 
+                    stroke="#f59e0b" 
+                    strokeWidth="1.5" 
+                    strokeDasharray="8 4" 
+                    className="opacity-30"
+                />
+                
+                {/* Armrests */}
+                <path d="M40 130 H60 M140 130 H160" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" />
+                <path d="M40 130 V180 M160 130 V180" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
+
+                {/* Seat Base */}
+                <rect x="55" y="170" width="90" height="20" rx="4" fill="#0c0a09" stroke="#f59e0b" strokeWidth="1" />
+                
+                {/* The Body (Luminal Essence) */}
+                <g className="opacity-80">
+                    <circle cx="100" cy="85" r="18" fill="none" stroke="#22d3ee" strokeWidth="2" className="animate-pulse" />
+                    <path d="M100 105 V150" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M100 115 L65 140 M100 115 L135 140" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
+                </g>
+
+                {/* The Crown (At Reach) - Floating above head */}
+                <motion.g 
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    <path d="M80 45 L100 20 L120 45 Z" fill="#f59e0b" />
+                    <rect x="75" y="45" width="50" height="8" rx="1" fill="#d97706" />
+                    <circle cx="100" cy="35" r="4" fill="white" className="animate-pulse shadow-xl" />
+                    <path d="M85 45 V35 M115 45 V35 M100 45 V30" stroke="#f59e0b" strokeWidth="1" />
+                </motion.g>
+
+                {/* Ornamental Water below seat */}
+                <path d="M50 200 Q100 215 150 200 Q100 185 50 200" fill="none" stroke="#0ea5e9" strokeWidth="1" className="opacity-40" />
+            </svg>
+
+            {/* Labels */}
+            <div className="absolute -left-12 lg:-left-24 top-[40%] flex flex-col items-center">
+                <span className="text-[10px] font-black tracking-widest text-cyan-500 uppercase">Remember</span>
+                <span className="text-3xl font-serif text-cyan-200 mt-1">38:46</span>
+                <div className="w-12 h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent mt-2" />
+            </div>
+
+            <div className="absolute -right-12 lg:-right-24 top-[40%] flex flex-col items-center">
+                <span className="text-[10px] font-black tracking-widest text-amber-500 uppercase">Grasp</span>
+                <span className="text-3xl font-serif text-amber-200 mt-1">19:12</span>
+                <div className="w-12 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent mt-2" />
+            </div>
+        </div>
+    </div>
+);
+
+const SafinatVisual = () => (
+    <div className="flex flex-col items-center py-20 border-t border-gray-900 mt-20 group">
+        <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="relative"
+        >
+            <svg viewBox="0 0 120 60" className="w-32 h-16 mb-4 drop-shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                {/* Hull */}
+                <path d="M10 35 Q60 55 110 35 L100 45 Q60 60 20 45 Z" fill="#083344" stroke="#22d3ee" strokeWidth="1.5" />
+                {/* Mast */}
+                <rect x="58" y="5" width="4" height="40" fill="#d97706" rx="1" />
+                {/* Sail (The Book) */}
+                <path d="M62 8 Q95 15 95 35 Q62 28 62 8" fill="#1c1917" stroke="#f59e0b" strokeWidth="1.5" />
+                <path d="M62 12 H85 M62 18 H90 M62 24 H80" stroke="#f59e0b" strokeWidth="0.5" className="opacity-50" />
+            </svg>
+            <div className="absolute inset-0 bg-cyan-500/10 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
+        </motion.div>
+        <h4 className="text-cyan-400 font-black text-[11px] tracking-[0.3em] uppercase mb-1">Safinat</h4>
+        <p className="text-gray-500 text-[10px] uppercase font-bold tracking-widest">Boat Sailing Home as Book</p>
+    </div>
+);
+
+const recoveryContent = `# THE FORGOTTEN CROWN
+The core of the DCU topological framework.
+
+## For Those Who Want to Remember
+### Activating 19:12 and Recovering the Forgotten Memory
+**A DCU Topological Guide — kahf.day**
 
 *Published under the Qur'an-Only Möbius Framework. All references X:X. No hadith, no tafsir, no exegesis. 39:23 as the sole self-referential seal. 45:6 and 6:116 as governing constraints.*
 
@@ -407,16 +497,28 @@ Corrected Master Equation:
 `;
 
 export const RecoveryLogContent: React.FC = () => {
-  return (
-    <div className="prose prose-invert prose-cyan max-w-4xl mx-auto pt-8">
-      <style>{`
-        .prose h2 { color: #f59e0b; font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; }
-        .prose h3 { color: #22d3ee; font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; }
-        .prose a { color: #f59e0b; }
-      `}</style>
-      <ReactMarkdown>
-        {recoveryContent}
-      </ReactMarkdown>
-    </div>
-  );
+    return (
+        <div className="prose prose-invert prose-cyan max-w-4xl mx-auto pb-24 relative">
+            <style>{`
+                .prose h1 { color: #f59e0b; font-family: ui-serif, Georgia, Cambria, serif; font-weight: 900; letter-spacing: -0.025em; text-align: center; margin-top: 2rem; }
+                .prose h2 { color: #f59e0b; font-family: ui-serif, Georgia, Cambria, serif; border-bottom: 1px solid #1c1917; padding-bottom: 0.5rem; }
+                .prose h3 { color: #22d3ee; font-family: ui-serif, Georgia, Cambria, serif; text-align: center; }
+                .prose blockquote { border-left-color: #f59e0b; font-style: italic; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0 0.5rem 0.5rem 0; }
+                .prose table { font-size: 0.8rem; border-collapse: collapse; width: 100%; margin: 2rem 0; }
+                .prose th { background: rgba(34, 211, 238, 0.1); color: #22d3ee; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; padding: 0.75rem; border: 1px solid rgba(255,255,255,0.05); }
+                .prose td { padding: 0.75rem; border: 1px solid rgba(255,255,255,0.05); }
+                .prose hr { border-color: rgba(255,255,255,0.05); margin: 3rem 0; }
+            `}</style>
+            
+            <ThroneVisual />
+
+            <div className="bg-black/20 backdrop-blur-sm p-4 lg:p-12 rounded-3xl border border-white/5 shadow-2xl">
+                <ReactMarkdown>
+                    {recoveryContent}
+                </ReactMarkdown>
+            </div>
+
+            <SafinatVisual />
+        </div>
+    );
 };

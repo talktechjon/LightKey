@@ -32,7 +32,7 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose }) =>
         {/* Header */}
         <div className="flex flex-col p-6 md:p-10 bg-black/60 border-b border-cyan-500/20 relative shrink-0 z-20">
             <h2 className="text-xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-amber-200 tracking-[0.2em] uppercase font-serif">
-              THE RECOVERY LOG
+              THE FORGOTTEN CROWN
             </h2>
             <p className="text-xs md:text-sm text-cyan-500/80 font-mono tracking-widest mt-2 uppercase">
               The core of the DCU topological framework.

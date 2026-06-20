@@ -7,6 +7,7 @@ import VersePolygon from './VersePolygon.tsx';
 interface ChapterGeometryProps {
     rotation: number;
     isLowResourceMode: boolean;
+    isSpinning?: boolean;
     showFunctionalTooltip: (e: React.MouseEvent, message: string, chapterId: number, color: string) => void;
     hideTooltip: () => void;
     setCustomSequence?: (value: string) => void;
@@ -25,7 +26,7 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
     showFunctionalTooltip: (e: React.MouseEvent, message: string, chapterId: number, color: string) => void;
     hideTooltip: () => void;
 }) => {
-  const hasTooltip = !name.includes('🌴') && !name.includes('🐟');
+  const hasTooltip = !name.includes('🌴') && !name.includes('🐟') && !isLowResourceMode;
   const titleColor = direction === 'downward' ? 'text-cyan-400' : 'text-pink-500';
   const titleSymbol = direction === 'downward' ? '▼' : '▲';
 
@@ -118,7 +119,7 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
   );
 });
 
-const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotation, isPaused }) => {
+const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean, isLowResourceMode: boolean }> = ({ rotation, isPaused, isLowResourceMode }) => {
     const { pathData, markers } = useMemo(() => {
         let x = 0.1, y = 0, z = 0;
         
@@ -135,11 +136,12 @@ const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotati
         const cVal = 4.0 + (righteous.id / 35);
         const c = Math.min(7.5, Math.max(4.0, cVal));
         
-        const b = 0.2, dt = 0.02;
+        const b = 0.2;
+        const dt = isLowResourceMode ? 0.04 : 0.02; // Coarser step in low-resource
         const pts: {px: number, py: number, rz: number}[] = [];
 
-        // Warm up
-        for (let i = 0; i < 500; i++) {
+        const warmUpSteps = isLowResourceMode ? 250 : 500;
+        for (let i = 0; i < warmUpSteps; i++) {
             const dx = -y - z;
             const dy = x + a * y;
             const dz = b + z * (x - c);
@@ -148,7 +150,8 @@ const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotati
         }
 
         let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity, maxZ = -Infinity;
-        for (let i = 0; i < 5500; i++) {
+        const maxSteps = isLowResourceMode ? 2500 : 5500;
+        for (let i = 0; i < maxSteps; i++) {
             const dx = -y - z;
             const dy = x + a * y;
             const dz = b + z * (x - c);
@@ -201,7 +204,7 @@ const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotati
         });
 
         return { pathData: d, markers: scaledMarkers };
-    }, [rotation]);
+    }, [rotation, isLowResourceMode]);
 
     return (
         <div className="relative w-[130px] h-[130px] flex items-center justify-center overflow-visible">
@@ -260,7 +263,7 @@ const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotati
     );
 };
 
-const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotation, isPaused }) => {
+const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean, isLowResourceMode: boolean }> = ({ rotation, isPaused, isLowResourceMode }) => {
     const { pathData, markers } = useMemo(() => {
         let x = 0.1, y = 1, z = 1.05;
         
@@ -273,37 +276,44 @@ const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotatio
         const sigmaVal = 8.0 + (orphan.blockCount / 35);
         const sigma = Math.min(16.0, Math.max(8.0, sigmaVal));
         
-        // rho = heat/driving force, range [20.0, 48.0]
-        const rhoVal = 18.0 + (cave.id / 3);
-        const rho = Math.min(48.0, Math.max(20.0, rhoVal));
+        // rho = heat/driving force, range [26.0, 48.0]
+        const rhoVal = 26.0 + (cave.id / 4);
+        const rho = Math.min(48.0, Math.max(26.0, rhoVal));
         
         // beta = physical dimensions, range [2.0, 3.5]
-        const betaVal = 2.0 + (turabin.blockCount / 100);
-        const beta = Math.min(3.5, Math.max(2.0, betaVal));
+        const betaVal = 2.2 + (turabin.blockCount / 120);
+        const beta = Math.min(3.5, Math.max(2.2, betaVal));
 
-        const dt = 0.008;
+        const dt = isLowResourceMode ? 0.01 : 0.005;
         const pts: {px: number, py: number}[] = [];
 
-        // Warm up
-        for (let i = 0; i < 400; i++) {
+        const warmUpSteps = isLowResourceMode ? 400 : 800;
+        for (let i = 0; i < warmUpSteps; i++) {
             const dx = sigma * (y - x);
             const dy = x * (rho - z) - y;
             const dz = x * y - beta * z;
-            x += dx * dt; y += dy * dt; z += dz * dt;
+            x += dx * dt;
+            y += dy * dt;
+            z += dz * dt;
+            
             if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) break;
         }
 
         let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-        for (let i = 0; i < 3500; i++) {
+        const maxSteps = isLowResourceMode ? 2500 : 5000;
+        for (let i = 0; i < maxSteps; i++) {
             const dx = sigma * (y - x);
             const dy = x * (rho - z) - y;
             const dz = x * y - beta * z;
-            x += dx * dt; y += dy * dt; z += dz * dt;
+            x += dx * dt;
+            y += dy * dt;
+            z += dz * dt;
 
             if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z) || Math.abs(x) > 1000) break;
 
-            const px = x;
-            const py = -z;
+            // Project with a slight tilt for more "depth" (isometric-like)
+            const px = x - y * 0.3;
+            const py = -z - y * 0.2;
 
             pts.push({ px, py });
             if (px < minX) minX = px; if (px > maxX) maxX = px;
@@ -320,10 +330,11 @@ const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotatio
         const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${scaleX(p.px)} ${scaleY(p.py)}`).join(' ');
 
         // Markers for Lorenz: Orphan, Cave, Turabin
+        const stepScaling = maxSteps / 3500;
         const m = [
-            { idx: 600, color: COLORS.triangle1, name: '3c', label: `Turabin [${turabin.id}:${turabin.blockCount}]` },
-            { idx: 1750, color: COLORS.triangle1, name: '6b', label: `Cave [${cave.id}:${cave.blockCount}]` },
-            { idx: 2900, color: COLORS.triangle1, name: '9a', label: `Orphan [${orphan.id}:${orphan.blockCount}]` },
+            { idx: Math.round(600 * stepScaling), color: COLORS.triangle1, name: '3c', label: `Turabin [${turabin.id}:${turabin.blockCount}]` },
+            { idx: Math.round(1750 * stepScaling), color: COLORS.triangle1, name: '6b', label: `Cave [${cave.id}:${cave.blockCount}]` },
+            { idx: Math.round(2900 * stepScaling), color: COLORS.triangle1, name: '9a', label: `Orphan [${orphan.id}:${orphan.blockCount}]` },
         ];
 
         const scaledMarkers = m.map(marker => {
@@ -333,7 +344,7 @@ const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotatio
         });
 
         return { pathData: d, markers: scaledMarkers };
-    }, [rotation]);
+    }, [rotation, isLowResourceMode]);
 
     return (
         <div className="relative w-[130px] h-[130px] flex items-center justify-center overflow-visible">
@@ -354,6 +365,10 @@ const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotatio
                         <text x="3" y="-1.5" fontSize="2.8" fill={m.color} opacity="0.9" className="font-bold tracking-tight drop-shadow-md">
                             {m.name}
                         </text>
+                        <text x="3" y="1.5" fontSize="2" fill="#9ca3af" opacity="0.8" className="tracking-tight whitespace-nowrap">
+                            {m.label}
+                        </text>
+                        <line x1="0" y1="0" x2="2.5" y2="-1" stroke={m.color} strokeWidth="0.2" opacity="0.5" />
                     </g>
                 ))}
 
@@ -369,7 +384,7 @@ const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotatio
     );
 };
 
-export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle: () => void }> = ({ rotation, isPaused, onToggle }) => {
+export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle: () => void, isLowResourceMode: boolean }> = ({ rotation, isPaused, onToggle, isLowResourceMode }) => {
     const [time, setTime] = React.useState(0);
     const timeRef = React.useRef(0);
 
@@ -380,14 +395,15 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
             const delta = now - lastTime;
             lastTime = now;
             if (!isPaused) {
-                timeRef.current += delta / 1000;
+                // Slower internal update rate if low resource
+                timeRef.current += (delta / 1000);
                 setTime(timeRef.current);
             }
             frame = requestAnimationFrame(animate);
         };
         frame = requestAnimationFrame(animate);
         return () => cancelAnimationFrame(frame);
-    }, [isPaused]);
+    }, [isPaused, isLowResourceMode]);
 
     const torusGeometry = useMemo(() => {
         // 1. DATA EXTRACTION: Get the 6 active chapters in the Qun-Fayaqun sequence
@@ -415,10 +431,10 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         const conForce = conVerses / (3 * maxVerses);
         const conComplexity = (nodes[0].id + nodes[2].id + nodes[4].id) / (3 * maxId);
 
-        // 3. DCU TORUS PARAMETERS (Mapping Narratives to Geometry)
-        const levels = Math.floor(12 + expComplexity * 20); // Tubular Levels
-        const segments = Math.floor(20 + conComplexity * 20); // Radial Segments
-        const tilt = Math.PI / 2.5 + (expForce - conForce) * 0.2; // Tilt angle
+        // DCU TORUS PARAMETERS
+        const levels = Math.floor((isLowResourceMode ? 8 : 12) + expComplexity * (isLowResourceMode ? 10 : 20)); 
+        const segments = Math.floor((isLowResourceMode ? 12 : 20) + conComplexity * (isLowResourceMode ? 10 : 20)); 
+        const tilt = Math.PI / (isLowResourceMode ? 2.8 : 2.5) + (expForce - conForce) * 0.2;
 
         // Time and Phase
         const flowVelocity = 0.15 + ((expForce + conForce) / 2) * 0.5; // Scaled down for slower breathing
@@ -577,42 +593,33 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                         {/* 3D Parametric Wireframe Projection */}
                         {(() => {
                             const R_major = torusGeometry.R_major;
-                            const r_minor = torusGeometry.r_minor; // Use r_minor from geometry
+                            const r_minor = torusGeometry.r_minor;
                             
-                            // To create the inside-out rolling effect (poloidal flow):
                             const poloidal_flow = time * torusGeometry.flowVelocity * 1.5;
-                            // To create toroidal rotation:
                             const toroidal_flow = time * torusGeometry.flowVelocity * 0.4;
                             
-                            const rotX = time * 0.2 + torusGeometry.tilt; // Tumble X
-                            const rotY = time * 0.15; // Tumble Y
+                            const rotX = time * 0.2 + torusGeometry.tilt;
+                            const rotY = time * 0.15;
                             
                             const project = (u: number, v: number) => {
-                                // Add offset for rolling inside out effect
                                 const actual_v = v + poloidal_flow;
                                 const actual_u = u + toroidal_flow;
 
-                                // Basic Torus Parametric Equations
                                 const x0 = (R_major + r_minor * Math.cos(actual_v)) * Math.cos(actual_u);
                                 const y0 = (R_major + r_minor * Math.cos(actual_v)) * Math.sin(actual_u);
                                 const z0 = r_minor * Math.sin(actual_v);
                                 
-                                // Rotate around X-axis
                                 const y1 = y0 * Math.cos(rotX) - z0 * Math.sin(rotX);
                                 const z1 = y0 * Math.sin(rotX) + z0 * Math.cos(rotX);
-                                
-                                // Rotate around Y-axis
                                 const x2 = x0 * Math.cos(rotY) + z1 * Math.sin(rotY);
                                 
-                                // Very simple perspective projection
                                 const perspective = 150 / (150 + z1);
-                                
                                 return { x: x2 * perspective, y: y1 * perspective };
                             };
 
                             const paths = [];
+                            const ringDetail = isLowResourceMode ? 20 : 40;
                             
-                            // Longitudinal Rings (Major Axis)
                             for (let i = 0; i < torusGeometry.levels; i++) {
                                 const v = (i / torusGeometry.levels) * Math.PI * 2;
                                 const actual_v = v + poloidal_flow;
@@ -620,8 +627,8 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                                 const oppositeColor = torusGeometry.color === COLORS.triangle1 ? COLORS.triangle2 : COLORS.triangle1;
                                 
                                 let d = "";
-                                for (let j = 0; j <= 40; j++) {
-                                    const u = (j / 40) * Math.PI * 2;
+                                for (let j = 0; j <= ringDetail; j++) {
+                                    const u = (j / ringDetail) * Math.PI * 2;
                                     const p = project(u, v);
                                     d += `${j === 0 ? 'M' : 'L'} ${p.x} ${p.y}`;
                                 }
@@ -637,13 +644,13 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                                 );
                             }
 
-                            // Latitudinal Rings (Minor Axis)
+                            const segmentDetail = isLowResourceMode ? 10 : 20;
                             for (let i = 0; i < torusGeometry.segments; i++) {
                                 const u = (i / torusGeometry.segments) * Math.PI * 2;
                                 
                                 let d = "";
-                                for (let j = 0; j <= 20; j++) {
-                                    const v = (j / 20) * Math.PI * 2;
+                                for (let j = 0; j <= segmentDetail; j++) {
+                                    const v = (j / segmentDetail) * Math.PI * 2;
                                     const p = project(u, v);
                                     d += `${j === 0 ? 'M' : 'L'} ${p.x} ${p.y}`;
                                 }
@@ -663,9 +670,9 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                         })()}
 
                         {/* Quantum Flow Particles on 3D Path */}
-                        {Array.from({ length: 90 }).map((_, i) => {
-                            const u = ((i / 90) * Math.PI * 2 * 3) + (time * 0.3); // Spiral wrapping
-                            const v = (time * 1.5) + (i * 0.1); // Slower poloidal flow
+                        {!isLowResourceMode && Array.from({ length: 90 }).map((_, i) => {
+                            const u = ((i / 90) * Math.PI * 2 * 3) + (time * 0.3);
+                            const v = (time * 1.5) + (i * 0.1);
 
                             const r_minor = torusGeometry.r_minor;
                             const R_major = torusGeometry.R_major;
@@ -1016,12 +1023,16 @@ export const DNAHelixAnimation: React.FC<{
 const ChapterGeometry: React.FC<ChapterGeometryProps> = ({ 
     rotation, 
     isLowResourceMode, 
+    isSpinning = false,
     showFunctionalTooltip, 
     hideTooltip,
     setCustomSequence,
     setAnimationMode
 }) => {
     const [isSystemActive, setIsSystemActive] = React.useState(true);
+    
+    // Pause system automatically during wheel spins to save CPU
+    const effectiveIsPaused = !isSystemActive || isSpinning;
 
     const handleLoadSequenceClick = () => {
         if (!setCustomSequence) return;
@@ -1128,7 +1139,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                     hideTooltip={hideTooltip}
                 />
                 
-                <DNAHelixAnimation isPaused={!isSystemActive} />
+                <DNAHelixAnimation isPaused={effectiveIsPaused} />
 
                 <TriangleGeometryGroup 
                     name="FayaQun - Book Returns 🐟🕋🔆"
@@ -1143,7 +1154,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                 <div className="flex flex-row justify-between items-center w-full mt-10 p-2 sm:p-4 bg-black/40 rounded-xl border border-gray-800 shadow-inner overflow-hidden">
                     <div className="w-1/2 flex flex-col items-center">
                         <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Rössler Flow</div>
-                        <RosslerFlow rotation={rotation} isPaused={!isSystemActive} />
+                        <RosslerFlow rotation={rotation} isPaused={effectiveIsPaused} isLowResourceMode={isLowResourceMode} />
                         <div className="text-[10px] text-cyan-400 font-bold tracking-widest uppercase mt-2 drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]">Chrysalis</div>
                         
                         {/* Rossler Data Labels */}
@@ -1170,7 +1181,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                     <div className="w-px h-32 bg-gray-800/60 mix-blend-screen self-center"></div>
                     <div className="w-1/2 flex flex-col items-center">
                         <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Lorenz (Butterfly)</div>
-                        <LorenzFlow rotation={rotation} isPaused={!isSystemActive} />
+                        <LorenzFlow rotation={rotation} isPaused={effectiveIsPaused} isLowResourceMode={isLowResourceMode} />
                         <div className="text-[10px] text-pink-400 font-bold tracking-widest uppercase mt-3 drop-shadow-[0_0_8px_rgba(244,114,182,0.3)]">Photosynthesis</div>
 
                         {/* Lorenz Data Labels */}
@@ -1197,7 +1208,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                 </div>
 
                 <div className="mt-8">
-                    <TorusFlow rotation={rotation} isPaused={!isSystemActive} onToggle={() => setIsSystemActive(!isSystemActive)} />
+                    <TorusFlow rotation={rotation} isPaused={effectiveIsPaused} onToggle={() => setIsSystemActive(!isSystemActive)} isLowResourceMode={isLowResourceMode} />
                 </div>
 
                 <div className="mt-4 p-6 bg-gray-950/50 border border-gray-800/80 rounded-2xl space-y-8 shadow-2xl relative overflow-hidden">

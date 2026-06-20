@@ -275,6 +275,7 @@ const App: React.FC = () => {
           isSecretModeActive={isSecretModeActive} 
           isTreeOfVerseActive={isTreeOfVerseActive} 
           isPieceOfBakaraActive={isPieceOfBakaraActive} 
+          isSpinning={isSpinning}
           secretEmojiShift={secretEmojiShift} 
           isLowResourceMode={isLowResourceMode} 
           onVerseSelect={handleVerseSelect} 
@@ -302,7 +303,7 @@ const App: React.FC = () => {
         </a>
 
         {/* Row 2 */}
-        <button onClick={() => setIsInstructionVisible(true)} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all hover:scale-110 shrink-0 shadow-lg" title="The Recovery Log (?)">
+        <button onClick={() => setIsInstructionVisible(true)} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all hover:scale-110 shrink-0 shadow-lg" title="The Forgotten Crown (?)">
           <span className="text-xl font-bold">?</span>
         </button>
         <button onClick={() => setIsTreeOfLifeModeActive(true)} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all hover:scale-110 text-xl shrink-0 shadow-lg" title="The Eternal Fruit (Node 7)">

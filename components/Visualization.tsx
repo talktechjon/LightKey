@@ -323,6 +323,7 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
     let startTime: number | null = null;
     const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 4);
     
+    let frameCount = 0;
     const step = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
@@ -331,18 +332,25 @@ const Visualization = forwardRef<VisualizationHandle, VisualizationProps>(({ rot
 
       const newRotation = start + (end - start) * easedProgress;
       
-      // Imperatively update ONLY the main dial for smooth animation
+      // Imperatively update main groups for maximum performance
       if (rotatingGroupRef.current) {
         rotatingGroupRef.current.setAttribute('transform', `rotate(${newRotation} ${center} ${center})`);
       }
       
-      // Update state to drive the central animation smoothly
+      // Update local state for central animation (stays fast)
       setAnimationRotation(newRotation);
+      
+      // Throttle global state update to prevent App-wide re-render bottleneck every frame
+      // We update global rotation every ~4 frames during animation to keep UI responsive without lagging
+      frameCount++;
+      if (frameCount % 4 === 0 || progress === 1) {
+        setRotation(newRotation);
+      }
 
       if (progress < 1) {
         animationFrameId.current = requestAnimationFrame(step);
       } else {
-        // When animation ends, update React state to ensure consistency.
+        // Final sync
         setRotation(end); 
         if (onComplete) {
             onComplete();

@@ -982,9 +982,9 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
                         const staticC = chapterData as StaticChapter;
                         const chapterColor = colorScale(staticC.slice.id);
                         return (
-                        <div key={index} className="grid grid-cols-[5.5rem_1fr] gap-x-2 items-center bg-gray-800/50 rounded px-2 py-1.5 transition-colors border border-gray-700/50 mt-2">
-                            <div className="flex flex-col items-end pr-2 border-r border-gray-700/50">
-                                <span className="font-mono text-[10px] text-cyan-400 font-bold tracking-tighter shadow-cyan-500/20 drop-shadow-sm truncate whitespace-nowrap">{staticC.staticEmoji ? `${staticC.staticEmoji}. ` : ''}{staticC.staticLabel}</span>
+                        <div key={index} className="grid grid-cols-[6rem_1fr] gap-x-2 items-center bg-gray-800/50 rounded px-2 py-1.5 transition-colors border border-gray-700/50 mt-2">
+                            <div className="flex flex-col items-end pr-2 border-r border-gray-700/50 overflow-hidden">
+                                <span className="font-mono text-[10px] text-cyan-400 font-bold tracking-tighter shadow-cyan-500/20 drop-shadow-sm truncate w-full text-right">{staticC.staticEmoji ? `${staticC.staticEmoji}. ` : ''}{staticC.staticLabel}</span>
                             </div>
                             <div className="flex items-center min-w-0 pl-1">
                                 {staticC.staticRightText ? (
@@ -1002,9 +1002,9 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
                     const cData = chapterData as AlignedChapter;
                     const chapterColor = colorScale(cData.slice.id);
                     return (
-                        <div key={index} className="grid grid-cols-[5.5rem_1fr] gap-x-2 items-center hover:bg-white/5 rounded px-2 py-2 transition-colors border border-transparent">
-                            <div className="flex flex-col items-end pr-2 border-r border-gray-700/50">
-                                <span className="font-mono text-sm font-bold tracking-tight whitespace-nowrap" style={{ color: cData.nodeColor }}>{cData.clockIndex}. {cData.clockLabel}</span>
+                        <div key={index} className="grid grid-cols-[6rem_1fr] gap-x-2 items-center hover:bg-white/5 rounded px-2 py-2 transition-colors border border-transparent">
+                            <div className="flex flex-col items-end pr-2 border-r border-gray-700/50 overflow-hidden">
+                                <span className="font-mono text-[10px] font-bold tracking-tight truncate w-full text-right" style={{ color: cData.nodeColor }}>{cData.clockIndex}. {cData.clockLabel}</span>
                             </div>
                             <div className="flex items-center min-w-0 pl-1">
                                 <div className="flex flex-col min-w-0">
@@ -1041,15 +1041,15 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
                 </div>
 
                 {/* Two Sides breakdown */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                     {/* MASAD Card */}
                     <div className="p-5 bg-emerald-950/5 border border-emerald-500/20 rounded-xl space-y-4">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-emerald-500/15 pb-3 gap-2">
+                        <div className="flex flex-col justify-between border-b border-emerald-500/15 pb-3 gap-2">
                             <div className="flex items-center gap-2.5 min-w-0">
                                 <span dir="rtl" className="font-serif text-base leading-none bg-emerald-950/65 border border-emerald-500/30 px-2.5 py-1 rounded text-emerald-300 flex-shrink-0">م س د</span>
-                                <span className="text-xs font-black text-emerald-400 tracking-wider uppercase leading-snug">MASAD — The Fiber</span>
+                                <span className="text-xs font-black text-emerald-400 tracking-wider uppercase leading-snug truncate">MASAD — The Fiber</span>
                             </div>
-                            <span className="self-start sm:self-auto text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-black px-2 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">Patience</span>
+                            <span className="self-start text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-black px-2 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">Patience</span>
                         </div>
                         <div className="space-y-1.5 text-[11px] text-gray-300 leading-relaxed font-serif italic">
                             <p><strong>111:5</strong> — The palm-fiber rope around the neck of the firewood-carrier.</p>
@@ -1071,12 +1071,12 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
 
                     {/* FARY Card */}
                     <div className="p-5 bg-red-950/5 border border-red-500/20 rounded-xl space-y-4">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-red-500/15 pb-3 gap-2">
+                        <div className="flex flex-col justify-between border-b border-red-500/15 pb-3 gap-2">
                             <div className="flex items-center gap-2.5 min-w-0">
                                 <span dir="rtl" className="font-serif text-base leading-none bg-red-950/65 border border-red-500/30 px-2.5 py-1 rounded text-red-300 flex-shrink-0">ف ر ي</span>
-                                <span className="text-xs font-black text-red-400 tracking-wider uppercase leading-snug">FARY — Fabricated</span>
+                                <span className="text-xs font-black text-red-400 tracking-wider uppercase leading-snug truncate">FARY — Fabricated</span>
                             </div>
-                            <span className="self-start sm:self-auto text-[10px] bg-red-500/10 text-red-400 border border-red-500/20 font-black px-2 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">Assumption</span>
+                            <span className="self-start text-[10px] bg-red-500/10 text-red-400 border border-red-500/20 font-black px-2 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">Assumption</span>
                         </div>
                         <div className="space-y-1.5 text-[11px] text-gray-300 leading-relaxed font-serif italic">
                             <p><strong>19:27</strong> — “How can we speak to one who is in the cradle a child?”</p>
@@ -1149,7 +1149,7 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
                 </div>
 
                 {/* Bottom 3 brief Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+                <div className="grid grid-cols-1 gap-3.5">
                     {/* Shared Middle */}
                     <div className="p-4 bg-zinc-950/40 border border-zinc-900 rounded-xl space-y-2">
                         <span className="text-[10px] font-black tracking-widest text-[#00c8ff] uppercase block border-b border-zinc-900 pb-1">The Shared Middle: 103</span>
