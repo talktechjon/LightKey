@@ -1,4 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import { 
+    Compass, 
+    Binary, 
+    RefreshCw, 
+    Heart, 
+    BookOpen, 
+    Sparkles, 
+    ArrowRight, 
+    Layers, 
+    GitCommit
+} from 'lucide-react';
 import { ICON_DIAL_DATA, SECRET_EMOJI_PATTERN, CHAPTER_DETAILS, MUQATTAT_CHAPTERS, MUQATTAT_LETTERS } from '../constants.ts';
 import { getSliceAtPoint, colorScale, polarToCartesian, getChapterIcon } from '../utils.ts';
 import { PlaylistType } from '../types.ts';
@@ -86,6 +97,7 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
     setAnimationMode,
     createPlaylist
 }) => {
+    const [activeTab, setActiveTab] = useState<'map' | 'math' | 'flow' | 'switch' | 'verses'>('map');
 
     // Determine current chapter context
     const currentSlice = getSliceAtPoint(1, rotation);
@@ -164,75 +176,300 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                     </div>
                 )}
             </div>
-            <div className="w-full h-px bg-gray-500/50 mt-2"></div>
-
+            <div className="w-full h-px bg-gray-800/50 mt-2 mb-4"></div>
             {isSecretModeActive ? (
                 <>
                     <EnneagramDiagram />
                     
-                    <div className="bg-gray-800/40 p-4 rounded-xl mt-1 mb-6 border border-gray-700/50">
-                         <p className="font-bold text-gray-200 text-xs mb-2 flex items-center justify-between tracking-wide">
-                             <span className="flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                                THE PROPHETIC CYCLE
-                             </span>
-                             <span className="text-[10px] opacity-70 font-serif italic tracking-tighter">"A good word is like a good tree..." (14:24)</span>
-                         </p>
-                         
-                         <p className="text-[11px] text-gray-400 leading-relaxed mb-4">
-                             The system grows in <strong className="text-gray-200 font-semibold">two phases</strong> of the same divine command. Transformation follows the 24:35 pattern from seed to eternal fruit.
-                         </p>
+                    {/* Interactive Tab Navigation */}
+                    <div className="flex border-b border-gray-800 mb-4 overflow-x-auto no-scrollbar whitespace-nowrap text-[10px] font-bold tracking-wider uppercase">
+                        <button 
+                            onClick={() => setActiveTab('map')} 
+                            className={`flex items-center gap-1.5 px-3 py-2 border-b-2 transition-all duration-200 cursor-pointer ${activeTab === 'map' ? 'border-fuchsia-500 text-fuchsia-400 bg-fuchsia-950/20' : 'border-transparent text-gray-400 hover:text-gray-200'}`}
+                        >
+                            <Compass className="w-3.5 h-3.5" /> Map & Geometry
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('math')} 
+                            className={`flex items-center gap-1.5 px-3 py-2 border-b-2 transition-all duration-200 cursor-pointer ${activeTab === 'math' ? 'border-cyan-500 text-cyan-400 bg-cyan-950/20' : 'border-transparent text-gray-400 hover:text-gray-200'}`}
+                        >
+                            <Binary className="w-3.5 h-3.5" /> Offsets & Mirror
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('flow')} 
+                            className={`flex items-center gap-1.5 px-3 py-2 border-b-2 transition-all duration-200 cursor-pointer ${activeTab === 'flow' ? 'border-amber-500 text-amber-400 bg-amber-950/20' : 'border-transparent text-gray-400 hover:text-gray-200'}`}
+                        >
+                            <RefreshCw className="w-3.5 h-3.5 animate-spin-slow" /> Flow Direction
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('switch')} 
+                            className={`flex items-center gap-1.5 px-3 py-2 border-b-2 transition-all duration-200 cursor-pointer ${activeTab === 'switch' ? 'border-pink-500 text-pink-400 bg-pink-950/20' : 'border-transparent text-gray-400 hover:text-gray-200'}`}
+                        >
+                            <Heart className="w-3.5 h-3.5" /> The Switch
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('verses')} 
+                            className={`flex items-center gap-1.5 px-3 py-2 border-b-2 transition-all duration-200 cursor-pointer ${activeTab === 'verses' ? 'border-blue-500 text-blue-400 bg-blue-950/20' : 'border-transparent text-gray-400 hover:text-gray-200'}`}
+                        >
+                            <BookOpen className="w-3.5 h-3.5" /> Key Coordinates
+                        </button>
+                    </div>
 
-                         {isMakki ? (
-                             <div className="mb-4 space-y-2">
-                                 <div className="flex items-center gap-2">
-                                     <span className="px-2 py-0.5 rounded bg-emerald-900/40 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold uppercase tracking-tighter">The Root (Makki Phase)</span>
-                                     <span className="text-[10px] text-gray-400 italic">Deep Activation</span>
-                                 </div>
-                                 <div className="pl-2 border-l-2 border-emerald-500/20 py-1">
-                                     <p className="text-[11px] text-gray-300">
-                                         Cycle: <strong className="text-emerald-400">Life → Path → Balance</strong>
-                                     </p>
-                                     <p className="text-[10px] text-gray-500 mt-1 leading-tight">
-                                         Growth begins in the <strong className="text-gray-400 font-medium">hidden core</strong>. The seed must break within the soul before the tree can rise.
-                                     </p>
-                                 </div>
-                             </div>
-                         ) : (
-                             <div className="mb-4 space-y-2">
-                                 <div className="flex items-center gap-2">
-                                     <span className="px-2 py-0.5 rounded bg-amber-900/40 text-amber-400 border border-amber-500/30 text-[10px] font-bold uppercase tracking-tighter">The Fruit (Madani Phase)</span>
-                                     <span className="text-[10px] text-gray-400 italic">Manifest Realization</span>
-                                 </div>
-                                 <div className="pl-2 border-l-2 border-amber-500/20 py-1">
-                                     <p className="text-[11px] text-gray-300">
-                                         Cycle: <strong className="text-amber-400">Path → Balance → Life</strong>
-                                     </p>
-                                     <p className="text-[10px] text-gray-500 mt-1 leading-tight">
-                                         The fruit is revealed as a <strong className="text-gray-400 font-medium">shelter for the many</strong>. The internal truth becomes the external law of peace.
-                                     </p>
-                                 </div>
-                             </div>
-                         )}
+                    <div className="bg-gray-900/40 border border-gray-800/80 p-4 rounded-xl shadow-inner-lg mt-1 mb-5 max-h-[550px] overflow-y-auto transition-all duration-300">
+                        
+                        {/* TAB 1: MAP & GEOMETRY */}
+                        {activeTab === 'map' && (
+                            <div className="space-y-4 animate-fade-in">
+                                <div className="border-b border-gray-800 pb-2">
+                                    <h3 className="text-sm font-bold text-fuchsia-400 flex items-center gap-1.5">
+                                        <Sparkles className="w-4 h-4 text-fuchsia-400" />
+                                        SECRET PATTERN — THE 9 PHASES
+                                    </h3>
+                                    <p className="text-[11px] text-gray-400 mt-1">
+                                        A mapped navigation of the 9 states through which the Reader passes.
+                                    </p>
+                                </div>
+                                
+                                <div className="bg-gray-950/50 p-3 rounded-lg border border-gray-800/50 flex gap-2 items-start">
+                                    <span className="text-amber-400 font-mono text-xs font-bold shrink-0 mt-0.5">d(5):</span>
+                                    <p className="text-[11px] text-gray-300 leading-relaxed">
+                                        The absolute static center <strong className="text-amber-400 font-medium">d(5) = 19:12</strong> never moves. It holds the entire structural grid in dynamic equilibrium.
+                                    </p>
+                                </div>
 
-                         <div className="grid grid-cols-2 gap-2 font-mono text-[9px] text-gray-400 border-t border-gray-700/30 pt-3">
-                             <div className="flex items-center gap-1.5 grayscale opacity-70">
-                                <span className="text-red-400 font-bold text-xs underline decoration-red-500/30">9</span>
-                                <div><span className="text-red-300/80 font-sans font-bold">The Life</span><br/><span>Hidden Pulse</span></div>
-                             </div>
-                             <div className="flex items-center gap-1.5 grayscale opacity-70">
-                                <span className="text-amber-400 font-bold text-xs underline decoration-amber-500/30">3</span>
-                                <div><span className="text-amber-300/80 font-sans font-bold">The Path</span><br/><span>Direction</span></div>
-                             </div>
-                             <div className="flex items-center gap-1.5 grayscale opacity-70">
-                                <span className="text-teal-400 font-bold text-xs underline decoration-teal-500/30">6</span>
-                                <div><span className="text-teal-300/80 font-sans font-bold">The Balance</span><br/><span>Stability</span></div>
-                             </div>
-                             <div className="flex items-center gap-1.5 border border-cyan-500/20 p-1 rounded bg-cyan-500/5">
-                                <span className="text-cyan-400 font-bold text-xs">5</span>
-                                <div><span className="text-cyan-300/80 font-bold font-sans">The Heart</span><br/><span className="text-cyan-200/50 italic">The Invariant Root</span></div>
-                             </div>
-                         </div>
+                                <div className="space-y-3 pt-1">
+                                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Geometric Components</h4>
+                                    
+                                    <div className="p-3 rounded-lg border border-fuchsia-500/20 bg-fuchsia-950/10">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="w-2.5 h-2.5 rounded-full bg-fuchsia-500 shadow-[0_0_8px_rgba(217,70,239,0.5)]"></span>
+                                            <span className="text-xs font-bold text-fuchsia-300">Purple Triangle (3-6-9) — The Constants</span>
+                                        </div>
+                                        <p className="text-[11px] text-gray-300 leading-relaxed pl-4">
+                                            Fixed coordinates that govern system foundation. They represent <strong className="text-fuchsia-300 font-medium">Direction, Balance, and Life</strong>, holding the primary invariant geometry.
+                                        </p>
+                                    </div>
+
+                                    <div className="p-3 rounded-lg border border-cyan-500/20 bg-cyan-950/10">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.5)]"></span>
+                                            <span className="text-xs font-bold text-cyan-300">Cyan Hexagon (1-2-4-5-7-8) — The Variables</span>
+                                        </div>
+                                        <p className="text-[11px] text-gray-300 leading-relaxed pl-4">
+                                            Dynamic coordinates that rotate, transform, and flip direction: <strong className="text-cyan-300 font-medium">Sacrifice, Bridge, Mold, Peak, Purify, and Heart</strong>.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 2: OFFSETS & MIRROR */}
+                        {activeTab === 'math' && (
+                            <div className="space-y-4 animate-fade-in text-gray-300">
+                                <div className="border-b border-gray-800 pb-2">
+                                    <h3 className="text-sm font-bold text-cyan-400 flex items-center gap-1.5">
+                                        <Binary className="w-4 h-4 text-cyan-400" />
+                                        MODULAR SYSTEM EQUATION
+                                    </h3>
+                                    <p className="text-[11px] text-gray-400 mt-1 font-mono">
+                                        S(n) = (Start + Offset) mod 114
+                                    </p>
+                                </div>
+
+                                <p className="text-[11px] text-gray-400 leading-relaxed">
+                                    Pick any starting surah index. Add the structural offset of the destination node to yield the next step in the sequence. These offsets are mathematically invariant.
+                                </p>
+
+                                <div className="overflow-hidden border border-gray-800 rounded-lg">
+                                    <table className="w-full text-left font-mono text-[10px]">
+                                        <thead>
+                                            <tr className="bg-gray-950 text-gray-400 border-b border-gray-800">
+                                                <th className="px-2.5 py-1.5 text-center">Pos</th>
+                                                <th className="px-2.5 py-1.5 text-center text-cyan-400">Offset</th>
+                                                <th className="px-3 py-1.5">Operational Meaning</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-800 text-gray-300">
+                                            {[
+                                                { pos: '9', offset: '0', action: 'Origin Impulse — Start here' },
+                                                { pos: '3', offset: '38', action: 'The Grip activates' },
+                                                { pos: '1', offset: '13', action: 'Sacrifice begins' },
+                                                { pos: '2', offset: '25', action: 'Commitment locks' },
+                                                { pos: '4', offset: '51', action: 'The Mold receives' },
+                                                { pos: '8', offset: '101', action: 'Maximum pressure peak' },
+                                                { pos: '7', offset: '89', action: 'Purification filter' },
+                                                { pos: '5', offset: '63', action: 'The Heart finds 19:12 center' },
+                                                { pos: '6', offset: '76', action: 'Balance stabilizes' },
+                                            ].map((row, i) => (
+                                                <tr key={i} className="hover:bg-gray-800/30 transition-colors">
+                                                    <td className="px-2.5 py-1.5 text-center font-bold text-fuchsia-400">{row.pos}</td>
+                                                    <td className="px-2.5 py-1.5 text-center font-bold text-cyan-400">{row.offset}</td>
+                                                    <td className="px-3 py-1.5 text-[10.5px] font-sans">{row.action}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div className="pt-2 border-t border-gray-800">
+                                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2 flex items-center gap-1">
+                                        <Layers className="w-3.5 h-3.5 text-cyan-500" />
+                                        Symmetric Mirror Partners
+                                    </h4>
+                                    
+                                    <div className="grid grid-cols-2 gap-2 text-center text-[10px] font-mono">
+                                        {[
+                                            { pair: '13 ↔ 101', sum: '114' },
+                                            { pair: '25 ↔ 89', sum: '114' },
+                                            { pair: '38 ↔ 76', sum: '114' },
+                                            { pair: '51 ↔ 63', sum: '114' },
+                                        ].map((item, idx) => (
+                                            <div key={idx} className="bg-gray-950/40 p-2 rounded border border-gray-800/80 hover:border-cyan-500/20 transition-all">
+                                                <span className="text-cyan-400 font-bold">{item.pair}</span>
+                                                <span className="text-[9px] text-gray-500 block">Sum: {item.sum}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <p className="text-[10px] text-gray-500 italic mt-2 leading-tight">
+                                        Every reciprocal pair sums perfectly to 114, mirroring symmetrically across coordinate <strong className="text-cyan-400 font-medium">57 (Al-Hadid, Iron)</strong>.
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 3: FLOW DIRECTION */}
+                        {activeTab === 'flow' && (
+                            <div className="space-y-4 animate-fade-in">
+                                <div className="border-b border-gray-800 pb-2">
+                                    <h3 className="text-sm font-bold text-amber-500 flex items-center gap-1.5">
+                                        <RefreshCw className="w-4 h-4 text-amber-500" />
+                                        PHASE DIRECTIONS — COGNITIVE ROTATIONS
+                                    </h3>
+                                    <p className="text-[11px] text-gray-400 mt-1">
+                                        One identical map navigated in two opposing directions.
+                                    </p>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <div className={`p-3 rounded-xl border transition-all ${isMakki ? 'border-emerald-500/30 bg-emerald-950/10' : 'border-gray-800 bg-gray-950/20'}`}>
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-xs font-bold text-emerald-400 uppercase tracking-wide">MAKKI — The Descent (KUN)</span>
+                                            <span className="text-[10px] text-gray-500 font-mono">Clockwise</span>
+                                        </div>
+                                        <p className="text-[11px] text-gray-300 mt-1.5 leading-relaxed">
+                                            The Reader is being actively shaped under dynamic constraint. Pressure increases as the Hexagon flows clockwise.
+                                        </p>
+                                        <div className="flex gap-1 items-center mt-2.5 overflow-x-auto py-1 font-mono text-[9.5px]">
+                                            {[9, 1, 2, 4, 8, 7, 5, 6, 3, 9].map((n, i) => (
+                                                <React.Fragment key={i}>
+                                                    <span className={`w-5 h-5 rounded-full shrink-0 flex items-center justify-center border ${n === 9 ? 'bg-fuchsia-950 text-fuchsia-400 border-fuchsia-500' : 'bg-gray-950 border-gray-800 text-gray-300'}`}>{n}</span>
+                                                    {i < 9 && <ArrowRight className="w-2.5 h-2.5 text-gray-600 shrink-0" />}
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className={`p-3 rounded-xl border transition-all ${!isMakki ? 'border-amber-500/30 bg-amber-950/10' : 'border-gray-800 bg-gray-950/20'}`}>
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-xs font-bold text-amber-400 uppercase tracking-wide">MADANI — The Return (FAYA-KUN)</span>
+                                            <span className="text-[10px] text-gray-500 font-mono">Counter-Clockwise</span>
+                                        </div>
+                                        <p className="text-[11px] text-gray-300 mt-1.5 leading-relaxed">
+                                            The Reader governs with intentional alignment. Light returns and stabilizes. Hexagon flows counter-clockwise.
+                                        </p>
+                                        <div className="flex gap-1 items-center mt-2.5 overflow-x-auto py-1 font-mono text-[9.5px]">
+                                            {[9, 3, 6, 5, 7, 8, 4, 2, 1, 9].map((n, i) => (
+                                                <React.Fragment key={i}>
+                                                    <span className={`w-5 h-5 rounded-full shrink-0 flex items-center justify-center border ${n === 9 ? 'bg-fuchsia-950 text-fuchsia-400 border-fuchsia-500' : 'bg-gray-950 border-gray-800 text-gray-300'}`}>{n}</span>
+                                                    {i < 9 && <ArrowRight className="w-2.5 h-2.5 text-gray-600 shrink-0" />}
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 4: THE SWITCH */}
+                        {activeTab === 'switch' && (
+                            <div className="space-y-4 animate-fade-in text-gray-300">
+                                <div className="border-b border-gray-800 pb-2">
+                                    <h3 className="text-sm font-bold text-pink-400 flex items-center gap-1.5">
+                                        <Heart className="w-4 h-4 text-pink-400" />
+                                        THE HEART — POSITION 5
+                                    </h3>
+                                    <p className="text-[11px] text-gray-400 mt-1">
+                                        The shift threshold where Descent flips into Return.
+                                    </p>
+                                </div>
+
+                                <p className="text-[11px] text-gray-400 leading-relaxed">
+                                    The core activation occurs at <strong className="text-pink-300 font-semibold">Position 5 (The Heart)</strong>. It is here that the system’s rotation reverses direction.
+                                </p>
+
+                                <div className="grid grid-cols-2 gap-2 font-mono text-[10.5px]">
+                                    <div className="bg-gray-950/40 border border-emerald-500/10 p-3 rounded-lg">
+                                        <span className="text-emerald-400 text-[9px] font-bold uppercase tracking-wider block mb-1">Makki Peak</span>
+                                        <span className="text-white font-bold text-xs">Node 5 = 64</span>
+                                        <span className="text-gray-400 block text-[9.5px] mt-1">Self-Discovery — Finding 19:12 within</span>
+                                    </div>
+
+                                    <div className="bg-gray-950/40 border border-amber-500/10 p-3 rounded-lg">
+                                        <span className="text-amber-400 text-[9px] font-bold uppercase tracking-wider block mb-1">Madani Peak</span>
+                                        <span className="text-white font-bold text-xs">Node 5 = 66</span>
+                                        <span className="text-gray-400 block text-[9.5px] mt-1">Fire Bifurcates — The Queen witnesses</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-pink-950/10 border border-pink-500/20 p-3 rounded-lg">
+                                    <div className="flex gap-2 items-start text-pink-300 text-[11px] leading-relaxed">
+                                        <GitCommit className="w-5 h-5 text-pink-400 shrink-0 mt-0.5" />
+                                        <div>
+                                            <strong>64 → 66 is the 2-unit phase shift</strong> which reverses the rotation vector. Symmetrically represented at <strong>66:11</strong> where the Wife of Pharaoh serves as the structural Switch.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-gray-950/60 p-3 rounded-lg border border-gray-800 text-[11px] leading-relaxed">
+                                    <span className="text-gray-400 font-bold block mb-1 font-mono">12:23 / 12:33 Stabilization Directive:</span>
+                                    Choose <strong className="text-amber-400">grip</strong> (taking with strength) over active <strong className="text-red-400">taking</strong> (arrogative extraction). Retain structural focus.
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 5: KEY VERSES */}
+                        {activeTab === 'verses' && (
+                            <div className="space-y-4 animate-fade-in text-gray-300">
+                                <div className="border-b border-gray-800 pb-2">
+                                    <h3 className="text-sm font-bold text-blue-400 flex items-center gap-1.5">
+                                        <BookOpen className="w-4 h-4 text-blue-400" />
+                                        KEY SCRIPTURAL COORDINATES
+                                    </h3>
+                                    <p className="text-[11px] text-gray-400 mt-1">
+                                        Structural checkpoints that define the system metrics.
+                                    </p>
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-2">
+                                    {[
+                                        { ref: '14:24', title: 'The Growth Equation', text: '"A good word is like a good tree" — the growth equation' },
+                                        { ref: '24:35', title: 'The Return State', text: '"Light upon Light" — the return state' },
+                                        { ref: '57:25', title: 'The Center Anchor', text: '"We sent down iron" — the center that holds' },
+                                        { ref: '66:11', title: 'The Queen\'s Switch', text: '"Allah sets forth an example" — the Queen\'s switch' },
+                                        { ref: '19:12', title: 'The Active Grip', text: '"Take the Book with strength" — the grip' },
+                                        { ref: '38:46', title: 'Homecoming', text: '"Hearts find rest" — the return home' },
+                                    ].map((verse, idx) => (
+                                        <div key={idx} className="bg-gray-950/40 border border-gray-800 p-2.5 rounded-lg flex items-start gap-3 hover:border-blue-500/20 transition-all">
+                                            <span className="px-2 py-0.5 rounded bg-blue-900/30 text-blue-400 border border-blue-500/20 font-mono text-[9px] shrink-0 font-bold mt-0.5">{verse.ref}</span>
+                                            <div>
+                                                <h4 className="text-[11px] font-bold text-gray-200">{verse.title}</h4>
+                                                <p className="text-[10.5px] text-gray-400 italic mt-0.5 font-sans">{verse.text}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="text-center mb-2">

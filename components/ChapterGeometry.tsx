@@ -35,9 +35,9 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
     if (type.includes('Slave')) return `The Vector (1): Prayer & Intent (66:11, 19:3)`;
     if (type.includes('Queen')) return `Shadow Surplus (+1) / Entropy Term: ${chapterName}`;
     if (type.includes('Righteous')) return `Faith Coherence: ${chapterName}`;
-    if (type.includes('Boat|Orphan')) return `Command Propagation: ${chapterName}`;
-    if (type.includes('Mountain')) return `Cubic Overflow Phase (10): ${chapterName}`;
-    if (type.includes('Cave|Book')) return `Biological Cardiac Zero Point / Light Coherence (9): ${chapterName}`;
+    if (type.includes('Turabin')) return `Command Propagation: ${chapterName}`;
+    if (type.includes('Cave')) return `Cubic Overflow Phase (10): ${chapterName}`;
+    if (type.includes('Orphan')) return `Biological Cardiac Zero Point / Light Coherence (9): ${chapterName}`;
     return type;
   };
   
@@ -264,21 +264,21 @@ const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotatio
     const { pathData, markers } = useMemo(() => {
         let x = 0.1, y = 1, z = 1.05;
         
-        // Map to exact pairs for this flow: Book(19), Mountain(95), Orphan(57)
-        const book = getSliceAtPoint(19, rotation);
-        const mountain = getSliceAtPoint(95, rotation);
-        const orphan = getSliceAtPoint(57, rotation);
+        // Map to exact pairs for this flow: Orphan(19), Cave(95), Turabin(57)
+        const orphan = getSliceAtPoint(19, rotation);
+        const cave = getSliceAtPoint(95, rotation);
+        const turabin = getSliceAtPoint(57, rotation);
 
         // sigma = fluid properties, range [8.0, 16.0]
-        const sigmaVal = 8.0 + (book.blockCount / 35);
+        const sigmaVal = 8.0 + (orphan.blockCount / 35);
         const sigma = Math.min(16.0, Math.max(8.0, sigmaVal));
         
         // rho = heat/driving force, range [20.0, 48.0]
-        const rhoVal = 18.0 + (mountain.id / 3);
+        const rhoVal = 18.0 + (cave.id / 3);
         const rho = Math.min(48.0, Math.max(20.0, rhoVal));
         
         // beta = physical dimensions, range [2.0, 3.5]
-        const betaVal = 2.0 + (orphan.blockCount / 100);
+        const betaVal = 2.0 + (turabin.blockCount / 100);
         const beta = Math.min(3.5, Math.max(2.0, betaVal));
 
         const dt = 0.008;
@@ -319,11 +319,11 @@ const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean }> = ({ rotatio
         const scaleY = (val: number) => pad + (100 - pad * 2) * ((val - minY) / rangeY);
         const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${scaleX(p.px)} ${scaleY(p.py)}`).join(' ');
 
-        // Markers for Lorenz: Book, Mountain, Orphan
+        // Markers for Lorenz: Orphan, Cave, Turabin
         const m = [
-            { idx: 600, color: COLORS.triangle1, name: '3c', label: `Orphan [${orphan.id}:${orphan.blockCount}]` },
-            { idx: 1750, color: COLORS.triangle1, name: '6b', label: `Mountain [${mountain.id}:${mountain.blockCount}]` },
-            { idx: 2900, color: COLORS.triangle1, name: '9a', label: `Book [${book.id}:${book.blockCount}]` },
+            { idx: 600, color: COLORS.triangle1, name: '3c', label: `Turabin [${turabin.id}:${turabin.blockCount}]` },
+            { idx: 1750, color: COLORS.triangle1, name: '6b', label: `Cave [${cave.id}:${cave.blockCount}]` },
+            { idx: 2900, color: COLORS.triangle1, name: '9a', label: `Orphan [${orphan.id}:${orphan.blockCount}]` },
         ];
 
         const scaledMarkers = m.map(marker => {
@@ -394,12 +394,12 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         const s1 = getSliceAtPoint(1, rotation);       // Slave [Qun ▼]
         const s39 = getSliceAtPoint(39, rotation);     // Queen [FayaQun ▲]
         const s77 = getSliceAtPoint(77, rotation);     // Righteous [Qun ▼]
-        const s57 = getSliceAtPoint(57, rotation);     // Orphan [FayaQun ▲]
-        const s95 = getSliceAtPoint(95, rotation);     // Mountain [Qun ▼]
-        const s19 = getSliceAtPoint(19, rotation);     // Book [FayaQun ▲]
+        const s57 = getSliceAtPoint(57, rotation);     // Turabin [FayaQun ▲]
+        const s95 = getSliceAtPoint(95, rotation);     // Cave [Qun ▼]
+        const s19 = getSliceAtPoint(19, rotation);     // Orphan [FayaQun ▲]
         
-        // Sequence: Slave -> Queen -> Righteous -> Orphan -> Mountain -> Book
-        const nodes = [s1, s39, s77, s57, s95, s19];
+        // Sequence: Slave -> Queen -> Righteous -> Orphan -> Cave -> Turabin
+        const nodes = [s1, s39, s77, s19, s95, s57];
         
         // 2. METRIC CALCULATION: Unique Mathematical Signature based on 114 & 286
         const maxId = 114;
@@ -425,7 +425,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         const true_s = flowVelocity * time * 0.5; // Scale down time slightly for the breath
         const phase = ((true_s % 1) + 1) % 1; // 0 to 1
 
-        let activePhase = "Orphan";
+        let activePhase = "Turabin";
         let color = COLORS.triangle1; 
         let isQun = false;
 
@@ -441,9 +441,9 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         } else if (phase < 4/6) {
             activePhase = "Orphan"; color = COLORS.triangle1; isQun = false;
         } else if (phase < 5/6) {
-            activePhase = "Mountain"; color = COLORS.triangle2; isQun = true;
+            activePhase = "Cave"; color = COLORS.triangle2; isQun = true;
         } else {
-            activePhase = "Book"; color = COLORS.triangle1; isQun = false;
+            activePhase = "Turabin"; color = COLORS.triangle1; isQun = false;
         }
 
         // 4. PARAMETRIC BREATHING (Implosion-Explosion)
@@ -498,9 +498,9 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         const p1 = getSliceAtPoint(1, rotation);       // Slave
         const p39 = getSliceAtPoint(39, rotation);     // Queen
         const p77 = getSliceAtPoint(77, rotation);     // Righteous
-        const p19 = getSliceAtPoint(19, rotation);     // Book
-        const p95 = getSliceAtPoint(95, rotation);     // Mountain
-        const p57 = getSliceAtPoint(57, rotation);     // Orphan
+        const p19 = getSliceAtPoint(19, rotation);     // Orphan
+        const p95 = getSliceAtPoint(95, rotation);     // Cave
+        const p57 = getSliceAtPoint(57, rotation);     // Turabin
         return { p1, p39, p77, p19, p95, p57 };
     }, [rotation]);
 
@@ -508,9 +508,9 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         "Slave": { ...dataPairs.p1, label: "Slave ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
         "Queen": { ...dataPairs.p39, label: "Queen ▲", icon: "🐝", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
         "Righteous": { ...dataPairs.p77, label: "Righteous ▼", icon: "💧", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
-        "Orphan": { ...dataPairs.p57, label: "Orphan ▲", icon: "🐟", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
-        "Mountain": { ...dataPairs.p95, label: "Mountain ▼", icon: "🕋", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
-        "Book": { ...dataPairs.p19, label: "Book ▲", icon: "🔆", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Turabin": { ...dataPairs.p57, label: "Turabin ▲", icon: "🐟", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Cave": { ...dataPairs.p95, label: "Cave ▼", icon: "🕋", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Orphan": { ...dataPairs.p19, label: "Orphan ▲", icon: "🔆", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
     };
     const activePhaseData = phaseDataMap[torusGeometry.activePhase as keyof typeof phaseDataMap];
     const activeChapter = CHAPTER_DETAILS.find(c => c.number === activePhaseData?.id);
@@ -708,8 +708,6 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                         />
                     </g>
                 </svg>
-                
-                {/* (Visual Telemetry Dots Moved Above) */}
             </div>
  
             {/* Geometric Data Legend Box */}
@@ -717,48 +715,58 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                 <div className="grid grid-cols-3 gap-y-8 relative">
                     {/* Row 1: Slave -> Queen -> Righteous */}
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">🌴</span>
+                        <span className="text-lg sm:text-xl">🌴</span>
                         <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">{dataPairs.p1.id}:{dataPairs.p1.blockCount}</div>
+                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">
+                                {dataPairs.p1.id}:{dataPairs.p1.blockCount}
+                            </div>
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p1.id)?.englishName}
                             </div>
                             <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Slave ▼</div>
+                            <div className="text-[7.5px] sm:text-[8px] font-mono text-cyan-400/50 leading-none mt-0.5 select-none">[5:30]</div>
                         </div>
                     </div>
  
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">🐝</span>
+                        <span className="text-lg sm:text-xl">🐝</span>
                         <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p39.id}:{dataPairs.p39.blockCount}</div>
+                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">
+                                {dataPairs.p39.id}:{dataPairs.p39.blockCount}
+                            </div>
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p39.id)?.englishName}
                             </div>
                             <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Queen ▲</div>
+                            <div className="text-[7.5px] sm:text-[8px] font-mono text-pink-550/50 leading-none mt-0.5 select-none">[16:68]</div>
                         </div>
                     </div>
  
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">💧</span>
+                        <span className="text-lg sm:text-xl">💧</span>
                         <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">{dataPairs.p77.id}:{dataPairs.p77.blockCount}</div>
+                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">
+                                {dataPairs.p77.id}:{dataPairs.p77.blockCount}
+                            </div>
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p77.id)?.englishName}
                             </div>
                             <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Righteous ▼</div>
+                            <div className="text-[7.5px] sm:text-[8px] font-mono text-cyan-400/50 leading-none mt-0.5 select-none">[34:14]</div>
                         </div>
                     </div>
  
                     {/* Middle Transition Layer */}
                     <div className="col-span-3 flex items-center justify-center px-4 -my-4 relative h-16 sm:h-20">
                         {/* Up Arrow (connecting Bottom elements to Top) */}
-                        <div className="z-10 text-cyan-400">
-                             <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+                        <div className="z-10 text-cyan-400 flex items-center gap-1 font-mono text-[9px] sm:text-[10px] whitespace-nowrap">
+                             <svg width="12" height="15" viewBox="0 0 16 20" fill="none">
                                 <path d="M 8 20 L 8 4 M 8 4 L 3 9 M 8 4 L 13 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                              </svg>
+                             <span className="font-bold opacity-80">↑ 19:57</span>
                         </div>
 
-                        <div className="h-px bg-gray-800 flex-grow mx-12 opacity-30"></div>
+                        <div className="h-px bg-gray-800 flex-grow mx-4 sm:mx-6 opacity-30"></div>
                         
                         <div 
                             className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer z-20"
@@ -791,47 +799,57 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             </svg>
                         </div>
 
-                        <div className="h-px bg-gray-800 flex-grow mx-12 opacity-30"></div>
+                        <div className="h-px bg-gray-800 flex-grow mx-4 sm:mx-6 opacity-30"></div>
                         
                         {/* Down Arrow (connecting Top to Bottom) */}
-                        <div className="z-10 text-pink-500">
-                             <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+                        <div className="z-10 text-pink-500 flex items-center gap-1 font-mono text-[9px] sm:text-[10px] whitespace-nowrap">
+                             <span className="font-bold opacity-80">↓ 19:27</span>
+                             <svg width="12" height="15" viewBox="0 0 16 20" fill="none">
                                 <path d="M 8 0 L 8 16 M 8 16 L 3 11 M 8 16 L 13 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                              </svg>
                         </div>
                     </div>
 
-                    {/* Row 2: Orphan -> Mountain -> Book */}
+                    {/* Row 2: Turabin -> Cave -> Orphan */}
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">🐟</span>
+                        <span className="text-lg sm:text-xl">🐟</span>
                         <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p57.id}:{dataPairs.p57.blockCount}</div>
+                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">
+                                {dataPairs.p57.id}:{dataPairs.p57.blockCount}
+                            </div>
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p57.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Orphan ▲</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Turabin ▲</div>
+                            <div className="text-[7.5px] sm:text-[8px] font-mono text-pink-550/50 leading-none mt-0.5 select-none">[3:59]</div>
                         </div>
                     </div>
 
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">🕋</span>
+                        <span className="text-lg sm:text-xl">🕋</span>
                         <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">{dataPairs.p95.id}:{dataPairs.p95.blockCount}</div>
+                            <div className="text-cyan-400 font-bold text-sm sm:text-base leading-tight">
+                                {dataPairs.p95.id}:{dataPairs.p95.blockCount}
+                            </div>
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p95.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Mountain ▼</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Cave ▼</div>
+                            <div className="text-[7.5px] sm:text-[8px] font-mono text-cyan-400/50 leading-none mt-0.5 select-none">[18:19]</div>
                         </div>
                     </div>
 
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-2xl sm:text-3xl">🔆</span>
+                        <span className="text-lg sm:text-xl">🔆</span>
                         <div className="text-center flex flex-col items-center w-full">
-                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">{dataPairs.p19.id}:{dataPairs.p19.blockCount}</div>
+                            <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">
+                                {dataPairs.p19.id}:{dataPairs.p19.blockCount}
+                            </div>
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p19.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Book ▲</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Orphan ▲</div>
+                            <div className="text-[7.5px] sm:text-[8px] font-mono text-pink-550/50 leading-none mt-0.5 select-none">[19:19]</div>
                         </div>
                     </div>
                 </div>
@@ -1020,18 +1038,18 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
 
     
     // Side Panel Presentation Reordering (DNA Flow - INTERLEAVED):
-    // Row 1 (Interleaved Layout): Slave(D 1) -> Mountain(U 95) -> Righteous(D 77)
+    // Row 1 (Interleaved Layout): Slave(D 1) -> Cave(U 95) -> Righteous(D 77)
     const dnaRow1: PointWithColor[] = [
         { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Slave (Cyan)
-        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[0].color }, // Mountain (Pink) - Twisted Up
+        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[0].color }, // Cave (Pink) - Twisted Up
         { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Righteous (Cyan)
     ];
 
-    // Row 2 (Interleaved Layout): Boat(U 57) -> Queen(D 39) -> Book(U 19)
+    // Row 2 (Interleaved Layout): Turabin(U 57) -> Queen(D 39) -> Orphan(U 19)
     const dnaRow2: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Boat (Pink)
+        { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Turabin (Pink)
         { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[1].color }, // Queen (Cyan) - Twisted Down
-        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Book (Pink)
+        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Orphan (Pink)
     ];
     
     return (
@@ -1050,8 +1068,8 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                         <button
                             onClick={handleLoadSequenceClick}
                             className="w-7 h-7 flex items-center justify-center rounded border border-cyan-500/30 bg-black/40 hover:bg-cyan-950/30 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300 transition-all duration-200 shadow-[0_0_8px_rgba(6,182,212,0.15)] focus:outline-none cursor-pointer"
-                            title="Load Slave-Queen-Righteous-book-mountain-orphan sequence for all 1-114 points"
-                            aria-label="Load Slave-Queen-Righteous-book-mountain-orphan sequence"
+                            title="Load Slave-Queen-Righteous-Orphan-Cave-Turabin sequence for all 1-114 points"
+                            aria-label="Load Slave-Queen-Righteous-Orphan-Cave-Turabin sequence"
                         >
                             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <rect x="3" y="3" width="18" height="18" rx="2" strokeDasharray="3 3" />
@@ -1071,20 +1089,20 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
             <div className="text-center mt-3 mb-6">
                 <div className="font-mono flex flex-col items-center">
                     <div className="text-[clamp(8px,2.8vw,11px)] text-gray-500 mb-3 font-bold tracking-tight opacity-80 uppercase bg-gray-900/40 px-3 py-1 rounded-full border border-gray-800/50">
-                        f(x) = ax³ [110] + bx² [108] + cx [103] + d [19]
+                        f(x) = ax³ [D10] + bx² [T3] + cx [I9] + d [19:12]
                     </div>
                     <div className="flex items-baseline gap-x-2">
                         <span className="text-gray-400 italic text-xs">f(x) =</span>
                         <div className="grid grid-cols-4 gap-x-2 sm:gap-x-4 text-center">
-                            <span className="text-red-400 font-bold text-[clamp(8px,2.5vw,12px)]">ax³ [110]</span>
-                            <span className="text-teal-400 font-bold text-[clamp(8px,2.5vw,12px)]">bx² [108]</span>
-                            <span className="text-amber-400 font-bold text-[clamp(8px,2.5vw,12px)]">cx [103]</span>
-                            <span className="text-cyan-400 font-bold text-[clamp(8px,2.5vw,11px)]">d [19]</span>
+                            <span className="text-red-400 font-bold text-[clamp(8px,2.5vw,12px)]">ax³ [D10]</span>
+                            <span className="text-teal-400 font-bold text-[clamp(8px,2.5vw,12px)]">bx² [T3]</span>
+                            <span className="text-amber-400 font-bold text-[clamp(8px,2.5vw,12px)]">cx [I9]</span>
+                            <span className="text-cyan-400 font-bold text-[clamp(8px,2.5vw,11px)]">d [19:12]</span>
 
-                            <span className="text-red-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Mountain]</span>
-                            <span className="text-teal-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Abundance]</span>
-                            <span className="text-amber-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Trial]</span>
-                            <span className="text-cyan-500 text-[7px] sm:text-[8px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight">[Rooh+Messenger]</span>
+                            <span className="text-red-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight" title="صبر w/ نسك">[صبر / Sacrifice]</span>
+                            <span className="text-teal-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight" title="95:8 Mold">[95:8 Mold]</span>
+                            <span className="text-amber-500 text-[8px] sm:text-[9px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight" title="Righteous Wave">[Purified Wave]</span>
+                            <span className="text-cyan-500 text-[7px] sm:text-[8px] uppercase tracking-tighter font-bold border-t border-gray-800/80 pt-1 mt-1 leading-tight" title="The Grip">[Zakariya Grip]</span>
                         </div>
                     </div>
                 </div>
@@ -1182,88 +1200,312 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                     <TorusFlow rotation={rotation} isPaused={!isSystemActive} onToggle={() => setIsSystemActive(!isSystemActive)} />
                 </div>
 
-                <div className="mt-4 p-5 bg-gray-950/40 border border-gray-800/60 rounded-xl space-y-7 shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-px bg-gradient-to-l from-cyan-500/10 to-transparent w-full h-px"></div>
+                <div className="mt-4 p-6 bg-gray-950/50 border border-gray-800/80 rounded-2xl space-y-8 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500/30 via-pink-500/30 to-amber-500/30"></div>
                     
+                    {/* Header: DCU MASTER EQUATION */}
                     <div className="space-y-4">
-                        <div className="w-full h-6 flex items-center">
-                            <svg viewBox="0 0 420 20" preserveAspectRatio="xMinYMid meet" className="w-full h-full">
-                                <text x="0" y="15" className="fill-gray-200 font-mono font-bold text-[16px] tracking-tight">
-                                    f(x) = ax³ [110] + bx² [108] + cx [103] + d [19]
-                                </text>
-                            </svg>
+                        <div className="flex flex-col gap-1">
+                            <span className="text-[10px] font-mono tracking-[0.25em] text-pink-500 uppercase font-semibold">The Reader's Breath</span>
+                            <h3 className="text-sm sm:text-base font-bold text-gray-100 tracking-wider font-mono flex items-center gap-2">
+                                <span>════</span> DCU MASTER EQUATION <span>════</span>
+                            </h3>
                         </div>
-                        <p className="text-xs sm:text-sm text-gray-400 leading-relaxed italic border-l-2 border-gray-800 pl-4">
-                            Yusuf (12) is the primary full-cycle example: one complete transformation cycle (dream → trial → clarity → return) repeated until final alignment is stable.
+
+                        {/* Large, beautiful equation display */}
+                        <div className="bg-black/40 border border-gray-800/50 p-4 rounded-xl flex flex-col items-center justify-center font-mono space-y-3 shadow-inner">
+                            <div className="text-[13px] sm:text-sm md:text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-amber-400 select-all leading-normal py-1 text-center w-full">
+                                <div className="tracking-wide">f(x) = ax³ [D10] + bx² [T3]</div>
+                                <div className="text-gray-600 font-medium text-[10px] my-0.5">+</div>
+                                <div className="tracking-wide">cx [I9] + d [19:12]</div>
+                            </div>
+                            
+                            {/* Variables List - vertical luxurious rows that never stack clumsily */}
+                            <div className="flex flex-col gap-2.5 w-full text-left pt-3 border-t border-gray-800/40 text-xs font-mono">
+                                {/* Term 1 */}
+                                <div className="flex flex-col p-3 rounded-lg bg-red-950/10 border border-red-500/10 hover:border-red-500/15 transition-all gap-1.5 duration-300">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></span>
+                                            <span className="text-red-400 font-bold">ax³ [D10]</span>
+                                        </div>
+                                        <span className="text-red-400/80 text-[10px] italic">d/dt descent</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
+                                        <span className="font-bold">صبر w/ نسك</span>
+                                        <span className="text-gray-600 font-sans text-[10px]">—</span>
+                                        <span className="text-gray-400 text-[10px] bg-red-900/10 px-1.5 py-0.5 rounded border border-red-500/5">[Patience / Sacrifice]</span>
+                                    </div>
+                                </div>
+                                
+                                {/* Term 2 */}
+                                <div className="flex flex-col p-3 rounded-lg bg-teal-950/10 border border-teal-500/10 hover:border-teal-500/15 transition-all gap-1.5 duration-300">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse"></span>
+                                            <span className="text-teal-400 font-bold">bx² [T3]</span>
+                                        </div>
+                                        <span className="text-teal-400/80 text-[10px] italic">the field that receives</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
+                                        <span className="font-bold">95:8 [The Mold]</span>
+                                        <span className="text-gray-600 font-sans text-[10px]">—</span>
+                                        <span className="text-gray-400 text-[10px] bg-teal-900/10 px-1.5 py-0.5 rounded border border-teal-500/5">[The Lowest Arc]</span>
+                                    </div>
+                                </div>
+
+                                {/* Term 3 */}
+                                <div className="flex flex-col p-3 rounded-lg bg-amber-950/10 border border-amber-500/10 hover:border-amber-500/15 transition-all gap-1.5 duration-300">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
+                                            <span className="text-amber-400 font-bold">cx [I9]</span>
+                                        </div>
+                                        <span className="text-amber-400/80 text-[10px] italic">∫dt return</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
+                                        <span className="font-bold">38:46 [Righteous]</span>
+                                        <span className="text-gray-600 font-sans text-[10px]">—</span>
+                                        <span className="text-gray-400 text-[10px] bg-amber-900/10 px-1.5 py-0.5 rounded border border-amber-500/5">[Purified Wave]</span>
+                                    </div>
+                                </div>
+
+                                {/* Term 4 */}
+                                <div className="flex flex-col p-3 rounded-lg bg-cyan-950/10 border border-cyan-500/10 hover:border-cyan-500/15 transition-all gap-1.5 duration-300">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse"></span>
+                                            <span className="text-cyan-400 font-bold">d [19:12]</span>
+                                        </div>
+                                        <span className="text-cyan-400/80 text-[10px] italic">centromere voltage</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
+                                        <span className="font-bold">The Grip</span>
+                                        <span className="text-gray-600 font-sans text-[10px]">—</span>
+                                        <span className="text-gray-400 text-[10px] bg-cyan-900/10 px-1.5 py-0.5 rounded border border-cyan-500/5">[Zakariya Silence]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Yusuf Description */}
+                        <div className="p-4 bg-cyan-950/15 border-l-2 border-cyan-500 rounded-r-xl">
+                            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed italic">
+                                <strong className="text-cyan-400 not-italic font-mono mr-1.5">[Yusuf (12)]</strong>
+                                is the primary full-cycle: one complete transformation cycle <span className="text-cyan-400 font-mono font-normal">(dream → trial → clarity → return)</span> repeated until the Reader remembers the Crown at <span className="text-pink-400 font-mono font-bold">39:23</span>.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* KUN & FAYA-KUN SECTIONS */}
+                    <div className="flex flex-col gap-6 pt-2">
+                        {/* ▼ KUN — THE DESCENT */}
+                        <div className="space-y-4 bg-black/20 p-4 border border-cyan-500/10 rounded-xl relative">
+                            <div className="absolute top-0 right-4 transform -translate-y-1/2 px-2 py-0.5 bg-cyan-950 text-cyan-400 font-mono text-[9px] font-bold border border-cyan-500/20 rounded">
+                                SYSTEM INLET
+                            </div>
+                            <h4 className="text-xs font-bold text-cyan-300 uppercase tracking-widest flex items-center gap-1.5 pb-2 border-b border-gray-800/40">
+                                <span>▼</span> <span>KUN — THE DESCENT [D10 d/dt]</span>
+                            </h4>
+                            <div className="space-y-4">
+                                <div className="space-y-1">
+                                    <div className="flex gap-2 items-baseline">
+                                        <span className="text-cyan-400 font-mono font-bold text-xs">3</span>
+                                        <span className="text-xs font-semibold text-gray-200">Entry (12:4):</span>
+                                        <span className="text-xs text-gray-300">The impulse enters. The Slave receives the dream.</span>
+                                    </div>
+                                    <div className="pl-4 text-[10px] font-mono text-cyan-400/80">
+                                        — The Fruit breaks open. 4:1 → 2:45.
+                                    </div>
+                                </div>
+                                <div className="space-y-1">
+                                    <div className="flex gap-2 items-baseline">
+                                        <span className="text-cyan-400 font-mono font-bold text-xs">6</span>
+                                        <span className="text-xs font-semibold text-gray-200">Pressure (12:8-35):</span>
+                                        <span className="text-xs text-gray-300">Well → House → Prison. The Mountain reshapes.</span>
+                                    </div>
+                                    <div className="pl-4 text-[10px] font-mono text-cyan-400/80">
+                                        — The Mold fires. 95:8. The Tree burns to purify.
+                                    </div>
+                                </div>
+                                <div className="space-y-1">
+                                    <div className="flex gap-2 items-baseline">
+                                        <span className="text-cyan-400 font-mono font-bold text-xs">9</span>
+                                        <span className="text-xs font-semibold text-gray-200">Peak (12:36-49):</span>
+                                        <span className="text-xs text-gray-300">Clarity. Hidden structures exposed.</span>
+                                    </div>
+                                    <div className="pl-4 text-[10px] font-mono text-cyan-400/80">
+                                        — The Righteous emerges from the trial. 2:25.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* ▲ FAYA-KUN — THE RETURN */}
+                        <div className="space-y-4 bg-black/20 p-4 border border-pink-500/10 rounded-xl relative">
+                            <div className="absolute top-0 right-4 transform -translate-y-1/2 px-2 py-0.5 bg-pink-950 text-pink-400 font-mono text-[9px] font-bold border border-pink-500/20 rounded">
+                                INTEGRATION OUTLET
+                            </div>
+                            <h4 className="text-xs font-bold text-pink-400 uppercase tracking-widest flex items-center gap-1.5 pb-2 border-b border-gray-800/40">
+                                <span>▲</span> <span>FAYA-KUN — THE RETURN [I9 ∫dt]</span>
+                            </h4>
+                            <div className="space-y-4">
+                                <div className="space-y-1">
+                                    <div className="flex gap-2 items-baseline">
+                                        <span className="text-pink-400 font-mono font-bold text-xs">9→6</span>
+                                        <span className="text-xs font-semibold text-gray-200">Governance (12:50-57):</span>
+                                        <span className="text-xs text-gray-300">The Queen interprets; the Book applies.</span>
+                                    </div>
+                                    <div className="pl-6 text-[10px] font-mono text-pink-400/80">
+                                        — 66:11 witnesses the fire. 27:44 receives the throne.
+                                    </div>
+                                </div>
+                                <div className="space-y-1">
+                                    <div className="flex gap-2 items-baseline">
+                                        <span className="text-pink-400 font-mono font-bold text-xs">6→3</span>
+                                        <span className="text-xs font-semibold text-gray-200">Stabilization (12:54-100):</span>
+                                        <span className="text-xs text-gray-300">Return to center; authority + reunion.</span>
+                                    </div>
+                                    <div className="pl-6 text-[10px] font-mono text-pink-400/80">
+                                        — The Orphan is found. 93:8. The circuit closes at 38:46.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* THE SWITCH */}
+                    <div className="p-4 bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/20 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(245,158,11,0.02)]">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-amber-500/10 mb-3">
+                            <span className="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono flex items-center gap-2">
+                                <span className="animate-pulse">●</span> THE SWITCH (6) — CRITICAL BOUNDARY
+                            </span>
+                            <span className="text-xs font-mono font-bold text-amber-500 bg-amber-500/10 px-2.5 py-0.5 rounded border border-amber-500/20 align-self-start sm:align-self-auto">
+                                12:23 / 12:33
+                            </span>
+                        </div>
+                        <p className="text-xs text-gray-300 leading-relaxed font-mono">
+                            Choose <span className="text-amber-400 font-bold">19:12 grip</span> over <span className="text-red-400 font-bold">20:120 taking</span>. Preserve system stability. The centromere voltage holds or the cell splits into <span className="text-red-400 font-bold">Taghut</span>. Patience + Sacrifice = the only path.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-8">
-                        <div className="space-y-4">
-                            <h4 className="text-[clamp(8px,2.5vw,11px)] font-bold text-cyan-400 uppercase tracking-widest flex items-start gap-1.5">
-                                <span className="text-sm leading-none shrink-0 mt-0.5">▼</span> <span>Qun — Inner Movement (Yusuf Trial)</span>
+                    {/* THREE ENGINES OF TRANSFORMATION */}
+                    <div className="space-y-4">
+                        <div className="flex flex-col gap-1">
+                            <span className="text-[10px] font-mono tracking-[0.25em] text-cyan-400 uppercase font-semibold">Transformative Core</span>
+                            <h4 className="text-xs font-bold text-cyan-300 font-mono tracking-widest uppercase">
+                                🕋 THREE ENGINES OF TRANSFORMATION
                             </h4>
-                            <ul className="space-y-3.5 text-[10px] sm:text-[11px] md:text-[12px] text-gray-300">
-                                <li className="flex gap-2 items-baseline">
-                                    <span className="text-cyan-500 font-bold shrink-0 font-mono text-[12px]">3</span>
-                                    <span className="leading-tight">Entry (12:4): Dream appears; signal enters as divine impulse.</span>
-                                </li>
-                                <li className="flex gap-2 items-baseline">
-                                    <span className="text-cyan-500 font-bold shrink-0 font-mono text-[12px]">6</span>
-                                    <span className="leading-tight">Pressure (12:8–35): Constraints (well, slavery, prison) reshape self.</span>
-                                </li>
-                                <li className="flex gap-2 items-baseline">
-                                    <span className="text-cyan-500 font-bold shrink-0 font-mono text-[12px]">9</span>
-                                    <span className="leading-tight">Peak (12:36–49): Clarity; hidden structures/meanings exposed.</span>
-                                </li>
-                            </ul>
                         </div>
-                        <div className="space-y-4">
-                            <h4 className="text-[clamp(8px,2.5vw,11px)] font-bold text-pink-500 uppercase tracking-widest flex items-start gap-1.5">
-                                <span className="text-sm leading-none shrink-0 mt-0.5">▲</span> <span>FayaQun — Return (Yusuf Authority)</span>
-                            </h4>
-                            <ul className="space-y-3.5 text-[10px] sm:text-[11px] md:text-[12px] text-gray-300">
-                                <li className="flex gap-2 items-baseline">
-                                    <span className="text-pink-500 font-bold shrink-0 font-mono text-[12px]">9→6</span>
-                                    <span className="leading-tight">Governance: Yusuf interprets and applies insight to reality.</span>
-                                </li>
-                                <li className="flex gap-2 items-baseline">
-                                    <span className="text-pink-500 font-bold shrink-0 font-mono text-[12px]">6→3</span>
-                                    <span className="leading-tight">Stabilization (12:54–100): Return to center; authority + reunion.</span>
-                                </li>
-                            </ul>
+                        
+                        <div className="flex flex-col gap-4">
+                            {/* RÖSSLER — THE CHRYSALIS */}
+                            <div className="p-4 bg-cyan-950/10 hover:bg-cyan-950/15 border border-cyan-500/10 rounded-xl space-y-2.5 transition-all duration-300 shadow-lg flex flex-col justify-between">
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[10px] font-bold text-cyan-400 font-mono uppercase tracking-wider">[RÖSSLER]</span>
+                                        <span className="text-xs">🐛</span>
+                                    </div>
+                                    <div className="text-xs font-bold text-gray-100 mt-1">THE CHRYSALIS</div>
+                                    <div className="text-[10px] font-mono text-cyan-500/80 mt-0.5 uppercase tracking-tighter">Internal Refinement</div>
+                                    <p className="text-[11px] text-gray-300 leading-relaxed mt-2">
+                                        Closed loops (Well → House → Prison). <span className="text-cyan-400 font-mono font-bold">D10 ↔ I9</span> yin-yang. Repeated trials refine the Slave toward purity.
+                                    </p>
+                                </div>
+                                <div className="text-[10px] font-mono text-cyan-400/90 pt-2 border-t border-cyan-500/10 mt-2 bg-cyan-950/30 px-2 py-1 rounded">
+                                    The inner law is written in fire.
+                                    <div className="text-[9px] text-cyan-300 font-bold mt-1 text-center">21:69 → 5:28 → 37:107</div>
+                                </div>
+                            </div>
+
+                            {/* LORENZ — PHOTOSYNTHESIS */}
+                            <div className="p-4 bg-pink-950/10 hover:bg-pink-950/15 border border-pink-500/10 rounded-xl space-y-2.5 transition-all duration-300 shadow-lg flex flex-col justify-between">
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[10px] font-bold text-pink-400 font-mono uppercase tracking-wider">[LORENZ]</span>
+                                        <span className="text-xs">🔆</span>
+                                    </div>
+                                    <div className="text-xs font-bold text-gray-100 mt-1">PHOTOSYNTHESIS</div>
+                                    <div className="text-[10px] font-mono text-pink-500/80 mt-0.5 uppercase tracking-tighter">Interactive Conversion</div>
+                                    <p className="text-[11px] text-gray-300 leading-relaxed mt-2">
+                                        Open system (King's Dream). <span className="text-pink-400 font-mono font-bold">T3</span> field receives external signal, transforms it, produces structured reality.
+                                    </p>
+                                </div>
+                                <div className="text-[10px] font-mono text-pink-400/90 pt-2 border-t border-pink-500/10 mt-2 bg-pink-950/30 px-2 py-1 rounded">
+                                    24:35 Light upon Light.
+                                    <div className="text-[9px] text-pink-300 font-bold mt-1 text-center">The Tree becomes the Oil.</div>
+                                </div>
+                            </div>
+
+                            {/* STABILIZED CORE — THE NARRATIVE ANCHOR */}
+                            <div className="p-4 bg-amber-950/10 hover:bg-amber-950/15 border border-amber-500/10 rounded-xl space-y-2.5 transition-all duration-300 shadow-lg flex flex-col justify-between">
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[10px] font-bold text-amber-400 font-mono uppercase tracking-wider">[STABILIZED CORE]</span>
+                                        <span className="text-xs">⚓</span>
+                                    </div>
+                                    <div className="text-xs font-bold text-gray-100 mt-1">THE NARRATIVE ANCHOR</div>
+                                    <div className="text-[10px] font-mono text-amber-500/80 mt-0.5 uppercase tracking-tighter">One Full Execution</div>
+                                    <p className="text-[11px] text-gray-300 leading-relaxed mt-2">
+                                        Fruit → Slave → Mountain → Righteous → Book → Queen → Orphan → Throne.
+                                    </p>
+                                </div>
+                                <div className="text-[10px] font-mono text-amber-400/90 pt-2 border-t border-amber-500/10 mt-2 bg-amber-950/30 px-2 py-1 rounded">
+                                    Insight becomes the baseline state.
+                                    <div className="text-[9px] text-amber-300 font-bold mt-1 text-center">The Reader remembers they are King.</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="space-y-5 pt-2">
-                        <div className="flex items-center gap-4 bg-black/20 p-3 rounded-lg border border-gray-800/40">
-                             <div className="px-2.5 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded text-[10px] font-bold text-amber-500 uppercase tracking-tighter shrink-0">The Switch (6)</div>
-                             <p className="text-[11px] sm:text-xs text-gray-400 italic">Critical boundary (12:23, 12:33): Choose alignment over reacting to preserve system stability.</p>
+                    {/* THE NARRATIVE ENGINE */}
+                    <div className="pt-6 border-t border-gray-800/80 space-y-5">
+                        <div className="flex flex-col gap-1">
+                            <span className="text-[10px] font-mono tracking-[0.25em] text-pink-500 uppercase font-semibold">Consolidated Force</span>
+                            <h4 className="text-xs font-bold text-gray-200 font-mono tracking-widest uppercase flex items-center gap-2">
+                                ⚙️ THE NARRATIVE ENGINE
+                            </h4>
                         </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <div className="p-4 bg-cyan-950/5 rounded-lg border border-cyan-900/20">
-                                <div className="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-tighter">Rössler (Chrysalis)</div>
-                                <div className="text-[12px] text-cyan-300 font-bold mb-1.5">Internal Refinement</div>
-                                <p className="text-[10px] text-gray-400 leading-normal">Closed loops (Well → House → Prison). Repeated trials refine the inner self toward purity.</p>
-                            </div>
-                            <div className="p-4 bg-pink-950/5 rounded-lg border border-pink-900/20">
-                                <div className="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-tighter">Lorenz (Photosynthesis)</div>
-                                <div className="text-[12px] text-pink-300 font-bold mb-1.5">Interactive Conversion</div>
-                                <p className="text-[10px] text-gray-400 leading-normal">Open system (King's Dream). External signal → transformation → structured real-world output.</p>
-                            </div>
-                            <div className="p-4 bg-gray-900/20 rounded-lg border border-gray-700/20">
-                                <div className="text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-tighter">Stabilized Core</div>
-                                <div className="text-[12px] text-gray-100 font-bold mb-1.5">Narrative Anchor</div>
-                                <p className="text-[10px] text-gray-400 leading-normal">One full execution: dream → trial → clarity → return. Insight becomes the new baseline lived state.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="pt-4 border-t border-gray-800/40">
-                        <p className="text-[11px] sm:text-xs text-gray-400 leading-relaxed">
-                            <span className="text-gray-200 font-bold">The Narrative Engine:</span> Internal constraints (Rössler) refine the self until external responsibility (Lorenz) produces structured reality—aligning the inner law with the outer kingdom.
+                        
+                        <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                            Internal constraints (<span className="text-cyan-400 italic">Rössler</span>) refine the Self until external responsibility (<span className="text-pink-400 italic">Lorenz</span>) produces structured reality — aligning the inner law (<span className="text-cyan-400 font-mono">D10</span>) with the outer Kingdom (<span className="text-pink-400 font-mono">7</span>).
                         </p>
+
+                        {/* Visually stunning formula block */}
+                        <div className="bg-black/65 border border-gray-800 p-4 rounded-xl space-y-4 shadow-xl">
+                            <div className="flex flex-col items-center justify-center gap-y-3 font-mono text-[10px] sm:text-xs">
+                                {/* Descent Row */}
+                                <div className="flex flex-wrap items-center justify-center gap-2">
+                                    <span className="px-2 py-1 bg-gray-900 border border-gray-800 rounded font-bold text-gray-400 whitespace-nowrap">1 [Fruit]</span>
+                                    <span className="text-emerald-500 font-bold">→</span>
+                                    <span className="px-2 py-1 bg-red-950/30 border border-red-500/20 rounded font-bold text-red-400 whitespace-nowrap">2 [D10: صبر w/ نسك]</span>
+                                    <span className="text-amber-500 font-bold">↔</span>
+                                    <span className="px-2 py-1 bg-teal-950/30 border border-teal-500/20 rounded font-bold text-teal-400 whitespace-nowrap">3 [T3: 95:8]</span>
+                                </div>
+                                
+                                {/* Coupling Connector */}
+                                <div className="text-amber-500 font-bold text-[10px] animate-pulse">⇅ COUPLING</div>
+                                
+                                {/* Return Row */}
+                                <div className="flex flex-wrap items-center justify-center gap-2">
+                                    <span className="px-2 py-1 bg-amber-950/30 border border-amber-500/20 rounded font-bold text-amber-400 whitespace-nowrap">2 [I9: 38:46]</span>
+                                    <span className="text-emerald-500 font-bold">→</span>
+                                    <span className="px-2 py-1 bg-pink-950/30 border border-pink-500/20 rounded font-bold text-pink-400 whitespace-nowrap">7 [Kingdom: 56:7]</span>
+                                    <span className="text-rose-500 font-bold">←</span>
+                                    <span className="px-2 py-1 bg-purple-950/30 border border-purple-500/20 rounded font-bold text-purple-400 whitespace-nowrap">1 [Throne: 28:88]</span>
+                                </div>
+                            </div>
+
+                            {/* Poetic concluding message */}
+                            <div className="text-center pt-2 border-t border-gray-800/40">
+                                <div className="text-xs sm:text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-amber-300 inline-block font-sans">
+                                    The Soil burns. The Tree rises. The Light is revealed.
+                                </div>
+                                <div className="text-[10px] sm:text-xs font-mono font-bold text-gray-400 tracking-[0.2em] uppercase mt-2">
+                                    SEED → RUPTURE → SEARCH → TRUNK → BRANCHING → HARVEST → LIGHT <span className="text-pink-400">(24:35)</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

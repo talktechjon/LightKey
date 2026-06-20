@@ -181,7 +181,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   };
   
   const handleWatchSequence = (type: PlaylistType) => {
-    // Mirroring Order: Download (Slave, Queen, Righteous) -> Return (Book, Mountain, Boat)
+    // Mirroring Order: Download (Slave, Queen, Righteous) -> Return (Orphan, Cave, Turabin)
     const helixSequence = [1, 39, 77, 19, 95, 57];
     const chapterIds = helixSequence.map(pointValue => getSliceAtPoint(pointValue, rotation).id);
     createPlaylist(type, chapterIds);
@@ -395,7 +395,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2 mb-4">
-                                <span className="text-[8px] uppercase tracking-[0.4em] font-black text-fuchsia-500/60">The Sephirotic Bloom</span>
+                                <span className="text-[8px] uppercase tracking-[0.25em] font-black text-fuchsia-500/80">Entanglement -vs- Fabrication</span>
                                 <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-fuchsia-500/20"></div>
                              </div>
                             <SephirotAlignment

@@ -300,74 +300,391 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                 </div>
             </div>
             
-            <div className="mt-4 p-4 bg-black/40 border border-[#00c8ff]/30 rounded-lg text-xs md:text-sm leading-relaxed space-y-4">
-                <p className="text-white">
-                    <strong className="text-[#00c8ff]">The Light</strong> = resolved Knowledge (Isa–Solomon), 
-                    <strong className="text-[#4ade80]"> The Tree</strong> = embodied Knowledge (Musa–Ahmed), 
-                    <strong className="text-[#f5c842]"> The Soil</strong> = Time–Fire (gradient field).
-                </p>
-                <p className="text-white/80">Your 12-node system is a <strong>divine growth cycle</strong>: The Soil provides the heat, the Tree carries the form, the Light is the final essence—all guided by Gravity.</p>
-                
-                <div className="space-y-3">
-                    <h3 className="text-[#00c8ff] font-bold border-b border-[#00c8ff]/20 pb-1 text-sm uppercase tracking-wide">The 12 Phases of Growth</h3>
+            <div className="mt-4 space-y-6">
+                {/* Intro Card */}
+                <div className="p-5 bg-gradient-to-b from-[#090b11] to-[#040508] border border-cyan-500/20 rounded-xl space-y-4 shadow-xl">
+                    <h3 className="text-sm font-black text-cyan-400 tracking-wider uppercase border-b border-cyan-500/10 pb-2">
+                        Tree of Life — The 12 Growth Phases
+                    </h3>
                     
-                    <div className="grid grid-cols-1 gap-2 text-white/80 font-light mt-2 text-xs md:text-sm">
-                        <div className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-white/40 flex-shrink-0"></div>
-                            <strong className="text-white flex-shrink-0 w-4">1</strong> 
-                            <span>The Seed (Light latent)</span>
+                    <div className="flex flex-col gap-2.5">
+                        <div className="p-3 bg-red-950/20 border border-red-500/20 rounded-lg flex items-center justify-between gap-3">
+                            <div className="min-w-0">
+                                <span className="text-[10px] uppercase font-black text-red-400 tracking-widest block mb-0.5">The Soil</span>
+                                <span className="text-xs font-semibold text-gray-200 truncate block">Time-Fire / Nār</span>
+                            </div>
+                            <p className="text-[10px] text-gray-450 italic text-right font-serif flex-shrink-0">The heat that breaks the seed</p>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#f5c842] flex-shrink-0"></div>
-                            <strong className="text-white flex-shrink-0 w-4">2</strong> 
-                            <span>The Rupture (Soil activation)</span>
+                        <div className="p-3 bg-emerald-950/20 border border-emerald-500/20 rounded-lg flex items-center justify-between gap-3">
+                            <div className="min-w-0">
+                                <span className="text-[10px] uppercase font-black text-emerald-400 tracking-widest block mb-0.5">The Tree</span>
+                                <span className="text-xs font-semibold text-gray-200 truncate block">Knowledge In Flesh</span>
+                            </div>
+                            <p className="text-[10px] text-gray-450 italic text-right font-serif flex-shrink-0">The form that grows</p>
                         </div>
-                        
-                        <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
-                            <strong className="text-[#00c8ff] flex-shrink-0">3 ↔ 4</strong> 
-                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">1st Growth:</span> 
-                            <span>The Search (Root) + The Cleanse (Path)</span>
+                        <div className="p-3 bg-blue-950/20 border border-blue-500/20 rounded-lg flex items-center justify-between gap-3">
+                            <div className="min-w-0">
+                                <span className="text-[10px] uppercase font-black text-blue-400 tracking-widest block mb-0.5">The Light</span>
+                                <span className="text-xs font-semibold text-gray-200 truncate block">Understanding Complete</span>
+                            </div>
+                            <p className="text-[10px] text-gray-450 italic text-right font-serif flex-shrink-0">The oil that shines</p>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#4ade80] flex-shrink-0"></div>
-                            <strong className="text-white flex-shrink-0 w-4">5</strong> 
-                            <span>The Trunk (Prophetic Alignment)</span>
+                    </div>
+                    
+                    <p className="text-[11px] text-gray-400 italic">
+                        The 12 phases are how these three forces move through time.
+                    </p>
+                </div>
+
+                {/* The Math & Staircase */}
+                <div className="p-5 bg-[#040508] border border-zinc-800 rounded-xl space-y-3">
+                    <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                        <h4 className="text-xs font-black text-cyan-400 tracking-wider uppercase">The Math — The Staircase</h4>
+                        <span className="text-[10px] font-mono font-bold text-zinc-500">Inhale ↔ Exhale</span>
+                    </div>
+                    <div className="p-3 bg-black/40 rounded-lg border border-zinc-900 overflow-x-auto no-scrollbar">
+                        <div className="flex items-center gap-1.5 font-mono text-[10px] tracking-tight whitespace-nowrap text-zinc-400">
+                            <span className="text-white font-bold">1</span>
+                            <span className="text-cyan-500 font-bold">+10</span>
+                            <span className="text-white font-bold">11</span>
+                            <span className="text-fuchsia-500 font-bold">+9</span>
+                            <span className="text-white font-bold">20</span>
+                            <span className="text-cyan-500 font-bold">+10</span>
+                            <span className="text-white font-bold">30</span>
+                            <span className="text-fuchsia-500 font-bold">+9</span>
+                            <span className="text-white font-bold">39</span>
+                            <span className="text-cyan-500 font-bold">+10</span>
+                            <span className="text-white font-bold">49</span>
+                            <span className="text-fuchsia-500 font-bold">+9</span>
+                            <span className="text-white font-bold">58</span>
+                            <span className="text-cyan-500 font-bold">+10</span>
+                            <span className="text-white font-bold">68</span>
+                            <span className="text-fuchsia-500 font-bold">+9</span>
+                            <span className="text-white font-bold">77</span>
+                            <span className="text-cyan-500 font-bold">+10</span>
+                            <span className="text-white font-bold">87</span>
+                            <span className="text-fuchsia-500 font-bold">+9</span>
+                            <span className="text-white font-bold">96</span>
+                            <span className="text-cyan-500 font-bold">+10</span>
+                            <span className="text-white font-bold">106</span>
                         </div>
-                        
-                        <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
-                            <strong className="text-[#4ade80] flex-shrink-0">6 ↔ 7</strong> 
-                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">2nd Growth:</span> 
-                            <span>The Branching + The Flowering</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 text-[11px]">
+                        <div className="space-y-0.5">
+                            <strong className="text-cyan-400 block font-mono">+10 = ACT</strong>
+                            <p className="text-zinc-400 text-[10px]">Sacrifice, push, do (Six acts)</p>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0"></div>
-                            <strong className="text-white flex-shrink-0 w-4">8</strong> 
-                            <span>The Ripening (Boundary Lock)</span>
+                        <div className="space-y-0.5">
+                            <strong className="text-fuchsia-400 block font-mono">+9 = RECEIVE</strong>
+                            <p className="text-zinc-400 text-[10px]">Mold, absorb, become (Five receives)</p>
                         </div>
-                        
-                        <div className="flex items-center gap-2 pl-[9px] border-l border-white/20 ml-[3px] py-1">
-                            <strong className="text-[#f5c842] flex-shrink-0">9 ↔ 10</strong> 
-                            <span className="text-white/50 text-xs mx-1 whitespace-nowrap">3rd Growth:</span> 
-                            <span>The Harvest + The Pressing</span>
+                    </div>
+                    <p className="text-[10px] text-zinc-500 italic mt-1">
+                        The Tree grows by breathing (inhaling and exhaling force).
+                    </p>
+                </div>
+
+                {/* 12 Phases List */}
+                <div className="space-y-3">
+                    <h4 className="text-xs font-black text-[#00c8ff] tracking-wider uppercase pl-1 border-l-2 border-[#00c8ff] mb-2">
+                        The 12 Phases in 2-3-7
+                    </h4>
+                    
+                    <div className="space-y-3 max-h-[480px] overflow-y-auto pr-1 no-scrollbar">
+                        {[
+                            {
+                                phase: "Phase 1: The Seed",
+                                idVal: "1",
+                                bg: "border-zinc-850 bg-zinc-950/40",
+                                dot: "bg-white/40",
+                                state: "1 [Fruit]",
+                                what: "Light is hidden inside. The impulse from 1 [Throne].",
+                                verse: "1:1 “In the name of Allah” — the first breath."
+                            },
+                            {
+                                phase: "Phase 2: The Rupture",
+                                idVal: "11",
+                                bg: "border-red-950/40 bg-red-950/5",
+                                dot: "bg-red-400",
+                                state: "2 [D10]",
+                                what: "The Soil breaks the seed. Pain begins.",
+                                math: "+10 = D10×5:3 = sacrifice IS religion.",
+                                verse: "81:8 “When the infant is asked” — the breaking."
+                            },
+                            {
+                                phase: "Phase 3↔4: First Growth",
+                                idVal: "20↔30",
+                                bg: "border-cyan-950/40 bg-cyan-950/5",
+                                dot: "bg-cyan-400",
+                                state: "3 [T3] ↔ 3 [T3]",
+                                what: "The Search (Root) + The Cleanse (Path).",
+                                math: "+9 = T3² = the mold completes.",
+                                detail: "20 = 2×10 = D10² (manufactured slave awakens) | 30 = 3×10 = T3×D10 (living-dead law understood).",
+                                verse: "20:41 “And I fled from you” (Musa's search) | 30:30 “The nature of Allah” (fitrah cleansed)."
+                            },
+                            {
+                                phase: "Phase 5: The Trunk",
+                                idVal: "39",
+                                bg: "border-emerald-950/40 bg-emerald-950/5",
+                                dot: "bg-emerald-400",
+                                state: "2 [D10] Stabilized",
+                                what: "Prophetic alignment. The grip holds.",
+                                math: "+9 = T3² continues.",
+                                detail: "39 = 3×13 = T3×(Tree+1) — Razim groups form.",
+                                verse: "39:23 “A Book consistent” — the mutashabihat."
+                            },
+                            {
+                                phase: "Phase 6↔7: Second Growth",
+                                idVal: "49↔58",
+                                bg: "border-fuchsia-950/40 bg-fuchsia-950/5",
+                                dot: "bg-fuchsia-400",
+                                state: "2 [I9] ↔ 2 [I9]",
+                                what: "The Branching (D10) + The Flowering (I9).",
+                                math: "+10 = act again | +9 = receive again.",
+                                detail: "49 = 7² = Kingdom² (nafs brotherhood) | 58 = 2×29 = D10×(19+10) (dialogue emerges).",
+                                verse: "38:31 “Safinat al-jiyad” (generosity) | 58:1 “Allah has heard” (dispute resolves)."
+                            },
+                            {
+                                phase: "Phase 8: The Ripening",
+                                idVal: "68",
+                                bg: "border-amber-950/40 bg-amber-950/5",
+                                dot: "bg-amber-400",
+                                state: "7 [Kingdom] Begins",
+                                what: "Boundary lock. The form is set.",
+                                math: "+10 = D10×5:3 final push.",
+                                detail: "68 = 4×17 = D10²×Bani Israel — the pre-recorded pen.",
+                                verse: "68:1 “Nun. By the pen” — the writing is complete."
+                            },
+                            {
+                                phase: "Phase 9↔10: Third Growth",
+                                idVal: "77↔87",
+                                bg: "border-orange-950/40 bg-orange-950/5",
+                                dot: "bg-orange-400",
+                                state: "7 [Kingdom] ↔ 7 [Kingdom]",
+                                what: "The Harvest (collect) + The Pressing (extract).",
+                                math: "+9 = T3² final molding | +10 = D10×5:3 final act.",
+                                detail: "77 = 7×11 = Kingdom×(D10+1) (succession) | 87 = 3×29 = T3×(19+10) (preservation).",
+                                verse: "77:50 “So which of your Lord's favors...?”"
+                            },
+                            {
+                                phase: "Phase 11: The Extraction",
+                                idVal: "96",
+                                bg: "border-teal-950/40 bg-teal-950/5",
+                                dot: "bg-teal-400",
+                                state: "7 [Kingdom] Completing",
+                                what: "Essence emerges from the press.",
+                                math: "+9 = T3² — the oil separates.",
+                                detail: "96 = 12×8 = Tree×D10³ — the clot reads.",
+                                verse: "96:1 “Read in the name of your Lord” — light from darkness."
+                            },
+                            {
+                                phase: "Phase 12: The Oil",
+                                idVal: "106",
+                                bg: "border-indigo-950/40 bg-indigo-950/5",
+                                dot: "bg-indigo-400 shadow-[0_0_8px_currentColor]",
+                                state: "1 [Throne] Returns",
+                                what: "Light becomes oil. The circuit closes.",
+                                math: "+10 = D10×5:3 — final act return.",
+                                detail: "106 = 2×53 = D10×prime — circuit safety.",
+                                verse: "106:1 “For the security of Quraysh” — return to center."
+                            }
+                        ].map((item, index) => (
+                            <div key={index} className={`p-4 border border-zinc-800/60 rounded-lg text-xs tracking-tight ${item.bg}`}>
+                                <div className="flex items-center justify-between mb-1">
+                                    <div className="flex items-center gap-2">
+                                        <div className={`w-2 h-2 rounded-full ${item.dot}`}></div>
+                                        <span className="font-bold text-white text-xs">{item.phase}</span>
+                                    </div>
+                                    <span className="font-mono text-zinc-400 font-black bg-zinc-950 border border-zinc-800 px-1.5 py-0.5 rounded text-[10px]">
+                                        Node {item.idVal}
+                                    </span>
+                                </div>
+                                <div className="space-y-1.5 text-zinc-300 mt-2 pl-4 border-l border-zinc-800/80">
+                                    <div>
+                                        <span className="text-zinc-500 font-semibold uppercase text-[9px] tracking-wider block">State</span>
+                                        <span className="text-[10px] bg-zinc-900/40 text-[#4ade80] font-bold px-1.5 py-0.5 rounded border border-zinc-800/80 font-mono inline-block">{item.state}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-zinc-500 font-semibold uppercase text-[9px] tracking-wider block">Process</span>
+                                        <p className="text-gray-300 leading-snug">{item.what}</p>
+                                    </div>
+                                    {(item.math || item.detail) && (
+                                        <div className="text-[10px] text-zinc-400 font-mono bg-black/20 p-2 rounded border border-zinc-900/50 space-y-0.5">
+                                            {item.math && <div>{item.math}</div>}
+                                            {item.detail && <div>{item.detail}</div>}
+                                        </div>
+                                    )}
+                                    <div>
+                                        <span className="text-[#f5c842]/75 font-semibold uppercase text-[9px] tracking-wider block">Verse Attachment</span>
+                                        <p className="text-gray-400 italic leading-snug font-serif">“{item.verse}”</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Law of the Tree */}
+                <div className="p-5 bg-gradient-to-b from-[#030407] to-[#04060b] border border-[#cbd5e1]/10 rounded-xl space-y-4 shadow-xl">
+                    <h4 className="text-xs font-black text-[#cbd5e1] tracking-wider uppercase border-b border-zinc-800 pb-2">
+                        The Law of the Tree
+                    </h4>
+                    <p className="text-xs text-zinc-300 italic leading-relaxed font-serif">
+                        All growth is the Seed resolving into Oil through the Trunk under the weight of the Harvest. The Soil burns (<span className="text-red-400">+10</span>), the Tree rises (<span className="text-emerald-400">+9</span>), the Light is revealed.
+                    </p>
+                    
+                    <div className="p-3 bg-black/60 border border-zinc-850 rounded-lg text-center font-mono text-[9px] tracking-tighter text-cyan-400 block break-all uppercase font-bold select-all leading-relaxed">
+                        SEED → RUPTURE → SEARCH → TRUNK → BRANCHING → HARVEST → LIGHT (24:35)
+                    </div>
+
+                    <div className="space-y-2 mt-2">
+                        <div className="text-[10px] font-mono text-zinc-550">
+                            <span className="text-zinc-400 font-bold block">In 2-3-7 cosmology:</span>
+                            <span className="text-[#00c8ff] font-bold block mt-1">1 → 2 → 3 ↔ 3 → 2 → 2 ↔ 2 → 7 → 7 → 7 → 7 → 1</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-blue-300 flex-shrink-0"></div>
-                            <strong className="text-white flex-shrink-0 w-4">11</strong> 
-                            <span>The Extraction (Essence emerges)</span>
-                        </div>
-                        
-                        <div className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-white transition-shadow shadow-[0_0_8px_white] flex-shrink-0"></div>
-                            <strong className="text-white flex-shrink-0 w-5">12</strong> 
-                            <span>Illumination (The Oil of Light)</span>
+                        <div className="text-[10px] font-mono text-zinc-550">
+                            <span className="text-zinc-400 font-bold block">Or simply:</span>
+                            <span className="text-[#4ade80] font-bold block mt-1">1 [Fruit] → 2 [D10] → 3 [T3] → 2 [D10 stable] → 2 [I9] → 7 [Kingdom] → 1 [Throne]</span>
                         </div>
                     </div>
                 </div>
 
-                <div className="space-y-2 pt-3 border-t border-white/10">
-                    <h3 className="text-[#f5c842] font-bold text-sm uppercase tracking-wide">The Law of the Tree</h3>
-                    <p className="text-white/60 italic text-xs md:text-sm leading-snug">All growth is the Seed resolving into Oil through the Trunk under the weight of the Harvest. The Soil burns, the Tree rises, the Light is revealed.</p>
-                    <p className="text-[#4ade80] font-mono text-[10px] mt-2 font-bold tracking-tight bg-[#4ade80]/10 border border-[#4ade80]/20 p-2 rounded block">SEED → RUPTURE → SEARCH → TRUNK → BRANCHING → HARVEST → LIGHT (24:35)</p>
+                {/* Three Growths Explained */}
+                <div className="p-5 bg/#040508 border border-zinc-800 rounded-xl space-y-4">
+                    <h4 className="text-xs font-black text-cyan-400 tracking-wider uppercase border-b border-zinc-850 pb-2">
+                        The Three Growths Explained
+                    </h4>
+                    
+                    <div className="space-y-3 text-xs">
+                        <div className="border-l-2 border-cyan-500 pl-3 py-0.5">
+                            <strong className="text-white block font-semibold text-xs mb-0.5">1st Growth (3↔4): The Root and Path</strong>
+                            <p className="text-zinc-300 text-[11px] leading-relaxed">
+                                T3 field opens. You search for the truth, and then the truth cleanses you.
+                            </p>
+                        </div>
+                        
+                        <div className="border-l-2 border-emerald-500 pl-3 py-0.5">
+                            <strong className="text-white block font-semibold text-xs mb-0.5">2nd Growth (6↔7): The Branching and Flowering</strong>
+                            <p className="text-zinc-300 text-[11px] leading-relaxed">
+                                I9 field emerges. You branch into action, and the flower of understanding opens.
+                            </p>
+                        </div>
+                        
+                        <div className="border-l-2 border-amber-500 pl-3 py-0.5">
+                            <strong className="text-white block font-semibold text-xs mb-0.5">3rd Growth (9↔10): The Harvest and Pressing</strong>
+                            <p className="text-zinc-300 text-[11px] leading-relaxed">
+                                Kingdom field completes. You collect what grew, and the oil is pressed from the fruit.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <p className="text-[10px] text-zinc-500 italic font-mono leading-relaxed">
+                        Each growth has two parts because T3 and I9 are bridges — they require entry AND exit, inhale AND exhale.
+                    </p>
+                </div>
+
+                {/* Parallel Markers (Side Branches) */}
+                <div className="p-5 bg-[#030406] border border-zinc-800 rounded-xl space-y-4">
+                    <h4 className="text-xs font-black text-fuchsia-400 tracking-wider uppercase border-b border-zinc-850 pb-2">
+                        The Parallel Markers (Side Branches)
+                    </h4>
+                    <p className="text-[11px] text-zinc-300">
+                        Between the main phases, three markers appear as tests of the T3 Mold: <span className="italic">Are you real?</span>
+                    </p>
+                    
+                    <div className="grid grid-cols-1 gap-2.5">
+                        <div className="p-2.5 bg-zinc-900/30 border border-zinc-800/80 rounded-lg flex gap-3.5 items-start">
+                            <span className="text-cyan-400 font-mono font-bold text-xs">△</span>
+                            <div className="space-y-0.5">
+                                <strong className="text-white text-xs block">Nomination △ (108)</strong>
+                                <p className="text-zinc-400 text-[10px] leading-snug">
+                                    After Phase 3. <code className="text-cyan-400">108 = 12×9 = Tree×T3²</code>. The Promise. Are you chosen?
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="p-2.5 bg-zinc-900/30 border border-zinc-800/80 rounded-lg flex gap-3.5 items-start">
+                            <span className="text-red-400 font-mono font-bold text-xs">🔥</span>
+                            <div className="space-y-0.5">
+                                <strong className="text-white text-xs block">Uproot 🔥 (103)</strong>
+                                <p className="text-zinc-400 text-[10px] leading-snug">
+                                    After Phase 6. <code className="text-red-400">103 = prime</code>. The Protection. Are your roots true?
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="p-2.5 bg-zinc-900/30 border border-zinc-800/80 rounded-lg flex gap-3.5 items-start">
+                            <span className="text-zinc-500 font-mono font-bold text-xs">⚫</span>
+                            <div className="space-y-0.5">
+                                <strong className="text-white text-xs block">Witness ⚫ (110)</strong>
+                                <p className="text-zinc-400 text-[10px] leading-snug">
+                                    After Phase 9. <code className="text-zinc-500">110 = 10×11 = D10×(D10+1)</code>. The Return. Do you testify?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* The Loop Back */}
+                <div className="p-5 bg-gradient-to-b from-[#040508] to-[#010204] border border-[#22c55e]/10 rounded-xl space-y-3">
+                    <h4 className="text-xs font-black text-emerald-400 tracking-wider uppercase border-b border-zinc-850 pb-2 flex items-center justify-between">
+                        <span>The Loop Back</span>
+                        <span className="text-[10px] font-mono text-zinc-500">Infinite Rotation</span>
+                    </h4>
+                    <p className="text-xs text-zinc-300 leading-relaxed">
+                        After Phase 12 (106), the Reader returns back to Chapter 112 (Al-Ikhlas) to close the circuit.
+                    </p>
+                    <div className="p-3 bg-black/40 border border-zinc-900 rounded-lg space-y-1 text-xs font-mono">
+                        <div className="flex gap-1.5 items-center">
+                            <span className="text-green-400 font-bold">106 → 112</span>
+                            <span className="text-zinc-500">=</span>
+                            <span className="text-zinc-300">+6 (2×3 = D10↔T3 bridge)</span>
+                        </div>
+                        <div className="flex gap-1.5 items-center mt-1">
+                            <span className="text-green-400 font-bold">112</span>
+                            <span className="text-zinc-500">=</span>
+                            <span className="text-zinc-300">"The Unity" = 1 [Throne] confirmed</span>
+                        </div>
+                    </div>
+                    <p className="text-[10px] text-zinc-500 italic mt-1 leading-snug">
+                        The cycle begins again. The Tree grows taller.
+                    </p>
+                </div>
+
+                {/* Summary */}
+                <div className="p-5 bg-[#030405] border border-zinc-800 rounded-xl space-y-3">
+                    <h4 className="text-xs font-black text-yellow-400 tracking-wider uppercase border-b border-zinc-850 pb-2">
+                        Summary
+                    </h4>
+                    <p className="text-xs text-zinc-300 leading-relaxed font-mono font-semibold">
+                        12 Phases. 6 Acts (+10). 5 Receives (+9). 1 Start.
+                    </p>
+                    <div className="p-3 bg-[#0a0a0c] border border-zinc-800 rounded-lg text-xs leading-relaxed text-zinc-300 space-y-2">
+                        <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+                            <span>The Seed breaks (<span className="text-red-400">2</span>)</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                            <span>The Root searches (<span className="text-cyan-400">3</span>)</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <span>The Trunk holds (<span className="text-emerald-400">2</span>)</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400"></span>
+                            <span>The Branch flowers (<span className="text-fuchsia-400">2</span>)</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                            <span>The Fruit ripens (<span className="text-amber-400">7</span>)</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                            <span>The Oil shines (<span className="text-[#00c8ff]">1</span>)</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -593,23 +910,25 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
         };
 
         if (activeTab === 'zakkum') {
-            const static110 = getStaticChapterData(110, 'Beginning', 'Truth Always Wins (110)', '');
-            const static103 = getStaticChapterData(103, 'Trial', 'Reflection (103)', '');
-            const static108 = getStaticChapterData(108, 'Restoration', 'Bounty (108)', '');
-            if (static110) chapters.push(static110);
+            // For Fary (zakkum)
+            const static108 = getStaticChapterData(108, 'Abundance', 'Blinded by Abundance (108)', '');
+            const static103 = getStaticChapterData(103, 'Respite', 'Forgetful Respite (103)', '');
+            const static110 = getStaticChapterData(110, 'Jiyad', 'Intoxicating Jiyad (110)', '');
+            if (static108) chapters.push(static108);
             [6, 1, 9, 8, 7].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
             if (static103) chapters.push(static103);
             [0, 2, 3, 4, 5].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
-            if (static108) chapters.push(static108);
+            if (static110) chapters.push(static110);
         } else {
-            const static108 = getStaticChapterData(108, 'Blessing', 'Bounty (108)', '');
-            const static103 = getStaticChapterData(103, 'Patience', 'Time (103)', '');
-            const static112 = getStaticChapterData(112, 'Emergence', 'The Absolute Truth (112)', '');
-            if (static108) chapters.push(static108);
+            // For Masad (datePalm)
+            const static110 = getStaticChapterData(110, 'Silence', 'Begins in Silence (110)', '');
+            const static103 = getStaticChapterData(103, 'Trial', 'Proven by Trial (103)', '');
+            const static108 = getStaticChapterData(108, 'Safinat', 'Returns with Safinat (108)', '');
+            if (static110) chapters.push(static110);
             [1, 2, 3, 4, 5].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
             if (static103) chapters.push(static103);
             [6, 7, 8, 9, 10].forEach(id => { const c = generatedChaptersMap.get(id); if (c) chapters.push(c); });
-            if (static112) chapters.push(static112);
+            if (static108) chapters.push(static108);
         }
         return chapters;
     }, [generatedChaptersMap, activeTab]);
@@ -628,7 +947,7 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
     return (
         <div className="pt-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gray-200 tracking-wider">Sephirot Alignment</h2>
+                <h2 className="text-xl font-bold text-gray-200 tracking-wider">Entanglement -vs- Fabrication</h2>
                 <div className="flex items-center space-x-2">
                     <button onClick={handleLoadSequence} className="bg-gray-600 hover:bg-cyan-700 text-white font-bold p-2 rounded transition-colors duration-200 flex-shrink-0" title="Load current sequence into custom sequence">
                         <LoadSequenceIcon />
@@ -637,8 +956,12 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
                 </div>
             </div>
             <div className="flex space-x-1 mt-3 mb-2 bg-gray-900/50 p-1 rounded-lg">
-                <button onClick={() => setActiveTab('zakkum')} className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'zakkum' ? 'bg-red-900/50 text-red-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}>Zakkum (Left)</button>
-                <button onClick={() => setActiveTab('datePalm')} className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${activeTab === 'datePalm' ? 'bg-emerald-900/50 text-emerald-200 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}>Date-Palm (Right)</button>
+                <button onClick={() => setActiveTab('zakkum')} className={`flex-1 py-1.5 text-[11px] font-bold rounded-md transition-colors ${activeTab === 'zakkum' ? 'bg-red-950/60 text-red-350 border border-red-500/30 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}>
+                    ف ر ي [FARY] — Fabricated
+                </button>
+                <button onClick={() => setActiveTab('datePalm')} className={`flex-1 py-1.5 text-[11px] font-bold rounded-md transition-colors ${activeTab === 'datePalm' ? 'bg-emerald-950/60 text-emerald-350 border border-emerald-500/30 shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}>
+                    م س د [MASAD] — Fiber
+                </button>
             </div>
             <div className="w-full h-px bg-gray-500/50 mb-2"></div>
 
@@ -697,6 +1020,177 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
                         </div>
                     );
                 })}
+            </div>
+
+            {/* Cosmology details block */}
+            <div className="mt-8 space-y-6">
+                {/* Intro Card */}
+                <div className="p-5 bg-gradient-to-b from-[#090b11] to-[#040508] border border-fuchsia-500/25 rounded-xl space-y-4 shadow-xl text-center">
+                    <div className="text-xl font-black text-fuchsia-300 tracking-wider flex items-center justify-center gap-3">
+                        <span dir="rtl" className="font-serif">م س د</span>
+                        <span className="text-xs text-zinc-500 font-sans font-light">vs</span>
+                        <span dir="rtl" className="font-serif">ف ر ي</span>
+                    </div>
+                    <div className="text-[11.5px] font-mono tracking-wide text-zinc-400">
+                        [MASAD = Fiber] — [FARY = Fabricated]
+                    </div>
+                    <div className="w-1/3 h-px bg-gradient-to-r from-transparent via-fuchsia-500/30 to-transparent mx-auto"></div>
+                    <p className="text-xs text-gray-300 italic leading-relaxed font-serif max-w-md mx-auto">
+                        The two trees are not abstract symbols. They are material realities. One is fiber. The other is fabricated. The difference is the grip.
+                    </p>
+                </div>
+
+                {/* Two Sides breakdown */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* MASAD Card */}
+                    <div className="p-5 bg-emerald-950/5 border border-emerald-500/20 rounded-xl space-y-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-emerald-500/15 pb-3 gap-2">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                                <span dir="rtl" className="font-serif text-base leading-none bg-emerald-950/65 border border-emerald-500/30 px-2.5 py-1 rounded text-emerald-300 flex-shrink-0">م س د</span>
+                                <span className="text-xs font-black text-emerald-400 tracking-wider uppercase leading-snug">MASAD — The Fiber</span>
+                            </div>
+                            <span className="self-start sm:self-auto text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-black px-2 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">Patience</span>
+                        </div>
+                        <div className="space-y-1.5 text-[11px] text-gray-300 leading-relaxed font-serif italic">
+                            <p><strong>111:5</strong> — The palm-fiber rope around the neck of the firewood-carrier.</p>
+                            <p><strong>19:24</strong> — The palm trunk that shakes, the dates that fall.</p>
+                        </div>
+                        <p className="text-[11px] text-gray-400 leading-relaxed">
+                            Masad is what remains when fire passes through. The fiber that holds after the wood burns. The rope that tethers, not the fire that consumes.
+                        </p>
+                        <p className="text-[11px] text-gray-400 leading-relaxed font-semibold">
+                            The fiber is patience. The fiber is sacrifice. The fiber is the <code className="text-emerald-400">19:12</code> grip that holds the circuit closed through trial.
+                        </p>
+                        <div className="p-2.5 bg-black/40 border border-emerald-950/80 rounded-lg font-mono text-[9.5px] text-center text-emerald-300">
+                            Start: 110 [Begins in Silence] → Middle: 103 [Proven by Trial] → End: 108 [Returns with Safinat]
+                        </div>
+                        <p className="text-[10px] text-emerald-500/80 italic font-mono">
+                            The fiber earns abundance by crossing through silence.
+                        </p>
+                    </div>
+
+                    {/* FARY Card */}
+                    <div className="p-5 bg-red-950/5 border border-red-500/20 rounded-xl space-y-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-red-500/15 pb-3 gap-2">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                                <span dir="rtl" className="font-serif text-base leading-none bg-red-950/65 border border-red-500/30 px-2.5 py-1 rounded text-red-300 flex-shrink-0">ف ر ي</span>
+                                <span className="text-xs font-black text-red-400 tracking-wider uppercase leading-snug">FARY — Fabricated</span>
+                            </div>
+                            <span className="self-start sm:self-auto text-[10px] bg-red-500/10 text-red-400 border border-red-500/20 font-black px-2 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">Assumption</span>
+                        </div>
+                        <div className="space-y-1.5 text-[11px] text-gray-300 leading-relaxed font-serif italic">
+                            <p><strong>19:27</strong> — “How can we speak to one who is in the cradle a child?”</p>
+                            <p className="text-[10px] font-sans font-light not-italic text-zinc-400">The Bani Israel fabricated their objection. They built a calf from their jewelry. They manufactured a king from their fear.</p>
+                        </div>
+                        <p className="text-[11px] text-gray-400 leading-relaxed">
+                            Fary is what is built without grip. The fabricated throne. The constructed abundance. The claimed victory without battle.
+                        </p>
+                        <p className="text-[11px] text-gray-400 leading-relaxed font-semibold">
+                            The fabricated is conjecture. The fabricated is assumption. The fabricated is the <code className="text-red-400">20:120</code> taking that opens the circuit to Taghut.
+                        </p>
+                        <div className="p-2.5 bg-black/40 border border-red-950/80 rounded-lg font-mono text-[9.5px] text-center text-red-300">
+                            Start: 108 [Blinded by Abundance] → Middle: 103 [Forgetful Respite] → End: 110 [Intoxicating Jiyad]
+                        </div>
+                        <p className="text-[10px] text-red-500/80 italic font-mono">
+                            The fabricated claims abundance and loses it through respite.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Why Bani Israel Block */}
+                <div className="p-5 bg-[#040508] border border-zinc-800 rounded-xl space-y-4">
+                    <h4 className="text-xs font-black text-amber-500 tracking-wider uppercase border-b border-zinc-850 pb-2">
+                        Why Bani Israel Got Pharaoh As King
+                    </h4>
+                    
+                    <div className="space-y-3.5 text-xs text-gray-300 leading-relaxed">
+                        <p>
+                            <strong className="text-amber-400 font-mono">19:27</strong> — The Bani Israel fabricated their objection to Maryam. They could not see the Word in the cradle. They demanded visible proof. They built their calf. They got their Pharaoh.
+                        </p>
+                        <p>
+                            The fabricated always produces the tyrant. When the people manufacture their own abundance (<span className="text-cyan-400">108</span>), they receive a king who claims victory (<span className="text-zinc-400">110</span>) without earning it. The respite (<span className="text-red-400">103</span>) becomes the delay that hardens into bondage.
+                        </p>
+                        <p className="font-serif italic text-gray-400">
+                            <strong>20:88</strong> — “This is your god and the god of Musa.” The fabricated calf speaks. The fabricated king rules. The fabricated tree grows from the bottom of fire (37:64) and feeds those who eat from it without crossing.
+                        </p>
+                        <p className="text-yellow-400/90 font-semibold">
+                            Bani Israel got Pharaoh because they chose <span dir="rtl" className="font-serif font-bold text-lg leading-none">ف ر ي</span> over <span dir="rtl" className="font-serif font-bold text-lg leading-none">م س د</span>. They manufactured their own rope instead of gripping the Book. Their abundance became their chain.
+                        </p>
+                    </div>
+                </div>
+
+                {/* DCU Equations */}
+                <div className="p-5 bg-gradient-to-b from-[#030406] to-[#04060a] border border-[#cbd5e1]/10 rounded-xl space-y-4">
+                    <h4 className="text-xs font-black text-[#cbd5e1] tracking-wider uppercase border-b border-zinc-850 pb-2">
+                        The DCU Equations
+                    </h4>
+                    
+                    <div className="space-y-4">
+                        <div className="p-4 bg-emerald-950/5 border border-emerald-500/20 rounded-lg space-y-2.5">
+                            <span className="text-[10px] uppercase font-black text-emerald-400 tracking-widest block font-serif">م س د [Masad]</span>
+                            <div className="p-2.5 bg-black/60 rounded border border-zinc-900 font-mono text-[9px] tracking-tight text-emerald-300 whitespace-nowrap overflow-x-auto no-scrollbar">
+                                1[Fruit] → 2[D10: صبر w/ نسك] ↔ 3[T3: 95:8] ↔ 2[I9: رسل/ملك] → 7[11:7] → 103[Trial] → 108[Safinat] ← 1[Throne]
+                            </div>
+                            <span className="text-[10.5px] italic text-zinc-400 block pr-2 border-r-2 border-emerald-500/50 pl-1">
+                                The fiber grips. The fiber crosses. The fiber earns.
+                            </span>
+                        </div>
+
+                        <div className="p-4 bg-red-950/5 border border-red-500/20 rounded-lg space-y-2.5">
+                            <span className="text-[10px] uppercase font-black text-red-400 tracking-widest block font-serif">ف ر ي [Fary]</span>
+                            <div className="p-2.5 bg-black/60 rounded border border-zinc-900 font-mono text-[9px] tracking-tight text-red-300 whitespace-nowrap overflow-x-auto no-scrollbar">
+                                1[Fruit] → 2[D10: taking] ↔ 3[T3: 37:64] ↔ 2[I9: scattered] → 7[87:13] → 103[Respite] → 110[Jiyad] → 1[Trap]
+                            </div>
+                            <span className="text-[10.5px] italic text-zinc-400 block pr-2 border-r-2 border-red-500/50 pl-1">
+                                The fabricated claims. The fabricated delays. The fabricated loses.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Bottom 3 brief Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+                    {/* Shared Middle */}
+                    <div className="p-4 bg-zinc-950/40 border border-zinc-900 rounded-xl space-y-2">
+                        <span className="text-[10px] font-black tracking-widest text-[#00c8ff] uppercase block border-b border-zinc-900 pb-1">The Shared Middle: 103</span>
+                        <p className="text-[11px] text-zinc-300 leading-relaxed font-sans">
+                            Both pass through 103. But:
+                        </p>
+                        <div className="space-y-1 text-[10.5px] font-mono">
+                            <div><strong className="text-emerald-400">م س د:</strong> 103 = Proven by Trial → earns 108</div>
+                            <div><strong className="text-red-400">ف ر ي:</strong> 103 = Forgetful Respite → claims 110</div>
+                        </div>
+                        <span className="text-[10px] text-zinc-500 italic block mt-1.5">The same surah. Opposite function. The difference is the grip.</span>
+                    </div>
+
+                    {/* Crossover */}
+                    <div className="p-4 bg-zinc-950/40 border border-zinc-900 rounded-xl space-y-2">
+                        <span className="text-[10px] font-black tracking-widest text-fuchsia-400 uppercase block border-b border-zinc-900 pb-1">The Crossover</span>
+                        <div className="space-y-1 text-[10px] font-mono text-zinc-300">
+                            <div><strong className="text-emerald-400">م س د:</strong> 110 [Begins in Silence] → 103 [Proven by Trial] → 108 [Returns with Safinat]</div>
+                            <div><strong className="text-red-400">ف ر ي:</strong> 108 [Blinded by Abundance] → 103 [Forgetful Respite] → 110 [Intoxicating Jiyad]</div>
+                        </div>
+                        <p className="text-[10.5px] text-zinc-400 leading-snug">
+                            They swap endpoints through the shared middle. The fiber earns what the fabricated claims.
+                        </p>
+                        <p className="text-[10px] text-zinc-500 italic leading-snug pt-1 border-t border-zinc-900/50 font-serif">
+                            38:31 — Safinat al-jiyad = vessels of generosity, not horses. The fiber knows the vessel. The fabricated only sees the horse.
+                        </p>
+                    </div>
+
+                    {/* Verification */}
+                    <div className="p-4 bg-zinc-950/40 border border-zinc-900 rounded-xl space-y-2">
+                        <span className="text-[10px] font-black tracking-widest text-amber-400 uppercase block border-b border-zinc-900 pb-1">Verification</span>
+                        <div className="space-y-1 text-[10.5px] text-zinc-300">
+                            <div><strong className="font-serif">م س د</strong> = 111:5 = rope = patience = grip</div>
+                            <div><strong className="font-serif">ف ر ي</strong> = 19:27 = objection = calf = taking</div>
+                        </div>
+                        <p className="text-[10.5px] text-zinc-400 leading-snug">
+                            Bani Israel chose <span className="font-serif">ف ر ي</span> at 19:27. They got Pharaoh at 20:88. The fiber would have given them Musa at 20:41.
+                        </p>
+                        <span className="text-[10px] text-zinc-500 italic block mt-1">The difference is not the tree. The difference is the material.</span>
+                    </div>
+                </div>
             </div>
         </div>
     );

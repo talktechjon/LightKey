@@ -23,7 +23,7 @@ const PRESET_2 = [
   "Warner",
   "Witness",
   "Return",
-  "Book",
+  "Orphan",
   "Knowledge",
   "Isa"
 ];
@@ -32,7 +32,7 @@ const PRESET_3 = [
   "Ibrahim | Ahmed",
   "Ishac | Ishmail",
   "Rushd",
-  "Mountain",
+  "Cave",
   "Iron | Wood",
   "Noah | Musa",
   "Idris | Isa",
@@ -40,7 +40,7 @@ const PRESET_3 = [
   "Amanah",
   "Dawud",
   "Solomon | Death",
-  "Book | Yahya"
+  "Orphan | Yahya"
 ];
 
 const PRESET_4 = [
@@ -52,7 +52,7 @@ const PRESET_4 = [
   "Jinn",
   "Staff",
   "Submission",
-  "Mountain",
+  "Cave",
   "River",
   "Comfort",
   "Angel"

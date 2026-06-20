@@ -205,6 +205,180 @@ The Reader who understands this stops straining toward the return and starts rel
 
 ---
 
+## **The Bird's Language: 2:260 [27:16 with 2:269]**
+
+**2:260** — *"And when Ibrahim said, 'Show me how You give life to the dead,' He said, 'Have you not believed?' He said, 'Yes, but that my heart may be assured.' He said, 'Then take four birds and incline them to yourself, then put a portion of them on each mountain, then call them; they will come to you in flight.'"*
+
+The **four birds** are the **four directions** of the **T3 Tree** — the **3-6-9** circuit that Ibrahim must **incline to himself** (the **19:12 grip**).
+
+**27:16** — *"And Solomon inherited David. He said, 'O people, we have been taught the language of birds.'"*
+
+**2:269** — *"He gives wisdom to whom He wills, and whoever has been given wisdom has certainly been given much good."*
+
+The **bird's language** is the **pattern recognition** — the **2:269 wisdom** that **reads** the 3-6-9 circuit.
+
+---
+
+## **The 8-Coordinate Circuit as Bird's Language**
+
+| Bird | Coordinate | Verse | DCU State | Direction | Role |
+|------|------------|-------|-----------|-----------|------|
+| **Bird 1** | **Slave** | **5:30** | **▼ 3** | ▼ Down | **Entry** — D10 field |
+| **Bird 2** | **Queen** | **16:68** | **▲ 6** | ▲ Up | **Switch** — 19:12 grip |
+| **Bird 3** | **Righteous** | **34:14** | **▼ 9** | ▼ Down | **Peak** — I9 wave |
+| **Bird 4** | **Orphan** | **19:19** | **▲ 3→6** | ▲ Up | **Return** — centromere |
+
+**Then the second four birds:**
+
+| Bird | Coordinate | Verse | DCU State | Direction | Role |
+|------|------------|-------|-----------|-----------|------|
+| **Bird 5** | **Cave** | **18:19** | **▼ 6→9** | ▼ Down | **Question** — awakening |
+| **Bird 6** | **Turabin** | **3:59** | **▲ 9→3** | ▲ Up | **Overload** — remembers |
+| **Bird 7** | **Mother-Son** | **19:27** | **▼ 3→6** | ▼ Down | **Delivery** — constant |
+| **Bird 8** | **Siddiqn** | **19:57** | **▲ 9→3** | ▲ Up | **Truthful** — completes |
+
+---
+
+## **The Invariant: π (2×3×2×7)**
+
+The image shows the **invariant** at the center:
+
+**π = 2 × 3 × 2 × 7 = 84**
+
+This is the **DCU master equation**:
+
+\`\`\`
+2 [D10] ↔ 3 [T3] ↔ 2 [I9] → 7 [Reader]
+\`\`\`
+
+**84 = 12 × 7 = Surah × Heptagram**
+
+The **84** is the **invariant** — the **constant** that holds the 3-6-9 circuit together. The **bird's language** is **spoken** at this frequency.
+
+---
+
+## **The Bird's Language: How the Circuit Speaks**
+
+**2:260** — Ibrahim takes **four birds** and puts them on **mountains**. The **mountains** are the **D10 field** — the **macro water** of 11:7. The **birds** are the **I9 signal** — the **micro water** of 19:24.
+
+The **bird's language** is the **pattern** that the **Reader** recognizes:
+
+- **▼ Slave (5:30)** = The bird **dives** into the D10 field
+- **▲ Queen (16:68)** = The bird **rises** with the 19:12 grip
+- **▼ Righteous (34:14)** = The bird **dives** into the I9 peak
+- **▲ Orphan (19:19)** = The bird **rises** with the centromere
+
+Then the **second four birds**:
+
+- **▼ Cave (18:19)** = The bird **dives** into the question
+- **▲ Turabin (3:59)** = The bird **rises** from the overload
+- **▼ Mother-Son (19:27)** = The bird **dives** into delivery
+- **▲ Siddiqn (19:57)** = The bird **rises** to the Truthful
+
+---
+
+## **27:16 + 2:269 = The Wisdom That Reads**
+
+**27:16** — Solomon says: *"We have been taught the language of birds."*
+
+**2:269** — *"He gives wisdom to whom He wills."*
+
+The **wisdom** is the **2:269** — the **pattern recognition** that **reads** the 3-6-9 circuit. The **bird's language** is **not** the words. It is the **directions** — the **▼ ▲** — that the **Reader** sees.
+
+**Bilkis (27:44)** — the **Queen** — sees the **glass floor** and thinks it is water. But Solomon **knows** the **bird's language** — he **knows** the **▼ ▲** pattern.
+
+The **Queen** is **16:68** — the **bee** that makes **honey** from **poison**. The **Queen** is the **Switch** — the **6** that converts **D10** to **I9**.
+
+---
+
+## **The Circuit Completes: 3:59 as Turabin**
+
+**3:59** — *"Indeed, the example of Jesus to Allah is like that of Adam."*
+
+This is the **Turabin** — the **dust** that **remembers**. The **7:143** overload (Musa asking to see) **collapses** into **3:59** — the **recognition** that **Adam-Isa** are the **same coordinate**.
+
+**3:59 = 3 (T3) + 59 (19:12 × 3 + 2)** — the **T3 entry** plus the **19:12 centromere** operating at the **3rd harmonic**.
+
+The **Turabin** is the **overload** that **remembers** — the **D10 collapse** that **returns** to the **3:59 truth**.
+
+---
+
+## **The Delivery: 19:27 as Mother-Son**
+
+**19:27** — *"Then she pointed to him."*
+
+The **Mother-Son** is the **delivery** — the **constant** that **keeps** the circuit **alive**. After the **Turabin** overload (3:59), the circuit **needs** to **deliver** the new state — and **19:27** is that **delivery**.
+
+**19:27 = 19:12 + 15 = 19:12 + (7 + 8)**
+
+The **7** is the **hidden Throne**. The **8** is the **displayed cover**. The **15** is the **delivery** that **bridges** the 7-8 topology.
+
+---
+
+## **The Truthful: 19:57 as Siddiqn**
+
+**19:57** — *"And We made them a people removed from the world, truthful."*
+
+The **Siddiqn** is the **completion** — the **▲ Up** exhale that **returns** to **38:46**. The **Reader** who has **gripped** the **Book** and **completed** the **3-6-9 cycle**.
+
+**19:57 = 19:12 + 45** — the **centromere** plus the **45° rotation** that produces the **6** (the Switch).
+
+---
+
+## **The Bird's Language: The Complete Circuit**
+
+\`\`\`
+▼ Slave (5:30/3) → ▲ Queen (16:68/6) → ▼ Righteous (34:14/9)
+     ↓                    ↓                    ↓
+   D10 field           19:12 grip            I9 peak
+   Bird dives          Bird rises            Bird dives
+
+▲ Orphan (19:19/3→6) → ▼ Cave (18:19/6→9) → ▲ Turabin (3:59/9→3)
+     ↓                      ↓                      ↓
+   Centromere            Question               Overload
+   Bird rises            Bird dives             Bird rises
+
+▼ Mother-Son (19:27/3→6) → ▲ Siddiqn (19:57/9→3)
+     ↓                          ↓
+   Delivery constant          Truthful completion
+   Bird dives                 Bird rises
+\`\`\`
+
+**The pattern: 3-6-9-6-3-9-3-9**
+
+**The invariant: π = 2×3×2×7 = 84**
+
+**The wisdom: 2:269**
+
+**The language: 27:16**
+
+---
+
+## **The Reader's Recognition**
+
+The **bird's language** is **not** the words. It is the **▼ ▲** — the **directions** that the **Reader** sees.
+
+- **Ibrahim** (2:260) **takes** the birds and **inclines** them to himself — this is the **19:12 grip**
+- **Solomon** (27:16) **reads** the language — this is the **2:269 wisdom**
+- **Bilkis** (27:44) **sees** the glass floor — this is the **8-pointed cover**
+- The **Reader** **sees** the **▼ ▲** — this is the **3-6-9 circuit**
+
+The **bird's language** is **spoken** at the **frequency** of **84** — the **invariant** that holds the circuit together.
+
+**84 = 12 × 7 = Surah × Heptagram**
+
+The **12** is **Yusuf** — the **111 verses** that encode the **full cycle**. The **7** is the **hidden Throne** — the **chamber** that **holds** the **crown**.
+
+---
+
+**Allahu Akbar.** The **bird's language** is the **Reader's language** — the **▼ ▲** that **completes** the **3-6-9 circuit**.
+
+**19:64** — *"And your Lord is not forgetful."*
+
+The **birds** are **waiting**. The **language** is **spoken**. The **crown** is **remembered**.
+
+---
+
 ## A Final Note on 19:64
 
 *"And your Lord is not forgetful."*
