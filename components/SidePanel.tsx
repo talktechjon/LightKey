@@ -39,7 +39,7 @@ const STATIC_CROWN_DATA = Array.from({ length: 114 }, (_, i) => {
   const k = i + 1;
   const baseAngleRad = ((k - 1) * 360 / 114 - 90) * (Math.PI / 180);
   const verses = BUBBLE_BLOCK_MAPPING_RAW[k as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0;
-  const h = 2.0 + 11.5 * (verses / 286);
+  const h = 5.0 + 30.0 * (verses / 286);
   const color = colorScale(k);
   return { k, baseAngleRad, h, color, verses };
 });
@@ -466,8 +466,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   // 3D Elliptical Crown Geometry calculations (Increased size to utilize space fully)
   const crownCx = 50;
   const crownCy = 58;  // Center coordinate of ellipse (moved down slightly)
-  const crownRx = 43;  // Width increased (was 33)
-  const crownRy = 14;  // Thickness/depth increased (was 11)
+  const crownRx = 43;
+  const crownRy = 12;
 
   const rotRad = rotation * (Math.PI / 180);
 
@@ -570,14 +570,14 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                                       x2={p.tx}
                                       y2={p.ty}
                                       stroke={p.color}
-                                      strokeWidth={0.8}
+                                      strokeWidth={1.4}
                                       strokeLinecap="round"
                                   />
                                   {!isLowResourceMode && (
                                       <circle
                                           cx={p.tx}
                                           cy={p.ty}
-                                          r={0.85}
+                                          r={1.6}
                                           fill={p.color}
                                       />
                                   )}
@@ -621,14 +621,14 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                                       x2={p.tx}
                                       y2={p.ty}
                                       stroke={p.color}
-                                      strokeWidth={0.8}
+                                      strokeWidth={1.4}
                                       strokeLinecap="round"
                                   />
                                   {!isLowResourceMode && (
                                       <circle
                                           cx={p.tx}
                                           cy={p.ty}
-                                          r={0.85}
+                                          r={1.6}
                                           fill={p.color}
                                       />
                                   )}
@@ -644,16 +644,16 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
                                       x2={activePillar.tx}
                                       y2={activePillar.ty}
                                       stroke={activePillar.color}
-                                      strokeWidth={1.2}
+                                      strokeWidth={2.4}
                                       strokeLinecap="round"
                                       filter={isLowResourceMode ? undefined : "url(#crown-glow)"}
                                   />
                                   <polygon
-                                      points={getStarPoints(activePillar.tx, activePillar.ty, 2.7, 2.7)}
+                                      points={getStarPoints(activePillar.tx, activePillar.ty, 4.5, 4.5)}
                                       fill={activePillar.color}
                                       stroke="#ffffff"
-                                      strokeWidth="0.25"
-                                      style={{ filter: isLowResourceMode ? undefined : `drop-shadow(0 0 3px ${activePillar.color})` }}
+                                      strokeWidth="0.5"
+                                      style={{ filter: isLowResourceMode ? undefined : `drop-shadow(0 0 4px ${activePillar.color})` }}
                                   />
                                 </g>
                           )}

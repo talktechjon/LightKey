@@ -3,64 +3,30 @@ import ReactMarkdown from 'react-markdown';
 import { motion } from 'framer-motion';
 
 const ThroneVisual = () => (
-    <div className="relative w-full h-80 flex items-center justify-center mb-16 mt-8">
-        {/* Background Glows */}
-        <div className="absolute w-[300px] h-[300px] bg-amber-500/5 rounded-full blur-[100px]" />
-        <div className="absolute w-[200px] h-[200px] bg-cyan-500/5 rounded-full blur-[80px]" />
-
-        {/* Throne Structure */}
-        <div className="relative z-10 flex flex-col items-center">
-            <svg viewBox="0 0 200 240" className="w-64 h-64 lg:w-80 lg:h-80 drop-shadow-[0_0_20px_rgba(245,158,11,0.2)]">
-                {/* Back of Throne - Golden Thread */}
-                <path 
-                    d="M60 180 V60 Q60 30 100 30 Q140 30 140 60 V180" 
-                    fill="none" 
-                    stroke="#f59e0b" 
-                    strokeWidth="1.5" 
-                    strokeDasharray="8 4" 
-                    className="opacity-30"
+    <div className="relative w-full flex flex-col items-center justify-center mb-16 mt-8">
+        <div className="relative group max-w-4xl w-full px-4 lg:px-0">
+            {/* Background Atmosphere */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/20 to-cyan-500/20 blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
+            
+            <div className="relative bg-black/40 border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                    src="/src/assets/images/sacred_geometry_manuscript_1782051790576.jpg" 
+                    alt="Sacred Geometry Diagram" 
+                    className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition-opacity duration-700"
+                    referrerPolicy="no-referrer"
                 />
-                
-                {/* Armrests */}
-                <path d="M40 130 H60 M140 130 H160" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" />
-                <path d="M40 130 V180 M160 130 V180" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
-
-                {/* Seat Base */}
-                <rect x="55" y="170" width="90" height="20" rx="4" fill="#0c0a09" stroke="#f59e0b" strokeWidth="1" />
-                
-                {/* The Body (Luminal Essence) */}
-                <g className="opacity-80">
-                    <circle cx="100" cy="85" r="18" fill="none" stroke="#22d3ee" strokeWidth="2" className="animate-pulse" />
-                    <path d="M100 105 V150" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M100 115 L65 140 M100 115 L135 140" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
-                </g>
-
-                {/* The Crown (At Reach) - Floating above head */}
-                <motion.g 
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                >
-                    <path d="M80 45 L100 20 L120 45 Z" fill="#f59e0b" />
-                    <rect x="75" y="45" width="50" height="8" rx="1" fill="#d97706" />
-                    <circle cx="100" cy="35" r="4" fill="white" className="animate-pulse shadow-xl" />
-                    <path d="M85 45 V35 M115 45 V35 M100 45 V30" stroke="#f59e0b" strokeWidth="1" />
-                </motion.g>
-
-                {/* Ornamental Water below seat */}
-                <path d="M50 200 Q100 215 150 200 Q100 185 50 200" fill="none" stroke="#0ea5e9" strokeWidth="1" className="opacity-40" />
-            </svg>
-
-            {/* Labels */}
-            <div className="absolute -left-12 lg:-left-24 top-[40%] flex flex-col items-center">
-                <span className="text-[10px] font-black tracking-widest text-cyan-500 uppercase">Remember</span>
-                <span className="text-3xl font-serif text-cyan-200 mt-1">38:46</span>
-                <div className="w-12 h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent mt-2" />
             </div>
 
-            <div className="absolute -right-12 lg:-right-24 top-[40%] flex flex-col items-center">
-                <span className="text-[10px] font-black tracking-widest text-amber-500 uppercase">Grasp</span>
-                <span className="text-3xl font-serif text-amber-200 mt-1">19:12</span>
-                <div className="w-12 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent mt-2" />
+            {/* Invariant Note Overlay */}
+            <div className="mt-6 flex flex-col items-center text-center space-y-2">
+                <div className="flex items-center gap-4">
+                    <div className="h-px w-8 lg:w-16 bg-gradient-to-r from-transparent to-amber-500/30" />
+                    <span className="text-[10px] font-black tracking-[0.4em] text-amber-500/80 uppercase">The Operational Geometry</span>
+                    <div className="h-px w-8 lg:w-16 bg-gradient-to-l from-transparent to-amber-500/30" />
+                </div>
+                <p className="text-[11px] font-serif italic text-gray-400 max-w-lg">
+                    Process of Alternating Duality: 0 → 2 ↔ 3 ↔ 2 ← 7 ← ∞
+                </p>
             </div>
         </div>
     </div>

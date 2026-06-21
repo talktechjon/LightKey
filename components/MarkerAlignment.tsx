@@ -539,7 +539,7 @@ const MarkerAlignment: React.FC<MarkerAlignmentProps> = ({
                     </div>
                 </>
             ) : (
-                <div className="text-xs text-gray-400 mt-3 grid grid-cols-2 gap-x-6" aria-label="Special chapter markers">
+                <div className="text-xs text-gray-400 mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2" aria-label="Special chapter markers">
                     {/* Column 1: Downward Triangle Markers */}
                     <div className="space-y-2">
                         {downwardMarkersData.map((marker) => {
