@@ -70,8 +70,8 @@ export const TreeOfVerseCenter: React.FC<TreeOfVerseCenterProps> = ({ rotation, 
     const renderDiagram = () => {
         return (
             <svg 
-                viewBox={isHorizontal ? "-55 0 430 160" : "-25 0 200 338"} 
-                className="w-full h-full max-h-[75vh] drop-shadow-[0_0_25px_rgba(6,182,212,0.15)] transition-all select-none"
+                viewBox={isHorizontal ? "-55 0 430 160" : "-40 -10 230 358"} 
+                className="w-full h-full max-h-[440px] lg:max-h-[75vh] drop-shadow-[0_0_25px_rgba(6,182,212,0.15)] transition-all select-none"
                 aria-hidden="true"
             >
                 <style>{`
@@ -523,7 +523,7 @@ export const TreeOfVerseCenter: React.FC<TreeOfVerseCenterProps> = ({ rotation, 
     };
 
     return (
-        <div className={`flex flex-col items-center justify-center w-full min-h-[400px] p-6 pt-16 relative bg-slate-950/45 border border-white/5 rounded-2xl backdrop-blur-md animate-in fade-in duration-500 ${isHorizontal ? 'max-w-3xl' : 'max-w-lg'} mx-auto overflow-hidden`}>
+        <div className={`flex flex-col items-center justify-center w-full min-h-[380px] md:min-h-[400px] p-3 md:p-6 pt-10 md:pt-16 relative bg-slate-950/45 border border-white/5 rounded-2xl backdrop-blur-md animate-in fade-in duration-500 ${isHorizontal ? 'max-w-3xl' : 'max-w-lg'} mx-auto overflow-hidden`}>
             {/* Elegant HUD branding line */}
             <div className="absolute top-4 left-4 right-4 flex justify-between items-center opacity-65 border-b border-cyan-500/10 pb-2">
                 <span className="text-[10px] uppercase tracking-[0.2em] font-black text-cyan-400">Verse Flower</span>

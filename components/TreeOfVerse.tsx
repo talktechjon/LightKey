@@ -116,22 +116,24 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
             </div>
             
             <div className="bg-black/40 border border-gray-800 rounded-xl p-4 mb-4">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-y-3">
                     <label className="text-xs text-gray-400 uppercase tracking-widest font-bold">Root Anchor Node 1</label>
-                    <div className="flex items-center gap-2">
-                        <button onClick={handleRandomVerse} className="p-2 bg-gray-800 hover:bg-cyan-900/50 text-cyan-400 rounded-lg transition-all border border-cyan-500/20 mr-2" title="Load Random Verse">
+                    <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
+                        <button onClick={handleRandomVerse} className="p-2 bg-gray-800 hover:bg-cyan-900/50 text-cyan-400 rounded-lg transition-all border border-cyan-500/20" title="Load Random Verse">
                             <ShuffleIcon />
                         </button>
-                        <button onClick={() => handleRootChange(-1)} className="w-6 h-6 flex items-center justify-center bg-gray-800 rounded hover:bg-gray-700 text-white">-</button>
-                        <input 
-                            type="text"
-                            value={addrInput}
-                            onChange={handleInputChange}
-                            onBlur={() => setAddrInput(`${treeRootVerse.surah}:${treeRootVerse.ayah}`)}
-                            className="bg-transparent border-none p-0 font-mono text-cyan-400 text-lg glow-text text-center w-24 focus:ring-0 focus:outline-none cursor-text"
-                            placeholder="S:A"
-                        />
-                        <button onClick={() => handleRootChange(1)} className="w-6 h-6 flex items-center justify-center bg-gray-800 rounded hover:bg-gray-700 text-white">+</button>
+                        <div className="flex items-center gap-2 bg-slate-900/60 px-3 py-1 rounded-lg border border-white/5">
+                            <button onClick={() => handleRootChange(-1)} className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-md hover:bg-gray-700 text-white font-bold text-lg transition-colors">-</button>
+                            <input 
+                                type="text"
+                                value={addrInput}
+                                onChange={handleInputChange}
+                                onBlur={() => setAddrInput(`${treeRootVerse.surah}:${treeRootVerse.ayah}`)}
+                                className="bg-transparent border-none p-0 font-mono text-cyan-400 text-lg glow-text text-center w-20 focus:ring-0 focus:outline-none cursor-text font-bold"
+                                placeholder="S:A"
+                            />
+                            <button onClick={() => handleRootChange(1)} className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-md hover:bg-gray-700 text-white font-bold text-lg transition-colors">+</button>
+                        </div>
                     </div>
                 </div>
             </div>

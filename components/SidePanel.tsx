@@ -535,7 +535,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   return (
     <aside 
         id="side-panel-scroll-container"
-        className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth no-scrollbar"
+        className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 pb-24 lg:pb-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth no-scrollbar"
     >
       {/* Sticky identification and playlist header - Hidden in Piece of Heifer and Tree of Verse modes */}
       {!isAnalyticalMode && (
