@@ -1,8 +1,10 @@
 
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import Markdown from 'react-markdown';
 import { SLICE_DATA, CHAPTER_DETAILS, MUQATTAT_LETTERS, MUQATTAT_CHAPTERS } from '../constants.ts';
 import { getChapterIcon, colorScale } from '../utils.ts';
 import { BAQARAH_DESCRIPTIONS } from '../data/baqarahDescriptions.ts';
+import { BAQARAH_DCU_COMMENTARY } from '../data/baqarahDCU.ts';
 
 interface PieceOfBakaraProps {
   onVerseSelect: (surah: number, ayah: number) => void;
@@ -277,10 +279,15 @@ export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onB
                     <span className="text-[10px] font-black text-amber-300 uppercase tracking-[0.2em]">Piece Description</span>
                     <span className="text-[10px] font-mono font-bold text-amber-500/60 uppercase italic">Summary Index: {bakaraSpineIndex}</span>
                 </div>
-                <div className="bg-black/60 rounded-lg p-3 border border-amber-500/20 shadow-inner min-h-[54px] flex items-center justify-center text-center">
-                    <p className="text-[15px] font-medium text-amber-100 tracking-tight leading-snug">
+                <div className="bg-black/60 rounded-lg p-4 border border-amber-500/20 shadow-inner min-h-[54px] flex flex-col justify-center">
+                    <div className="text-[15px] font-bold text-amber-300 tracking-tight leading-snug mb-3 text-center border-b border-amber-500/20 pb-2">
                         {BAQARAH_DESCRIPTIONS[bakaraSpineIndex] || "N/A"}
-                    </p>
+                    </div>
+                    {BAQARAH_DCU_COMMENTARY[bakaraSpineIndex] && (
+                        <div className="markdown-body text-[13px] text-amber-100/90 leading-relaxed text-justify overflow-y-auto max-h-[300px] pr-2 custom-scrollbar">
+                            <Markdown>{BAQARAH_DCU_COMMENTARY[bakaraSpineIndex]}</Markdown>
+                        </div>
+                    )}
                 </div>
             </div>
 

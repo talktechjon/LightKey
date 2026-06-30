@@ -10,9 +10,11 @@ interface SettingsPanelProps {
   setMode: (mode: TranslationMode) => void;
   onFileLoad: (data: LocalTranslationData, fileName: string) => void;
   fileName: string | null;
+  playYoutubeInternally: boolean;
+  setPlayYoutubeInternally: (value: boolean) => void;
 }
 
-const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, mode, setMode, onFileLoad, fileName }) => {
+const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, mode, setMode, onFileLoad, fileName, playYoutubeInternally, setPlayYoutubeInternally }) => {
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -27,7 +29,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
               "[All] praise is [due] to Allah, Lord of the worlds",
               "Secondary Translation Example"
           ],
-          "112:1": "Say, He is Allah, [who is] One"
+          "112:1": ["Say, He is Allah, [who is] One", "বলুন, তিনি আল্লাহ, এক"]
       };
       const blob = new Blob([JSON.stringify(templateData, null, 2)], { type: 'application/json' });
       return URL.createObjectURL(blob);
@@ -72,15 +74,30 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
              const trimLine = line.trim();
              if (!trimLine) continue;
              
+             // First check for tab-separated format (like 6236 verse.txt)
+             const parts = trimLine.split('\t');
+             if (parts.length >= 5) {
+                 const id = parts[0].trim();
+                 if (/^\d+:\d+$/.test(id)) {
+                     const english = parts[4]?.trim() || "";
+                     const bangla = parts[5]?.trim() || "";
+                     if (english) {
+                         normalizedData[id] = [english, bangla];
+                         continue;
+                     }
+                 }
+             }
+             
+             // Fallback to older '-' separated format
              const match = trimLine.match(/^(\d+:\d+)\s+(.+)$/);
              if (match) {
                  const id = match[1];
                  const content = match[2];
-                 const parts = content.split(' - ');
+                 const dashParts = content.split(' - ');
                  
                  let englishStartIndex = -1;
-                 for (let i = 0; i < parts.length; i++) {
-                    if (!/[\u0600-\u06FF]/.test(parts[i])) {
+                 for (let i = 0; i < dashParts.length; i++) {
+                    if (!/[\u0600-\u06FF]/.test(dashParts[i])) {
                        englishStartIndex = i;
                        break;
                     }
@@ -88,9 +105,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
                  
                  let englishText = "";
                  if (englishStartIndex !== -1) {
-                    englishText = parts.slice(englishStartIndex).join(' - ').trim();
+                    englishText = dashParts.slice(englishStartIndex).join(' - ').trim();
                  } else {
-                    englishText = parts[parts.length - 1].trim();
+                    englishText = dashParts[dashParts.length - 1].trim();
                  }
                  
                  if (englishText) {
@@ -219,10 +236,10 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
                 <div className="space-y-3">
                   <div>
                     <p className="font-medium text-cyan-500/80 mb-1">1. Text File (.txt):</p>
-                    <p className="text-[10px] leading-relaxed mb-1">Must contain Surah:Ayah followed by Arabic then English separation like so:</p>
+                    <p className="text-[10px] leading-relaxed mb-1">Must contain Surah:Ayah followed by Tab and English, then Bangla (tab-separated):</p>
                     <pre className="p-2 bg-gray-800/50 rounded-md overflow-x-auto text-[10px] text-gray-400 border border-gray-700/50">
-1:1 بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ... - In the name of Allah...
-1:2 ٱلْحَمْدُ لِلَّهِ رَبِّ ... - The praise is for Allah...
+1:1	...	...	...	In the name of Allah...	পরম করুণাময়...
+1:2	...	...	...	The praise is for Allah...	যাবতীয় প্রশংসা...
                     </pre>
                   </div>
                   <div>
@@ -230,9 +247,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
                     <pre className="p-2 bg-gray-800/50 rounded-md overflow-x-auto text-[10px] text-gray-400 border border-gray-700/50">
 {`{
   "1:1": [
-    "Primary translation"
-  ],
-  "1:2": "Single translation"
+    "English translation",
+    "Bangla translation"
+  ]
 }`}
                     </pre>
                   </div>
@@ -240,6 +257,28 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
             </div>
           </div>
         )}
+        
+        <div className="pt-4 border-t border-cyan-500/20 flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <label className="text-gray-300 font-medium">In-App YouTube Player</label>
+            <button
+              onClick={() => setPlayYoutubeInternally(!playYoutubeInternally)}
+              className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
+                playYoutubeInternally ? 'bg-cyan-500' : 'bg-gray-700'
+              }`}
+              aria-label="Toggle in-app YouTube player"
+            >
+              <span
+                className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${
+                  playYoutubeInternally ? 'translate-x-5' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+          <p className="text-xs text-gray-500 leading-tight">
+            Enable to watch playlists in a floating player within the app. Disable to open in a new tab or the YouTube app.
+          </p>
+        </div>
       </div>
     </div>
   );

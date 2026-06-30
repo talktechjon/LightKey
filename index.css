@@ -18,3 +18,36 @@
 *::-webkit-scrollbar {
   display: none !important;
 }
+
+.markdown-body strong {
+  font-weight: 800;
+  color: #fbbf24; /* amber-400 */
+}
+.markdown-body em {
+  font-style: italic;
+  color: #fde68a; /* amber-200 */
+}
+.markdown-body p {
+  margin-bottom: 0.75rem;
+}
+.markdown-body p:last-child {
+  margin-bottom: 0;
+}
+.markdown-body pre {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  background-color: rgba(17, 24, 39, 0.5);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.625rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.markdown-body pre code {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}

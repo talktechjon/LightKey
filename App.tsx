@@ -36,12 +36,14 @@ const App: React.FC = () => {
   const [shouldAutoSearch, setShouldAutoSearch] = useState(false);
   const [isLowResourceMode, setIsLowResourceMode] = useState(false);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+  const [playYoutubeInternally, setPlayYoutubeInternally] = useState(false);
   const [translationMode, setTranslationMode] = useState<TranslationMode>('local');
   const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(defaultTranslation);
   const [localFileName, setLocalFileName] = useState<string | null>("Default Translation");
   const [isInstructionVisible, setIsInstructionVisible] = useState(false); 
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
   const [bakaraSpineIndex, setBakaraSpineIndex] = useState(1);
+  const [activePlaylistUrl, setActivePlaylistUrl] = useState<string | null>(null);
 
   // Tree of Verse lifted state
   const [treeRootVerse, setTreeRootVerse] = useState({ surah: 1, ayah: 1 });
@@ -248,7 +250,16 @@ const App: React.FC = () => {
           <button onClick={() => setIsLowResourceMode(p => !p)} className={`w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isLowResourceMode ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Performance"><svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9.59 4.59A2 2 0 1 1 11 8H2M12.59 19.41A2 2 0 1 0 14 16H2M19.59 11.41A2 2 0 1 0 21 8H2"/></svg></button>
         </div>
         <div className="pointer-events-auto">
-          <SettingsPanel isVisible={isSettingsVisible} setIsVisible={setIsSettingsVisible} mode={translationMode} setMode={setTranslationMode} onFileLoad={(data, name) => {setLocalTranslationData(data); setLocalFileName(name); setTranslationMode('local');}} fileName={localFileName} />
+          <SettingsPanel 
+             isVisible={isSettingsVisible} 
+             setIsVisible={setIsSettingsVisible} 
+             mode={translationMode} 
+             setMode={setTranslationMode} 
+             onFileLoad={(data, name) => {setLocalTranslationData(data); setLocalFileName(name); setTranslationMode('local');}} 
+             fileName={localFileName}
+             playYoutubeInternally={playYoutubeInternally}
+             setPlayYoutubeInternally={setPlayYoutubeInternally} 
+          />
           <VerseFinder isVisible={isVerseFinderVisible} setIsVisible={setIsVerseFinderVisible} content={verseFinderContent} setContent={setVerseFinderContent} translationMode={translationMode} localTranslationData={localTranslationData} query={verseFinderQuery} onQueryChange={setVerseFinderQuery} shouldAutoSearch={shouldAutoSearch} onAutoSearchHandled={() => setShouldAutoSearch(false)} />
         </div>
       </div>
@@ -285,6 +296,8 @@ const App: React.FC = () => {
           treeRootVerse={treeRootVerse}
           setTreeRootVerse={setTreeRootVerse}
           treeTrines={treeTrines}
+          onPlayPlaylist={setActivePlaylistUrl}
+          playYoutubeInternally={playYoutubeInternally}
         />
       </div>
       {!isLowResourceMode && <FooterMarquee rotation={deferredRotation} translationMode={translationMode} localTranslationData={localTranslationData} isSecretModeActive={isSecretModeActive} onExport={handleMarqueeExport} />}
@@ -293,7 +306,7 @@ const App: React.FC = () => {
       {/* Bottom Left Navigation Group: Arranged in a 2x2 grid */}
       <div className="fixed bottom-4 left-4 z-50 grid grid-cols-2 gap-2">
         {/* Row 1 */}
-        <button onClick={() => setIsPieceOfBakaraActive(p => !p)} className={`w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 flex items-center justify-center transition-all hover:scale-110 shrink-0 shadow-lg ${isPieceOfBakaraActive ? 'text-cyan-400' : 'text-gray-400'}`} title="The Sacrifice (Node 2' Exit)">
+        <button onClick={() => setIsPieceOfBakaraActive(p => !p)} className={`w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 flex items-center justify-center transition-all hover:scale-110 shrink-0 shadow-lg ${isPieceOfBakaraActive ? 'text-cyan-400' : 'text-gray-400'}`} title="The Heifer">
           <CowIcon />
         </button>
         <a href="https://notebooklm.google.com/notebook/4eedddbb-3085-4132-bce5-83d8e94dc815" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all hover:scale-110 shrink-0 shadow-lg" title="NotebookLM Reference">
@@ -303,15 +316,36 @@ const App: React.FC = () => {
         </a>
 
         {/* Row 2 */}
-        <button onClick={() => setIsInstructionVisible(true)} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all hover:scale-110 shrink-0 shadow-lg" title="The Forgotten Crown (?)">
+        <button onClick={() => setIsInstructionVisible(true)} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all hover:scale-110 shrink-0 shadow-lg" title="The Forgotten Crown">
           <span className="text-xl font-bold">?</span>
         </button>
-        <button onClick={() => setIsTreeOfLifeModeActive(true)} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all hover:scale-110 text-xl shrink-0 shadow-lg" title="The Eternal Fruit (Node 7)">
+        <button onClick={() => setIsTreeOfLifeModeActive(true)} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-cyan-500/30 text-cyan-400 flex items-center justify-center transition-all hover:scale-110 text-xl shrink-0 shadow-lg" title="Geometry of Life">
           🌳
         </button>
       </div>
       
       <div id="kathara-portal-root" className="fixed inset-0 z-[5] pointer-events-none hidden lg:block" />
+
+      {activePlaylistUrl && (
+        <div className="fixed bottom-20 right-4 z-[100] w-[calc(100vw-32px)] sm:w-80 h-52 bg-slate-950 border border-cyan-500/50 rounded-lg shadow-[0_0_20px_rgba(6,182,212,0.3)] overflow-hidden flex flex-col backdrop-blur-xl">
+          <div className="flex justify-between items-center bg-slate-900/80 px-3 py-1.5 border-b border-cyan-500/30">
+             <span className="text-[10px] text-cyan-400 font-bold tracking-widest uppercase flex items-center gap-2">
+                <svg className="w-3 h-3 text-rose-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                Media Player
+             </span>
+             <button onClick={() => setActivePlaylistUrl(null)} className="text-gray-400 hover:text-white transition-colors" title="Close player">
+               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+             </button>
+          </div>
+          <iframe 
+             src={activePlaylistUrl} 
+             className="flex-1 w-full border-none"
+             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+             allowFullScreen
+             title="YouTube Video Player"
+          />
+        </div>
+      )}
     </main>
   );
 };

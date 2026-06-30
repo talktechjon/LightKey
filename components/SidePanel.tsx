@@ -33,6 +33,8 @@ interface SidePanelProps {
   treeRootVerse: { surah: number, ayah: number };
   setTreeRootVerse: React.Dispatch<React.SetStateAction<{ surah: number, ayah: number }>>;
   treeTrines: { surah: number, ayah: number }[][];
+  onPlayPlaylist?: (url: string) => void;
+  playYoutubeInternally?: boolean;
 }
 
 const STATIC_CROWN_DATA = Array.from({ length: 114 }, (_, i) => {
@@ -44,7 +46,7 @@ const STATIC_CROWN_DATA = Array.from({ length: 114 }, (_, i) => {
   return { k, baseAngleRad, h, color, verses };
 });
 
-const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showFunctionalTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, isSpinning, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex, treeRootVerse, setTreeRootVerse, treeTrines }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showFunctionalTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, isSpinning, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex, treeRootVerse, setTreeRootVerse, treeTrines, onPlayPlaylist, playYoutubeInternally }) => {
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -189,8 +191,16 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
       .filter(id => id);
 
     if (videoIds.length > 0) {
-      const url = `https://www.youtube.com/watch_videos?video_ids=${videoIds.join(',')}`;
-      window.open(url, '_blank', 'noopener,noreferrer');
+      if (onPlayPlaylist && playYoutubeInternally) {
+        let embedUrl = `https://www.youtube.com/embed/${videoIds[0]}?autoplay=1`;
+        if (videoIds.length > 1) {
+           embedUrl += `&playlist=${videoIds.slice(1).join(',')}`;
+        }
+        onPlayPlaylist(embedUrl);
+      } else {
+        const url = `https://www.youtube.com/watch_videos?video_ids=${videoIds.join(',')}`;
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
     } else {
       alert("Videos for this playlist are currently unavailable.");
     }

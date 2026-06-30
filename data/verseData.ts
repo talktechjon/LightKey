@@ -165,8 +165,8 @@ export const getFullSurah = async (surahNumber: number, _mode: TranslationMode, 
     let localBanglaText = undefined;
     if (localData?.[key]) {
       const localTranslations = localData[key];
-      localEnglishText = localTranslations[0] || 'N/A';
-      localBanglaText = localTranslations[1] || '';
+      localEnglishText = Array.isArray(localTranslations) ? localTranslations[0] : localTranslations;
+      localBanglaText = Array.isArray(localTranslations) ? (localTranslations[1] || '') : '';
     }
     return {
       ...v,
@@ -186,8 +186,8 @@ export const getVerse = async (surah: number, verse: number, mode: TranslationMo
   if (mode === 'local' && localData?.[`${surah}:${verse}`]) {
     const localTranslations = localData[`${surah}:${verse}`];
     return {
-      englishText: localTranslations[0] || 'N/A',
-      banglaText: localTranslations[1] || '',
+      englishText: Array.isArray(localTranslations) ? localTranslations[0] : (localTranslations || 'N/A'),
+      banglaText: Array.isArray(localTranslations) ? (localTranslations[1] || '') : '',
     };
   }
 
@@ -211,6 +211,9 @@ export const getVerse = async (surah: number, verse: number, mode: TranslationMo
     } else if (mode === 'both') {
       if (verseData.localEnglishText) {
         englishText = `${verseData.englishText}\n\n[Custom Local]\n${verseData.localEnglishText}`;
+      }
+      if (verseData.localBanglaText) {
+        banglaText = `${verseData.banglaText}\n\n[Custom Local]\n${verseData.localBanglaText}`;
       }
     } else if (mode === 'none') {
       englishText = '';
