@@ -109,10 +109,9 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
     };
 
     return (
-        <div className="pt-4 animate-in fade-in slide-in-from-right duration-500">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-fuchsia-400 tracking-wider">TREE OF VERSE</h2>
-                <button onClick={() => onBulkExport(treeTrines.flat().map(v => `${v.surah}:${v.ayah}`))} className="text-[10px] px-2 py-1 bg-cyan-900/40 border border-cyan-500/30 rounded hover:bg-cyan-500/30 transition-colors text-cyan-100">Bulk Export (36)</button>
+        <div className="pt-2 animate-in fade-in slide-in-from-right duration-500">
+            <div className="flex justify-end items-center mb-4">
+                <button onClick={() => onBulkExport(treeTrines.flat().map(v => `${v.surah}:${v.ayah}`))} className="text-[10px] px-2.5 py-1.5 bg-cyan-950/60 border border-cyan-500/30 rounded hover:bg-cyan-500/30 transition-colors text-cyan-100 font-bold uppercase tracking-wider">Bulk Export (36)</button>
             </div>
             
             <div className="bg-black/40 border border-gray-800 rounded-xl p-4 mb-4">

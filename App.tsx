@@ -264,7 +264,7 @@ const App: React.FC = () => {
         </div>
       </div>
       <div className="relative z-10 flex flex-col lg:flex-row lg:flex-1 lg:min-h-0">
-        <div className={`${isTreeOfVerseActive ? 'h-[500px]' : 'h-[350px]'} lg:h-full lg:flex-1 flex items-center justify-center p-4 outline-none shrink-0 transition-all duration-300`} tabIndex={0} onKeyDown={handleKeyDown} role="application">
+        <div className={`${isTreeOfVerseActive ? 'h-auto min-h-[440px] py-4' : 'h-[350px]'} lg:h-full lg:flex-1 flex items-center justify-center p-4 outline-none shrink-0 lg:transition-[height] lg:duration-300`} tabIndex={0} onKeyDown={handleKeyDown} role="application">
           {isTreeOfVerseActive ? (
             <TreeOfVerseCenter 
               rotation={rotation}

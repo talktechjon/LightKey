@@ -248,6 +248,8 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                     transliteration: v.transliteration,
                     englishText: v.englishText,
                     banglaText: v.banglaText,
+                    localEnglishText: v.localEnglishText,
+                    localBanglaText: v.localBanglaText,
                     fullVerseAudioUrl: v.fullVerseAudioUrl
                 }));
             }
@@ -305,10 +307,18 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
               <span className="text-[10px] text-amber-400/80 font-mono tracking-wider block mb-0.5 mt-1.5">ARABIC INVARIANT PROTOCOL:</span>
             )}
             <p className="text-gray-200 border-l-2 border-amber-500/50 pl-2 text-sm leading-relaxed">{v.localEnglishText}</p>
+            {v.localBanglaText && (
+              <p className="text-amber-200/90 border-l-2 border-indigo-500/30 pl-2 mt-1 text-sm leading-relaxed">{v.localBanglaText}</p>
+            )}
           </div>
         )}
         {showLocal && !v.localEnglishText && !showOnline && (
-          <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 text-sm leading-relaxed">{v.englishText}</p>
+          <div>
+            <p className="text-gray-200 border-l-2 border-cyan-500/50 pl-2 text-sm leading-relaxed">{v.englishText}</p>
+            {v.banglaText && v.banglaText !== 'N/A' && (
+              <p className="text-cyan-200/90 border-l-2 border-indigo-500/30 pl-2 mt-1 text-sm leading-relaxed">{v.banglaText}</p>
+            )}
+          </div>
         )}
         {/* Bangla translation (original Cloud translation) */}
         {showOnline && v.banglaText && v.banglaText !== 'N/A' && (

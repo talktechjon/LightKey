@@ -523,18 +523,18 @@ export const TreeOfVerseCenter: React.FC<TreeOfVerseCenterProps> = ({ rotation, 
     };
 
     return (
-        <div className={`flex flex-col items-center justify-center w-full min-h-[380px] md:min-h-[400px] p-3 md:p-6 pt-10 md:pt-16 relative bg-slate-950/45 border border-white/5 rounded-2xl backdrop-blur-md animate-in fade-in duration-500 ${isHorizontal ? 'max-w-3xl' : 'max-w-lg'} mx-auto overflow-hidden`}>
+        <div className={`flex flex-col items-center justify-between w-full min-h-[420px] sm:min-h-[460px] p-4 bg-slate-950/45 border border-white/5 rounded-2xl backdrop-blur-md animate-in fade-in duration-500 ${isHorizontal ? 'max-w-3xl' : 'max-w-lg'} mx-auto overflow-hidden gap-y-3`}>
             {/* Elegant HUD branding line */}
-            <div className="absolute top-4 left-4 right-4 flex justify-between items-center opacity-65 border-b border-cyan-500/10 pb-2">
+            <div className="w-full flex justify-between items-center opacity-65 border-b border-cyan-500/10 pb-2">
                 <span className="text-[10px] uppercase tracking-[0.2em] font-black text-cyan-400">Verse Flower</span>
                 <span className="text-[10px] font-mono font-bold text-gray-500">Root: {treeRootVerse.surah}:{treeRootVerse.ayah}</span>
             </div>
 
-            <div className="w-full">
+            <div className="w-full flex-1 flex items-center justify-center min-h-0">
                 {renderDiagram()}
             </div>
 
-            <div className="absolute bottom-3 left-4 right-4 flex justify-between items-center opacity-50 text-[8px] font-mono font-bold">
+            <div className="w-full flex justify-between items-center opacity-50 text-[8px] font-mono font-bold pt-1 border-t border-cyan-500/5">
                 <span>ROTATION: {Math.round(rotation)}°</span>
                 <span>HARVEST RATIO: 12-PHASE</span>
             </div>

@@ -120,12 +120,16 @@ export const getFullSurah = async (surahNumber: number, _mode: TranslationMode, 
 
           const verses: SurahVerse[] = arabicEdition.ayahs.map((ayah: any, index: number) => {
               const absoluteAyahNumber = ayah.number;
+              const key = `${surahNumber}:${ayah.numberInSurah}`;
+              const localTranslations = localData?.[key];
+              const prepackagedBangla = Array.isArray(localTranslations) ? (localTranslations[1] || '') : '';
+              
               return {
                   numberInSurah: ayah.numberInSurah,
                   absoluteNumber: absoluteAyahNumber,
                   arabicText: ayah.text,
                   englishText: englishEdition.ayahs[index]?.text || 'N/A',
-                  banglaText: banglaEdition.ayahs[index]?.text || 'N/A',
+                  banglaText: banglaEdition.ayahs[index]?.text && banglaEdition.ayahs[index]?.text !== 'N/A' ? banglaEdition.ayahs[index].text : (prepackagedBangla || 'N/A'),
                   transliteration: transliterationEdition.ayahs[index]?.text || 'N/A',
                   fullVerseAudioUrl: `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${absoluteAyahNumber}.mp3`,
               };
