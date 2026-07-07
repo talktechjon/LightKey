@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { KATHARA_CLOCK_POINTS, TOTAL_VERSES, TOTAL_SLICES, BUBBLE_BLOCK_MAPPING_RAW } from '../constants.ts';
 import { getVerseAddressFromGlobalIndex, getGlobalVerseIndex } from '../utils.ts';
 import { ShuffleIcon } from './Icons.tsx';
@@ -33,6 +33,40 @@ const TREE_EXPLANATIONS = [
     'The Book reads itself through the Reader.',
     'Pure remembrance of Home returned.',
     'The circuit seals in the Lord of Memory.'
+];
+
+const QUN_FAYAKUN_POINTS = [1, 39, 77, 19, 95, 57];
+const QUN_FAYAKUN_LABELS = [
+    "Slave [Qun ▼]",
+    "Queen [FayaQun ▲]",
+    "Righteous [Qun ▼]",
+    "Orphan [FayaQun ▲]",
+    "Cave [Qun ▼]",
+    "Turabin [FayaQun ▲]"
+];
+const QUN_FAYAKUN_EXPLANATIONS = [
+    "The Vector: Prayer & Intent (66:11, 19:3) — Contraction / Implosion Force.",
+    "Shadow Surplus / Entropy Term — Expansion / Explosion Force.",
+    "Faith Coherence — Contraction / Implosion Force.",
+    "Biological Cardiac Zero Point / Light Coherence — Expansion / Explosion Force.",
+    "Cubic Overflow Phase — Contraction / Implosion Force.",
+    "Command Propagation — Expansion / Explosion Force."
+];
+const QUN_FAYAKUN_COLORS = [
+    "text-cyan-400",
+    "text-pink-500",
+    "text-cyan-400",
+    "text-pink-500",
+    "text-cyan-400",
+    "text-pink-500"
+];
+const QUN_FAYAKUN_GLOWS = [
+    { textShadow: '0 0 8px rgba(34, 211, 238, 0.4)' },
+    { textShadow: '0 0 8px rgba(236, 72, 153, 0.4)' },
+    { textShadow: '0 0 8px rgba(34, 211, 238, 0.4)' },
+    { textShadow: '0 0 8px rgba(236, 72, 153, 0.4)' },
+    { textShadow: '0 0 8px rgba(34, 211, 238, 0.4)' },
+    { textShadow: '0 0 8px rgba(236, 72, 153, 0.4)' }
 ];
 
 export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelect, onBulkExport, treeRootVerse, setTreeRootVerse, treeTrines }) => {
@@ -103,6 +137,92 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                 const maxAyahs = BUBBLE_BLOCK_MAPPING_RAW[s as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0;
                 if (a >= 1 && a <= maxAyahs) {
                     updateRootFromTarget(nodeIdx, vIdx, s, a);
+                }
+            }
+        }
+    };
+
+    // Verse level Qun-Fayakun State
+    const [qunRootVerse, setQunRootVerse] = useState({ surah: 1, ayah: 1 });
+    const [qunAddrInput, setQunAddrInput] = useState('1:1');
+    const [qunLocalInputs, setQunLocalInputs] = useState<string[][]>([]);
+
+    const qunTrines = useMemo(() => {
+        const rootIndex = getGlobalVerseIndex(qunRootVerse.surah, qunRootVerse.ayah);
+        const baseIndex = rootIndex - rotationOffset;
+
+        return QUN_FAYAKUN_POINTS.map((pointValue) => {
+            const pointOffset = (pointValue - 1) * verseScalingFactor;
+            const anchorIdx = Math.round(baseIndex + pointOffset);
+            
+            // Map offsets: [-1, 0, 1] for V-1 | Anchor | V+1
+            return [-1, 0, 1].map(offset => {
+                const globalIdx = ((anchorIdx + offset - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
+                return getVerseAddressFromGlobalIndex(globalIdx);
+            });
+        });
+    }, [qunRootVerse, rotation, verseScalingFactor, rotationOffset]);
+
+    // Sync qunLocalInputs when qunTrines changes
+    useEffect(() => {
+        setQunLocalInputs(qunTrines.map(trine => trine.map(v => `${v.surah}:${v.ayah}`)));
+        setQunAddrInput(`${qunRootVerse.surah}:${qunRootVerse.ayah}`);
+    }, [qunTrines, qunRootVerse]);
+
+    const updateQunRootFromTarget = (nodeIdx: number, vIdx: number, targetSurah: number, targetAyah: number) => {
+        const targetGlobalIdx = getGlobalVerseIndex(targetSurah, targetAyah);
+        const pointValue = QUN_FAYAKUN_POINTS[nodeIdx];
+        const pointOffset = (pointValue - 1) * verseScalingFactor;
+        const offsetVal = vIdx === 0 ? -1 : vIdx === 1 ? 0 : 1;
+        
+        let calculatedRootIndex = Math.round(targetGlobalIdx + rotationOffset - pointOffset - offsetVal);
+        calculatedRootIndex = ((calculatedRootIndex - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
+        
+        const newRoot = getVerseAddressFromGlobalIndex(calculatedRootIndex);
+        setQunRootVerse(newRoot);
+    };
+
+    const handleQunRootChange = (delta: number) => {
+        const rootIndex = getGlobalVerseIndex(qunRootVerse.surah, qunRootVerse.ayah);
+        const newIdx = ((rootIndex + delta - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
+        setQunRootVerse(getVerseAddressFromGlobalIndex(newIdx));
+    };
+
+    const handleQunRandomVerse = () => {
+        const randomSurahId = Math.floor(Math.random() * 114) + 1;
+        const maxAyahs = BUBBLE_BLOCK_MAPPING_RAW[randomSurahId as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 7;
+        const randomAyah = Math.floor(Math.random() * maxAyahs) + 1;
+        setQunRootVerse({ surah: randomSurahId, ayah: randomAyah });
+    };
+
+    const handleQunInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = e.target.value.replace(/[^0-9:]/g, '');
+        setQunAddrInput(val);
+        const parts = val.split(':');
+        if (parts.length === 2) {
+            const s = parseInt(parts[0], 10);
+            const a = parseInt(parts[1], 10);
+            if (!isNaN(s) && !isNaN(a) && s >= 1 && s <= 114) {
+                const maxAyahs = BUBBLE_BLOCK_MAPPING_RAW[s as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0;
+                if (a >= 1 && a <= maxAyahs) setQunRootVerse({ surah: s, ayah: a });
+            }
+        }
+    };
+
+    const handleQunLocalInputChange = (nodeIdx: number, vIdx: number, value: string) => {
+        const newLocal = [...qunLocalInputs];
+        if (!newLocal[nodeIdx]) newLocal[nodeIdx] = [];
+        newLocal[nodeIdx][vIdx] = value.replace(/[^0-9:]/g, '');
+        setQunLocalInputs(newLocal);
+
+        const parts = value.split(':');
+        if (parts.length === 2) {
+            const s = parseInt(parts[0], 10);
+            const a = parseInt(parts[1], 10);
+            if (!isNaN(s) && !isNaN(a) && s >= 1 && s <= 114) {
+                const maxAyahs = BUBBLE_BLOCK_MAPPING_RAW[s as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0;
+                if (a >= 1 && a <= maxAyahs) {
+                    updateQunRootFromTarget(nodeIdx, vIdx, s, a);
                 }
             }
         }
@@ -247,6 +367,130 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                         </div>
                     </div>
                 )})}
+            </div>
+
+            {/* Verse-level Qun-Fayakun Divider */}
+            <div className="flex items-center gap-x-2 my-8 opacity-60">
+                <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-cyan-500/50 to-pink-500/50"></div>
+                <span className="text-[10px] uppercase tracking-[0.3em] font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500">Verse level Qun-Fayakun</span>
+                <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-pink-500/50 to-cyan-500/50"></div>
+            </div>
+
+            {/* Bulk Export & Root Control for Verse level Qun-Fayakun */}
+            <div className="flex justify-end items-center mb-4">
+                <button 
+                    onClick={() => onBulkExport(qunTrines.flat().map(v => `${v.surah}:${v.ayah}`))} 
+                    className="text-[10px] px-2.5 py-1.5 bg-gradient-to-r from-cyan-950/40 to-pink-950/40 border border-purple-500/30 rounded hover:border-purple-400/50 transition-colors text-white font-bold uppercase tracking-wider"
+                >
+                    Bulk Export Qun-Fayakun (18)
+                </button>
+            </div>
+
+            <div className="bg-black/40 border border-purple-500/20 rounded-xl p-4 mb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-y-3">
+                    <label className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-400 uppercase tracking-widest font-bold">Root Anchor Node 1</label>
+                    <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
+                        <button 
+                            onClick={handleQunRandomVerse} 
+                            className="p-2 bg-gray-800 hover:bg-purple-900/50 text-purple-400 rounded-lg transition-all border border-purple-500/20" 
+                            title="Load Random Verse for Qun-Fayakun"
+                        >
+                            <ShuffleIcon />
+                        </button>
+                        <div className="flex items-center gap-2 bg-slate-900/60 px-3 py-1 rounded-lg border border-purple-500/20">
+                            <button 
+                                onClick={() => handleQunRootChange(-1)} 
+                                className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-md hover:bg-gray-700 text-white font-bold text-lg transition-colors"
+                            >
+                                -
+                            </button>
+                            <input 
+                                type="text"
+                                value={qunAddrInput}
+                                onChange={handleQunInputChange}
+                                onBlur={() => setQunAddrInput(`${qunRootVerse.surah}:${qunRootVerse.ayah}`)}
+                                className="bg-transparent border-none p-0 font-mono text-purple-400 text-lg glow-text text-center w-20 focus:ring-0 focus:outline-none cursor-text font-bold"
+                                placeholder="S:A"
+                            />
+                            <button 
+                                onClick={() => handleQunRootChange(1)} 
+                                className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-md hover:bg-gray-700 text-white font-bold text-lg transition-colors"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Explanation box for Verse-level Qun-Fayakun */}
+            <div className="mb-6 p-4 bg-black/40 border border-purple-500/20 rounded-lg text-xs md:text-sm leading-relaxed space-y-3">
+                <p className="text-white/90">
+                    The <strong className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500 font-bold">Qun-Fayakun (Be and it Is)</strong> formula models the dynamic cosmological breathing cycle: 
+                    Contraction / Implosion (<strong className="text-cyan-400">Qun ▼</strong>) and Expansion / Explosion (<strong className="text-pink-400">Fayaqun ▲</strong>).
+                </p>
+                <p className="text-white/75">
+                    This is mapped to 6 key nodes across the verse continuum, generating a trine of three verses for each node corresponding to: 
+                    <strong className="text-orange-400">V-1</strong>, the <strong className="text-cyan-400">Anchor</strong>, and <strong className="text-emerald-400">V+1</strong>.
+                </p>
+                <div className="bg-gradient-to-r from-cyan-950/20 to-pink-950/20 border border-purple-500/20 px-2.5 py-1.5 rounded text-[10px] text-purple-300 font-mono">
+                    CYCLE: SLAVE [▼] → QUEEN [▲] → RIGHTEOUS [▼] → ORPHAN [▲] → CAVE [▼] → TURABIN [▲]
+                </div>
+            </div>
+
+            {/* Grid of 6 Qun-Fayakun Nodes */}
+            <div className="space-y-4 text-sm md:text-base mb-8">
+                {qunTrines.map((trine, nodeIdx) => {
+                    const labelColor = QUN_FAYAKUN_COLORS[nodeIdx];
+                    const glowStyle = QUN_FAYAKUN_GLOWS[nodeIdx];
+                    const isQunNode = QUN_FAYAKUN_LABELS[nodeIdx].includes("[Qun ▼]");
+                    const activeBorderColor = isQunNode ? 'group-hover:border-cyan-500/30' : 'group-hover:border-pink-500/30';
+                    const focusBorderColor = isQunNode ? 'focus-within:border-cyan-500/50 focus-within:bg-cyan-900/10' : 'focus-within:border-pink-500/50 focus-within:bg-pink-900/10';
+                    const inputTextColor = isQunNode ? 'text-cyan-400' : 'text-pink-400';
+
+                    return (
+                        <div key={nodeIdx} className={`bg-gray-900/40 border border-white/5 rounded-lg p-3 hover:border-white/10 ${activeBorderColor} transition-all group`}>
+                            <div className="flex flex-col mb-3 pb-2 border-b border-white/10">
+                                <div className="flex items-center gap-2">
+                                    <span className={`text-sm md:text-base font-bold ${labelColor} tracking-widest uppercase`} style={glowStyle}>
+                                        {nodeIdx + 1}. {QUN_FAYAKUN_LABELS[nodeIdx]}
+                                    </span>
+                                    <span className={`text-[9px] uppercase px-1.5 py-0.5 rounded font-bold border ${isQunNode ? 'bg-cyan-950/40 text-cyan-400 border-cyan-500/20' : 'bg-pink-950/40 text-pink-400 border-pink-500/20'}`}>
+                                        {isQunNode ? 'Implosion' : 'Explosion'}
+                                    </span>
+                                </div>
+                                <span className="text-xs md:text-sm text-gray-400 italic mt-1 font-light font-sans">
+                                    {QUN_FAYAKUN_EXPLANATIONS[nodeIdx]}
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-3 gap-2">
+                                {trine.map((v, vIdx) => {
+                                    const colLabel = vIdx === 0 ? "V-1" : vIdx === 1 ? "Anchor" : "V+1";
+                                    const colColor = vIdx === 0 ? "text-orange-400" : vIdx === 1 ? "text-cyan-400" : "text-emerald-400";
+                                    return (
+                                        <div 
+                                            key={vIdx} 
+                                            className={`relative flex flex-col items-center py-1.5 px-2 bg-black/60 border border-white/10 rounded group/input ${focusBorderColor} transition-all`}
+                                        >
+                                            <input 
+                                                type="text"
+                                                value={qunLocalInputs[nodeIdx]?.[vIdx] || ''}
+                                                onChange={(e) => handleQunLocalInputChange(nodeIdx, vIdx, e.target.value)}
+                                                onDoubleClick={() => onVerseSelect(v.surah, v.ayah)}
+                                                className={`bg-transparent border-none p-0 font-mono ${inputTextColor} text-sm md:text-base glow-text text-center w-full focus:ring-0 focus:outline-none cursor-text font-bold`}
+                                                placeholder="S:A"
+                                                title="Double click to view verse"
+                                            />
+                                            <span className={`text-[9px] md:text-[10px] ${colColor} font-bold uppercase pointer-events-none mt-1`}>
+                                                {colLabel}
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
 
             <style>{`.glow-text { text-shadow: 0 0 5px currentColor; }`}</style>

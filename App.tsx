@@ -249,7 +249,7 @@ const App: React.FC = () => {
           </a>
           <button onClick={() => setIsLowResourceMode(p => !p)} className={`w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isLowResourceMode ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Performance"><svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9.59 4.59A2 2 0 1 1 11 8H2M12.59 19.41A2 2 0 1 0 14 16H2M19.59 11.41A2 2 0 1 0 21 8H2"/></svg></button>
         </div>
-        <div className="pointer-events-auto">
+        <div className="pointer-events-none flex flex-col items-start gap-y-2">
           <SettingsPanel 
              isVisible={isSettingsVisible} 
              setIsVisible={setIsSettingsVisible} 

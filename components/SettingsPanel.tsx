@@ -163,7 +163,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
   if (!isVisible) return null;
 
   return (
-    <div className="w-80 bg-black/50 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-2xl flex flex-col mt-2">
+    <div className="w-80 bg-black/50 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-2xl flex flex-col mt-2 pointer-events-auto">
       <div className="flex justify-between items-center p-3 border-b border-cyan-500/20">
         <h3 className="font-semibold text-cyan-300">Translation Settings</h3>
         <button onClick={() => setIsVisible(false)} className="text-gray-400 hover:text-white" aria-label="Close Settings">

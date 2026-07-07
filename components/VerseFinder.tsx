@@ -409,7 +409,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
   if (!isVisible) return null;
 
   return (
-    <div className={`max-h-[calc(100vh-100px)] bg-black/50 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-2xl flex flex-col transition-all duration-300 ${isMaximized ? 'w-80 lg:w-[700px]' : 'w-80'}`}>
+    <div className={`max-h-[calc(100vh-100px)] bg-black/50 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-2xl flex flex-col transition-all duration-300 pointer-events-auto ${isMaximized ? 'w-80 lg:w-[700px]' : 'w-80'}`}>
       <div className="flex justify-between items-center p-3 border-b border-cyan-500/20 gap-x-2">
         <div className="flex items-center gap-x-2">
             <h3 className="font-semibold text-cyan-300 shrink-0">Reader</h3>
