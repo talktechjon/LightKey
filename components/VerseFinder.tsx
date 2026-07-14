@@ -8,6 +8,8 @@ import {
   PlayIcon, PauseIcon, PlaylistPlayIcon, PlaylistPauseIcon, RepeatIcon, ShuffleIcon,
   MaximizeIcon, MinimizeIcon, CopyIcon, CheckIcon
 } from './Icons.tsx';
+import { Fingerprint } from 'lucide-react';
+import { VerseRootTracer } from './VerseRootTracer.tsx';
 
 const GET_ARABIC_AUDIO_URL = (abs: number) => `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${abs}.mp3`;
 
@@ -35,6 +37,37 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
   const [error, setError] = useState<string | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
   const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle');
+  const [expandedTraceVerse, setExpandedTraceVerse] = useState<string | null>(null);
+
+  // Auto-maximize when tracing to ensure elegant visual rendering
+  useEffect(() => {
+    if (expandedTraceVerse) {
+      setIsMaximized(true);
+    }
+  }, [expandedTraceVerse]);
+
+  // Jump to a specific verse ref from the tracer timeline
+  const jumpToVerse = async (surahNumber: number, ayahNumber: number) => {
+    setError(null);
+    setIsLoading(true);
+    audioRef.current.pause();
+    setCurrentlyPlaying(null);
+    onQueryChange(`${surahNumber}:${ayahNumber}`);
+    
+    try {
+      const verse = await getVerseDetails(surahNumber, ayahNumber, translationMode, localTranslationData);
+      if (verse) {
+        setContent({ type: 'search', verses: [verse] });
+        setExpandedTraceVerse(`${surahNumber}:${ayahNumber}`);
+      } else {
+        setError('Could not fetch verse details.');
+      }
+    } catch (e) {
+      setError('Error loading verse.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   const inputRef = useRef<HTMLInputElement>(null);
   const verseElementsRef = useRef(new Map<string, HTMLDivElement>());
@@ -353,13 +386,34 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                             >
                                 <div className="flex justify-between items-center mb-4">
                                     <h4 className="font-bold text-cyan-400">{v.surah.englishName} [{v.surah.number}:{v.numberInSurah}]</h4>
-                                    <button onClick={() => handlePlayToggle(id)} className={isCurrent ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}>
-                                        {isCurrent ? <PauseIcon /> : <PlayIcon />}
-                                    </button>
+                                    <div className="flex items-center gap-x-2">
+                                        <button 
+                                            onClick={() => setExpandedTraceVerse(expandedTraceVerse === `${v.surah.number}:${v.numberInSurah}` ? null : `${v.surah.number}:${v.numberInSurah}`)}
+                                            className={`text-[9px] uppercase font-bold tracking-wider px-2 py-1 rounded transition-all border flex items-center gap-1 ${
+                                                expandedTraceVerse === `${v.surah.number}:${v.numberInSurah}`
+                                                    ? 'bg-cyan-950 text-cyan-300 border-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.2)] font-black' 
+                                                    : 'bg-transparent text-gray-400 border-gray-700 hover:border-cyan-500/40 hover:text-cyan-400'
+                                            }`}
+                                            title="Trace trilateral word roots"
+                                        >
+                                            <Fingerprint className="h-3.5 w-3.5" />
+                                            <span>{expandedTraceVerse === `${v.surah.number}:${v.numberInSurah}` ? 'Hide Trace' : 'Trace Roots'}</span>
+                                        </button>
+                                        <button onClick={() => handlePlayToggle(id)} className={isCurrent ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}>
+                                            {isCurrent ? <PauseIcon /> : <PlayIcon />}
+                                        </button>
+                                    </div>
                                 </div>
                                 <InteractiveArabicText surah={v.surah.number} ayah={v.numberInSurah} fallbackText={v.arabicText} />
                                 <p className="italic text-gray-400 mb-3 text-sm">{v.transliteration}</p>
                                 {renderTranslations(v)}
+                                {expandedTraceVerse === `${v.surah.number}:${v.numberInSurah}` && (
+                                    <VerseRootTracer 
+                                        surah={v.surah.number} 
+                                        ayah={v.numberInSurah} 
+                                        onVerseSelect={(s, a) => jumpToVerse(s, a)} 
+                                    />
+                                )}
                             </div>
                         );
                     })}
@@ -390,13 +444,34 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
                                >
                                    <div className="flex justify-between items-center mb-4">
                                        <h4 className="font-bold text-cyan-400">{content.data.number}:{v.numberInSurah}</h4>
-                                       <button onClick={() => handlePlayToggle(id)} className={isCurrent ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}>
-                                           {isCurrent ? <PauseIcon /> : <PlayIcon />}
-                                       </button>
+                                       <div className="flex items-center gap-x-2">
+                                           <button 
+                                               onClick={() => setExpandedTraceVerse(expandedTraceVerse === `${content.data.number}:${v.numberInSurah}` ? null : `${content.data.number}:${v.numberInSurah}`)}
+                                               className={`text-[9px] uppercase font-bold tracking-wider px-2 py-1 rounded transition-all border flex items-center gap-1 ${
+                                                   expandedTraceVerse === `${content.data.number}:${v.numberInSurah}`
+                                                       ? 'bg-cyan-950 text-cyan-300 border-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.2)] font-black' 
+                                                       : 'bg-transparent text-gray-400 border-gray-700 hover:border-cyan-500/40 hover:text-cyan-400'
+                                               }`}
+                                               title="Trace trilateral word roots"
+                                           >
+                                               <Fingerprint className="h-3.5 w-3.5" />
+                                               <span>{expandedTraceVerse === `${content.data.number}:${v.numberInSurah}` ? 'Hide Trace' : 'Trace Roots'}</span>
+                                           </button>
+                                           <button onClick={() => handlePlayToggle(id)} className={isCurrent ? 'text-cyan-300' : 'text-gray-400 hover:text-white'}>
+                                               {isCurrent ? <PauseIcon /> : <PlayIcon />}
+                                           </button>
+                                       </div>
                                    </div>
                                    <InteractiveArabicText surah={content.data.number} ayah={v.numberInSurah} fallbackText={v.arabicText} />
                                    <p className="italic text-gray-400 mb-3 text-sm">{v.transliteration}</p>
                                    {renderTranslations(v)}
+                                   {expandedTraceVerse === `${content.data.number}:${v.numberInSurah}` && (
+                                       <VerseRootTracer 
+                                           surah={content.data.number} 
+                                           ayah={v.numberInSurah} 
+                                           onVerseSelect={(s, a) => jumpToVerse(s, a)} 
+                                       />
+                                   )}
                                </div>
                            );
                        })}
