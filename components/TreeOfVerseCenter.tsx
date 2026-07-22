@@ -526,7 +526,7 @@ export const TreeOfVerseCenter: React.FC<TreeOfVerseCenterProps> = ({ rotation, 
         <div className={`flex flex-col items-center justify-between w-full min-h-[420px] sm:min-h-[460px] p-4 bg-slate-950/45 border border-white/5 rounded-2xl backdrop-blur-md animate-in fade-in duration-500 ${isHorizontal ? 'max-w-3xl' : 'max-w-lg'} mx-auto overflow-hidden gap-y-3`}>
             {/* Elegant HUD branding line */}
             <div className="w-full flex justify-between items-center opacity-65 border-b border-cyan-500/10 pb-2">
-                <span className="text-[10px] uppercase tracking-[0.2em] font-black text-cyan-400">Verse Flower</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] font-black text-cyan-400">Mursalin Path</span>
                 <span className="text-[10px] font-mono font-bold text-gray-500">Root: {treeRootVerse.surah}:{treeRootVerse.ayah}</span>
             </div>
 

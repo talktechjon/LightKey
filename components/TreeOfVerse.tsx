@@ -69,6 +69,36 @@ const QUN_FAYAKUN_GLOWS = [
     { textShadow: '0 0 8px rgba(236, 72, 153, 0.4)' }
 ];
 
+const MOL_LABELS = [
+    "The Opening (D10/Fire)",
+    "The Praise (Nafs/Gratitude)",
+    "The Merciful (T3/Light)",
+    "The Master (Balance/Growth)",
+    "The Servitude (I9/Return)",
+    "The Path (Sirāṭ/Compression)",
+    "The Grace (Crown/Memory)"
+];
+
+const MOL_COLORS = [
+    'text-red-500',
+    'text-orange-500',
+    'text-yellow-400',
+    'text-green-500',
+    'text-blue-500',
+    'text-indigo-400',
+    'text-purple-500'
+];
+
+const MOL_GLOWS = [
+    '0 0 8px rgba(239, 68, 68, 0.4)',
+    '0 0 8px rgba(249, 115, 22, 0.4)',
+    '0 0 8px rgba(250, 204, 21, 0.4)',
+    '0 0 8px rgba(34, 197, 94, 0.4)',
+    '0 0 8px rgba(59, 130, 246, 0.4)',
+    '0 0 8px rgba(129, 140, 248, 0.4)',
+    '0 0 8px rgba(168, 85, 247, 0.4)'
+];
+
 export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelect, onBulkExport, treeRootVerse, setTreeRootVerse, treeTrines }) => {
     const [addrInput, setAddrInput] = useState('1:1');
 
@@ -88,8 +118,9 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
         const targetGlobalIdx = getGlobalVerseIndex(targetSurah, targetAyah);
         const pointValue = KATHARA_CLOCK_POINTS[nodeIdx];
         const pointOffset = (pointValue - 1) * verseScalingFactor;
+        const offsetVal = vIdx === 0 ? -1 : vIdx === 1 ? 0 : 1;
         
-        let calculatedRootIndex = Math.round(targetGlobalIdx + rotationOffset - pointOffset - vIdx);
+        let calculatedRootIndex = Math.round(targetGlobalIdx + rotationOffset - pointOffset - offsetVal);
         calculatedRootIndex = ((calculatedRootIndex - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
         
         const newRoot = getVerseAddressFromGlobalIndex(calculatedRootIndex);
@@ -228,10 +259,94 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
         }
     };
 
+    // Memory of Light State
+    const [molRootVerse, setMolRootVerse] = useState({ surah: 1, ayah: 1 });
+    const [molAddrInput, setMolAddrInput] = useState('1:1');
+    const [molLocalInputs, setMolLocalInputs] = useState<string[][]>([]);
+
+    const molTrines = useMemo(() => {
+        const rootIndex = getGlobalVerseIndex(molRootVerse.surah, molRootVerse.ayah);
+        const baseIndex = rootIndex - rotationOffset;
+
+        return Array.from({ length: 7 }).map((_, i) => {
+            const pointOffset = i * (TOTAL_VERSES / 7);
+            const anchorIdx = Math.round(baseIndex + pointOffset);
+            
+            return [-1, 0, 1].map(offset => {
+                const globalIdx = ((anchorIdx + offset - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
+                return getVerseAddressFromGlobalIndex(globalIdx);
+            });
+        });
+    }, [molRootVerse, rotation, verseScalingFactor, rotationOffset]);
+
+    useEffect(() => {
+        setMolLocalInputs(molTrines.map(trine => trine.map(v => `${v.surah}:${v.ayah}`)));
+        setMolAddrInput(`${molRootVerse.surah}:${molRootVerse.ayah}`);
+    }, [molTrines, molRootVerse]);
+
+    const updateMolRootFromTarget = (nodeIdx: number, vIdx: number, targetSurah: number, targetAyah: number) => {
+        const targetGlobalIdx = getGlobalVerseIndex(targetSurah, targetAyah);
+        const pointOffset = nodeIdx * (TOTAL_VERSES / 7);
+        const offsetVal = vIdx === 0 ? -1 : vIdx === 1 ? 0 : 1;
+        
+        let calculatedRootIndex = Math.round(targetGlobalIdx + rotationOffset - pointOffset - offsetVal);
+        calculatedRootIndex = ((calculatedRootIndex - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
+        
+        const newRoot = getVerseAddressFromGlobalIndex(calculatedRootIndex);
+        setMolRootVerse(newRoot);
+    };
+
+    const handleMolRootChange = (delta: number) => {
+        const rootIndex = getGlobalVerseIndex(molRootVerse.surah, molRootVerse.ayah);
+        const newIdx = ((rootIndex + delta - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
+        setMolRootVerse(getVerseAddressFromGlobalIndex(newIdx));
+    };
+
+    const handleMolRandomVerse = () => {
+        const randomSurahId = Math.floor(Math.random() * 114) + 1;
+        const maxAyahs = BUBBLE_BLOCK_MAPPING_RAW[randomSurahId as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 7;
+        const randomAyah = Math.floor(Math.random() * maxAyahs) + 1;
+        setMolRootVerse({ surah: randomSurahId, ayah: randomAyah });
+    };
+
+    const handleMolInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = e.target.value.replace(/[^0-9:]/g, '');
+        setMolAddrInput(val);
+        const parts = val.split(':');
+        if (parts.length === 2) {
+            const s = parseInt(parts[0], 10);
+            const a = parseInt(parts[1], 10);
+            if (!isNaN(s) && !isNaN(a) && s >= 1 && s <= 114) {
+                const maxAyahs = BUBBLE_BLOCK_MAPPING_RAW[s as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0;
+                if (a >= 1 && a <= maxAyahs) setMolRootVerse({ surah: s, ayah: a });
+            }
+        }
+    };
+
+    const handleMolLocalInputChange = (nodeIdx: number, vIdx: number, value: string) => {
+        const newLocal = [...molLocalInputs];
+        if (!newLocal[nodeIdx]) newLocal[nodeIdx] = [];
+        newLocal[nodeIdx][vIdx] = value.replace(/[^0-9:]/g, '');
+        setMolLocalInputs(newLocal);
+
+        const parts = value.split(':');
+        if (parts.length === 2) {
+            const s = parseInt(parts[0], 10);
+            const a = parseInt(parts[1], 10);
+            if (!isNaN(s) && !isNaN(a) && s >= 1 && s <= 114) {
+                const maxAyahs = BUBBLE_BLOCK_MAPPING_RAW[s as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0;
+                if (a >= 1 && a <= maxAyahs) {
+                    updateMolRootFromTarget(nodeIdx, vIdx, s, a);
+                }
+            }
+        }
+    };
+
     return (
         <div className="pt-2 animate-in fade-in slide-in-from-right duration-500">
-            <div className="flex justify-end items-center mb-4">
-                <button onClick={() => onBulkExport(treeTrines.flat().map(v => `${v.surah}:${v.ayah}`))} className="text-[10px] px-2.5 py-1.5 bg-cyan-950/60 border border-cyan-500/30 rounded hover:bg-cyan-500/30 transition-colors text-cyan-100 font-bold uppercase tracking-wider">Bulk Export (36)</button>
+            <div className="flex justify-end items-center mb-4 gap-2">
+                <button onClick={() => onBulkExport(treeTrines.map(trine => `${trine[1].surah}:${trine[1].ayah}`))} className="text-[9px] sm:text-[10px] px-2 py-1.5 bg-cyan-950/60 border border-cyan-500/30 rounded hover:bg-cyan-500/30 transition-colors text-cyan-100 font-bold uppercase tracking-wider whitespace-nowrap">Export Anchors (12)</button>
+                <button onClick={() => onBulkExport(treeTrines.flat().map(v => `${v.surah}:${v.ayah}`))} className="text-[9px] sm:text-[10px] px-2 py-1.5 bg-cyan-950/60 border border-cyan-500/30 rounded hover:bg-cyan-500/30 transition-colors text-cyan-100 font-bold uppercase tracking-wider whitespace-nowrap">Bulk Export (36)</button>
             </div>
             
             <div className="bg-black/40 border border-gray-800 rounded-xl p-4 mb-4">
@@ -361,7 +476,9 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                                         placeholder="S:A"
                                         title="Double click to view verse"
                                     />
-                                    <span className="text-[9px] md:text-[10px] opacity-50 uppercase pointer-events-none mt-1">V{vIdx + 1}</span>
+                                    <span className={`text-[9px] md:text-[10px] ${vIdx === 0 ? "text-orange-400" : vIdx === 1 ? "text-cyan-400" : "text-emerald-400"} font-bold uppercase pointer-events-none mt-1`}>
+                                        {vIdx === 0 ? "V-1" : vIdx === 1 ? "Anchor" : "V+1"}
+                                    </span>
                                 </div>
                             ))}
                         </div>
@@ -377,12 +494,18 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
             </div>
 
             {/* Bulk Export & Root Control for Verse level Qun-Fayakun */}
-            <div className="flex justify-end items-center mb-4">
+            <div className="flex justify-end items-center mb-4 gap-2">
+                <button 
+                    onClick={() => onBulkExport(qunTrines.map(trine => `${trine[1].surah}:${trine[1].ayah}`))} 
+                    className="text-[9px] sm:text-[10px] px-2 py-1.5 bg-gradient-to-r from-cyan-950/40 to-pink-950/40 border border-purple-500/30 rounded hover:border-purple-400/50 transition-colors text-white font-bold uppercase tracking-wider whitespace-nowrap"
+                >
+                    Export Anchors (6)
+                </button>
                 <button 
                     onClick={() => onBulkExport(qunTrines.flat().map(v => `${v.surah}:${v.ayah}`))} 
-                    className="text-[10px] px-2.5 py-1.5 bg-gradient-to-r from-cyan-950/40 to-pink-950/40 border border-purple-500/30 rounded hover:border-purple-400/50 transition-colors text-white font-bold uppercase tracking-wider"
+                    className="text-[9px] sm:text-[10px] px-2 py-1.5 bg-gradient-to-r from-cyan-950/40 to-pink-950/40 border border-purple-500/30 rounded hover:border-purple-400/50 transition-colors text-white font-bold uppercase tracking-wider whitespace-nowrap"
                 >
-                    Bulk Export Qun-Fayakun (18)
+                    Bulk Export (18)
                 </button>
             </div>
 
@@ -492,6 +615,120 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                     );
                 })}
             </div>
+
+            {/* Memory of Light Divider */}
+            <div className="flex items-center gap-x-2 my-8 opacity-60">
+                <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-amber-500/50 to-amber-200/50"></div>
+                <span className="text-[10px] uppercase tracking-[0.3em] font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-green-500 to-purple-500">Memory of Light</span>
+                <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-amber-200/50 to-amber-500/50"></div>
+            </div>
+
+            {/* Bulk Export & Root Control for Memory of Light */}
+            <div className="flex justify-end items-center mb-4 gap-2">
+                <button 
+                    onClick={() => onBulkExport(molTrines.map(trine => `${trine[1].surah}:${trine[1].ayah}`))} 
+                    className="text-[9px] sm:text-[10px] px-2 py-1.5 bg-gradient-to-r from-amber-950/40 to-yellow-950/40 border border-amber-500/30 rounded hover:border-amber-400/50 transition-colors text-amber-100 font-bold uppercase tracking-wider whitespace-nowrap"
+                >
+                    Export Anchors (7)
+                </button>
+                <button 
+                    onClick={() => onBulkExport(molTrines.flat().map(v => `${v.surah}:${v.ayah}`))} 
+                    className="text-[9px] sm:text-[10px] px-2 py-1.5 bg-gradient-to-r from-amber-950/40 to-yellow-950/40 border border-amber-500/30 rounded hover:border-amber-400/50 transition-colors text-amber-100 font-bold uppercase tracking-wider whitespace-nowrap"
+                >
+                    Bulk Export (21)
+                </button>
+            </div>
+
+            <div className="bg-black/40 border border-amber-500/20 rounded-xl p-4 mb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-y-3">
+                    <label className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-green-500 to-purple-500 uppercase tracking-widest font-bold">Root Anchor Node 1</label>
+                    <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
+                        <button 
+                            onClick={handleMolRandomVerse} 
+                            className="p-2 bg-gray-800 hover:bg-amber-900/50 text-amber-400 rounded-lg transition-all border border-amber-500/20" 
+                            title="Load Random Verse for Memory of Light"
+                        >
+                            <ShuffleIcon />
+                        </button>
+                        <div className="flex items-center gap-2 bg-slate-900/60 px-3 py-1 rounded-lg border border-amber-500/20">
+                            <button 
+                                onClick={() => handleMolRootChange(-1)} 
+                                className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-md hover:bg-gray-700 text-white font-bold text-lg transition-colors"
+                            >
+                                -
+                            </button>
+                            <input 
+                                type="text"
+                                value={molAddrInput}
+                                onChange={handleMolInputChange}
+                                onBlur={() => setMolAddrInput(`${molRootVerse.surah}:${molRootVerse.ayah}`)}
+                                className="bg-transparent border-none p-0 font-mono text-amber-400 text-lg glow-text text-center w-20 focus:ring-0 focus:outline-none cursor-text font-bold"
+                                placeholder="S:A"
+                            />
+                            <button 
+                                onClick={() => handleMolRootChange(1)} 
+                                className="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-md hover:bg-gray-700 text-white font-bold text-lg transition-colors"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Explanation box for Memory of Light */}
+            <div className="mb-6 p-4 bg-black/40 border border-amber-500/20 rounded-lg text-xs md:text-sm leading-relaxed space-y-3">
+                <p className="text-white/90">
+                    The <strong className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-green-500 to-purple-500 font-bold">Memory of Light</strong> represents a 7-point heptagram distribution.
+                </p>
+                <p className="text-white/75">
+                    This distributes points evenly across the verse continuum. Each of the 7 nodes generates a trine of three verses corresponding to: 
+                    <strong className="text-orange-400">V-1</strong>, the <strong className="text-cyan-400">Anchor</strong>, and <strong className="text-emerald-400">V+1</strong>.
+                </p>
+            </div>
+
+            {/* Grid of 7 Memory of Light Nodes */}
+            <div className="space-y-4 text-sm md:text-base mb-8">
+                {molTrines.map((trine, nodeIdx) => {
+                    return (
+                        <div key={nodeIdx} className={`bg-gray-900/40 border border-white/5 rounded-lg p-3 hover:border-white/10 group-hover:border-amber-500/30 transition-all group`}>
+                            <div className="flex flex-col mb-3 pb-2 border-b border-white/10">
+                                <div className="flex items-center gap-2 overflow-hidden">
+                                    <span className={`text-[10px] sm:text-xs font-bold tracking-wider uppercase whitespace-nowrap overflow-hidden text-ellipsis ${MOL_COLORS[nodeIdx]}`} style={{ textShadow: MOL_GLOWS[nodeIdx] }}>
+                                        {nodeIdx + 1}. {MOL_LABELS[nodeIdx]}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-3 gap-2">
+                                {trine.map((v, vIdx) => {
+                                    const colLabel = vIdx === 0 ? "V-1" : vIdx === 1 ? "Anchor" : "V+1";
+                                    const colColor = vIdx === 0 ? "text-orange-400" : vIdx === 1 ? "text-cyan-400" : "text-emerald-400";
+                                    return (
+                                        <div 
+                                            key={vIdx} 
+                                            className={`relative flex flex-col items-center py-1.5 px-2 bg-black/60 border border-white/10 rounded group/input focus-within:border-amber-500/50 focus-within:bg-amber-900/10 transition-all`}
+                                        >
+                                            <input 
+                                                type="text"
+                                                value={molLocalInputs[nodeIdx]?.[vIdx] || ''}
+                                                onChange={(e) => handleMolLocalInputChange(nodeIdx, vIdx, e.target.value)}
+                                                onDoubleClick={() => onVerseSelect(v.surah, v.ayah)}
+                                                className={`bg-transparent border-none p-0 font-mono text-amber-400 text-sm md:text-base glow-text text-center w-full focus:ring-0 focus:outline-none cursor-text font-bold`}
+                                                placeholder="S:A"
+                                                title="Double click to view verse"
+                                            />
+                                            <span className={`text-[9px] md:text-[10px] ${colColor} font-bold uppercase pointer-events-none mt-1`}>
+                                                {colLabel}
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+
 
             <style>{`.glow-text { text-shadow: 0 0 5px currentColor; }`}</style>
         </div>

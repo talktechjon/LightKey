@@ -59,7 +59,7 @@ const App: React.FC = () => {
         const pointOffset = (pointValue - 1) * verseScalingFactor;
         const startIdx = Math.round(baseIndex + pointOffset);
         
-        return [0, 1, 2].map(offset => {
+        return [-1, 0, 1].map(offset => {
             const globalIdx = ((startIdx + offset - 1) % TOTAL_VERSES + TOTAL_VERSES) % TOTAL_VERSES + 1;
             return getVerseAddressFromGlobalIndex(globalIdx);
         });
@@ -233,7 +233,7 @@ const App: React.FC = () => {
             <span className="text-[10px] font-black uppercase tracking-widest">Reader</span>
           </button>
           <button onClick={() => setIsSecretModeActive(p => !p)} className={`w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isSecretModeActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Third Eye (Rushd)"><EyeIcon /></button>
-          <button onClick={() => setIsTreeOfVerseActive(p => !p)} className={`w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isTreeOfVerseActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="The Trunk (Barzakh Traversal)"><TreeIcon /></button>
+          <button onClick={() => setIsTreeOfVerseActive(p => !p)} className={`w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isTreeOfVerseActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Tree of Verse"><TreeIcon /></button>
           <button onClick={() => setIsIdleAnimationEnabled(p => !p)} className={`w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isIdleAnimationEnabled ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Idle"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
           <button onClick={() => setIsSettingsVisible(p => !p)} className="w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 text-cyan-400 flex items-center justify-center hover:bg-cyan-900/40" title="Settings">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -264,14 +264,16 @@ const App: React.FC = () => {
         </div>
       </div>
       <div className="relative z-10 flex flex-col lg:flex-row lg:flex-1 lg:min-h-0">
-        <div className={`${isTreeOfVerseActive ? 'h-auto min-h-[440px] py-4' : 'h-[350px]'} lg:h-full lg:flex-1 flex items-center justify-center p-4 outline-none shrink-0 lg:transition-[height] lg:duration-300`} tabIndex={0} onKeyDown={handleKeyDown} role="application">
+        <div className={`${isTreeOfVerseActive ? 'h-auto min-h-[440px]' : 'h-[350px]'} lg:h-full lg:flex-1 flex items-center justify-center px-4 pb-4 pt-16 lg:pt-20 outline-none shrink-0 lg:transition-[height] lg:duration-300`} tabIndex={0} onKeyDown={handleKeyDown} role="application">
           {isTreeOfVerseActive ? (
-            <TreeOfVerseCenter 
-              rotation={rotation}
-              treeRootVerse={treeRootVerse}
-              treeTrines={treeTrines}
-              onVerseSelect={handleVerseSelect}
-            />
+            <div className="flex flex-col gap-y-6 w-full h-full overflow-y-auto py-2">
+              <TreeOfVerseCenter 
+                rotation={rotation}
+                treeRootVerse={treeRootVerse}
+                treeTrines={treeTrines}
+                onVerseSelect={handleVerseSelect}
+              />
+            </div>
           ) : (
             <Visualization ref={vizRef} rotation={rotation} iconDialRotation={iconDialRotation} setRotation={setRotation} isSpinning={isSpinning} onSpinStart={() => setIsSpinning(true)} onSpinEnd={() => setIsSpinning(false)} isSecretModeActive={isSecretModeActive} secretEmojiShift={secretEmojiShift} showTooltip={showChapterTooltip} hideTooltip={() => setTooltipContent(null)} onSliceSelect={loadSurahInFinder} isLowResourceMode={isLowResourceMode} />
           )}
