@@ -9,8 +9,8 @@ interface TreeOfLifeModeProps {
 }
 
 const PRESET_1 = [
-  "Gibril | Energy", "Adam | Iblis", "Musa | Queen", "Dawud-Jalut", "Solomon", "Miriam | Ummul Kitab",
-  "Isa | Witness", "Yahya", "Ishmail | Sacrifice", "Yusuf | Reunion", "Ibrahim | Tree", "Mikhail | Mass"
+  "1: Source [Amr]", "2: D10 Root [n/2]", "3: Mass Debit [Loan ↓]", "4: T3 Life [House]", "5: T3 Death [Wage]", "6: T3 Rise [Ṣabr]",
+  "7: 19:12 Grip [Fork]", "8: I9 Crown [+1]", "9: Memory Credit [Paid ↑]", "10: 39:23 Mathānī", "11: 7 Manifested", "12: Face of Allah"
 ];
 
 const PRESET_2 = [
@@ -361,9 +361,9 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
         <div className="flex justify-between items-start shrink-0">
           <div className="space-y-1">
             <h2 className="text-xl md:text-2xl font-black text-white tracking-tighter uppercase italic leading-tight">
-              Photosynthesis:
+              Tree of Life [1–12]:
               <span className="block text-[10px] md:text-sm font-bold tracking-widest text-cyan-400 mt-1 not-italic">
-                Harvesting Love and Intelligence in Form
+                Dual Bifurcation of 3ₙ (2 × 3 × 2 = 12)
               </span>
             </h2>
             <div className="flex flex-wrap gap-1.5 mt-2">
@@ -374,6 +374,31 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
                ))}
                <button onClick={() => handleSyncFromWheel('full')} className="px-2 md:px-3 h-8 md:h-9 rounded-lg border border-emerald-500/30 bg-emerald-950/20 text-emerald-400 font-black text-[9px] md:text-[10px] hover:bg-emerald-500 hover:text-black transition-all">SYNC 1</button>
                <button onClick={() => handleSyncFromWheel('title')} className="px-2 md:px-3 h-8 md:h-9 rounded-lg border border-emerald-500/30 bg-emerald-950/20 text-emerald-400 font-black text-[9px] md:text-[10px] hover:bg-emerald-500 hover:text-black transition-all">SYNC 2</button>
+               <button 
+                  onClick={async () => {
+                    try {
+                      const res = await fetch('/geometry_of_life.html');
+                      if (!res.ok) throw new Error('File not found');
+                      const text = await res.text();
+                      const blob = new Blob([text], { type: 'text/html' });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = 'geometry_of_life.html';
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
+                      URL.revokeObjectURL(url);
+                    } catch (e) {
+                      console.error('Download failed', e);
+                      alert('Download failed. Make sure the file exists.');
+                    }
+                  }} 
+                  className="px-2 md:px-3 h-8 md:h-9 rounded-lg border border-fuchsia-500/30 bg-fuchsia-950/20 text-fuchsia-400 font-black text-[9px] md:text-[10px] hover:bg-fuchsia-500 hover:text-black transition-all"
+                  title="Download standalone HTML"
+               >
+                 ↓ HTML
+               </button>
             </div>
           </div>
           <button onClick={onClose} className="p-2 md:p-3 rounded-2xl bg-white/5 text-gray-400 hover:text-white transition-all hover:bg-white/10 shrink-0">

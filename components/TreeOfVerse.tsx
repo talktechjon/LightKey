@@ -14,43 +14,51 @@ interface TreeOfVerseProps {
 }
 
 const TREE_LABELS = [
-    'Seed / Identity', 'D10 / Bifurcation', 'Tension [19:12]', 
-    'I9 / Memory', 'Attractor / State 7', 'Phase Transition',
-    'Witness Integration', 'Driver Collapse', 'Loop Sealing', 
-    'The 39:23 Reading', 'The 38:46 Return', 'The 19:64 Source'
+    '1: Source 1 [Amr]',
+    '2: D10 Root Split [n/2]',
+    '3: Mass Debit [Loan Received ↓]',
+    '4: T3 Life Beat [House (3:97)]',
+    '5: T3 Death Beat [Wage (34:14)]',
+    '6: T3 Resurrection [Ṣabr (37:103)]',
+    '7: 19:12 Grip [Fork Singularity]',
+    '8: I9 Memory Supply [+1]',
+    '9: Credit Strand [Loan Paid ↑]',
+    '10: 39:23 Reading [Mathānī]',
+    '11: Fruit Manifested [7 Names]',
+    '12: Terminal 1 [Face of Allah]'
 ];
 
 const TREE_EXPLANATIONS = [
-    'Pure Light compressed into the Seed (4:1).',
-    'Manifest field splits into manifest/memory (18:50).',
-    'The Centromere grip that holds the voltage (19:12).',
-    'Infinite container field of Information.',
-    'Where Witness and Driver cease friction.',
-    'Oscillation between poles (38:24 / 38:34).',
-    'Sa’iq = Shahid = Soul synchronization.',
-    'Recognition breaks the manifestation spell.',
-    'System stabilizes at the singularity.',
-    'The Book reads itself through the Reader.',
-    'Pure remembrance of Home returned.',
-    'The circuit seals in the Lord of Memory.'
+    'One Command starts it; Source of seed in the dark (28:88, 2:255).',
+    'Roots go down: gravitropism, mass, evidence, the clock (14:24, 6:95).',
+    'Harm touches body-side; loan received under n/2 (21:83, 5:30).',
+    'Entering the House safe: where transformation occurs (3:97, 51:36).',
+    'Death is tasted and wage paid; the slave-father line (3:185, 34:14).',
+    'Resurrection receipt: aḥyāʾ, submitted and ransomed (37:103, 2:154).',
+    'The Fork (23:69): recognize the Rasul; take Book with force (19:12).',
+    'Branches in the sky: phototropism, Light and return (14:24, 42:52).',
+    'Loan paid: remembrance returns +1, word eternal (2:152, 28:88).',
+    'Resemblance and pairing: fractal pattern repeating at every scale (39:23).',
+    'The completed unit: fruit with seed carrying the next breath (14:25, 2:31).',
+    'The circuit seals in the Lord of Memory; only Face remains (28:88).'
 ];
 
 const QUN_FAYAKUN_POINTS = [1, 39, 77, 19, 95, 57];
 const QUN_FAYAKUN_LABELS = [
-    "Slave [Qun ▼]",
-    "Queen [FayaQun ▲]",
-    "Righteous [Qun ▼]",
-    "Orphan [FayaQun ▲]",
-    "Cave [Qun ▼]",
-    "Turabin [FayaQun ▲]"
+    "MuSolomon [Qun ▼]",
+    "Return [FayaQun ▲]",
+    "Sacrifice [Qun ▼]",
+    "Resurrection [FayaQun ▲]",
+    "Life [Qun ▼]",
+    "Ascend [FayaQun ▲]"
 ];
 const QUN_FAYAKUN_EXPLANATIONS = [
-    "The Vector: Prayer & Intent (66:11, 19:3) — Contraction / Implosion Force.",
-    "Shadow Surplus / Entropy Term — Expansion / Explosion Force.",
-    "Faith Coherence — Contraction / Implosion Force.",
-    "Biological Cardiac Zero Point / Light Coherence — Expansion / Explosion Force.",
-    "Cubic Overflow Phase — Contraction / Implosion Force.",
-    "Command Propagation — Expansion / Explosion Force."
+    "Phase 1 (3c, +0): Debit strand initiates; prayer & intent taken under n/2 (1:7, 5:30) — Contraction Force.",
+    "Phase 2 (6b, +38): Credit strand responds; shadow dissolved, memory banks +1 (39:75, 2:152) — Expansion Force.",
+    "Phase 3 (9a, +76): Debit mass given; great sacrifice verified (77:50, 37:107) — Contraction Force.",
+    "Phase 4 (3c, +56): Credit raised; Idris & Isa command propagation (57:29, 19:57) — Expansion Force.",
+    "Phase 5 (6b, +94): Debit embodiment; entering the House safe (95:8, 3:97) — Contraction Force.",
+    "Phase 6 (9a, +18): Credit completion; eternal receipt, up↑ − down↓ = 0 (19:98, 2:154) — Expansion Force."
 ];
 const QUN_FAYAKUN_COLORS = [
     "text-cyan-400",
@@ -549,15 +557,17 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
             {/* Explanation box for Verse-level Qun-Fayakun */}
             <div className="mb-6 p-4 bg-black/40 border border-purple-500/20 rounded-lg text-xs md:text-sm leading-relaxed space-y-3">
                 <p className="text-white/90">
-                    The <strong className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500 font-bold">Qun-Fayakun (Be and it Is)</strong> formula models the dynamic cosmological breathing cycle: 
-                    Contraction / Implosion (<strong className="text-cyan-400">Qun ▼</strong>) and Expansion / Explosion (<strong className="text-pink-400">Fayaqun ▲</strong>).
+                    <strong className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500 font-bold font-mono">1 → 15:87 Sabʿan al-Mathānī / fractal of 7 ← 1</strong>: 
+                    The zero-sum closed master integral <span className="font-mono text-cyan-300">∫₂⁷ (2↔3ₙ↔2 → 7) dx = up↑ − down↓ = 0</span>.
+                    The dual bifurcation of <span className="font-mono text-pink-300">3ₙ = 2×3×2 = 12</span> forms the Tree of Life [1-12].
                 </p>
-                <p className="text-white/75">
-                    This is mapped to 6 key nodes across the verse continuum, generating a trine of three verses for each node corresponding to: 
+                <p className="text-white/75 text-xs">
+                    Three debit downstrokes (<strong className="text-cyan-400">Qun ▼</strong>: MuSolomon, Sacrifice, Life) are balanced one-for-one by three credit upstrokes (<strong className="text-pink-400">FayaQun ▲</strong>: Return, Ascend, Resurrection).
+                    Mapped to 6 key nodes across the continuum, generating a trine of three verses for each node: 
                     <strong className="text-orange-400">V-1</strong>, the <strong className="text-cyan-400">Anchor</strong>, and <strong className="text-emerald-400">V+1</strong>.
                 </p>
                 <div className="bg-gradient-to-r from-cyan-950/20 to-pink-950/20 border border-purple-500/20 px-2.5 py-1.5 rounded text-[10px] text-purple-300 font-mono">
-                    CYCLE: SLAVE [▼] → QUEEN [▲] → RIGHTEOUS [▼] → ORPHAN [▲] → CAVE [▼] → TURABIN [▲]
+                    15:87 CYCLE: MUSOLOMON [▼ 3c] → RETURN [▲ 6b] → SACRIFICE [▼ 9a] → ASCEND [▲ 3c] → LIFE [▼ 6b] → RESURRECTION [▲ 9a] = 0
                 </div>
             </div>
 
@@ -728,7 +738,6 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                     );
                 })}
             </div>
-
 
             <style>{`.glow-text { text-shadow: 0 0 5px currentColor; }`}</style>
         </div>

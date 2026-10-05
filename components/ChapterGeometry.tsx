@@ -33,12 +33,12 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
   const headerTooltip = name.includes('Command') ? 'Input Engine: Chrysalis' : 'Output Engine: Photosynthesis';
 
   const getPointTooltip = (type: string, chapterName: string) => {
-    if (type.includes('Slave')) return `The Vector (1): Prayer & Intent (66:11, 19:3)`;
-    if (type.includes('Queen')) return `Shadow Surplus (+1) / Entropy Term: ${chapterName}`;
-    if (type.includes('Righteous')) return `Faith Coherence: ${chapterName}`;
-    if (type.includes('Turabin')) return `Command Propagation: ${chapterName}`;
-    if (type.includes('Cave')) return `Cubic Overflow Phase (10): ${chapterName}`;
-    if (type.includes('Orphan')) return `Biological Cardiac Zero Point / Light Coherence (9): ${chapterName}`;
+    if (type.includes('MuSolomon') || type.includes('Death') || type.includes('Slave')) return `The Vector (1): Prayer & Intent (66:11, 19:3)`;
+    if (type.includes('Return') || type.includes('Queen')) return `Shadow Surplus (+1) / Entropy Term: ${chapterName}`;
+    if (type.includes('Sacrifice') || type.includes('Righteous')) return `Faith Coherence: ${chapterName}`;
+    if (type.includes('Ascend') || type.includes('Turabin')) return `Command Propagation: ${chapterName}`;
+    if (type.includes('Life') || type.includes('Cave')) return `Cubic Overflow Phase (10): ${chapterName}`;
+    if (type.includes('Resurrection') || type.includes('Orphan')) return `Biological Cardiac Zero Point / Light Coherence (9): ${chapterName}`;
     return type;
   };
   
@@ -119,7 +119,7 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
   );
 });
 
-const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean, isLowResourceMode: boolean }> = ({ rotation, isPaused, isLowResourceMode }) => {
+export const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean, isLowResourceMode: boolean }> = ({ rotation, isPaused, isLowResourceMode }) => {
     const { pathData, markers } = useMemo(() => {
         let x = 0.1, y = 0, z = 0;
         
@@ -190,11 +190,11 @@ const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean, isLowResource
         }
         const mainSpike = spikePeaks.length > 2 ? spikePeaks[Math.floor(spikePeaks.length / 2)] : Math.floor(pts.length * 0.7);
 
-        // Markers for Rossler: Slave, Queen, Righteous
+        // Markers for Rossler: MuSolomon, Return, Sacrifice
         const m = [
-            { idx: mainSpike - 600, color: COLORS.triangle2, name: '3c', label: `Slave [${slave.id}:${slave.blockCount}]` },
-            { idx: mainSpike - 300, color: COLORS.triangle2, name: '6b', label: `Queen [${queen.id}:${queen.blockCount}]` },
-            { idx: mainSpike, color: COLORS.triangle2, name: '9a', label: `Righteous [${righteous.id}:${righteous.blockCount}]` },
+            { idx: mainSpike - 600, color: COLORS.triangle2, name: '', label: `MuSolomon [${slave.id}:${slave.blockCount}]` },
+            { idx: mainSpike - 300, color: COLORS.triangle2, name: '', label: `Return [${queen.id}:${queen.blockCount}]` },
+            { idx: mainSpike, color: COLORS.triangle2, name: '', label: `Sacrifice [${righteous.id}:${righteous.blockCount}]` },
         ];
 
         const scaledMarkers = m.map(marker => {
@@ -263,7 +263,7 @@ const RosslerFlow: React.FC<{ rotation: number, isPaused: boolean, isLowResource
     );
 };
 
-const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean, isLowResourceMode: boolean }> = ({ rotation, isPaused, isLowResourceMode }) => {
+export const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean, isLowResourceMode: boolean }> = ({ rotation, isPaused, isLowResourceMode }) => {
     const { pathData, markers } = useMemo(() => {
         let x = 0.1, y = 1, z = 1.05;
         
@@ -329,12 +329,12 @@ const LorenzFlow: React.FC<{ rotation: number, isPaused: boolean, isLowResourceM
         const scaleY = (val: number) => pad + (100 - pad * 2) * ((val - minY) / rangeY);
         const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${scaleX(p.px)} ${scaleY(p.py)}`).join(' ');
 
-        // Markers for Lorenz: Orphan, Cave, Turabin
+        // Markers for Lorenz: Ascend, Life, Resurrection
         const stepScaling = maxSteps / 3500;
         const m = [
-            { idx: Math.round(600 * stepScaling), color: COLORS.triangle1, name: '3c', label: `Turabin [${turabin.id}:${turabin.blockCount}]` },
-            { idx: Math.round(1750 * stepScaling), color: COLORS.triangle1, name: '6b', label: `Cave [${cave.id}:${cave.blockCount}]` },
-            { idx: Math.round(2900 * stepScaling), color: COLORS.triangle1, name: '9a', label: `Orphan [${orphan.id}:${orphan.blockCount}]` },
+            { idx: Math.round(600 * stepScaling), color: COLORS.triangle1, name: '', label: `Ascend [${turabin.id}:${turabin.blockCount}]` },
+            { idx: Math.round(1750 * stepScaling), color: COLORS.triangle1, name: '', label: `Life [${cave.id}:${cave.blockCount}]` },
+            { idx: Math.round(2900 * stepScaling), color: COLORS.triangle1, name: '', label: `Resurrection [${orphan.id}:${orphan.blockCount}]` },
         ];
 
         const scaledMarkers = m.map(marker => {
@@ -407,14 +407,14 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
 
     const torusGeometry = useMemo(() => {
         // 1. DATA EXTRACTION: Get the 6 active chapters in the Qun-Fayaqun sequence
-        const s1 = getSliceAtPoint(1, rotation);       // Slave [Qun ▼]
-        const s39 = getSliceAtPoint(39, rotation);     // Queen [FayaQun ▲]
-        const s77 = getSliceAtPoint(77, rotation);     // Righteous [Qun ▼]
-        const s57 = getSliceAtPoint(57, rotation);     // Turabin [FayaQun ▲]
-        const s95 = getSliceAtPoint(95, rotation);     // Cave [Qun ▼]
-        const s19 = getSliceAtPoint(19, rotation);     // Orphan [FayaQun ▲]
+        const s1 = getSliceAtPoint(1, rotation);       // MuSolomon [Qun ▼]
+        const s39 = getSliceAtPoint(39, rotation);     // Return [FayaQun ▲]
+        const s77 = getSliceAtPoint(77, rotation);     // Sacrifice [Qun ▼]
+        const s57 = getSliceAtPoint(57, rotation);     // Ascend [FayaQun ▲]
+        const s95 = getSliceAtPoint(95, rotation);     // Life [Qun ▼]
+        const s19 = getSliceAtPoint(19, rotation);     // Resurrection [FayaQun ▲]
         
-        // Sequence: Slave -> Queen -> Righteous -> Orphan -> Cave -> Turabin
+        // Sequence: MuSolomon -> Return -> Sacrifice -> Resurrection -> Life -> Ascend
         const nodes = [s1, s39, s77, s19, s95, s57];
         
         // 2. METRIC CALCULATION: Unique Mathematical Signature based on 114 & 286
@@ -441,7 +441,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         const true_s = flowVelocity * time * 0.5; // Scale down time slightly for the breath
         const phase = ((true_s % 1) + 1) % 1; // 0 to 1
 
-        let activePhase = "Turabin";
+        let activePhase = "Ascend";
         let color = COLORS.triangle1; 
         let isQun = false;
 
@@ -449,17 +449,17 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         const currentNode = nodes[cycleIdx] || nodes[5];
 
         if (phase < 1/6) {
-            activePhase = "Slave"; color = COLORS.triangle2; isQun = true;
+            activePhase = "MuSolomon"; color = COLORS.triangle2; isQun = true;
         } else if (phase < 2/6) {
-            activePhase = "Queen"; color = COLORS.triangle1; isQun = false;
+            activePhase = "Return"; color = COLORS.triangle1; isQun = false;
         } else if (phase < 3/6) {
-            activePhase = "Righteous"; color = COLORS.triangle2; isQun = true;
+            activePhase = "Sacrifice"; color = COLORS.triangle2; isQun = true;
         } else if (phase < 4/6) {
-            activePhase = "Orphan"; color = COLORS.triangle1; isQun = false;
+            activePhase = "Resurrection"; color = COLORS.triangle1; isQun = false;
         } else if (phase < 5/6) {
-            activePhase = "Cave"; color = COLORS.triangle2; isQun = true;
+            activePhase = "Life"; color = COLORS.triangle2; isQun = true;
         } else {
-            activePhase = "Turabin"; color = COLORS.triangle1; isQun = false;
+            activePhase = "Ascend"; color = COLORS.triangle1; isQun = false;
         }
 
         // 4. PARAMETRIC BREATHING (Implosion-Explosion)
@@ -511,22 +511,22 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
     }, [rotation, time]);
 
     const dataPairs = useMemo(() => {
-        const p1 = getSliceAtPoint(1, rotation);       // Slave
-        const p39 = getSliceAtPoint(39, rotation);     // Queen
-        const p77 = getSliceAtPoint(77, rotation);     // Righteous
-        const p19 = getSliceAtPoint(19, rotation);     // Orphan
-        const p95 = getSliceAtPoint(95, rotation);     // Cave
-        const p57 = getSliceAtPoint(57, rotation);     // Turabin
+        const p1 = getSliceAtPoint(1, rotation);       // MuSolomon
+        const p39 = getSliceAtPoint(39, rotation);     // Return
+        const p77 = getSliceAtPoint(77, rotation);     // Sacrifice
+        const p19 = getSliceAtPoint(19, rotation);     // Resurrection
+        const p95 = getSliceAtPoint(95, rotation);     // Life
+        const p57 = getSliceAtPoint(57, rotation);     // Ascend
         return { p1, p39, p77, p19, p95, p57 };
     }, [rotation]);
 
     const phaseDataMap = {
-        "Slave": { ...dataPairs.p1, label: "Slave ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
-        "Queen": { ...dataPairs.p39, label: "Queen ▲", icon: "🐝", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
-        "Righteous": { ...dataPairs.p77, label: "Righteous ▼", icon: "💧", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
-        "Turabin": { ...dataPairs.p57, label: "Turabin ▲", icon: "🐟", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
-        "Cave": { ...dataPairs.p95, label: "Cave ▼", icon: "🕋", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
-        "Orphan": { ...dataPairs.p19, label: "Orphan ▲", icon: "🔆", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "MuSolomon": { ...dataPairs.p1, label: "MuSolomon ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Return": { ...dataPairs.p39, label: "Return ▲", icon: "🐝", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Sacrifice": { ...dataPairs.p77, label: "Sacrifice ▼", icon: "💧", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Ascend": { ...dataPairs.p57, label: "Ascend ▲", icon: "🐟", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Life": { ...dataPairs.p95, label: "Life ▼", icon: "🕋", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Resurrection": { ...dataPairs.p19, label: "Resurrection ▲", icon: "🔆", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
     };
     const activePhaseData = phaseDataMap[torusGeometry.activePhase as keyof typeof phaseDataMap];
     const activeChapter = CHAPTER_DETAILS.find(c => c.number === activePhaseData?.id);
@@ -720,7 +720,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
             {/* Geometric Data Legend Box */}
             <div className="w-full bg-black/40 border border-gray-800 rounded-xl p-4 sm:p-6 overflow-hidden">
                 <div className="grid grid-cols-3 gap-y-8 relative">
-                    {/* Row 1: Slave -> Queen -> Righteous */}
+                    {/* Row 1: MuSolomon -> Return -> Sacrifice */}
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-lg sm:text-xl">🌴</span>
                         <div className="text-center flex flex-col items-center w-full">
@@ -730,7 +730,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p1.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Slave ▼</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">MuSolomon ▼</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-cyan-400/50 leading-none mt-0.5 select-none">[5:30]</div>
                         </div>
                     </div>
@@ -744,7 +744,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p39.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Queen ▲</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Return ▲</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-pink-550/50 leading-none mt-0.5 select-none">[16:68]</div>
                         </div>
                     </div>
@@ -758,7 +758,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p77.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Righteous ▼</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Sacrifice ▼</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-cyan-400/50 leading-none mt-0.5 select-none">[34:14]</div>
                         </div>
                     </div>
@@ -817,7 +817,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                         </div>
                     </div>
 
-                    {/* Row 2: Turabin -> Cave -> Orphan */}
+                    {/* Row 2: Ascend -> Life -> Resurrection */}
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-lg sm:text-xl">🐟</span>
                         <div className="text-center flex flex-col items-center w-full">
@@ -827,7 +827,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p57.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Turabin ▲</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Ascend ▲</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-pink-550/50 leading-none mt-0.5 select-none">[3:59]</div>
                         </div>
                     </div>
@@ -841,7 +841,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p95.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Cave ▼</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Life ▼</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-cyan-400/50 leading-none mt-0.5 select-none">[18:19]</div>
                         </div>
                     </div>
@@ -855,7 +855,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p19.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Orphan ▲</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Resurrection ▲</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-pink-550/50 leading-none mt-0.5 select-none">[19:19]</div>
                         </div>
                     </div>
@@ -1029,10 +1029,8 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
     setCustomSequence,
     setAnimationMode
 }) => {
-    const [isSystemActive, setIsSystemActive] = React.useState(true);
-    
     // Pause system automatically during wheel spins to save CPU
-    const effectiveIsPaused = !isSystemActive || isSpinning;
+    const effectiveIsPaused = isSpinning;
 
     const handleLoadSequenceClick = () => {
         if (!setCustomSequence) return;
@@ -1049,18 +1047,18 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
 
     
     // Side Panel Presentation Reordering (DNA Flow - INTERLEAVED):
-    // Row 1 (Interleaved Layout): Slave(D 1) -> Cave(U 95) -> Righteous(D 77)
+    // Row 1 (Interleaved Layout): MuSolomon(D 1) -> Life(U 95) -> Sacrifice(D 77)
     const dnaRow1: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Slave (Cyan)
-        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[0].color }, // Cave (Pink) - Twisted Up
-        { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Righteous (Cyan)
+        { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // MuSolomon (Cyan)
+        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[0].color }, // Life (Pink) - Twisted Up
+        { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Sacrifice (Cyan)
     ];
 
-    // Row 2 (Interleaved Layout): Turabin(U 57) -> Queen(D 39) -> Orphan(U 19)
+    // Row 2 (Interleaved Layout): Ascend(U 57) -> Return(D 39) -> Resurrection(U 19)
     const dnaRow2: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Turabin (Pink)
-        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[1].color }, // Queen (Cyan) - Twisted Down
-        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Orphan (Pink)
+        { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Ascend (Pink)
+        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[1].color }, // Return (Cyan) - Twisted Down
+        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Resurrection (Pink)
     ];
     
     return (
@@ -1068,10 +1066,10 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
             <div className="flex justify-between items-center pr-1 sm:pr-2">
                 <div className="flex flex-col">
                     <h2 className="text-lg font-bold text-gray-200 tracking-widest uppercase leading-none">
-                        Umm al-Kitab
+                        Umm al-Kitab (15:87)
                     </h2>
                     <span className="text-gray-400 font-medium text-[11px] capitalize tracking-normal mt-1.5">
-                        The Mother Equation
+                        Sabʿan al-Mathānī — The Fractal of 7
                     </span>
                 </div>
                 <div className="flex items-center gap-x-2.5">
@@ -1079,8 +1077,8 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                         <button
                             onClick={handleLoadSequenceClick}
                             className="w-7 h-7 flex items-center justify-center rounded border border-cyan-500/30 bg-black/40 hover:bg-cyan-950/30 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300 transition-all duration-200 shadow-[0_0_8px_rgba(6,182,212,0.15)] focus:outline-none cursor-pointer"
-                            title="Load Slave-Queen-Righteous-Orphan-Cave-Turabin sequence for all 1-114 points"
-                            aria-label="Load Slave-Queen-Righteous-Orphan-Cave-Turabin sequence"
+                            title="Load 15:87 Hexagram Traversal (3↓ Qun ↔ 3↑ FayaQun, up↑ − down↓ = 0)"
+                            aria-label="Load 15:87 Hexagram Traversal"
                         >
                             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <rect x="3" y="3" width="18" height="18" rx="2" strokeDasharray="3 3" />
@@ -1151,84 +1149,24 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                     hideTooltip={hideTooltip}
                 />
 
-                <div className="flex flex-row justify-between items-center w-full mt-10 p-2 sm:p-4 bg-black/40 rounded-xl border border-gray-800 shadow-inner overflow-hidden">
-                    <div className="w-1/2 flex flex-col items-center">
-                        <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Rössler Flow</div>
-                        <RosslerFlow rotation={rotation} isPaused={effectiveIsPaused} isLowResourceMode={isLowResourceMode} />
-                        <div className="text-[10px] text-cyan-400 font-bold tracking-widest uppercase mt-2 drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]">Chrysalis</div>
-                        
-                        {/* Rossler Data Labels */}
-                        <div className="mt-4 flex flex-col items-center space-y-2">
-                             <div className="flex gap-4 items-center">
-                                <span className="text-xl">🌴</span>
-                                <span className="text-xl">🐝</span>
-                                <span className="text-xl">💧</span>
-                             </div>
-                             <div className="font-mono text-[10px] text-gray-400 flex gap-2">
-                                <span>{getSliceAtPoint(1, rotation).id}:{getSliceAtPoint(1, rotation).blockCount}</span>
-                                <span className="text-gray-700">|</span>
-                                <span>{getSliceAtPoint(39, rotation).id}:{getSliceAtPoint(39, rotation).blockCount}</span>
-                                <span className="text-gray-700">|</span>
-                                <span>{getSliceAtPoint(77, rotation).id}:{getSliceAtPoint(77, rotation).blockCount}</span>
-                             </div>
-                             <div className="font-mono text-[11px] flex gap-4 text-white opacity-90 h-4">
-                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(1, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(1, rotation).id)?.join(' ') || '—'}</span>
-                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(39, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(39, rotation).id)?.join(' ') || '—'}</span>
-                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(77, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(77, rotation).id)?.join(' ') || '—'}</span>
-                             </div>
-                        </div>
-                    </div>
-                    <div className="w-px h-32 bg-gray-800/60 mix-blend-screen self-center"></div>
-                    <div className="w-1/2 flex flex-col items-center">
-                        <div className="text-[9px] text-gray-500 font-mono tracking-tight uppercase mb-1">Lorenz (Butterfly)</div>
-                        <LorenzFlow rotation={rotation} isPaused={effectiveIsPaused} isLowResourceMode={isLowResourceMode} />
-                        <div className="text-[10px] text-pink-400 font-bold tracking-widest uppercase mt-3 drop-shadow-[0_0_8px_rgba(244,114,182,0.3)]">Photosynthesis</div>
-
-                        {/* Lorenz Data Labels */}
-                        <div className="mt-4 flex flex-col items-center space-y-2">
-                             <div className="flex gap-4 items-center">
-                                <span className="text-xl">🐟</span>
-                                <span className="text-xl">🕋</span>
-                                <span className="text-xl">🔆</span>
-                             </div>
-                             <div className="font-mono text-[10px] text-gray-400 flex gap-2">
-                                <span>{getSliceAtPoint(57, rotation).id}:{getSliceAtPoint(57, rotation).blockCount}</span>
-                                <span className="text-gray-700">|</span>
-                                <span>{getSliceAtPoint(95, rotation).id}:{getSliceAtPoint(95, rotation).blockCount}</span>
-                                <span className="text-gray-700">|</span>
-                                <span>{getSliceAtPoint(19, rotation).id}:{getSliceAtPoint(19, rotation).blockCount}</span>
-                             </div>
-                             <div className="font-mono text-[11px] flex gap-4 text-white opacity-90 h-4">
-                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(57, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(57, rotation).id)?.join(' ') || '—'}</span>
-                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(95, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(95, rotation).id)?.join(' ') || '—'}</span>
-                                <span className={MUQATTAT_CHAPTERS.has(getSliceAtPoint(19, rotation).id) ? "muqattat-glow" : "opacity-20"}>{MUQATTAT_LETTERS.get(getSliceAtPoint(19, rotation).id)?.join(' ') || '—'}</span>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-8">
-                    <TorusFlow rotation={rotation} isPaused={effectiveIsPaused} onToggle={() => setIsSystemActive(!isSystemActive)} isLowResourceMode={isLowResourceMode} />
-                </div>
-
                 <div className="mt-4 p-6 bg-gray-950/50 border border-gray-800/80 rounded-2xl space-y-8 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500/30 via-pink-500/30 to-amber-500/30"></div>
                     
                     {/* Header: DCU MASTER EQUATION */}
                     <div className="space-y-4">
                         <div className="flex flex-col gap-1">
-                            <span className="text-[10px] font-mono tracking-[0.25em] text-pink-500 uppercase font-semibold">The Reader's Breath</span>
+                            <span className="text-[10px] font-mono tracking-[0.25em] text-pink-500 uppercase font-semibold">The Reader's Breath (15:87)</span>
                             <h3 className="text-sm sm:text-base font-bold text-gray-100 tracking-wider font-mono flex items-center gap-2">
-                                <span>════</span> DCU MASTER EQUATION <span>════</span>
+                                <span>════</span> SABʿAN AL-MATHĀNĪ MASTER LINE <span>════</span>
                             </h3>
                         </div>
 
                         {/* Large, beautiful equation display */}
                         <div className="bg-black/40 border border-gray-800/50 p-4 rounded-xl flex flex-col items-center justify-center font-mono space-y-3 shadow-inner">
-                            <div className="text-[13px] sm:text-sm md:text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-amber-400 select-all leading-normal py-1 text-center w-full">
-                                <div className="tracking-wide">f(x) = ax³ [D10] + bx² [T3]</div>
-                                <div className="text-gray-600 font-medium text-[10px] my-0.5">+</div>
-                                <div className="tracking-wide">cx [I9] + d [19:12]</div>
+                            <div className="text-[12px] sm:text-sm md:text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-amber-400 select-all leading-relaxed py-1 text-center w-full">
+                                <div className="tracking-wide text-xs sm:text-sm">1 → 15:87 Sabʿan al-Mathānī / fractal of 7 ← 1</div>
+                                <div className="text-pink-400/80 font-medium text-[10px] sm:text-xs my-0.5 font-mono">where 15:87 = ∫₂⁷ (2↔3ₙ↔2 → 7) dx = up↑ − down↓ = 0</div>
+                                <div className="text-cyan-400/90 text-[10px] sm:text-[11px] font-sans font-semibold tracking-normal mt-1">Dual bifurcation of 3ₙ = 2×3×2 = 12 = Tree of Life [1-12]</div>
                             </div>
                             
                             {/* Variables List - vertical luxurious rows that never stack clumsily */}
@@ -1238,14 +1176,14 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></span>
-                                            <span className="text-red-400 font-bold">ax³ [D10]</span>
+                                            <span className="text-red-400 font-bold">2 [D10: Arash]</span>
                                         </div>
-                                        <span className="text-red-400/80 text-[10px] italic">d/dt descent</span>
+                                        <span className="text-red-400/80 text-[10px] italic">n/2 mass split</span>
                                     </div>
                                     <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
-                                        <span className="font-bold">صبر w/ نسك</span>
+                                        <span className="font-bold">Roots ↓ • Gravitropism</span>
                                         <span className="text-gray-600 font-sans text-[10px]">—</span>
-                                        <span className="text-gray-400 text-[10px] bg-red-900/10 px-1.5 py-0.5 rounded border border-red-500/5">[Patience / Sacrifice]</span>
+                                        <span className="text-gray-400 text-[10px] bg-red-900/10 px-1.5 py-0.5 rounded border border-red-500/5">[Mass, Evidence, Clock (14:24, 6:95)]</span>
                                     </div>
                                 </div>
                                 
@@ -1254,14 +1192,14 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse"></span>
-                                            <span className="text-teal-400 font-bold">bx² [T3]</span>
+                                            <span className="text-teal-400 font-bold">3ₙ [T3: The Exchange Port]</span>
                                         </div>
-                                        <span className="text-teal-400/80 text-[10px] italic">the field that receives</span>
+                                        <span className="text-teal-400/80 text-[10px] italic">the trial: Life → Death → Resurrection</span>
                                     </div>
                                     <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
-                                        <span className="font-bold">95:8 [The Mold]</span>
+                                        <span className="font-bold">Trunk • Reader as Time</span>
                                         <span className="text-gray-600 font-sans text-[10px]">—</span>
-                                        <span className="text-gray-400 text-[10px] bg-teal-900/10 px-1.5 py-0.5 rounded border border-teal-500/5">[The Lowest Arc]</span>
+                                        <span className="text-gray-400 text-[10px] bg-teal-900/10 px-1.5 py-0.5 rounded border border-teal-500/5">[Nafs + Driver + Witness (50:21, 7:25)]</span>
                                     </div>
                                 </div>
 
@@ -1270,14 +1208,14 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
-                                            <span className="text-amber-400 font-bold">cx [I9]</span>
+                                            <span className="text-amber-400 font-bold">2 [I9: Kursi]</span>
                                         </div>
-                                        <span className="text-amber-400/80 text-[10px] italic">∫dt return</span>
+                                        <span className="text-amber-400/80 text-[10px] italic">+1 memory supply</span>
                                     </div>
                                     <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
-                                        <span className="font-bold">38:46 [Righteous]</span>
+                                        <span className="font-bold">Crown ↑ • Phototropism</span>
                                         <span className="text-gray-600 font-sans text-[10px]">—</span>
-                                        <span className="text-gray-400 text-[10px] bg-amber-900/10 px-1.5 py-0.5 rounded border border-amber-500/5">[Purified Wave]</span>
+                                        <span className="text-gray-400 text-[10px] bg-amber-900/10 px-1.5 py-0.5 rounded border border-amber-500/5">[Light ⊕ Pulse, Return (14:24, 39:23)]</span>
                                     </div>
                                 </div>
 
@@ -1286,14 +1224,14 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse"></span>
-                                            <span className="text-cyan-400 font-bold">d [19:12]</span>
+                                            <span className="text-cyan-400 font-bold">√7 (7) & The Two 1s</span>
                                         </div>
-                                        <span className="text-cyan-400/80 text-[10px] italic">centromere voltage</span>
+                                        <span className="text-cyan-400/80 text-[10px] italic">the mass-flux seam</span>
                                     </div>
                                     <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
-                                        <span className="font-bold">The Grip</span>
+                                        <span className="font-bold">The Grip (19:12)</span>
                                         <span className="text-gray-600 font-sans text-[10px]">—</span>
-                                        <span className="text-gray-400 text-[10px] bg-cyan-900/10 px-1.5 py-0.5 rounded border border-cyan-500/5">[Zakariya Silence]</span>
+                                        <span className="text-gray-400 text-[10px] bg-cyan-900/10 px-1.5 py-0.5 rounded border border-cyan-500/5">[Completed Unit (14:25, 2:31) • Bound by 1s (28:88)]</span>
                                     </div>
                                 </div>
                             </div>
@@ -1302,101 +1240,111 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                         {/* Yusuf Description */}
                         <div className="p-4 bg-cyan-950/15 border-l-2 border-cyan-500 rounded-r-xl">
                             <p className="text-xs sm:text-sm text-gray-300 leading-relaxed italic">
-                                <strong className="text-cyan-400 not-italic font-mono mr-1.5">[Yusuf (12)]</strong>
-                                is the primary full-cycle: one complete transformation cycle <span className="text-cyan-400 font-mono font-normal">(dream → trial → clarity → return)</span> repeated until the Reader remembers the Crown at <span className="text-pink-400 font-mono font-bold">39:23</span>.
+                                <strong className="text-cyan-400 not-italic font-mono mr-1.5">[Dual Bifurcation 2×3×2 = 12]</strong>
+                                The 12-stage transformation of the Tree of Life: <span className="text-cyan-400 font-mono font-normal">D10 (n/2) ↔ 3ₙ (T3) ↔ I9 (+1)</span>, where every descent is answered by return, repeating until the Reader remembers the Crown at <span className="text-pink-400 font-mono font-bold">39:23</span>.
                             </p>
                         </div>
                     </div>
 
                     {/* KUN & FAYA-KUN SECTIONS */}
                     <div className="flex flex-col gap-6 pt-2">
-                        {/* ▼ KUN — THE DESCENT */}
+                        {/* ▼ QUN — THE DEBIT STRAND */}
                         <div className="space-y-4 bg-black/20 p-4 border border-cyan-500/10 rounded-xl relative">
                             <div className="absolute top-0 right-4 transform -translate-y-1/2 px-2 py-0.5 bg-cyan-950 text-cyan-400 font-mono text-[9px] font-bold border border-cyan-500/20 rounded">
-                                SYSTEM INLET
+                                DEBIT STRAND [Loan Received ↓]
                             </div>
                             <h4 className="text-xs font-bold text-cyan-300 uppercase tracking-widest flex items-center gap-1.5 pb-2 border-b border-gray-800/40">
-                                <span>▼</span> <span>KUN — THE DESCENT [D10 d/dt]</span>
+                                <span>▼</span> <span>QUN — THE DESCENT [D10 n/2 Mass Split]</span>
                             </h4>
                             <div className="space-y-4">
                                 <div className="space-y-1">
                                     <div className="flex gap-2 items-baseline">
-                                        <span className="text-cyan-400 font-mono font-bold text-xs">3</span>
-                                        <span className="text-xs font-semibold text-gray-200">Entry (12:4):</span>
-                                        <span className="text-xs text-gray-300">The impulse enters. The Slave receives the dream.</span>
+                                        <span className="text-cyan-400 font-mono font-bold text-xs">3c</span>
+                                        <span className="text-xs font-semibold text-gray-200">MuSolomon (Phase 1, +0):</span>
+                                        <span className="text-xs text-gray-300">The Vector: Prayer & Intent (66:11, 19:3) taken under n/2.</span>
                                     </div>
                                     <div className="pl-4 text-[10px] font-mono text-cyan-400/80">
-                                        — The Fruit breaks open. 4:1 → 2:45.
+                                        — Seed splits in the dark. Contraction / Implosion Force (1:7, 5:30).
                                     </div>
                                 </div>
                                 <div className="space-y-1">
                                     <div className="flex gap-2 items-baseline">
-                                        <span className="text-cyan-400 font-mono font-bold text-xs">6</span>
-                                        <span className="text-xs font-semibold text-gray-200">Pressure (12:8-35):</span>
-                                        <span className="text-xs text-gray-300">Well → House → Prison. The Mountain reshapes.</span>
+                                        <span className="text-cyan-400 font-mono font-bold text-xs">9a</span>
+                                        <span className="text-xs font-semibold text-gray-200">Sacrifice (Phase 3, +76):</span>
+                                        <span className="text-xs text-gray-300">Faith Coherence. The great sacrifice verified.</span>
                                     </div>
                                     <div className="pl-4 text-[10px] font-mono text-cyan-400/80">
-                                        — The Mold fires. 95:8. The Tree burns to purify.
+                                        — Mass spent as flux. The Mold fires (77:50, 37:107).
                                     </div>
                                 </div>
                                 <div className="space-y-1">
                                     <div className="flex gap-2 items-baseline">
-                                        <span className="text-cyan-400 font-mono font-bold text-xs">9</span>
-                                        <span className="text-xs font-semibold text-gray-200">Peak (12:36-49):</span>
-                                        <span className="text-xs text-gray-300">Clarity. Hidden structures exposed.</span>
+                                        <span className="text-cyan-400 font-mono font-bold text-xs">6b</span>
+                                        <span className="text-xs font-semibold text-gray-200">Life (Phase 5, +94):</span>
+                                        <span className="text-xs text-gray-300">Cubic Overflow Phase. Entering the House safe.</span>
                                     </div>
                                     <div className="pl-4 text-[10px] font-mono text-cyan-400/80">
-                                        — The Righteous emerges from the trial. 2:25.
+                                        — Body-side manifest. The Muslim House (95:8, 3:97).
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* ▲ FAYA-KUN — THE RETURN */}
+                        {/* ▲ FAYA-QUN — THE CREDIT STRAND */}
                         <div className="space-y-4 bg-black/20 p-4 border border-pink-500/10 rounded-xl relative">
                             <div className="absolute top-0 right-4 transform -translate-y-1/2 px-2 py-0.5 bg-pink-950 text-pink-400 font-mono text-[9px] font-bold border border-pink-500/20 rounded">
-                                INTEGRATION OUTLET
+                                CREDIT STRAND [Loan Paid ↑]
                             </div>
                             <h4 className="text-xs font-bold text-pink-400 uppercase tracking-widest flex items-center gap-1.5 pb-2 border-b border-gray-800/40">
-                                <span>▲</span> <span>FAYA-KUN — THE RETURN [I9 ∫dt]</span>
+                                <span>▲</span> <span>FAYA-QUN — THE RETURN [I9 +1 Memory Supply]</span>
                             </h4>
                             <div className="space-y-4">
                                 <div className="space-y-1">
                                     <div className="flex gap-2 items-baseline">
-                                        <span className="text-pink-400 font-mono font-bold text-xs">9→6</span>
-                                        <span className="text-xs font-semibold text-gray-200">Governance (12:50-57):</span>
-                                        <span className="text-xs text-gray-300">The Queen interprets; the Book applies.</span>
+                                        <span className="text-pink-400 font-mono font-bold text-xs">6b</span>
+                                        <span className="text-xs font-semibold text-gray-200">Return (Phase 2, +38):</span>
+                                        <span className="text-xs text-gray-300">Shadow Surplus / Entropy resolved into Light return.</span>
                                     </div>
                                     <div className="pl-6 text-[10px] font-mono text-pink-400/80">
-                                        — 66:11 witnesses the fire. 27:44 receives the throne.
+                                        — Shadow dissolved (25:46). Remembrance banks +1 (39:75, 2:152).
                                     </div>
                                 </div>
                                 <div className="space-y-1">
                                     <div className="flex gap-2 items-baseline">
-                                        <span className="text-pink-400 font-mono font-bold text-xs">6→3</span>
-                                        <span className="text-xs font-semibold text-gray-200">Stabilization (12:54-100):</span>
-                                        <span className="text-xs text-gray-300">Return to center; authority + reunion.</span>
+                                        <span className="text-pink-400 font-mono font-bold text-xs">3c</span>
+                                        <span className="text-xs font-semibold text-gray-200">Ascend (Phase 4, +56):</span>
+                                        <span className="text-xs text-gray-300">Command Propagation. Idris & Isa raised.</span>
                                     </div>
                                     <div className="pl-6 text-[10px] font-mono text-pink-400/80">
-                                        — The Orphan is found. 93:8. The circuit closes at 38:46.
+                                        — The Word returns massless. Idris route (57:29, 19:57).
+                                    </div>
+                                </div>
+                                <div className="space-y-1">
+                                    <div className="flex gap-2 items-baseline">
+                                        <span className="text-pink-400 font-mono font-bold text-xs">9a</span>
+                                        <span className="text-xs font-semibold text-gray-200">Resurrection (Phase 6, +18):</span>
+                                        <span className="text-xs text-gray-300">Biological Cardiac Zero Point / Light Coherence.</span>
+                                    </div>
+                                    <div className="pl-6 text-[10px] font-mono text-pink-400/80">
+                                        — Eternal receipt: aḥyāʾ (2:154, 19:98). Balance: up↑ − down↓ = 0.
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* THE SWITCH */}
+                    {/* THE FORK */}
                     <div className="p-4 bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/20 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(245,158,11,0.02)]">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-amber-500/10 mb-3">
                             <span className="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono flex items-center gap-2">
-                                <span className="animate-pulse">●</span> THE SWITCH (6) — CRITICAL BOUNDARY
+                                <span className="animate-pulse">●</span> THE FORK (23:69) — RECOGNIZE THE RASUL
                             </span>
                             <span className="text-xs font-mono font-bold text-amber-500 bg-amber-500/10 px-2.5 py-0.5 rounded border border-amber-500/20 align-self-start sm:align-self-auto">
-                                12:23 / 12:33
+                                6:163 ↔ 2:41
                             </span>
                         </div>
                         <p className="text-xs text-gray-300 leading-relaxed font-mono">
-                            Choose <span className="text-amber-400 font-bold">19:12 grip</span> over <span className="text-red-400 font-bold">20:120 taking</span>. Preserve system stability. The centromere voltage holds or the cell splits into <span className="text-red-400 font-bold">Taghut</span>. Patience + Sacrifice = the only path.
+                            Recognize the Rasul and take the Book with force (<span className="text-amber-400 font-bold">19:12 grip</span>) → mass goes up↑ to <span className="text-cyan-400 font-bold">First MuSolomon (6:163)</span>. Refuse and forget (59:19) → mass goes down↓ to host of Iblis / <span className="text-red-400 font-bold">First Kafir (2:41)</span>. Zero-flux balance holds at every breath: <span className="text-amber-400 font-bold">up↑ − down↓ = 0</span>.
                         </p>
                     </div>
 

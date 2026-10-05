@@ -67,8 +67,8 @@ for (let i = 1; i <= 114; i++) {
 export const SLICE_DATA: SliceData[] = Array.from({ length: TOTAL_SLICES }, (_, i) => ({ id: i + 1, blockCount: BUBBLE_BLOCK_MAPPING_RAW[(i + 1) as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0 }));
 
 export const TRIANGLE_POINTS: TriangleDefinition[] = [
-    { name: 'Upward Triangle (Pink)', color: COLORS.triangle1, points: [{ type: '3c Turabin 🐟', value: 57 }, { type: '6b Cave 🕋', value: 95 }, { type: '9a Orphan 🔆', value: 19 }] },
-    { name: 'Downward Triangle (Cyan)', color: COLORS.triangle2, points: [{ type: '3c Slave 🌴', value: 1 }, { type: '6b Queen 🐝', value: 39 }, { type: '9a Righteous 💧', value: 77 }] }
+    { name: 'Upward Triangle (Pink)', color: COLORS.triangle1, points: [{ type: 'Ascend 🐟', value: 57 }, { type: 'Life 🕋', value: 95 }, { type: 'Resurrection 🔆', value: 19 }] },
+    { name: 'Downward Triangle (Cyan)', color: COLORS.triangle2, points: [{ type: 'MuSolomon 🌴', value: 1 }, { type: 'Return 🐝', value: 39 }, { type: 'Sacrifice 💧', value: 77 }] }
 ];
 
 export const CENTRAL_GEOMETRY_POINTS = [
@@ -76,12 +76,12 @@ export const CENTRAL_GEOMETRY_POINTS = [
 ];
 
 export const ICON_DIAL_DATA: IconData[] = [
-    { id: 'rahim', chapter: 1, emoji: '🌴', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌴%3C/text%3E%3C/svg%3E", description: '3c Slave 🌴' },
-    { id: 'rahman', chapter: 39, emoji: '🐝', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐝%3C/text%3E%3C/svg%3E", description: '6b Queen 🐝' },
-    { id: 'razim', chapter: 77, emoji: '💧', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E💧%3C/text%3E%3C/svg%3E", description: '9a Righteous 💧' },
-    { id: 'heaven', chapter: 95, emoji: '🕋', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🕋%3C/text%3E%3C/svg%3E", description: '6b Cave 🕋' },
-    { id: 'kingdom', chapter: 57, emoji: '🐟', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐟%3C/text%3E%3C/svg%3E", description: '3c Turabin 🐟' },
-    { id: 'photosynthesis', chapter: 19, emoji: '🔆', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🔆%3C/text%3E%3C/svg%3E", description: '9a Orphan 🔆' },
+    { id: 'rahim', chapter: 1, emoji: '🌴', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🌴%3C/text%3E%3C/svg%3E", description: 'MuSolomon 🌴' },
+    { id: 'rahman', chapter: 39, emoji: '🐝', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐝%3C/text%3E%3C/svg%3E", description: 'Return 🐝' },
+    { id: 'razim', chapter: 77, emoji: '💧', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E💧%3C/text%3E%3C/svg%3E", description: 'Sacrifice 💧' },
+    { id: 'heaven', chapter: 95, emoji: '🕋', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🕋%3C/text%3E%3C/svg%3E", description: 'Life 🕋' },
+    { id: 'kingdom', chapter: 57, emoji: '🐟', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐟%3C/text%3E%3C/svg%3E", description: 'Ascend 🐟' },
+    { id: 'photosynthesis', chapter: 19, emoji: '🔆', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🔆%3C/text%3E%3C/svg%3E", description: 'Resurrection 🔆' },
 ];
 
 export const SECRET_EMOJI_PATTERN: SecretIconData[] = [

@@ -264,9 +264,9 @@ const App: React.FC = () => {
         </div>
       </div>
       <div className="relative z-10 flex flex-col lg:flex-row lg:flex-1 lg:min-h-0">
-        <div className={`${isTreeOfVerseActive ? 'h-auto min-h-[440px]' : 'h-[350px]'} lg:h-full lg:flex-1 flex items-center justify-center px-4 pb-4 pt-16 lg:pt-20 outline-none shrink-0 lg:transition-[height] lg:duration-300`} tabIndex={0} onKeyDown={handleKeyDown} role="application">
+        <div className={`${isTreeOfVerseActive ? 'min-h-[440px]' : 'h-[350px] items-center justify-center'} lg:h-full lg:flex-1 flex flex-col px-4 pb-4 pt-16 lg:pt-20 outline-none shrink-0 lg:transition-[height] lg:duration-300 lg:min-h-0`} tabIndex={0} onKeyDown={handleKeyDown} role="application">
           {isTreeOfVerseActive ? (
-            <div className="flex flex-col gap-y-6 w-full h-full overflow-y-auto py-2">
+            <div className="flex flex-col gap-y-6 w-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden py-2 px-1 scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">
               <TreeOfVerseCenter 
                 rotation={rotation}
                 treeRootVerse={treeRootVerse}

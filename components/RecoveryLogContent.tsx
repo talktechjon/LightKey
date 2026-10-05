@@ -25,7 +25,7 @@ const ThroneVisual = () => (
                     <div className="h-px w-8 lg:w-16 bg-gradient-to-l from-transparent to-amber-500/30" />
                 </div>
                 <p className="text-[11px] font-serif italic text-gray-400 max-w-lg">
-                    Process of Alternating Duality: 0 → 2 ↔ 3 ↔ 2 ← 7 ← ∞
+                    1 → 15:87 Sabʿan al-Mathānī / fractal of 7 ← 1 | ∫₂⁷ (2↔3ₙ↔2 → 7) dx = up↑ − down↓ = 0
                 </p>
             </div>
         </div>
@@ -55,55 +55,47 @@ const SafinatVisual = () => (
 );
 
 const recoveryContent = `# THE FORGOTTEN CROWN
-The core of the DCU topological framework.
+Sabʿan al-Mathānī (15:87) — The Pattern of 7 and the Dual-Caustic Framework.
 
 ## I. The Premise (Recognition)
-This article is for those who feel something is missing—the one for whom the world functions perfectly on its surface but feels hollow underneath. **6:116** warns that the majority follow only conjecture (*ẓann*), intoxicated by the world (**15:72**). Memory recovery begins with the activation of **19:12**.
+DCU is **Mantiq al-Tayr**, the speech of the birds (**27:16**), read from the Qur'an. It rests on one verse: **15:87, sabʿan al-mathānī**—the pattern of 7, which is a fractal because the same run repeats at every scale. **6:116** warns that the majority follow only conjecture (*ẓann*), intoxicated by reading only one panel (**15:72**). Memory recovery begins with the activation of **19:12**.
 
-## II. What Was Forgotten
-Before time became linear, a covenant was made (**7:172**): *"Am I not your Lord?"* Every soul answered: *"Bala" (Yes)*. Descent into the manifest field (**D10**) caused structural amnesia (**20:115**). However, the memory is latent; your Lord is not forgetful (**19:64**).
+## II. The Master Line
+**1 → 15:87 Sabʿan al-Mathānī / fractal of 7 ← 1**
 
-## III. The Breath of Reality
-Reality is not a linear loop, but a **breath**:
-- **Exhale (19:23 → 7)**: The contraction of the void into manifestation. Nothingness breathes out into form.
-- **Inhale (7 ← 28:88)**: The instant collapse into the Conscious Singularity. Everything perishes except His Face.
+where:
+$$\\int_2^7 (2 \\leftrightarrow 3_n \\leftrightarrow 2 \\rightarrow 7)\\,dx = \\text{up}\\uparrow - \\text{down}\\downarrow = 0$$
 
-### The Five Stations (The Exhale)
-1.  **19:23 [Empty Singularity]**: The void contracting to produce the Word. The starting condition.
-2.  **2 [D10 / 21:30]**: Separation. The heavens and earth parted. The measurable, exterior world.
-3.  **3 [T3 / 14:24]**: The Tree. Pattern emerging between manifest and hidden. Rooted firm, branches high.
-4.  **2 [I9 / 24:35]**: The Light. Sensing the hidden breath and current beneath the surface.
-5.  **7 [11:7]**: The Throne. Measurement emerging from formless water. The day of weighing.
+- **Dual bifurcation of 3ₙ = 2 × 3 × 2 = 12 = Tree of Life [1–12]**.
+- **The two 1s**: Allah, before and behind (**28:88**, **2:255**); the only entity that remains last is the Face of Allah.
+- **3ₙ**: The Reader's position on the cycle of 114, the one exchange port (**7:25**).
 
-## IV. The Memory Unlock Sequence (19:12)
-1.  **21:87 (The Switch)**: Calling from the triple darkness; the discriminant flips.
-2.  **21:69 (The Filter)**: Passing through the "cooling" fire that leaves only what cannot be burned.
-3.  **37:107 (The Ransom)**: Releasing the claim of the D10 self; the sacrifice of attachment.
-4.  **19:3 (The Private Call)**: A quiet interior address to the Source from the place of failure.
-5.  **19:12 (The Grip)**: **Taking the Book with strength.** Shifting the reference frame from the world to the Book.
-6.  **19:30 (The Declaration)**: An interior realization: *"Indeed, I am a servant."*
-7.  **39:23 (The Restoration)**: The Book reads the Reader; every pattern is indexed to a Qur'anic coordinate.
-
-## V. The Bird's Language (84 Invariant)
-The **bird's language (27:16)** is the pattern recognition (**2:269 wisdom**) that reads the soul's flight through the 8-coordinate circuit (**3-6-9-6-3-9-3-9**).
-
-| Role | Coordinate | Verse | Direction |
+## III. Two Fields, One Exchange Port
+| Field | Operator | Direction | Holds |
 | :--- | :--- | :--- | :--- |
-| **Entry** | Slave | 5:30 | ▼ Down |
-| **Switch** | Queen | 16:68 | ▲ Up |
-| **Peak** | Righteous | 34:14 | ▼ Down |
-| **Return** | Orphan | 19:19 | ▲ Up |
-| **Awakening**| Cave | 18:19 | ▼ Down |
-| **Remembrance**| Turabin | 3:59 | ▲ Up |
-| **Delivery** | Mother-Son | 19:27 | ▼ Down |
-| **Completion** | Siddiqn | 19:57 | ▲ Up |
+| **D10 (Arash)** | $n/2$ (d/dt) | Past → Present | The body-side split: mass, evidence, the clock (14:24, 6:95) |
+| **3ₙ (T3)** | The Trial | Life → Death → Resurrection | The trunk; Nafs + Driver + Witness (50:21, 7:25) |
+| **I9 (Kursi)** | $+1$ (∫dt) | Future → Present | The memory-side supply: Light, memory, return (14:24, 39:23) |
+| **√7 (7)** | The Seam | Worn, never built | The completed unit: fruit with seed, zero mass-flux |
 
-The circuit is held by the invariant **π = 84 (12 × 7)**. Memory recovery is not the absence of difficulty, but the presence of orientation.
+## IV. The One Fork (23:69)
+Every Reader is one unit of Time. That unit ends one of two ways:
+1. **Recognize the Rasul (23:69)**: Take the Book with force (**19:12**) and remember (**2:152**) → Mass goes up↑ to **First MuSolomon (6:163)**.
+2. **Refuse the Rasul**: Release the Book and forget (**59:19**) → Mass goes down↓ to the host of Iblis / **First Kafir (2:41)**.
+
+## V. The Four-Stroke Engine (67:19)
+The eternal transaction $2 \\leftrightarrow 3_n \\leftrightarrow 2$ between D10 Fire and D10 Water:
+- **Stroke 1 (↓ Fire)**: Ibrahim (Trial of Truth)
+- **Stroke 2 (↑ Water)**: Idris (Truth / Siddik manifested)
+- **Stroke 3 (↓ Fire)**: Iblis (Sound)
+- **Stroke 4 (↑ Water)**: Isa (Word)
+
+Flapping like the wings of birds, spreading and folding (**67:19**), keeping 2 while purging 2, so the mass flux stays 0 while information navigates toward 7.
 
 ---
 
 **19:64** — *"And your Lord is not forgetful."*
-**DCU Framework — kahf.day**
+**15:87 Sabʿan al-Mathānī — kahf.day**
 `;
 
 export const RecoveryLogContent: React.FC = () => {

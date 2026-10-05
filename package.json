@@ -20,10 +20,13 @@
     "react-dom": "^19.2.0",
     "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.2",
+    "three": "^0.185.1"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "@types/node": "^22.14.0",
+    "@types/three": "^0.185.1",
     "@vitejs/plugin-react": "^5.0.0",
     "puppeteer": "^25.2.1",
     "typescript": "~5.8.2",

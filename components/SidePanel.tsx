@@ -207,7 +207,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   };
   
   const handleWatchSequence = (type: PlaylistType) => {
-    // Mirroring Order: Download (Slave, Queen, Righteous) -> Return (Orphan, Cave, Turabin)
+    // 15:87 Mathānī Order: 3↓ Debit (MuSolomon, Sacrifice, Life) ↔ 3↑ Credit (Return, Ascend, Resurrection)
     const helixSequence = [1, 39, 77, 19, 95, 57];
     const chapterIds = helixSequence.map(pointValue => getSliceAtPoint(pointValue, rotation).id);
     createPlaylist(type, chapterIds);

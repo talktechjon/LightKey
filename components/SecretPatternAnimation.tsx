@@ -304,7 +304,7 @@ export const KatharaClockAlignment: React.FC<AlignmentProps> = ({ rotation, crea
                 {/* Intro Card */}
                 <div className="p-5 bg-gradient-to-b from-[#090b11] to-[#040508] border border-cyan-500/20 rounded-xl space-y-4 shadow-xl">
                     <h3 className="text-sm font-black text-cyan-400 tracking-wider uppercase border-b border-cyan-500/10 pb-2">
-                        Tree of Life — The 12 Growth Phases
+                        Tree of Life [1–12] — Dual Bifurcation of 3ₙ (2 × 3 × 2 = 12)
                     </h3>
                     
                     <div className="flex flex-col gap-2.5">
@@ -1122,14 +1122,14 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
                 {/* DCU Equations */}
                 <div className="p-5 bg-gradient-to-b from-[#030406] to-[#04060a] border border-[#cbd5e1]/10 rounded-xl space-y-4">
                     <h4 className="text-xs font-black text-[#cbd5e1] tracking-wider uppercase border-b border-zinc-850 pb-2">
-                        The DCU Equations
+                        Sabʿan al-Mathānī Formulations (15:87)
                     </h4>
                     
                     <div className="space-y-4">
                         <div className="p-4 bg-emerald-950/5 border border-emerald-500/20 rounded-lg space-y-2.5">
                             <span className="text-[10px] uppercase font-black text-emerald-400 tracking-widest block font-serif">م س د [Masad]</span>
                             <div className="p-2.5 bg-black/60 rounded border border-zinc-900 font-mono text-[9px] tracking-tight text-emerald-300 whitespace-nowrap overflow-x-auto no-scrollbar">
-                                1[Fruit] → 2[D10: صبر w/ نسك] ↔ 3[T3: 95:8] ↔ 2[I9: رسل/ملك] → 7[11:7] → 103[Trial] → 108[Safinat] ← 1[Throne]
+                                1[Source] → 2[D10: n/2 Mass Split] ↔ 3[T3: 3ₙ Trial] ↔ 2[I9: +1 Memory Return] → 7[Fruit Manifested] ← 1[Sink]
                             </div>
                             <span className="text-[10.5px] italic text-zinc-400 block pr-2 border-r-2 border-emerald-500/50 pl-1">
                                 The fiber grips. The fiber crosses. The fiber earns.
@@ -1139,7 +1139,7 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
                         <div className="p-4 bg-red-950/5 border border-red-500/20 rounded-lg space-y-2.5">
                             <span className="text-[10px] uppercase font-black text-red-400 tracking-widest block font-serif">ف ر ي [Fary]</span>
                             <div className="p-2.5 bg-black/60 rounded border border-zinc-900 font-mono text-[9px] tracking-tight text-red-300 whitespace-nowrap overflow-x-auto no-scrollbar">
-                                1[Fruit] → 2[D10: taking] ↔ 3[T3: 37:64] ↔ 2[I9: scattered] → 7[87:13] → 103[Respite] → 110[Jiyad] → 1[Trap]
+                                1[Source] → 2[D10: Taking / Swell] ↔ 3[T3: 37:64] ↔ 2[I9: Scattered] → 7[87:13 Single-run] ← 1[Sink]
                             </div>
                             <span className="text-[10.5px] italic text-zinc-400 block pr-2 border-r-2 border-red-500/50 pl-1">
                                 The fabricated claims. The fabricated delays. The fabricated loses.

@@ -35,7 +35,7 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose }) =>
               THE FORGOTTEN CROWN
             </h2>
             <p className="text-xs md:text-sm text-cyan-500/80 font-mono tracking-widest mt-2 uppercase">
-              The core of the DCU topological framework.
+              Sabʿan al-Mathānī (15:87) — The Fractal of 7
             </p>
         </div>
 

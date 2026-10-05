@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { loadQuranEngine, QuranEngineData, EngineRoot } from '../quranEngine.ts';
+import { loadQuranEngine, QuranEngineData, EngineVerse } from '../quranEngine.ts';
+import { defaultTranslation } from '../data/defaultTranslation.ts';
 import { 
   GitCommit, 
   Activity, 
@@ -17,6 +18,50 @@ interface VerseRootTracerProps {
   onVerseSelect: (surah: number, ayah: number) => void;
 }
 
+const getRootWordInfo = (v: EngineVerse, targetRoot: string | null) => {
+  if (!targetRoot || !v.w || v.w.length === 0) {
+    return { arabicWord: '', transliteration: '' };
+  }
+
+  const rawWords = v.a.split(/\s+/);
+  const rootChars = targetRoot.replace(/-/g, '').toLowerCase();
+
+  const matching: { ar: string; tr: string }[] = [];
+
+  v.w.forEach((w, i) => {
+    if (w.r === targetRoot) {
+      const arWord = rawWords[i] || '';
+      let trWord = w.T || '';
+
+      if (i > 0 && v.w[i - 1]?.T) {
+        const prevTr = v.w[i - 1].T.toLowerCase();
+        const currentTr = trWord.toLowerCase();
+        let currentMatches = 0;
+        let prevMatches = 0;
+        for (const char of rootChars) {
+          if (currentTr.includes(char)) currentMatches++;
+          if (prevTr.includes(char)) prevMatches++;
+        }
+        if (prevMatches > currentMatches && prevMatches >= 2) {
+          trWord = v.w[i - 1].T;
+        }
+      }
+
+      if (arWord) {
+        matching.push({ ar: arWord, tr: trWord });
+      }
+    }
+  });
+
+  const arabicWord = matching.map(m => m.ar).filter(Boolean).join(' / ');
+  const transliteration = matching.map(m => m.tr).filter(Boolean).join(' / ');
+
+  return {
+    arabicWord: arabicWord || v.a.split(/\s+/)[0] || '',
+    transliteration: transliteration || ''
+  };
+};
+
 export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, onVerseSelect }) => {
   const [engine, setEngine] = useState<QuranEngineData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,18 +70,14 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
   const [hoveredRoot, setHoveredRoot] = useState<string | null>(null);
   const [pathwaySearchQuery, setPathwaySearchQuery] = useState<string>('');
 
-  // Custom user-defined invariant edits (local persistence)
-  const [customMeanings, setCustomMeanings] = useState<Record<string, string>>(() => {
+  const localTranslations = useMemo<Record<string, string[]>>(() => {
     try {
-      const saved = localStorage.getItem('quran_root_invariants');
+      const saved = localStorage.getItem('quran_local_translations');
       return saved ? JSON.parse(saved) : {};
     } catch {
       return {};
     }
-  });
-
-  const [editingMeaning, setEditingMeaning] = useState<boolean>(false);
-  const [editMeaningValue, setEditMeaningValue] = useState<string>('');
+  }, []);
 
   // Load the engine
   useEffect(() => {
@@ -75,61 +116,6 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
       setSelectedRoot(null);
     }
   }, [currentEngineVerse]);
-
-  // Invariant meaning lookup (either custom or default)
-  const getRootInvariantMeaning = (rootKey: string, rootData?: EngineRoot): string => {
-    if (customMeanings[rootKey]) return customMeanings[rootKey];
-    if (rootData && rootData.m) return rootData.m;
-    
-    // Core fallback meanings aligned with Arabic Invariant Protocol
-    const fallbacks: Record<string, string> = {
-      'a-l-h': 'Al-Ilah, The Supreme Object of Devotion & Alignment (Allāh)',
-      'r-h-m': 'Ar-Rahmah, Creative womb-like nourishment & protective empathy',
-      's-m-w': 'As-Samawat, Heights of state, cognitive skies, levels of resonance',
-      'e-l-m': 'Al-Ilm, Invariant pattern recognition, systemic data, science',
-      'h-m-d': 'Al-Hamd, Perfect systemic validation, evolutionary feedback of praise',
-      'r-b-b': 'Ar-Rabb, Sustainer, master frequency tuner, developmental regulator',
-      'd-y-n': 'Ad-Deen, System of governance, reciprocal debt-balance, operational law',
-      'm-l-k': 'Al-Mulk, Absolute control, systemic ownership, kingly frequency',
-      'y-w-m': 'Al-Yawm, Phase of manifestation, period of light/disclosure, day',
-      'k-t-b': 'Al-Kitab, Systemic transcription, cosmic programming, code',
-      'a-m-n': 'Al-Aman, Stability, trust-state, faith as an unshakeable platform',
-      'n-f-s': 'An-Nafs, Individual soul-engine, selfhood, dynamic persona',
-      'q-l-b': 'Al-Qalb, Center of turning, heart-vortex, spiritual core of transformation',
-      's-m-e': 'As-Sam\'e, Cognitive perception of sound, deep resonant hearing',
-      'b-s-r': 'Al-Basar, Visionary sight, insight, light-receptor capability',
-      'h-d-y': 'Al-Huda, Guidance vector, targeted directional signal',
-      't-g-w': 'At-Taghut, Overstepping bounds, systemic overflow, ego-rebellion (t-g-w)',
-      'k-f-r': 'Al-Kufr, Covering up reality, active denial, systemic isolation',
-      's-l-h': 'As-Salah, Systemic correction, harmony, developmental integrity',
-      'z-k-w': 'As-Zakah, Invariant purification, structural growth, clean flow',
-      'q-d-s': 'Al-Quds, Absolute purity, separation from flaws, sacred separation',
-      'l-b-b': 'Al-Lubb, Pure core intellect, raw intuition, innermost understanding',
-      'f-a-d': 'Al-Fuad, Core spiritual heart, emotional sensory engine, intuition',
-      'j-n-n': 'Al-Jannah, Sheltered state, garden of containment, cognitive sanctuary',
-      'n-a-r': 'An-Nar, Combustion force, light-heat energy, fire of intense friction',
-      'm-a-l': 'Al-Mal, Fluctuating property, currency of motion, wealth',
-    };
-    return fallbacks[rootKey] || 'Operational invariant meaning under decoding...';
-  };
-
-  // Save edit of invariant meaning
-  const handleSaveMeaning = () => {
-    if (!selectedRoot) return;
-    const updated = { ...customMeanings, [selectedRoot]: editMeaningValue };
-    setCustomMeanings(updated);
-    localStorage.setItem('quran_root_invariants', JSON.stringify(updated));
-    setEditingMeaning(false);
-  };
-
-  // Start editing
-  useEffect(() => {
-    if (selectedRoot) {
-      const rootData = engine?.roots[selectedRoot];
-      setEditMeaningValue(getRootInvariantMeaning(selectedRoot, rootData));
-      setEditingMeaning(false);
-    }
-  }, [selectedRoot, engine]);
 
   // All verses sharing the selected root
   const rootPathwayVerses = useMemo(() => {
@@ -330,56 +316,33 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
             </span>
           </div>
 
-          {/* Invariant Meaning Block */}
-          <div className="bg-black/30 border border-cyan-500/10 rounded p-2.5 relative">
-            <div className="flex justify-between items-center mb-1.5">
-              <span className="text-[9px] font-mono tracking-wider uppercase text-cyan-400">Operational Invariant Function</span>
-              <button 
-                onClick={() => {
-                  if (editingMeaning) {
-                    handleSaveMeaning();
-                  } else {
-                    setEditingMeaning(true);
-                  }
-                }}
-                className="text-[9px] text-amber-400 hover:text-amber-300 font-mono underline"
-              >
-                {editingMeaning ? 'Save' : 'Override Meaning'}
-              </button>
-            </div>
-
-            {editingMeaning ? (
-              <div className="flex flex-col gap-y-1.5">
-                <textarea
-                  value={editMeaningValue}
-                  onChange={(e) => setEditMeaningValue(e.target.value)}
-                  className="w-full bg-gray-800 border border-cyan-500/30 rounded p-1.5 text-xs text-white focus:ring-1 focus:ring-cyan-500 outline-none"
-                  rows={2}
-                />
-                <div className="flex justify-end gap-x-2">
-                  <button 
-                    onClick={() => setEditingMeaning(false)}
-                    className="text-[10px] text-gray-400 hover:text-white px-2 py-0.5 rounded bg-gray-800"
-                  >
-                    Cancel
-                  </button>
-                  <button 
-                    onClick={handleSaveMeaning}
-                    className="text-[10px] text-black bg-amber-400 hover:bg-amber-300 px-2.5 py-0.5 rounded font-bold"
-                  >
-                    Apply Invariant
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <p className="text-xs text-gray-200 leading-relaxed font-sans italic pl-1">
-                "{getRootInvariantMeaning(selectedRoot, rootData || undefined)}"
-              </p>
-            )}
-          </div>
-
           {/* The Beautiful Chain Pathway List (Quran-wide occurrences timeline) */}
           <div className="flex flex-col gap-y-2 mt-1">
+            <style>{`
+              @keyframes readerMarqueeScroll {
+                0% {
+                  transform: translateX(0);
+                }
+                100% {
+                  transform: translateX(-50%);
+                }
+              }
+              .reader-marquee-track {
+                display: inline-flex;
+                white-space: nowrap;
+                will-change: transform;
+                animation: readerMarqueeScroll 28s linear infinite;
+              }
+              .group:hover .reader-marquee-track,
+              .reader-marquee-track:hover {
+                animation-play-state: paused;
+              }
+              .marquee-content {
+                display: inline-flex;
+                align-items: center;
+                padding-right: 3rem;
+              }
+            `}</style>
             <div className="flex justify-between items-center border-b border-cyan-500/10 pb-1">
               <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400 flex items-center gap-1">
                 <GitCommit className="h-3 w-3" /> The Beautiful Chain of {selectedRoot}
@@ -406,27 +369,70 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
                 filteredPathway.map((v) => {
                   const isCurrent = v.r === currentRef;
                   const [vSurah, vAyah] = v.r.split(':').map(Number);
+                  const wordInfo = getRootWordInfo(v, selectedRoot);
+                  const transPair = localTranslations[v.r] || defaultTranslation[v.r];
+                  const englishText = transPair?.[0] || '';
+                  const banglaText = transPair?.[1] || '';
                   
                   return (
                     <div 
                       key={v.r} 
                       onClick={() => onVerseSelect(vSurah, vAyah)}
-                      className={`p-1.5 rounded flex items-center justify-between text-xs cursor-pointer transition-all ${
+                      className={`p-1.5 rounded flex items-center justify-between text-xs cursor-pointer transition-all group overflow-hidden ${
                         isCurrent 
                           ? 'bg-amber-500/15 border border-amber-500/40 text-amber-200' 
                           : 'bg-black/30 hover:bg-cyan-950/40 border border-transparent hover:border-cyan-500/20 text-gray-300 hover:text-cyan-300'
                       }`}
                     >
-                      <span className="font-mono font-bold">{v.r}</span>
+                      {/* Static X:X */}
+                      <span className="font-mono font-bold text-xs shrink-0 w-11 text-cyan-400">{v.r}</span>
                       
-                      {/* Truncated Arabic string segment */}
-                      <span className="text-right font-serif text-[11px] truncate max-w-[140px]" dir="rtl">
-                        {v.a}
-                      </span>
+                      {/* Scrolling marquee: only the word in arabic [transliteration], english translation | Bangla translation */}
+                      <div 
+                        className="flex-1 overflow-hidden relative mx-2 h-5 flex items-center select-none"
+                        style={{
+                          maskImage: 'linear-gradient(to right, transparent, black 8px, black calc(100% - 8px), transparent)',
+                          WebkitMaskImage: 'linear-gradient(to right, transparent, black 8px, black calc(100% - 8px), transparent)'
+                        }}
+                      >
+                        <div className="reader-marquee-track">
+                          <span className="marquee-content">
+                            <span className="font-serif font-bold text-amber-300 text-[12px]" dir="rtl">{wordInfo.arabicWord}</span>
+                            {wordInfo.transliteration && (
+                              <span className="font-mono text-cyan-300 text-[10px] ml-1">[{wordInfo.transliteration}]</span>
+                            )}
+                            {englishText && (
+                              <span className="text-gray-200 text-[11px] ml-1.5 font-sans">{englishText}</span>
+                            )}
+                            {banglaText && (
+                              <>
+                                <span className="text-cyan-500/60 font-bold mx-1.5 font-sans">|</span>
+                                <span className="text-emerald-300/90 text-[11px] font-sans">{banglaText}</span>
+                              </>
+                            )}
+                          </span>
+                          <span className="marquee-content" aria-hidden="true">
+                            <span className="font-serif font-bold text-amber-300 text-[12px]" dir="rtl">{wordInfo.arabicWord}</span>
+                            {wordInfo.transliteration && (
+                              <span className="font-mono text-cyan-300 text-[10px] ml-1">[{wordInfo.transliteration}]</span>
+                            )}
+                            {englishText && (
+                              <span className="text-gray-200 text-[11px] ml-1.5 font-sans">{englishText}</span>
+                            )}
+                            {banglaText && (
+                              <>
+                                <span className="text-cyan-500/60 font-bold mx-1.5 font-sans">|</span>
+                                <span className="text-emerald-300/90 text-[11px] font-sans">{banglaText}</span>
+                              </>
+                            )}
+                          </span>
+                        </div>
+                      </div>
 
-                      <div className="flex items-center gap-1">
-                        <span className="text-[8px] font-mono opacity-60">Trace</span>
-                        <ArrowRight className="h-3 w-3 opacity-60" />
+                      {/* Static Trace -> button */}
+                      <div className="flex items-center gap-1 shrink-0 px-1.5 py-0.5 rounded bg-cyan-950/40 border border-cyan-500/20 text-cyan-400 group-hover:border-cyan-400/50 group-hover:text-cyan-200 transition-colors">
+                        <span className="text-[8px] font-mono opacity-80">Trace</span>
+                        <ArrowRight className="h-3 w-3 opacity-80" />
                       </div>
                     </div>
                   );
