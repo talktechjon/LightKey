@@ -1,267 +1,1111 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { motion } from 'framer-motion';
-import { Box, Compass, RefreshCw, Eye, Sun, Droplets, Sparkles, ArrowLeftRight } from 'lucide-react';
+import { Box, Compass, RefreshCw, Eye, Sun, Droplets, Sparkles, ArrowLeftRight, Play, Pause, SkipForward, SkipBack, RotateCcw } from 'lucide-react';
 
-const TesseractRoseCubeVisual: React.FC = () => {
-    const [activePhase, setActivePhase] = useState<number | null>(null);
+/* =========================================================================
+   Rubik's Cube Permutation Circles & 4D Tesseract Simulation Engine
+   (AdamWhiteHat Permutation Model)
+   ========================================================================= */
 
-    const phases = [
-        { id: 1, name: "Life ↓", color: "#facc15", bg: "rgba(250, 204, 21, 0.15)", border: "#facc15", anchor: "3:49", desc: "Clay pulse — Command condenses into clay (Kun)", dir: "down" },
-        { id: 2, name: "Death ↑", color: "#22c55e", bg: "rgba(34, 197, 94, 0.15)", border: "#22c55e", anchor: "40:34", desc: "Yusuf exit — Mass spent, memory credit logged", dir: "up" },
-        { id: 3, name: "Return ↓", color: "#fb923c", bg: "rgba(251, 146, 60, 0.15)", border: "#fb923c", anchor: "19:30", desc: "Cradle Book — Word lowered into speech & action", dir: "down" },
-        { id: 4, name: "Life ↑", color: "#ef4444", bg: "rgba(239, 68, 68, 0.15)", border: "#ef4444", anchor: "7:143", desc: "Musa / Mountain shatters — First believer raised", dir: "up" },
-        { id: 5, name: "Raised ↓", color: "#ffffff", bg: "rgba(255, 255, 255, 0.15)", border: "#ffffff", anchor: "81:8", desc: "Al-Maw'ūdah — The buried life claimed & answered", dir: "down" },
-        { id: 6, name: "Death ↑", color: "#3b82f6", bg: "rgba(59, 130, 246, 0.15)", border: "#3b82f6", anchor: "34:14", desc: "Solomon reboot — Seed splits, re-fires the Kun", dir: "up" },
-    ];
+// Canonical 6 colors matching the video:
+// U: Green (#22c55e), D: Yellow (#facc15), F: Red (#ef4444), B: Blue (#3b82f6), L: Orange (#fb923c), R: White (#ffffff)
+type FaceName = 'U' | 'D' | 'F' | 'B' | 'L' | 'R';
+type CubeState = Record<FaceName, string[]>;
+
+const INITIAL_CUBE_STATE: CubeState = {
+    U: Array(9).fill('#22c55e'), // Green
+    D: Array(9).fill('#facc15'), // Yellow
+    F: Array(9).fill('#ef4444'), // Red
+    B: Array(9).fill('#3b82f6'), // Blue
+    L: Array(9).fill('#fb923c'), // Orange
+    R: Array(9).fill('#ffffff')  // White
+};
+
+// The 15-move sequence from the video
+const PERMUTATION_SEQUENCE = [
+    'F', "L'", "B'", "R'", 'M', 'U', "M'", "L'", 'U', 'E', 'B', 'M', 'U', "E'", "R'"
+];
+
+// Helper to rotate a 3x3 face array 90 deg clockwise
+const rotateFaceCW = (face: string[]): string[] => [
+    face[6], face[3], face[0],
+    face[7], face[4], face[1],
+    face[8], face[5], face[2]
+];
+
+// Helper to rotate a 3x3 face array 90 deg counter-clockwise
+const rotateFaceCCW = (face: string[]): string[] => [
+    face[2], face[5], face[8],
+    face[1], face[4], face[7],
+    face[0], face[3], face[6]
+];
+
+// Apply single move to cube state
+const applyCubeMove = (state: CubeState, move: string): CubeState => {
+    const s = {
+        U: [...state.U],
+        D: [...state.D],
+        F: [...state.F],
+        B: [...state.B],
+        L: [...state.L],
+        R: [...state.R]
+    };
+
+    switch (move) {
+        case 'U': {
+            s.U = rotateFaceCW(s.U);
+            const temp = [s.F[0], s.F[1], s.F[2]];
+            s.F[0] = s.R[0]; s.F[1] = s.R[1]; s.F[2] = s.R[2];
+            s.R[0] = s.B[0]; s.R[1] = s.B[1]; s.R[2] = s.B[2];
+            s.B[0] = s.L[0]; s.B[1] = s.L[1]; s.B[2] = s.L[2];
+            s.L[0] = temp[0]; s.L[1] = temp[1]; s.L[2] = temp[2];
+            break;
+        }
+        case "U'": {
+            s.U = rotateFaceCCW(s.U);
+            const temp = [s.F[0], s.F[1], s.F[2]];
+            s.F[0] = s.L[0]; s.F[1] = s.L[1]; s.F[2] = s.L[2];
+            s.L[0] = s.B[0]; s.L[1] = s.B[1]; s.L[2] = s.B[2];
+            s.B[0] = s.R[0]; s.B[1] = s.R[1]; s.B[2] = s.R[2];
+            s.R[0] = temp[0]; s.R[1] = temp[1]; s.R[2] = temp[2];
+            break;
+        }
+        case 'D': {
+            s.D = rotateFaceCW(s.D);
+            const temp = [s.F[6], s.F[7], s.F[8]];
+            s.F[6] = s.L[6]; s.F[7] = s.L[7]; s.F[8] = s.L[8];
+            s.L[6] = s.B[6]; s.L[7] = s.B[7]; s.L[8] = s.B[8];
+            s.B[6] = s.R[6]; s.B[7] = s.R[7]; s.B[8] = s.R[8];
+            s.R[6] = temp[0]; s.R[7] = temp[1]; s.R[8] = temp[2];
+            break;
+        }
+        case "D'": {
+            s.D = rotateFaceCCW(s.D);
+            const temp = [s.F[6], s.F[7], s.F[8]];
+            s.F[6] = s.R[6]; s.F[7] = s.R[7]; s.F[8] = s.R[8];
+            s.R[6] = s.B[6]; s.R[7] = s.B[7]; s.R[8] = s.B[8];
+            s.B[6] = s.L[6]; s.B[7] = s.L[7]; s.B[8] = s.L[8];
+            s.L[6] = temp[0]; s.L[7] = temp[1]; s.L[8] = temp[2];
+            break;
+        }
+        case 'F': {
+            s.F = rotateFaceCW(s.F);
+            const temp = [s.U[6], s.U[7], s.U[8]];
+            s.U[6] = s.L[8]; s.U[7] = s.L[5]; s.U[8] = s.L[2];
+            s.L[2] = s.D[0]; s.L[5] = s.D[1]; s.L[8] = s.D[2];
+            s.D[0] = s.R[6]; s.D[1] = s.R[3]; s.D[2] = s.R[0];
+            s.R[0] = temp[0]; s.R[3] = temp[1]; s.R[6] = temp[2];
+            break;
+        }
+        case "F'": {
+            s.F = rotateFaceCCW(s.F);
+            const temp = [s.U[6], s.U[7], s.U[8]];
+            s.U[6] = s.R[0]; s.U[7] = s.R[3]; s.U[8] = s.R[6];
+            s.R[0] = s.D[2]; s.R[3] = s.D[1]; s.R[6] = s.D[0];
+            s.D[0] = s.L[2]; s.D[1] = s.L[5]; s.D[2] = s.L[8];
+            s.L[2] = temp[2]; s.L[5] = temp[1]; s.L[8] = temp[0];
+            break;
+        }
+        case 'B': {
+            s.B = rotateFaceCW(s.B);
+            const temp = [s.U[0], s.U[1], s.U[2]];
+            s.U[0] = s.R[2]; s.U[1] = s.R[5]; s.U[2] = s.R[8];
+            s.R[2] = s.D[8]; s.R[5] = s.D[7]; s.R[8] = s.D[6];
+            s.D[6] = s.L[0]; s.D[7] = s.L[3]; s.D[8] = s.L[6];
+            s.L[0] = temp[2]; s.L[3] = temp[1]; s.L[6] = temp[0];
+            break;
+        }
+        case "B'": {
+            s.B = rotateFaceCCW(s.B);
+            const temp = [s.U[0], s.U[1], s.U[2]];
+            s.U[0] = s.L[6]; s.U[1] = s.L[3]; s.U[2] = s.L[0];
+            s.L[0] = s.D[6]; s.L[3] = s.D[7]; s.L[6] = s.D[8];
+            s.D[6] = s.R[8]; s.D[7] = s.R[5]; s.D[8] = s.R[2];
+            s.R[2] = temp[0]; s.R[5] = temp[1]; s.R[8] = temp[2];
+            break;
+        }
+        case 'L': {
+            s.L = rotateFaceCW(s.L);
+            const temp = [s.U[0], s.U[3], s.U[6]];
+            s.U[0] = s.B[8]; s.U[3] = s.B[5]; s.U[6] = s.B[2];
+            s.B[2] = s.D[6]; s.B[5] = s.D[3]; s.B[8] = s.D[0];
+            s.D[0] = s.F[0]; s.D[3] = s.F[3]; s.D[6] = s.F[6];
+            s.F[0] = temp[0]; s.F[3] = temp[1]; s.F[6] = temp[2];
+            break;
+        }
+        case "L'": {
+            s.L = rotateFaceCCW(s.L);
+            const temp = [s.U[0], s.U[3], s.U[6]];
+            s.U[0] = s.F[0]; s.U[3] = s.F[3]; s.U[6] = s.F[6];
+            s.F[0] = s.D[0]; s.F[3] = s.D[3]; s.F[6] = s.D[6];
+            s.D[0] = s.B[8]; s.D[3] = s.B[5]; s.D[6] = s.B[2];
+            s.B[2] = temp[2]; s.B[5] = temp[1]; s.B[8] = temp[0];
+            break;
+        }
+        case 'R': {
+            s.R = rotateFaceCW(s.R);
+            const temp = [s.U[2], s.U[5], s.U[8]];
+            s.U[2] = s.F[2]; s.U[5] = s.F[5]; s.U[8] = s.F[8];
+            s.F[2] = s.D[2]; s.F[5] = s.D[5]; s.F[8] = s.D[8];
+            s.D[2] = s.B[6]; s.D[5] = s.B[3]; s.D[8] = s.B[0];
+            s.B[0] = temp[2]; s.B[3] = temp[1]; s.B[6] = temp[0];
+            break;
+        }
+        case "R'": {
+            s.R = rotateFaceCCW(s.R);
+            const temp = [s.U[2], s.U[5], s.U[8]];
+            s.U[2] = s.B[6]; s.U[5] = s.B[3]; s.U[8] = s.B[0];
+            s.B[0] = s.D[8]; s.B[3] = s.D[5]; s.B[6] = s.D[2];
+            s.D[2] = s.F[2]; s.D[5] = s.F[5]; s.D[8] = s.F[8];
+            s.F[2] = temp[0]; s.F[5] = temp[1]; s.F[8] = temp[2];
+            break;
+        }
+        case 'M': {
+            // Middle slice follows L direction (U -> F -> D -> B)
+            const temp = [s.U[1], s.U[4], s.U[7]];
+            s.U[1] = s.B[7]; s.U[4] = s.B[4]; s.U[7] = s.B[1];
+            s.B[1] = s.D[7]; s.B[4] = s.D[4]; s.B[7] = s.D[1];
+            s.D[1] = s.F[1]; s.D[4] = s.F[4]; s.D[7] = s.F[7];
+            s.F[1] = temp[0]; s.F[4] = temp[1]; s.F[7] = temp[2];
+            break;
+        }
+        case "M'": {
+            const temp = [s.U[1], s.U[4], s.U[7]];
+            s.U[1] = s.F[1]; s.U[4] = s.F[4]; s.U[7] = s.F[7];
+            s.F[1] = s.D[1]; s.F[4] = s.D[4]; s.F[7] = s.D[7];
+            s.D[1] = s.B[7]; s.D[4] = s.B[4]; s.D[7] = s.B[1];
+            s.B[1] = temp[2]; s.B[4] = temp[1]; s.B[7] = temp[0];
+            break;
+        }
+        case 'E': {
+            // Equator slice follows D direction (F -> R -> B -> L)
+            const temp = [s.F[3], s.F[4], s.F[5]];
+            s.F[3] = s.L[3]; s.F[4] = s.L[4]; s.F[5] = s.L[5];
+            s.L[3] = s.B[3]; s.L[4] = s.B[4]; s.L[5] = s.B[5];
+            s.B[3] = s.R[3]; s.B[4] = s.R[4]; s.B[5] = s.R[5];
+            s.R[3] = temp[0]; s.R[4] = temp[1]; s.R[5] = temp[2];
+            break;
+        }
+        case "E'": {
+            const temp = [s.F[3], s.F[4], s.F[5]];
+            s.F[3] = s.R[3]; s.F[4] = s.R[4]; s.F[5] = s.R[5];
+            s.R[3] = s.B[3]; s.R[4] = s.B[4]; s.R[5] = s.B[5];
+            s.B[3] = s.L[3]; s.B[4] = s.L[4]; s.B[5] = s.L[5];
+            s.L[3] = temp[0]; s.L[4] = temp[1]; s.L[5] = temp[2];
+            break;
+        }
+        case 'S': {
+            // Standing slice follows F direction (U -> R -> D -> L)
+            const temp = [s.U[3], s.U[4], s.U[5]];
+            s.U[3] = s.L[7]; s.U[4] = s.L[4]; s.U[5] = s.L[1];
+            s.L[1] = s.D[3]; s.L[4] = s.D[4]; s.L[7] = s.D[5];
+            s.D[3] = s.R[7]; s.D[4] = s.R[4]; s.D[5] = s.R[1];
+            s.R[1] = temp[0]; s.R[4] = temp[1]; s.R[7] = temp[2];
+            break;
+        }
+        case "S'": {
+            const temp = [s.U[3], s.U[4], s.U[5]];
+            s.U[3] = s.R[1]; s.U[4] = s.R[4]; s.U[5] = s.R[7];
+            s.R[1] = s.D[5]; s.R[4] = s.D[4]; s.R[7] = s.D[3];
+            s.D[3] = s.L[1]; s.D[4] = s.L[4]; s.D[5] = s.L[7];
+            s.L[1] = temp[2]; s.L[4] = temp[1]; s.L[7] = temp[0];
+            break;
+        }
+        default:
+            break;
+    }
+    return s;
+};
+
+export const TesseractRoseCubeVisual: React.FC = () => {
+    const [stepIndex, setStepIndex] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [cubeHistory, setCubeHistory] = useState<CubeState[]>([INITIAL_CUBE_STATE]);
+    const [activeMoveName, setActiveMoveName] = useState<string | null>(null);
+
+    // Pre-calculate full 15-step sequence history
+    useEffect(() => {
+        let current = INITIAL_CUBE_STATE;
+        const history = [INITIAL_CUBE_STATE];
+        for (const mv of PERMUTATION_SEQUENCE) {
+            current = applyCubeMove(current, mv);
+            history.push(current);
+        }
+        setCubeHistory(history);
+    }, []);
+
+    const currentCube = cubeHistory[stepIndex] || INITIAL_CUBE_STATE;
+    const currentMove = stepIndex > 0 ? PERMUTATION_SEQUENCE[stepIndex - 1] : null;
+
+    // Auto-play timer
+    useEffect(() => {
+        let timer: ReturnType<typeof setTimeout>;
+        if (isPlaying) {
+            timer = setTimeout(() => {
+                setStepIndex((prev) => {
+                    if (prev >= PERMUTATION_SEQUENCE.length) {
+                        setIsPlaying(false);
+                        return prev;
+                    }
+                    return prev + 1;
+                });
+            }, 800);
+        }
+        return () => clearTimeout(timer);
+    }, [isPlaying, stepIndex]);
+
+    const handleNext = () => {
+        if (stepIndex < PERMUTATION_SEQUENCE.length) {
+            setStepIndex(stepIndex + 1);
+        }
+    };
+
+    const handlePrev = () => {
+        if (stepIndex > 0) {
+            setStepIndex(stepIndex - 1);
+        }
+    };
+
+    const handleReset = () => {
+        setIsPlaying(false);
+        setStepIndex(0);
+    };
+
+    const handleTriggerManualMove = (mv: string) => {
+        setIsPlaying(false);
+        setActiveMoveName(mv);
+        setCubeHistory((prevHistory) => {
+            const lastState = prevHistory[stepIndex] || INITIAL_CUBE_STATE;
+            const nextState = applyCubeMove(lastState, mv);
+            const newHistory = [...prevHistory.slice(0, stepIndex + 1), nextState];
+            setStepIndex(stepIndex + 1);
+            return newHistory;
+        });
+        setTimeout(() => setActiveMoveName(null), 600);
+    };
+
+    // 9 Track Circle Geometry Constants (Trefoil / 3-Axis System)
+    // Top Cluster (Y-Axis: U, E, D) Center: (210, 130)
+    // Bottom-Left Cluster (Z-Axis: F, S, B) Center: (145, 230)
+    // Bottom-Right Cluster (X-Axis: R, M, L) Center: (275, 230)
+    const [selectedTrack, setSelectedTrack] = useState<string>('ALL');
+    const [hoveredBead, setHoveredBead] = useState<{ face: FaceName; index: number; label: string; track: string } | null>(null);
+    const [hoveredCubeFacet, setHoveredCubeFacet] = useState<{ face: FaceName; index: number } | null>(null);
+    const [showBeadLabels, setShowBeadLabels] = useState<boolean>(false);
+
+    const activeHighlightTrack = activeMoveName 
+        ? activeMoveName.replace("'", "") 
+        : (selectedTrack !== 'ALL' ? selectedTrack : (currentMove ? currentMove.replace("'", "") : null));
+
+    // Dynamic sticker colors mapping for the 54 beads on the permutation circles
+    // U face: Green, D face: Yellow, F face: Red, B face: Blue, L face: Orange, R face: White
+    const getBeadColor = (face: FaceName, idx: number) => {
+        return currentCube[face]?.[idx] || '#cbd5e1';
+    };
+
+    // Helper to calculate exact coordinates of 8 beads along a circle of radius R at center (cx, cy)
+    // Start angle offset ensures natural orientation matching the face unfoldings
+    const getPerimeterCoords = (cx: number, cy: number, r: number, startAngleDeg: number = -90) => {
+        const coords: { x: number; y: number }[] = [];
+        for (let i = 0; i < 8; i++) {
+            const angleRad = ((startAngleDeg + i * 45) * Math.PI) / 180;
+            coords.push({
+                x: cx + r * Math.cos(angleRad),
+                y: cy + r * Math.sin(angleRad)
+            });
+        }
+        return coords;
+    };
+
+    // Face perimeter 8-indices in clockwise order around the face: [0, 1, 2, 5, 8, 7, 6, 3]
+    const FACE_INDICES = [0, 1, 2, 5, 8, 7, 6, 3];
+
+    // Definitions of the 9 tracks with geometry, beads, and metadata
+    const TRACK_CONFIGS: Record<string, {
+        name: string;
+        fullName: string;
+        axis: string;
+        color: string;
+        cx: number;
+        cy: number;
+        r: number;
+        labelX: number;
+        labelY: number;
+        beads: { face: FaceName; index: number; label: string }[];
+        startAngle: number;
+    }> = {
+        // Top Cluster (Y-Axis)
+        D: {
+            name: 'D',
+            fullName: 'Down Face (Outer Ring)',
+            axis: 'Y-Axis / Gravitropism',
+            color: '#facc15',
+            cx: 210, cy: 130, r: 110,
+            labelX: 210, labelY: 16,
+            startAngle: -90,
+            beads: FACE_INDICES.map((idx) => ({ face: 'D' as FaceName, index: idx, label: `D${idx}` }))
+        },
+        E: {
+            name: 'E',
+            fullName: 'Equator Slice (Middle Ring)',
+            axis: 'Y-Axis Slice',
+            color: '#22d3ee',
+            cx: 210, cy: 130, r: 90,
+            labelX: 210, labelY: 36,
+            startAngle: -90,
+            beads: [
+                { face: 'F', index: 3, label: 'F3' },
+                { face: 'L', index: 5, label: 'L5' },
+                { face: 'L', index: 3, label: 'L3' },
+                { face: 'B', index: 5, label: 'B5' },
+                { face: 'B', index: 3, label: 'B3' },
+                { face: 'R', index: 5, label: 'R5' },
+                { face: 'R', index: 3, label: 'R3' },
+                { face: 'F', index: 5, label: 'F5' }
+            ]
+        },
+        U: {
+            name: 'U',
+            fullName: 'Up Face (Inner Ring)',
+            axis: 'Y-Axis / Phototropism',
+            color: '#4ade80',
+            cx: 210, cy: 130, r: 70,
+            labelX: 210, labelY: 56,
+            startAngle: -90,
+            beads: FACE_INDICES.map((idx) => ({ face: 'U' as FaceName, index: idx, label: `U${idx}` }))
+        },
+
+        // Bottom-Left Cluster (Z-Axis)
+        B: {
+            name: 'B',
+            fullName: 'Back Face (Outer Ring)',
+            axis: 'Z-Axis / Past Horizon',
+            color: '#38bdf8',
+            cx: 145, cy: 230, r: 110,
+            labelX: 28, labelY: 235,
+            startAngle: 180,
+            beads: FACE_INDICES.map((idx) => ({ face: 'B' as FaceName, index: idx, label: `B${idx}` }))
+        },
+        S: {
+            name: 'S',
+            fullName: 'Standing Slice (Middle Ring)',
+            axis: 'Z-Axis Slice',
+            color: '#f59e0b',
+            cx: 145, cy: 230, r: 90,
+            labelX: 50, labelY: 235,
+            startAngle: 180,
+            beads: [
+                { face: 'U', index: 3, label: 'U3' },
+                { face: 'R', index: 1, label: 'R1' },
+                { face: 'R', index: 7, label: 'R7' },
+                { face: 'D', index: 5, label: 'D5' },
+                { face: 'D', index: 3, label: 'D3' },
+                { face: 'L', index: 7, label: 'L7' },
+                { face: 'L', index: 1, label: 'L1' },
+                { face: 'U', index: 5, label: 'U5' }
+            ]
+        },
+        F: {
+            name: 'F',
+            fullName: 'Front Face (Inner Ring)',
+            axis: 'Z-Axis / Future Horizon',
+            color: '#ef4444',
+            cx: 145, cy: 230, r: 70,
+            labelX: 72, labelY: 235,
+            startAngle: 180,
+            beads: FACE_INDICES.map((idx) => ({ face: 'F' as FaceName, index: idx, label: `F${idx}` }))
+        },
+
+        // Bottom-Right Cluster (X-Axis)
+        L: {
+            name: 'L',
+            fullName: 'Left Face (Outer Ring)',
+            axis: 'X-Axis / Left Debit Arm',
+            color: '#fb923c',
+            cx: 275, cy: 230, r: 110,
+            labelX: 392, labelY: 235,
+            startAngle: 0,
+            beads: FACE_INDICES.map((idx) => ({ face: 'L' as FaceName, index: idx, label: `L${idx}` }))
+        },
+        M: {
+            name: 'M',
+            fullName: 'Middle Slice (Middle Ring)',
+            axis: 'X-Axis Slice',
+            color: '#ec4899',
+            cx: 275, cy: 230, r: 90,
+            labelX: 370, labelY: 235,
+            startAngle: 0,
+            beads: [
+                { face: 'U', index: 1, label: 'U1' },
+                { face: 'F', index: 1, label: 'F1' },
+                { face: 'F', index: 7, label: 'F7' },
+                { face: 'D', index: 1, label: 'D1' },
+                { face: 'D', index: 7, label: 'D7' },
+                { face: 'B', index: 7, label: 'B7' },
+                { face: 'B', index: 1, label: 'B1' },
+                { face: 'U', index: 7, label: 'U7' }
+            ]
+        },
+        R: {
+            name: 'R',
+            fullName: 'Right Face (Inner Ring)',
+            axis: 'X-Axis / Right Credit Arm',
+            color: '#ffffff',
+            cx: 275, cy: 230, r: 70,
+            labelX: 348, labelY: 235,
+            startAngle: 0,
+            beads: FACE_INDICES.map((idx) => ({ face: 'R' as FaceName, index: idx, label: `R${idx}` }))
+        }
+    };
 
     return (
-        <div className="relative w-full flex flex-col items-center justify-center my-10 bg-black/50 border border-cyan-500/20 rounded-3xl p-6 lg:p-8 shadow-2xl overflow-hidden">
-            {/* Ambient Background Glow */}
+        <div className="relative w-full flex flex-col items-center justify-center my-10 bg-black/60 border border-cyan-500/25 rounded-3xl p-6 lg:p-8 shadow-2xl overflow-hidden select-none">
+            {/* Ambient Background Atmosphere */}
             <div className="absolute -top-24 -left-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Header / Title */}
-            <div className="flex flex-col items-center text-center space-y-2 mb-6 z-10">
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 text-[10px] font-mono uppercase tracking-widest">
+            {/* Header */}
+            <div className="flex flex-col items-center text-center space-y-2 mb-6 z-10 w-full">
+                <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 text-[10px] font-mono uppercase tracking-widest">
                     <Box className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>4D Tesseract • 9-Letter Rose • Rubik's Cube Engine</span>
+                    <span>Rubik's Cube as Permutations • AdamWhiteHat Engine</span>
                 </div>
-                <h3 className="text-lg lg:text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-cyan-300 to-pink-300 font-serif tracking-wide">
-                    The Geometry of the Hidden 8th Cell (36:9 ↔ 50:21)
+                <h3 className="text-xl lg:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-cyan-300 to-pink-300 font-serif tracking-wide">
+                    The 9-Track Permutation Circles & 3D Hypercube
                 </h3>
-                <p className="text-xs text-gray-400 font-mono max-w-xl">
-                    1 → 15:87 Sabʿan al-Mathānī ← 1 | 3ₙ = 1 + ((X − 1) mod 6) | 114 / 6 = 19 Cycles
+                <p className="text-xs text-gray-400 font-mono max-w-xl leading-relaxed">
+                    1 → 15:87 Sabʿan al-Mathānī ← 1 | 9 Move Tracks (I9 ⇄ 3n ⇄ D10) | 15-Move Zero-Sum Sequence
                 </p>
             </div>
 
-            {/* Diagram Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full items-center z-10">
-                {/* Left: The 9-Letter Rose SVG */}
-                <div className="lg:col-span-6 flex flex-col items-center bg-black/40 border border-white/10 rounded-2xl p-4 relative group">
-                    <span className="text-[10px] font-mono tracking-widest uppercase text-amber-400 font-bold mb-2 flex items-center gap-1.5">
-                        <Compass className="w-3.5 h-3.5" /> The 9-Letter Rose (I9 ⇄ 3n ⇄ D10)
+            {/* Track Selector Bar & Trace Filter */}
+            <div className="w-full flex flex-wrap items-center justify-between gap-2.5 z-10 mb-5 p-3 rounded-2xl bg-black/50 border border-white/10">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-[10px] font-mono uppercase font-bold text-gray-400 mr-1 flex items-center gap-1">
+                        <Compass className="w-3 h-3 text-cyan-400" /> Trace Ring:
                     </span>
-                    
-                    <svg viewBox="0 0 400 360" className="w-full max-w-[340px] h-auto drop-shadow-[0_0_20px_rgba(6,182,212,0.15)] select-none">
-                        {/* 3 Concentric Reference Circles for Top Arm */}
-                        <circle cx="200" cy="140" r="110" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.2" />
-                        <circle cx="200" cy="140" r="90" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
-                        <circle cx="200" cy="140" r="70" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" />
-
-                        {/* Concentric Circles for Left Arm */}
-                        <circle cx="150" cy="200" r="110" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.2" />
-                        <circle cx="150" cy="200" r="90" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
-                        <circle cx="150" cy="200" r="70" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" />
-
-                        {/* Concentric Circles for Right Arm */}
-                        <circle cx="250" cy="200" r="110" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.2" />
-                        <circle cx="250" cy="200" r="90" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
-                        <circle cx="250" cy="200" r="70" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" />
-
-                        {/* 6 Color Cluster Nodes */}
-                        {/* 1. Yellow Cluster (Top-Left, Life ↓ 3:49) */}
-                        <g opacity={activePhase === null || activePhase === 1 ? 1 : 0.25} className="transition-opacity">
-                            <circle cx="130" cy="100" r="7" fill="#facc15" />
-                            <circle cx="150" cy="90" r="7" fill="#facc15" />
-                            <circle cx="115" cy="120" r="7" fill="#facc15" />
-                            <circle cx="135" cy="125" r="7" fill="#facc15" />
-                            <circle cx="120" cy="145" r="7" fill="#facc15" />
-                            <circle cx="140" cy="150" r="7" fill="#facc15" />
-                            <circle cx="125" cy="170" r="7" fill="#facc15" />
-                        </g>
-
-                        {/* 2. Green Cluster (Top-Center, Death ↑ 40:34) */}
-                        <g opacity={activePhase === null || activePhase === 2 ? 1 : 0.25} className="transition-opacity">
-                            <circle cx="185" cy="100" r="7" fill="#22c55e" />
-                            <circle cx="200" cy="105" r="7" fill="#22c55e" />
-                            <circle cx="170" cy="125" r="7" fill="#22c55e" />
-                            <circle cx="190" cy="125" r="7" fill="#22c55e" />
-                            <circle cx="215" cy="120" r="7" fill="#22c55e" />
-                            <circle cx="185" cy="150" r="7" fill="#22c55e" />
-                            <circle cx="200" cy="140" r="8" fill="#16a34a" stroke="#fff" strokeWidth="1.5" />
-                            <circle cx="225" cy="145" r="7" fill="#22c55e" />
-                        </g>
-
-                        {/* 3. Orange Cluster (Top-Right, Return ↓ 19:30) */}
-                        <g opacity={activePhase === null || activePhase === 3 ? 1 : 0.25} className="transition-opacity">
-                            <circle cx="250" cy="90" r="7" fill="#fb923c" />
-                            <circle cx="265" cy="115" r="7" fill="#fb923c" />
-                            <circle cx="280" cy="125" r="7" fill="#fb923c" />
-                            <circle cx="260" cy="145" r="7" fill="#fb923c" />
-                            <circle cx="275" cy="155" r="7" fill="#fb923c" />
-                            <circle cx="260" cy="175" r="7" fill="#fb923c" />
-                            <circle cx="280" cy="180" r="7" fill="#fb923c" />
-                        </g>
-
-                        {/* 4. Red Cluster (Bottom-Left, Life ↑ 7:143) */}
-                        <g opacity={activePhase === null || activePhase === 4 ? 1 : 0.25} className="transition-opacity">
-                            <circle cx="150" cy="190" r="7" fill="#ef4444" />
-                            <circle cx="165" cy="180" r="7" fill="#ef4444" />
-                            <circle cx="150" cy="215" r="7" fill="#ef4444" />
-                            <circle cx="170" cy="210" r="7" fill="#ef4444" />
-                            <circle cx="155" cy="240" r="7" fill="#ef4444" />
-                            <circle cx="175" cy="235" r="7" fill="#ef4444" />
-                            <circle cx="190" cy="250" r="7" fill="#ef4444" />
-                        </g>
-
-                        {/* 5. White Cluster (Bottom-Right, Raised ↓ 81:8) */}
-                        <g opacity={activePhase === null || activePhase === 5 ? 1 : 0.25} className="transition-opacity">
-                            <circle cx="250" cy="190" r="7" fill="#ffffff" />
-                            <circle cx="230" cy="210" r="7" fill="#ffffff" />
-                            <circle cx="245" cy="215" r="7" fill="#ffffff" />
-                            <circle cx="260" cy="220" r="7" fill="#ffffff" />
-                            <circle cx="210" cy="245" r="7" fill="#ffffff" />
-                            <circle cx="230" cy="240" r="7" fill="#ffffff" />
-                            <circle cx="245" cy="245" r="7" fill="#ffffff" />
-                        </g>
-
-                        {/* 6. Blue Cluster (Bottom-Center, Death ↑ 34:14) */}
-                        <g opacity={activePhase === null || activePhase === 6 ? 1 : 0.25} className="transition-opacity">
-                            <circle cx="170" cy="280" r="7" fill="#3b82f6" />
-                            <circle cx="190" cy="275" r="7" fill="#3b82f6" />
-                            <circle cx="210" cy="270" r="7" fill="#3b82f6" />
-                            <circle cx="230" cy="275" r="7" fill="#3b82f6" />
-                            <circle cx="185" cy="300" r="7" fill="#3b82f6" />
-                            <circle cx="200" cy="290" r="7" fill="#3b82f6" />
-                            <circle cx="215" cy="300" r="7" fill="#3b82f6" />
-                            <circle cx="200" cy="315" r="7" fill="#3b82f6" />
-                        </g>
-
-                        {/* 9 Canonical Letters */}
-                        {/* Top Arm (I9: D -> E -> U) */}
-                        <text x="195" y="35" fontSize="22" fontWeight="900" fontFamily="serif" fill="#ffffff">D</text>
-                        <text x="195" y="55" fontSize="18" fontWeight="bold" fontFamily="serif" fill="#e2e8f0">E</text>
-                        <text x="235" y="85" fontSize="18" fontWeight="bold" fontFamily="serif" fill="#cbd5e1">U</text>
-
-                        {/* Left Arm (3n: B -> S -> F) */}
-                        <text x="35" y="215" fontSize="22" fontWeight="900" fontFamily="serif" fill="#ffffff">B</text>
-                        <text x="58" y="250" fontSize="18" fontWeight="bold" fontFamily="serif" fill="#e2e8f0">S</text>
-                        <text x="92" y="270" fontSize="18" fontWeight="bold" fontFamily="serif" fill="#cbd5e1">F</text>
-
-                        {/* Right Arm (D10: L -> M -> R) */}
-                        <text x="360" y="235" fontSize="22" fontWeight="900" fontFamily="serif" fill="#ffffff">L</text>
-                        <text x="330" y="265" fontSize="18" fontWeight="bold" fontFamily="serif" fill="#e2e8f0">M</text>
-                        <text x="300" y="285" fontSize="18" fontWeight="bold" fontFamily="serif" fill="#cbd5e1">R</text>
-
-                        {/* Central The 7 / Centroid */}
-                        <circle cx="200" cy="190" r="14" fill="rgba(6,182,212,0.2)" stroke="#22d3ee" strokeWidth="2" strokeDasharray="3 3" />
-                        <text x="200" y="194" textAnchor="middle" fontSize="10" fontWeight="black" fontFamily="monospace" fill="#22d3ee">THE 7</text>
-                    </svg>
-
-                    <div className="flex justify-between w-full text-[9px] font-mono text-gray-400 mt-2 border-t border-white/5 pt-2">
-                        <span>Top: I9 (Word)</span>
-                        <span>Left: 3n (Swing)</span>
-                        <span>Right: D10 (Mass)</span>
-                    </div>
-                </div>
-
-                {/* Right: Rubik's Cube Isometric Projection */}
-                <div className="lg:col-span-6 flex flex-col items-center bg-black/40 border border-white/10 rounded-2xl p-4 relative group">
-                    <span className="text-[10px] font-mono tracking-widest uppercase text-cyan-400 font-bold mb-2 flex items-center gap-1.5">
-                        <Box className="w-3.5 h-3.5" /> 3D Shadow Projection (3 Visible ↔ 3 Hidden Faces)
-                    </span>
-
-                    <svg viewBox="0 0 320 280" className="w-full max-w-[280px] h-auto drop-shadow-[0_0_25px_rgba(239,68,68,0.2)] select-none">
-                        {/* Isometric Cube Faces */}
-                        {/* Top Face: Green (U / 3:49) */}
-                        <g opacity={activePhase === null || activePhase === 2 ? 1 : 0.3} className="transition-opacity">
-                            {/* Row 1 */}
-                            <polygon points="160,20 190,37 160,54 130,37" fill="#15803d" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="190,37 220,54 190,71 160,54" fill="#16a34a" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="220,54 250,71 220,88 190,71" fill="#22c55e" stroke="#1e293b" strokeWidth="2" />
-                            {/* Row 2 */}
-                            <polygon points="130,37 160,54 130,71 100,54" fill="#16a34a" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="160,54 190,71 160,88 130,71" fill="#22c55e" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="190,71 220,88 190,105 160,88" fill="#4ade80" stroke="#1e293b" strokeWidth="2" />
-                            {/* Row 3 */}
-                            <polygon points="100,54 130,71 100,88 70,71" fill="#22c55e" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="130,71 160,88 130,105 100,88" fill="#4ade80" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="160,88 190,105 160,122 130,105" fill="#86efac" stroke="#1e293b" strokeWidth="2" />
-                        </g>
-
-                        {/* Left Face: Red (F / 7:143) */}
-                        <g opacity={activePhase === null || activePhase === 4 ? 1 : 0.3} className="transition-opacity">
-                            {/* Col 1 */}
-                            <polygon points="70,71 100,88 100,128 70,111" fill="#b91c1c" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="70,111 100,128 100,168 70,151" fill="#dc2626" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="70,151 100,168 100,208 70,191" fill="#ef4444" stroke="#1e293b" strokeWidth="2" />
-                            {/* Col 2 */}
-                            <polygon points="100,88 130,105 130,145 100,128" fill="#dc2626" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="100,128 130,145 130,185 100,168" fill="#ef4444" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="100,168 130,185 130,225 100,208" fill="#f87171" stroke="#1e293b" strokeWidth="2" />
-                            {/* Col 3 */}
-                            <polygon points="130,105 160,122 160,162 130,145" fill="#ef4444" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="130,145 160,162 160,202 130,185" fill="#f87171" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="130,185 160,202 160,242 130,225" fill="#fca5a5" stroke="#1e293b" strokeWidth="2" />
-                        </g>
-
-                        {/* Right Face: White (R / 81:8) */}
-                        <g opacity={activePhase === null || activePhase === 5 ? 1 : 0.3} className="transition-opacity">
-                            {/* Col 1 */}
-                            <polygon points="160,122 190,105 190,145 160,162" fill="#cbd5e1" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="160,162 190,145 190,185 160,202" fill="#e2e8f0" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="160,202 190,185 190,225 160,242" fill="#f8fafc" stroke="#1e293b" strokeWidth="2" />
-                            {/* Col 2 */}
-                            <polygon points="190,105 220,88 220,128 190,145" fill="#e2e8f0" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="190,145 220,128 220,168 190,185" fill="#f8fafc" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="190,185 220,168 220,208 190,225" fill="#ffffff" stroke="#1e293b" strokeWidth="2" />
-                            {/* Col 3 */}
-                            <polygon points="220,88 250,71 250,111 220,128" fill="#f8fafc" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="220,128 250,111 250,151 220,168" fill="#ffffff" stroke="#1e293b" strokeWidth="2" />
-                            <polygon points="220,168 250,151 250,191 220,208" fill="#ffffff" stroke="#1e293b" strokeWidth="2" />
-                        </g>
-
-                        {/* Internal Slice Line Indicator Overlay (E, S, M) */}
-                        <line x1="160" y1="20" x2="160" y2="242" stroke="#22d3ee" strokeWidth="1.5" strokeDasharray="4 2" opacity="0.6" />
-                        <line x1="70" y1="151" x2="250" y2="151" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="4 2" opacity="0.6" />
-                    </svg>
-
-                    <div className="flex justify-between w-full text-[9px] font-mono text-gray-400 mt-2 border-t border-white/5 pt-2">
-                        <span>3 Visible: Forward Swing (Qun ▼)</span>
-                        <span>3 Hidden: Return Swing (FayaQun ▲)</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Interactive 6-Phase Bar */}
-            <div className="flex flex-wrap gap-2 w-full justify-center mt-6 z-10">
-                {phases.map((p) => (
                     <button
-                        key={p.id}
-                        onClick={() => setActivePhase(activePhase === p.id ? null : p.id)}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-mono transition-all duration-300 ${
-                            activePhase === p.id
-                                ? 'scale-105 shadow-lg'
-                                : 'hover:scale-102 opacity-80 hover:opacity-100'
+                        onClick={() => setSelectedTrack('ALL')}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all ${
+                            selectedTrack === 'ALL'
+                                ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
+                                : 'bg-white/5 hover:bg-white/10 text-gray-300'
                         }`}
-                        style={{
-                            backgroundColor: activePhase === p.id ? p.bg : 'rgba(0,0,0,0.4)',
-                            borderColor: p.border,
-                            color: p.color
-                        }}
                     >
-                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
-                        <span className="font-bold">{p.id}. {p.name}</span>
-                        <span className="text-[10px] opacity-70">[{p.anchor}]</span>
+                        ALL RINGS
                     </button>
-                ))}
+                    {['U', 'D', 'F', 'B', 'L', 'R', 'M', 'E', 'S'].map((trk) => {
+                        const isSel = selectedTrack === trk || (selectedTrack === 'ALL' && activeHighlightTrack === trk);
+                        const cfg = TRACK_CONFIGS[trk];
+                        return (
+                            <button
+                                key={trk}
+                                onClick={() => setSelectedTrack(selectedTrack === trk ? 'ALL' : trk)}
+                                className={`px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1 border ${
+                                    isSel
+                                        ? 'bg-white/15 text-white border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.4)] scale-105'
+                                        : 'bg-black/40 hover:bg-white/10 text-gray-400 border-white/5 hover:text-white'
+                                }`}
+                                style={{ borderLeftColor: cfg.color, borderLeftWidth: '3px' }}
+                                title={`Trace ${cfg.fullName}`}
+                            >
+                                {trk}
+                            </button>
+                        );
+                    })}
+                </div>
+
+                <button
+                    onClick={() => setShowBeadLabels(!showBeadLabels)}
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all border ${
+                        showBeadLabels
+                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                            : 'bg-white/5 text-gray-400 border-white/5 hover:text-gray-200'
+                    }`}
+                >
+                    {showBeadLabels ? '✓ Labels (0-7) Shown' : 'Show Dot Labels (0-7)'}
+                </button>
             </div>
 
-            {/* Dynamic Active Description Box */}
-            {activePhase !== null && (
-                <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="w-full mt-4 p-3 bg-black/60 border border-cyan-500/30 rounded-xl text-center z-10 text-xs font-mono text-gray-300"
-                >
-                    <span className="font-bold text-cyan-300 mr-2">Phase {activePhase} [{phases[activePhase - 1].anchor}]:</span>
-                    <span>{phases[activePhase - 1].desc}</span>
-                    <span className="ml-2 px-2 py-0.5 rounded text-[10px] font-bold" style={{ backgroundColor: phases[activePhase - 1].bg, color: phases[activePhase - 1].color }}>
-                        Vector: {phases[activePhase - 1].dir === 'down' ? 'Qun ▼ Debit' : 'FayaQun ▲ Credit'}
+            {/* Active Trace Status Bar */}
+            <div className="w-full mb-4 px-4 py-2 rounded-xl bg-cyan-950/30 border border-cyan-500/20 flex items-center justify-between text-xs font-mono text-cyan-300 z-10">
+                <span className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                    <span>
+                        {selectedTrack !== 'ALL' ? (
+                            <>
+                                <strong className="text-white">Active Trace: Track [{selectedTrack}]</strong> — {TRACK_CONFIGS[selectedTrack]?.fullName} ({TRACK_CONFIGS[selectedTrack]?.axis})
+                            </>
+                        ) : activeHighlightTrack ? (
+                            <>
+                                <strong className="text-white">Current Move Track: [{activeHighlightTrack}]</strong> — {TRACK_CONFIGS[activeHighlightTrack]?.fullName || 'Active Permutation'}
+                            </>
+                        ) : (
+                            <>Showing all 9 interlocking orbits. Click any track badge or button above to isolate and trace.</>
+                        )}
                     </span>
-                </motion.div>
-            )}
+                </span>
+                {hoveredBead && (
+                    <span className="text-amber-300 font-bold bg-black/60 px-2.5 py-0.5 rounded border border-amber-500/30">
+                        {hoveredBead.track} • {hoveredBead.label} ({hoveredBead.face} Face)
+                    </span>
+                )}
+            </div>
+
+            {/* Main Interactive Stage: 3D Cube (Left) & Permutation Circles (Right) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full items-center z-10">
+                {/* Left: Isometric 3D Rubik's Cube Display */}
+                <div className="lg:col-span-5 flex flex-col items-center bg-black/40 border border-white/10 rounded-2xl p-5 relative shadow-inner">
+                    <div className="flex justify-between items-center w-full mb-3 border-b border-white/5 pb-2">
+                        <span className="text-[10px] font-mono tracking-widest uppercase text-cyan-400 font-bold flex items-center gap-1.5">
+                            <Box className="w-3.5 h-3.5" /> 3D Cube State
+                        </span>
+                        <div className="flex items-center gap-2">
+                            {currentMove && (
+                                <span className="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 font-mono font-black text-xs border border-cyan-500/40 animate-pulse">
+                                    {currentMove}
+                                </span>
+                            )}
+                            <span className="text-xs font-mono font-bold text-gray-400">
+                                {stepIndex} / {PERMUTATION_SEQUENCE.length}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Isometric 3D SVG Cube */}
+                    <svg viewBox="0 0 320 280" className="w-full max-w-[260px] h-auto drop-shadow-[0_0_25px_rgba(34,211,238,0.2)] select-none">
+                        {/* Top Face: Up (U) - Green Base */}
+                        <g>
+                            {/* Row 0 */}
+                            <polygon 
+                                points="160,20 190,37 160,54 130,37" 
+                                fill={getBeadColor('U', 0)} 
+                                stroke={hoveredBead?.face === 'U' && hoveredBead?.index === 0 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'U' && hoveredBead?.index === 0 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'U', index: 0 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="190,37 220,54 190,71 160,54" 
+                                fill={getBeadColor('U', 1)} 
+                                stroke={hoveredBead?.face === 'U' && hoveredBead?.index === 1 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'U' && hoveredBead?.index === 1 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'U', index: 1 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="220,54 250,71 220,88 190,71" 
+                                fill={getBeadColor('U', 2)} 
+                                stroke={hoveredBead?.face === 'U' && hoveredBead?.index === 2 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'U' && hoveredBead?.index === 2 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'U', index: 2 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            {/* Row 1 */}
+                            <polygon 
+                                points="130,37 160,54 130,71 100,54" 
+                                fill={getBeadColor('U', 3)} 
+                                stroke={hoveredBead?.face === 'U' && hoveredBead?.index === 3 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'U' && hoveredBead?.index === 3 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'U', index: 3 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="160,54 190,71 160,88 130,71" 
+                                fill={getBeadColor('U', 4)} 
+                                stroke={hoveredBead?.face === 'U' && hoveredBead?.index === 4 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'U' && hoveredBead?.index === 4 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'U', index: 4 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="190,71 220,88 190,105 160,88" 
+                                fill={getBeadColor('U', 5)} 
+                                stroke={hoveredBead?.face === 'U' && hoveredBead?.index === 5 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'U' && hoveredBead?.index === 5 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'U', index: 5 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            {/* Row 2 */}
+                            <polygon 
+                                points="100,54 130,71 100,88 70,71" 
+                                fill={getBeadColor('U', 6)} 
+                                stroke={hoveredBead?.face === 'U' && hoveredBead?.index === 6 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'U' && hoveredBead?.index === 6 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'U', index: 6 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="130,71 160,88 130,105 100,88" 
+                                fill={getBeadColor('U', 7)} 
+                                stroke={hoveredBead?.face === 'U' && hoveredBead?.index === 7 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'U' && hoveredBead?.index === 7 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'U', index: 7 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="160,88 190,105 160,122 130,105" 
+                                fill={getBeadColor('U', 8)} 
+                                stroke={hoveredBead?.face === 'U' && hoveredBead?.index === 8 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'U' && hoveredBead?.index === 8 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'U', index: 8 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                        </g>
+
+                        {/* Front Face: Front (F) - Red Base */}
+                        <g>
+                            {/* Col 0 */}
+                            <polygon 
+                                points="70,71 100,88 100,128 70,111" 
+                                fill={getBeadColor('F', 0)} 
+                                stroke={hoveredBead?.face === 'F' && hoveredBead?.index === 0 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'F' && hoveredBead?.index === 0 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'F', index: 0 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="70,111 100,128 100,168 70,151" 
+                                fill={getBeadColor('F', 3)} 
+                                stroke={hoveredBead?.face === 'F' && hoveredBead?.index === 3 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'F' && hoveredBead?.index === 3 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'F', index: 3 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="70,151 100,168 100,208 70,191" 
+                                fill={getBeadColor('F', 6)} 
+                                stroke={hoveredBead?.face === 'F' && hoveredBead?.index === 6 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'F' && hoveredBead?.index === 6 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'F', index: 6 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            {/* Col 1 */}
+                            <polygon 
+                                points="100,88 130,105 130,145 100,128" 
+                                fill={getBeadColor('F', 1)} 
+                                stroke={hoveredBead?.face === 'F' && hoveredBead?.index === 1 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'F' && hoveredBead?.index === 1 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'F', index: 1 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="100,128 130,145 130,185 100,168" 
+                                fill={getBeadColor('F', 4)} 
+                                stroke={hoveredBead?.face === 'F' && hoveredBead?.index === 4 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'F' && hoveredBead?.index === 4 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'F', index: 4 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="100,168 130,185 130,225 100,208" 
+                                fill={getBeadColor('F', 7)} 
+                                stroke={hoveredBead?.face === 'F' && hoveredBead?.index === 7 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'F' && hoveredBead?.index === 7 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'F', index: 7 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            {/* Col 2 */}
+                            <polygon 
+                                points="130,105 160,122 160,162 130,145" 
+                                fill={getBeadColor('F', 2)} 
+                                stroke={hoveredBead?.face === 'F' && hoveredBead?.index === 2 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'F' && hoveredBead?.index === 2 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'F', index: 2 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="130,145 160,162 160,202 130,185" 
+                                fill={getBeadColor('F', 5)} 
+                                stroke={hoveredBead?.face === 'F' && hoveredBead?.index === 5 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'F' && hoveredBead?.index === 5 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'F', index: 5 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="130,185 160,202 160,242 130,225" 
+                                fill={getBeadColor('F', 8)} 
+                                stroke={hoveredBead?.face === 'F' && hoveredBead?.index === 8 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'F' && hoveredBead?.index === 8 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'F', index: 8 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                        </g>
+
+                        {/* Right Face: Right (R) - White Base */}
+                        <g>
+                            {/* Col 0 */}
+                            <polygon 
+                                points="160,122 190,105 190,145 160,162" 
+                                fill={getBeadColor('R', 0)} 
+                                stroke={hoveredBead?.face === 'R' && hoveredBead?.index === 0 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'R' && hoveredBead?.index === 0 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'R', index: 0 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="160,162 190,145 190,185 160,202" 
+                                fill={getBeadColor('R', 3)} 
+                                stroke={hoveredBead?.face === 'R' && hoveredBead?.index === 3 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'R' && hoveredBead?.index === 3 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'R', index: 3 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="160,202 190,185 190,225 160,242" 
+                                fill={getBeadColor('R', 6)} 
+                                stroke={hoveredBead?.face === 'R' && hoveredBead?.index === 6 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'R' && hoveredBead?.index === 6 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'R', index: 6 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            {/* Col 1 */}
+                            <polygon 
+                                points="190,105 220,88 220,128 190,145" 
+                                fill={getBeadColor('R', 1)} 
+                                stroke={hoveredBead?.face === 'R' && hoveredBead?.index === 1 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'R' && hoveredBead?.index === 1 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'R', index: 1 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="190,145 220,128 220,168 190,185" 
+                                fill={getBeadColor('R', 4)} 
+                                stroke={hoveredBead?.face === 'R' && hoveredBead?.index === 4 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'R' && hoveredBead?.index === 4 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'R', index: 4 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="190,185 220,168 220,208 190,225" 
+                                fill={getBeadColor('R', 7)} 
+                                stroke={hoveredBead?.face === 'R' && hoveredBead?.index === 7 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'R' && hoveredBead?.index === 7 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'R', index: 7 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            {/* Col 2 */}
+                            <polygon 
+                                points="220,88 250,71 250,111 220,128" 
+                                fill={getBeadColor('R', 2)} 
+                                stroke={hoveredBead?.face === 'R' && hoveredBead?.index === 2 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'R' && hoveredBead?.index === 2 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'R', index: 2 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="220,128 250,111 250,151 220,168" 
+                                fill={getBeadColor('R', 5)} 
+                                stroke={hoveredBead?.face === 'R' && hoveredBead?.index === 5 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'R' && hoveredBead?.index === 5 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'R', index: 5 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                            <polygon 
+                                points="220,168 250,151 250,191 220,208" 
+                                fill={getBeadColor('R', 8)} 
+                                stroke={hoveredBead?.face === 'R' && hoveredBead?.index === 8 ? '#ffffff' : '#090d14'} 
+                                strokeWidth={hoveredBead?.face === 'R' && hoveredBead?.index === 8 ? '3.5' : '2.5'}
+                                className="cursor-pointer transition-all hover:opacity-80"
+                                onMouseEnter={() => setHoveredCubeFacet({ face: 'R', index: 8 })}
+                                onMouseLeave={() => setHoveredCubeFacet(null)}
+                            />
+                        </g>
+
+                        {/* Active Slice Marker Overlay */}
+                        {(activeHighlightTrack === 'M' || activeHighlightTrack === 'E' || activeHighlightTrack === 'S') && (
+                            <line 
+                                x1="160" y1="20" x2="160" y2="242" 
+                                stroke="#22d3ee" strokeWidth="3" strokeDasharray="5 3" 
+                                className="animate-pulse" 
+                            />
+                        )}
+                    </svg>
+
+                    <div className="flex justify-between w-full text-[9px] font-mono text-gray-400 mt-3 border-t border-white/5 pt-2">
+                        <span>Top: Up (Green)</span>
+                        <span>Front: Red</span>
+                        <span>Right: White</span>
+                    </div>
+                </div>
+
+                {/* Right: The 9 Permutation Circles Diagram with Exact On-Ring Beads */}
+                <div className="lg:col-span-7 flex flex-col items-center bg-black/40 border border-white/10 rounded-2xl p-5 relative shadow-inner">
+                    <div className="flex justify-between items-center w-full mb-3 border-b border-white/5 pb-2">
+                        <span className="text-[10px] font-mono tracking-widest uppercase text-amber-400 font-bold flex items-center gap-1.5">
+                            <Compass className="w-3.5 h-3.5" /> Permutation Circles (Trefoil 9-Track Topology)
+                        </span>
+                        <span className="text-[10px] font-mono text-cyan-300">
+                            {activeHighlightTrack ? `Active Track: [${activeHighlightTrack}]` : 'Interlocking Orbits'}
+                        </span>
+                    </div>
+
+                    {/* SVG Permutation Circles Engine with Math-Aligned Bead Tracks */}
+                    <svg viewBox="0 0 420 380" className="w-full max-w-[390px] h-auto drop-shadow-[0_0_20px_rgba(6,182,212,0.15)] select-none">
+                        <defs>
+                            {/* Radial Bead Specular Shader */}
+                            <radialGradient id="beadGlow" cx="35%" cy="35%" r="65%">
+                                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
+                                <stop offset="40%" stopColor="#ffffff" stopOpacity="0" />
+                                <stop offset="100%" stopColor="#000000" stopOpacity="0.4" />
+                            </radialGradient>
+                        </defs>
+
+                        {/* RENDER THE 9 CIRCULAR TRACKS */}
+                        {Object.entries(TRACK_CONFIGS).map(([trkKey, cfg]) => {
+                            const isIsolated = selectedTrack !== 'ALL' && selectedTrack !== trkKey;
+                            const isActive = activeHighlightTrack === trkKey;
+                            const strokeColor = isActive ? cfg.color : (isIsolated ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.18)');
+                            const strokeW = isActive ? 3.5 : (isIsolated ? 1 : 1.5);
+                            const isDashed = trkKey === 'E' || trkKey === 'M' || trkKey === 'S';
+
+                            return (
+                                <g key={trkKey} className="transition-all duration-300">
+                                    {/* Active Track Halo / Glow */}
+                                    {isActive && (
+                                        <circle
+                                            cx={cfg.cx}
+                                            cy={cfg.cy}
+                                            r={cfg.r}
+                                            fill="none"
+                                            stroke={cfg.color}
+                                            strokeWidth="8"
+                                            opacity="0.2"
+                                            className="animate-pulse"
+                                        />
+                                    )}
+
+                                    {/* Track Ring Circumference Line */}
+                                    <circle
+                                        cx={cfg.cx}
+                                        cy={cfg.cy}
+                                        r={cfg.r}
+                                        fill="none"
+                                        stroke={strokeColor}
+                                        strokeWidth={strokeW}
+                                        strokeDasharray={isDashed ? (isActive ? '8 4' : '4 3') : 'none'}
+                                        className="transition-all duration-300"
+                                    />
+
+                                    {/* On-Ring Track Label Badge */}
+                                    <g 
+                                        className="cursor-pointer transition-all hover:scale-110"
+                                        onClick={() => setSelectedTrack(selectedTrack === trkKey ? 'ALL' : trkKey)}
+                                    >
+                                        <rect
+                                            x={cfg.labelX - 11}
+                                            y={cfg.labelY - 11}
+                                            width="22"
+                                            height="22"
+                                            rx="6"
+                                            fill={isActive ? cfg.color : '#0f172a'}
+                                            stroke={isActive ? '#ffffff' : (isIsolated ? 'rgba(255,255,255,0.1)' : cfg.color)}
+                                            strokeWidth="1.5"
+                                            className="transition-all"
+                                        />
+                                        <text
+                                            x={cfg.labelX}
+                                            y={cfg.labelY + 4}
+                                            textAnchor="middle"
+                                            fontSize="11"
+                                            fontWeight="900"
+                                            fontFamily="monospace"
+                                            fill={isActive ? '#000000' : '#ffffff'}
+                                        >
+                                            {trkKey}
+                                        </text>
+                                    </g>
+                                </g>
+                            );
+                        })}
+
+                        {/* RENDER BEADS PRECISELY ON CIRCULAR TRACKS */}
+                        {Object.entries(TRACK_CONFIGS).map(([trkKey, cfg]) => {
+                            const isIsolated = selectedTrack !== 'ALL' && selectedTrack !== trkKey;
+                            const isActive = activeHighlightTrack === trkKey;
+                            const coords = getPerimeterCoords(cfg.cx, cfg.cy, cfg.r, cfg.startAngle);
+
+                            return (
+                                <g key={`beads-${trkKey}`} opacity={isIsolated ? 0.15 : 1} className="transition-opacity duration-300">
+                                    {cfg.beads.map((bead, bIdx) => {
+                                        const pt = coords[bIdx];
+                                        const beadColor = getBeadColor(bead.face, bead.index);
+                                        const isHovered = (hoveredBead?.face === bead.face && hoveredBead?.index === bead.index) ||
+                                                          (hoveredCubeFacet?.face === bead.face && hoveredCubeFacet?.index === bead.index);
+
+                                        return (
+                                            <g 
+                                                key={`${trkKey}-b-${bIdx}`}
+                                                className="cursor-pointer"
+                                                onMouseEnter={() => setHoveredBead({ face: bead.face, index: bead.index, label: bead.label, track: cfg.fullName })}
+                                                onMouseLeave={() => setHoveredBead(null)}
+                                            >
+                                                {/* Hover / Active Pulse Ring */}
+                                                {(isHovered || (isActive && !isIsolated)) && (
+                                                    <circle
+                                                        cx={pt.x}
+                                                        cy={pt.y}
+                                                        r={isHovered ? 12 : 9}
+                                                        fill="none"
+                                                        stroke={isHovered ? '#ffffff' : cfg.color}
+                                                        strokeWidth={isHovered ? 2 : 1}
+                                                        opacity={isHovered ? 0.9 : 0.4}
+                                                        className="animate-pulse"
+                                                    />
+                                                )}
+
+                                                {/* Base Colored Bead Sphere */}
+                                                <circle
+                                                    cx={pt.x}
+                                                    cy={pt.y}
+                                                    r={isHovered ? 8 : (isActive ? 7 : 6)}
+                                                    fill={beadColor}
+                                                    stroke={isHovered ? '#ffffff' : '#090d14'}
+                                                    strokeWidth={isHovered ? 2.5 : 1.2}
+                                                    className="transition-all duration-200"
+                                                />
+
+                                                {/* Radial Specular Highlight Overlay */}
+                                                <circle
+                                                    cx={pt.x}
+                                                    cy={pt.y}
+                                                    r={isHovered ? 8 : (isActive ? 7 : 6)}
+                                                    fill="url(#beadGlow)"
+                                                    pointerEvents="none"
+                                                />
+
+                                                {/* Optional Index Label Inside / Next to Bead */}
+                                                {showBeadLabels && (
+                                                    <text
+                                                        x={pt.x}
+                                                        y={pt.y + 3}
+                                                        textAnchor="middle"
+                                                        fontSize="7"
+                                                        fontWeight="900"
+                                                        fontFamily="monospace"
+                                                        fill={bead.face === 'R' || beadColor === '#ffffff' ? '#000000' : '#ffffff'}
+                                                        pointerEvents="none"
+                                                    >
+                                                        {bead.index}
+                                                    </text>
+                                                )}
+                                            </g>
+                                        );
+                                    })}
+                                </g>
+                            );
+                        })}
+
+                        {/* Centroid / Hidden 8th Cell Indicator (36:9 ⇄ 50:21) */}
+                        <circle cx="210" cy="195" r="14" fill="rgba(6,182,212,0.2)" stroke="#22d3ee" strokeWidth="2" strokeDasharray="3 3" />
+                        <text x="210" y="199" textAnchor="middle" fontSize="10" fontWeight="black" fontFamily="monospace" fill="#22d3ee">THE 7</text>
+                    </svg>
+
+                    {/* Sequence Ribbon showing all 15 moves */}
+                    <div className="w-full flex items-center justify-start gap-1.5 overflow-x-auto no-scrollbar py-2 px-3 bg-black/60 rounded-xl border border-white/5 mt-2">
+                        <span className="text-[10px] uppercase font-mono text-gray-500 font-bold shrink-0 mr-1">Seq:</span>
+                        {PERMUTATION_SEQUENCE.map((mv, idx) => {
+                            const isPast = idx < stepIndex;
+                            const isCurrent = idx === stepIndex - 1;
+                            return (
+                                <span
+                                    key={idx}
+                                    className={`px-1.5 py-0.5 rounded text-[10px] font-mono shrink-0 transition-all ${
+                                        isCurrent
+                                            ? 'bg-cyan-500 text-black font-black scale-110 shadow-[0_0_8px_rgba(6,182,212,0.6)]'
+                                            : isPast
+                                            ? 'bg-white/10 text-gray-300 font-bold'
+                                            : 'text-gray-600 font-normal'
+                                    }`}
+                                >
+                                    {mv}
+                                </span>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+
+            {/* Sequence Playback Controls & Manual Move Triggers */}
+            <div className="flex flex-wrap items-center justify-between gap-4 w-full mt-6 z-10 border-t border-white/10 pt-5">
+                {/* 15-Move Sequence Step Controls */}
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => setIsPlaying(!isPlaying)}
+                        className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-cyan-950/60 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300 font-mono text-xs font-bold transition-all shadow-[0_0_12px_rgba(6,182,212,0.2)]"
+                    >
+                        {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                        <span>{isPlaying ? 'Pause Sequence' : 'Play 15-Move Sequence'}</span>
+                    </button>
+
+                    <button
+                        onClick={handlePrev}
+                        disabled={stepIndex === 0}
+                        className="p-2 rounded-xl bg-black/40 hover:bg-white/5 border border-white/10 text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                        title="Step Back"
+                    >
+                        <SkipBack className="w-4 h-4" />
+                    </button>
+
+                    <button
+                        onClick={handleNext}
+                        disabled={stepIndex >= PERMUTATION_SEQUENCE.length}
+                        className="p-2 rounded-xl bg-black/40 hover:bg-white/5 border border-white/10 text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                        title="Step Forward"
+                    >
+                        <SkipForward className="w-4 h-4" />
+                    </button>
+
+                    <button
+                        onClick={handleReset}
+                        className="p-2 rounded-xl bg-black/40 hover:bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all"
+                        title="Reset Cube to Solved State"
+                    >
+                        <RotateCcw className="w-4 h-4" />
+                    </button>
+                </div>
+
+                {/* Manual 9-Track Move Triggers */}
+                <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-[10px] font-mono uppercase text-gray-500 font-bold mr-1">Rotate Tracks:</span>
+                    {['U', 'D', 'F', 'B', 'L', 'R', 'M', 'E', 'S'].map((mv) => (
+                        <button
+                            key={mv}
+                            onClick={() => handleTriggerManualMove(mv)}
+                            className="w-7 h-7 flex items-center justify-center rounded-lg bg-black/50 hover:bg-cyan-950 border border-white/10 hover:border-cyan-500/50 text-xs font-mono font-bold text-gray-300 hover:text-cyan-300 transition-all"
+                            title={`Trigger Move ${mv}`}
+                        >
+                            {mv}
+                        </button>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 };
@@ -1142,7 +1986,7 @@ export const RecoveryLogContent: React.FC = () => {
                 .prose hr { border-color: rgba(255,255,255,0.1); margin: 3rem 0; }
             `}</style>
             
-            {/* Top Interactive Visual: 4D Tesseract / 9-Letter Rose / Rubik's */}
+            {/* Top Interactive Visual: 4D Tesseract / 9-Letter Rose / Rubik's Permutation Engine */}
             <TesseractRoseCubeVisual />
 
             {/* Structured Markdown Narrative */}
