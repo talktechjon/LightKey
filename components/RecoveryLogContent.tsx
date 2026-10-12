@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Box, Compass, RefreshCw, Eye, Sun, Droplets, Sparkles, ArrowLeftRight, Play, Pause, SkipForward, SkipBack, RotateCcw } from 'lucide-react';
+import { SabAnAlMathaniPiBreathVisual } from './SabAnAlMathaniPiBreathVisual';
 
 /* =========================================================================
    Rubik's Cube Permutation Circles & 4D Tesseract Simulation Engine
@@ -1986,7 +1987,10 @@ export const RecoveryLogContent: React.FC = () => {
                 .prose hr { border-color: rgba(255,255,255,0.1); margin: 3rem 0; }
             `}</style>
             
-            {/* Top Interactive Visual: 4D Tesseract / 9-Letter Rose / Rubik's Permutation Engine */}
+            {/* Box 1: Interactive Pi Values as Breathe Animation (Sabʿan al-Mathānī Motion) */}
+            <SabAnAlMathaniPiBreathVisual />
+
+            {/* Box 2: The 9-Track Permutation Circles & 3D Hypercube Engine */}
             <TesseractRoseCubeVisual />
 
             {/* Structured Markdown Narrative */}

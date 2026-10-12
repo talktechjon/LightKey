@@ -12,6 +12,7 @@ import MarkerAlignment from './MarkerAlignment.tsx';
 import { KatharaClockAlignment, SephirotAlignment } from './SecretPatternAnimation.tsx';
 import { TreeOfVerse } from './TreeOfVerse.tsx';
 import { PieceOfBakara } from './PieceOfBakara.tsx';
+import { LightInDropSideBar } from './LightInDropSideBar.tsx';
 
 interface SidePanelProps {
   rotation: number;
@@ -23,6 +24,21 @@ interface SidePanelProps {
   isSecretModeActive: boolean;
   isTreeOfVerseActive: boolean;
   isPieceOfBakaraActive: boolean;
+  isLightInDropActive?: boolean;
+  dropletEntryVerse?: number;
+  setDropletEntryVerse?: (v: number) => void;
+  dropletAngleI?: number;
+  setDropletAngleI?: (i: number) => void;
+  dropletRefractiveIndex?: number;
+  setDropletRefractiveIndex?: (n: number) => void;
+  dropletReflectionsK?: number;
+  setDropletReflectionsK?: (k: number) => void;
+  dropletDispersionMult?: number;
+  setDropletDispersionMult?: (d: number) => void;
+  dropletSnapWhole?: boolean;
+  setDropletSnapWhole?: (s: boolean) => void;
+  dropletShowColors?: boolean;
+  setDropletShowColors?: (c: boolean) => void;
   secretEmojiShift: number;
   isLowResourceMode: boolean;
   isSpinning: boolean;
@@ -46,7 +62,20 @@ const STATIC_CROWN_DATA = Array.from({ length: 114 }, (_, i) => {
   return { k, baseAngleRad, h, color, verses };
 });
 
-const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRotation, setIconDialRotation, showFunctionalTooltip, hideTooltip, isSecretModeActive, isTreeOfVerseActive, isPieceOfBakaraActive, secretEmojiShift, isLowResourceMode, isSpinning, onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex, treeRootVerse, setTreeRootVerse, treeTrines, onPlayPlaylist, playYoutubeInternally }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ 
+  rotation, iconDialRotation, setRotation, setIconDialRotation, 
+  showFunctionalTooltip, hideTooltip, isSecretModeActive, 
+  isTreeOfVerseActive, isPieceOfBakaraActive, isLightInDropActive,
+  dropletEntryVerse, setDropletEntryVerse, dropletAngleI, setDropletAngleI,
+  dropletRefractiveIndex, setDropletRefractiveIndex = () => {},
+  dropletReflectionsK, setDropletReflectionsK = () => {},
+  dropletDispersionMult, setDropletDispersionMult = () => {},
+  dropletSnapWhole, setDropletSnapWhole = () => {},
+  dropletShowColors, setDropletShowColors = () => {},
+  secretEmojiShift, isLowResourceMode, isSpinning, 
+  onVerseSelect, onBulkExport, bakaraSpineIndex, setBakaraSpineIndex, 
+  treeRootVerse, setTreeRootVerse, treeTrines, onPlayPlaylist, playYoutubeInternally 
+}) => {
   const [customSequence, setCustomSequence] = useState('');
   const [animationMode, setAnimationMode] = useState<'play' | 'step' | 'off'>('off');
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -471,7 +500,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   const iconSrc = getChapterIcon(chapterInfo.revelationType);
   const currentMuqattatLetters = MUQATTAT_LETTERS.get(currentSliceId);
 
-  const isAnalyticalMode = isTreeOfVerseActive || isPieceOfBakaraActive;
+  const isAnalyticalMode = isTreeOfVerseActive || isPieceOfBakaraActive || !!isLightInDropActive;
 
   // 3D Elliptical Crown Geometry calculations (Increased size to utilize space fully)
   const crownCx = 50;
@@ -535,7 +564,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
   return (
     <aside 
         id="side-panel-scroll-container"
-        className="w-full lg:w-96 bg-black/30 lg:backdrop-blur-sm p-6 pb-24 lg:pb-6 border-t lg:border-l lg:border-t-0 border-gray-700/50 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth no-scrollbar"
+        className={`w-full lg:w-96 ${isLightInDropActive ? 'bg-black border-l border-zinc-900 text-zinc-200' : 'bg-black/30 lg:backdrop-blur-sm border-gray-700/50 text-gray-100'} p-6 pb-24 lg:pb-6 border-t lg:border-l lg:border-t-0 flex flex-col space-y-4 lg:overflow-y-auto scroll-smooth no-scrollbar`}
     >
       {/* Sticky identification and playlist header - Hidden in Piece of Heifer and Tree of Verse modes */}
       {!isAnalyticalMode && (
@@ -731,7 +760,26 @@ const SidePanel: React.FC<SidePanelProps> = ({ rotation, iconDialRotation, setRo
             </div>
          )}
 
-         {isTreeOfVerseActive ? (
+         {isLightInDropActive ? (
+            <LightInDropSideBar
+                entryVerse={dropletEntryVerse ?? 1}
+                setEntryVerse={setDropletEntryVerse ?? (() => {})}
+                angleI={dropletAngleI ?? 59.4}
+                setAngleI={setDropletAngleI ?? (() => {})}
+                refractiveIndex={dropletRefractiveIndex ?? 1.333}
+                setRefractiveIndex={setDropletRefractiveIndex ?? (() => {})}
+                reflectionsK={dropletReflectionsK ?? 1}
+                setReflectionsK={setDropletReflectionsK ?? (() => {})}
+                dispersionMult={dropletDispersionMult ?? 2}
+                setDispersionMult={setDropletDispersionMult ?? (() => {})}
+                snapToWhole={dropletSnapWhole ?? true}
+                setSnapToWhole={setDropletSnapWhole ?? (() => {})}
+                showColors={dropletShowColors ?? false}
+                setShowColors={setDropletShowColors ?? (() => {})}
+                onVerseSelect={onVerseSelect}
+                onBulkExport={onBulkExport}
+            />
+          ) : isTreeOfVerseActive ? (
             <div className="space-y-4">
                 <div className="flex items-center gap-x-3 px-2">
                     <div className="w-1.5 h-10 bg-gradient-to-b from-cyan-500 to-transparent rounded-full shadow-[0_0_8px_rgba(6,182,212,0.5)]"></div>

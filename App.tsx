@@ -16,7 +16,8 @@ import { getVerse, getFullSurah, getVerseDetails } from './data/verseData.ts';
 import { defaultTranslation } from './data/defaultTranslation.ts';
 import { useIdle } from './hooks/useIdle.ts';
 import { processInBatches, getGlobalVerseIndex, getVerseAddressFromGlobalIndex } from './utils.ts';
-import { TreeIcon, CowIcon, SearchIcon, EyeIcon } from './components/Icons.tsx';
+import { TreeIcon, CowIcon, SearchIcon, EyeIcon, DropletIcon } from './components/Icons.tsx';
+import { LightInDropCenter } from './components/LightInDropCenter.tsx';
 
 const App: React.FC = () => {
   const [rotation, setRotation] = useState<number>(0);
@@ -28,6 +29,7 @@ const App: React.FC = () => {
   const [isSecretModeActive, setIsSecretModeActive] = useState(true);
   const [isTreeOfVerseActive, setIsTreeOfVerseActive] = useState(false);
   const [isPieceOfBakaraActive, setIsPieceOfBakaraActive] = useState(false);
+  const [isLightInDropActive, setIsLightInDropActive] = useState(false);
   const [isTreeOfLifeModeActive, setIsTreeOfLifeModeActive] = useState(false);
   const [secretEmojiShift, setSecretEmojiShift] = useState(0);
   const [isVerseFinderVisible, setIsVerseFinderVisible] = useState(false);
@@ -44,6 +46,15 @@ const App: React.FC = () => {
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
   const [bakaraSpineIndex, setBakaraSpineIndex] = useState(1);
   const [activePlaylistUrl, setActivePlaylistUrl] = useState<string | null>(null);
+
+  // Light in Drop lifted state
+  const [dropletEntryVerse, setDropletEntryVerse] = useState(1);
+  const [dropletAngleI, setDropletAngleI] = useState(59.4);
+  const [dropletRefractiveIndex, setDropletRefractiveIndex] = useState(1.333);
+  const [dropletReflectionsK, setDropletReflectionsK] = useState(1);
+  const [dropletDispersionMult, setDropletDispersionMult] = useState(2);
+  const [dropletSnapWhole, setDropletSnapWhole] = useState(true);
+  const [dropletShowColors, setDropletShowColors] = useState(false);
 
   // Tree of Verse lifted state
   const [treeRootVerse, setTreeRootVerse] = useState({ surah: 1, ayah: 1 });
@@ -75,9 +86,25 @@ const App: React.FC = () => {
   useEffect(() => { rotationRef.current = rotation; }, [rotation]);
   const deferredRotation = useDeferredValue(rotation);
   
-  // Independent Secret Mode: Only keep TreeOfVerse and PieceOfBakara mutually exclusive
-  useEffect(() => { if (isTreeOfVerseActive) setIsPieceOfBakaraActive(false); }, [isTreeOfVerseActive]);
-  useEffect(() => { if (isPieceOfBakaraActive) setIsTreeOfVerseActive(false); }, [isPieceOfBakaraActive]);
+  // Independent Secret Mode: Keep TreeOfVerse, PieceOfBakara, and LightInDrop mutually exclusive
+  useEffect(() => { 
+    if (isTreeOfVerseActive) {
+      setIsPieceOfBakaraActive(false);
+      setIsLightInDropActive(false);
+    }
+  }, [isTreeOfVerseActive]);
+  useEffect(() => { 
+    if (isPieceOfBakaraActive) {
+      setIsTreeOfVerseActive(false);
+      setIsLightInDropActive(false);
+    }
+  }, [isPieceOfBakaraActive]);
+  useEffect(() => { 
+    if (isLightInDropActive) {
+      setIsTreeOfVerseActive(false);
+      setIsPieceOfBakaraActive(false);
+    }
+  }, [isLightInDropActive]);
 
   useEffect(() => {
     let query = window.location.hash.length > 1 ? window.location.hash.slice(1) : window.location.pathname.slice(1);
@@ -234,6 +261,7 @@ const App: React.FC = () => {
           </button>
           <button onClick={() => setIsSecretModeActive(p => !p)} className={`w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isSecretModeActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Third Eye (Rushd)"><EyeIcon /></button>
           <button onClick={() => setIsTreeOfVerseActive(p => !p)} className={`w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isTreeOfVerseActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Tree of Verse"><TreeIcon /></button>
+          <button onClick={() => setIsLightInDropActive(p => !p)} className={`w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isLightInDropActive ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Light in Drop"><DropletIcon /></button>
           <button onClick={() => setIsIdleAnimationEnabled(p => !p)} className={`w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 flex items-center justify-center ${isIdleAnimationEnabled ? 'text-cyan-400' : 'text-gray-600'} hover:bg-cyan-900/40`} title="Idle"><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
           <button onClick={() => setIsSettingsVisible(p => !p)} className="w-8 h-8 shrink-0 rounded-full bg-black/40 border border-cyan-500/30 text-cyan-400 flex items-center justify-center hover:bg-cyan-900/40" title="Settings">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -264,8 +292,23 @@ const App: React.FC = () => {
         </div>
       </div>
       <div className="relative z-10 flex flex-col lg:flex-row lg:flex-1 lg:min-h-0">
-        <div className={`${isTreeOfVerseActive ? 'min-h-[440px]' : 'h-[350px] items-center justify-center'} lg:h-full lg:flex-1 flex flex-col px-4 pb-4 pt-16 lg:pt-20 outline-none shrink-0 lg:transition-[height] lg:duration-300 lg:min-h-0`} tabIndex={0} onKeyDown={handleKeyDown} role="application">
-          {isTreeOfVerseActive ? (
+        <div className={`${isTreeOfVerseActive || isLightInDropActive ? 'min-h-[440px]' : 'h-[350px] items-center justify-center'} lg:h-full lg:flex-1 flex flex-col px-4 pb-4 pt-16 lg:pt-20 outline-none shrink-0 lg:transition-[height] lg:duration-300 lg:min-h-0 ${isLightInDropActive ? 'bg-black' : ''}`} tabIndex={0} onKeyDown={handleKeyDown} role="application">
+          {isLightInDropActive ? (
+            <div className="flex flex-col gap-y-6 w-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden py-2 px-1 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent bg-black">
+              <LightInDropCenter 
+                entryVerse={dropletEntryVerse}
+                setEntryVerse={setDropletEntryVerse}
+                angleI={dropletAngleI}
+                setAngleI={setDropletAngleI}
+                refractiveIndex={dropletRefractiveIndex}
+                reflectionsK={dropletReflectionsK}
+                dispersionMult={dropletDispersionMult}
+                snapToWhole={dropletSnapWhole}
+                showColors={dropletShowColors}
+                onVerseSelect={handleVerseSelect}
+              />
+            </div>
+          ) : isTreeOfVerseActive ? (
             <div className="flex flex-col gap-y-6 w-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden py-2 px-1 scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">
               <TreeOfVerseCenter 
                 rotation={rotation}
@@ -288,6 +331,21 @@ const App: React.FC = () => {
           isSecretModeActive={isSecretModeActive} 
           isTreeOfVerseActive={isTreeOfVerseActive} 
           isPieceOfBakaraActive={isPieceOfBakaraActive} 
+          isLightInDropActive={isLightInDropActive}
+          dropletEntryVerse={dropletEntryVerse}
+          setDropletEntryVerse={setDropletEntryVerse}
+          dropletAngleI={dropletAngleI}
+          setDropletAngleI={setDropletAngleI}
+          dropletRefractiveIndex={dropletRefractiveIndex}
+          setDropletRefractiveIndex={setDropletRefractiveIndex}
+          dropletReflectionsK={dropletReflectionsK}
+          setDropletReflectionsK={setDropletReflectionsK}
+          dropletDispersionMult={dropletDispersionMult}
+          setDropletDispersionMult={setDropletDispersionMult}
+          dropletSnapWhole={dropletSnapWhole}
+          setDropletSnapWhole={setDropletSnapWhole}
+          dropletShowColors={dropletShowColors}
+          setDropletShowColors={setDropletShowColors}
           isSpinning={isSpinning}
           secretEmojiShift={secretEmojiShift} 
           isLowResourceMode={isLowResourceMode} 

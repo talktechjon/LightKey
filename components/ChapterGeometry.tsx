@@ -1161,77 +1161,96 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                             </h3>
                         </div>
 
-                        {/* Large, beautiful equation display */}
-                        <div className="bg-black/40 border border-gray-800/50 p-4 rounded-xl flex flex-col items-center justify-center font-mono space-y-3 shadow-inner">
-                            <div className="text-[12px] sm:text-sm md:text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-amber-400 select-all leading-relaxed py-1 text-center w-full">
-                                <div className="tracking-wide text-xs sm:text-sm">1 → 15:87 Sabʿan al-Mathānī / fractal of 7 ← 1</div>
-                                <div className="text-pink-400/80 font-medium text-[10px] sm:text-xs my-0.5 font-mono">where 15:87 = ∫₂⁷ (2↔3ₙ↔2 → 7) dx = up↑ − down↓ = 0</div>
-                                <div className="text-cyan-400/90 text-[10px] sm:text-[11px] font-sans font-semibold tracking-normal mt-1">Dual bifurcation of 3ₙ = 2×3×2 = 12 = Tree of Life [1-12]</div>
+                        {/* Large, beautiful equation display - organized cleanly line-by-line */}
+                        <div className="bg-black/50 border border-gray-800/80 p-4 rounded-xl flex flex-col font-mono space-y-3 shadow-inner">
+                            {/* Line 1: Master Line */}
+                            <div className="text-center pb-2 border-b border-gray-800/60 space-y-1.5">
+                                <div className="text-xs sm:text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-amber-400 select-all tracking-wider">
+                                    1 → 15:87 Sabʿan al-Mathānī ← 1
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-pink-300 font-semibold tracking-wide py-1 px-2.5 bg-pink-950/20 border border-pink-500/20 rounded-md inline-block">
+                                    ∫₂⁷ (2 ↔ 3ₙ ↔ 2 → 7) dx = up↑ − down↓ = 0
+                                </div>
+                                <div className="text-[10px] sm:text-[11px] text-cyan-300/90 font-mono tracking-tight">
+                                    Dual bifurcation: 3ₙ = 2 × 3 × 2 = 12 [Tree of Life 1–12]
+                                </div>
                             </div>
                             
-                            {/* Variables List - vertical luxurious rows that never stack clumsily */}
-                            <div className="flex flex-col gap-2.5 w-full text-left pt-3 border-t border-gray-800/40 text-xs font-mono">
-                                {/* Term 1 */}
-                                <div className="flex flex-col p-3 rounded-lg bg-red-950/10 border border-red-500/10 hover:border-red-500/15 transition-all gap-1.5 duration-300">
-                                    <div className="flex items-center justify-between">
+                            {/* Variables List - organized line-by-line */}
+                            <div className="flex flex-col gap-2.5 w-full text-left text-xs font-mono">
+                                {/* Term 1: D10 */}
+                                <div className="flex flex-col p-3 rounded-lg bg-red-950/15 border border-red-500/20 hover:border-red-500/30 transition-all gap-1.5">
+                                    <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
-                                            <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></span>
-                                            <span className="text-red-400 font-bold">2 [D10: Arash]</span>
+                                            <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse shrink-0"></span>
+                                            <span className="text-red-400 font-bold text-xs sm:text-sm">2 [D10: Arash]</span>
                                         </div>
-                                        <span className="text-red-400/80 text-[10px] italic">n/2 mass split</span>
+                                        <span className="text-red-300/90 text-[10px] bg-red-950/60 border border-red-500/30 px-2 py-0.5 rounded font-mono shrink-0">
+                                            n/2 mass split
+                                        </span>
                                     </div>
-                                    <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
-                                        <span className="font-bold">Roots ↓ • Gravitropism</span>
-                                        <span className="text-gray-600 font-sans text-[10px]">—</span>
-                                        <span className="text-gray-400 text-[10px] bg-red-900/10 px-1.5 py-0.5 rounded border border-red-500/5">[Mass, Evidence, Clock (14:24, 6:95)]</span>
+                                    <div className="text-xs text-gray-200 font-semibold pl-4">
+                                        Roots ↓ • Gravitropism
+                                    </div>
+                                    <div className="text-[10.5px] text-gray-400 pl-4 font-mono">
+                                        [Mass, Evidence, Clock (14:24, 6:95)]
                                     </div>
                                 </div>
                                 
-                                {/* Term 2 */}
-                                <div className="flex flex-col p-3 rounded-lg bg-teal-950/10 border border-teal-500/10 hover:border-teal-500/15 transition-all gap-1.5 duration-300">
-                                    <div className="flex items-center justify-between">
+                                {/* Term 2: 3n */}
+                                <div className="flex flex-col p-3 rounded-lg bg-teal-950/15 border border-teal-500/20 hover:border-teal-500/30 transition-all gap-1.5">
+                                    <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
-                                            <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse"></span>
-                                            <span className="text-teal-400 font-bold">3ₙ [T3: The Exchange Port]</span>
+                                            <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse shrink-0"></span>
+                                            <span className="text-teal-400 font-bold text-xs sm:text-sm">3ₙ [T3: The Exchange Port]</span>
                                         </div>
-                                        <span className="text-teal-400/80 text-[10px] italic">the trial: Life → Death → Resurrection</span>
+                                        <span className="text-teal-300/90 text-[10px] bg-teal-950/60 border border-teal-500/30 px-2 py-0.5 rounded font-mono shrink-0">
+                                            the trial: Life → Death → Resurrection
+                                        </span>
                                     </div>
-                                    <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
-                                        <span className="font-bold">Trunk • Reader as Time</span>
-                                        <span className="text-gray-600 font-sans text-[10px]">—</span>
-                                        <span className="text-gray-400 text-[10px] bg-teal-900/10 px-1.5 py-0.5 rounded border border-teal-500/5">[Nafs + Driver + Witness (50:21, 7:25)]</span>
+                                    <div className="text-xs text-gray-200 font-semibold pl-4">
+                                        Trunk • Reader as Time
+                                    </div>
+                                    <div className="text-[10.5px] text-gray-400 pl-4 font-mono">
+                                        [Nafs + Driver + Witness (50:21, 7:25)]
                                     </div>
                                 </div>
 
-                                {/* Term 3 */}
-                                <div className="flex flex-col p-3 rounded-lg bg-amber-950/10 border border-amber-500/10 hover:border-amber-500/15 transition-all gap-1.5 duration-300">
-                                    <div className="flex items-center justify-between">
+                                {/* Term 3: I9 */}
+                                <div className="flex flex-col p-3 rounded-lg bg-amber-950/15 border border-amber-500/20 hover:border-amber-500/30 transition-all gap-1.5">
+                                    <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
-                                            <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
-                                            <span className="text-amber-400 font-bold">2 [I9: Kursi]</span>
+                                            <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse shrink-0"></span>
+                                            <span className="text-amber-400 font-bold text-xs sm:text-sm">2 [I9: Kursi]</span>
                                         </div>
-                                        <span className="text-amber-400/80 text-[10px] italic">+1 memory supply</span>
+                                        <span className="text-amber-300/90 text-[10px] bg-amber-950/60 border border-amber-500/30 px-2 py-0.5 rounded font-mono shrink-0">
+                                            +1 memory supply
+                                        </span>
                                     </div>
-                                    <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
-                                        <span className="font-bold">Crown ↑ • Phototropism</span>
-                                        <span className="text-gray-600 font-sans text-[10px]">—</span>
-                                        <span className="text-gray-400 text-[10px] bg-amber-900/10 px-1.5 py-0.5 rounded border border-amber-500/5">[Light ⊕ Pulse, Return (14:24, 39:23)]</span>
+                                    <div className="text-xs text-gray-200 font-semibold pl-4">
+                                        Crown ↑ • Phototropism
+                                    </div>
+                                    <div className="text-[10.5px] text-gray-400 pl-4 font-mono">
+                                        [Light ⊕ Pulse, Return (14:24, 39:23)]
                                     </div>
                                 </div>
 
-                                {/* Term 4 */}
-                                <div className="flex flex-col p-3 rounded-lg bg-cyan-950/10 border border-cyan-500/10 hover:border-cyan-500/15 transition-all gap-1.5 duration-300">
-                                    <div className="flex items-center justify-between">
+                                {/* Term 4: 7 & The Two 1s */}
+                                <div className="flex flex-col p-3 rounded-lg bg-cyan-950/15 border border-cyan-500/20 hover:border-cyan-500/30 transition-all gap-1.5">
+                                    <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
-                                            <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse"></span>
-                                            <span className="text-cyan-400 font-bold">√7 (7) & The Two 1s</span>
+                                            <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse shrink-0"></span>
+                                            <span className="text-cyan-400 font-bold text-xs sm:text-sm">√7 (7) & The Two 1s</span>
                                         </div>
-                                        <span className="text-cyan-400/80 text-[10px] italic">the mass-flux seam</span>
+                                        <span className="text-cyan-300/90 text-[10px] bg-cyan-950/60 border border-cyan-500/30 px-2 py-0.5 rounded font-mono shrink-0">
+                                            the mass-flux seam
+                                        </span>
                                     </div>
-                                    <div className="flex items-center gap-2 flex-wrap text-gray-300 text-[11px]">
-                                        <span className="font-bold">The Grip (19:12)</span>
-                                        <span className="text-gray-600 font-sans text-[10px]">—</span>
-                                        <span className="text-gray-400 text-[10px] bg-cyan-900/10 px-1.5 py-0.5 rounded border border-cyan-500/5">[Completed Unit (14:25, 2:31) • Bound by 1s (28:88)]</span>
+                                    <div className="text-xs text-gray-200 font-semibold pl-4">
+                                        The Grip (19:12) — The Seam Worn, Never Built
+                                    </div>
+                                    <div className="text-[10.5px] text-gray-400 pl-4 font-mono">
+                                        [Completed Unit (14:25, 2:31) • Bound by 1s (28:88)]
                                     </div>
                                 </div>
                             </div>
@@ -1256,34 +1275,54 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                             <h4 className="text-xs font-bold text-cyan-300 uppercase tracking-widest flex items-center gap-1.5 pb-2 border-b border-gray-800/40">
                                 <span>▼</span> <span>QUN — THE DESCENT [D10 n/2 Mass Split]</span>
                             </h4>
-                            <div className="space-y-4">
-                                <div className="space-y-1">
-                                    <div className="flex gap-2 items-baseline">
-                                        <span className="text-cyan-400 font-mono font-bold text-xs">3c</span>
-                                        <span className="text-xs font-semibold text-gray-200">MuSolomon (Phase 1, +0):</span>
-                                        <span className="text-xs text-gray-300">The Vector: Prayer & Intent (66:11, 19:3) taken under n/2.</span>
+                            <div className="space-y-2.5">
+                                {/* Phase 1 */}
+                                <div className="p-2.5 rounded-lg bg-cyan-950/20 border border-cyan-500/15 space-y-1">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div className="flex items-center gap-1.5 font-mono">
+                                            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-500/30">3c</span>
+                                            <span className="text-xs font-bold text-gray-100">MuSolomon</span>
+                                        </div>
+                                        <span className="text-[10px] text-cyan-400/80 font-mono font-semibold">Phase 1 (+0)</span>
                                     </div>
-                                    <div className="pl-4 text-[10px] font-mono text-cyan-400/80">
+                                    <div className="text-[11px] text-gray-300 leading-snug">
+                                        The Vector: Prayer & Intent (66:11, 19:3) taken under n/2.
+                                    </div>
+                                    <div className="text-[10px] font-mono text-cyan-400/80">
                                         — Seed splits in the dark. Contraction / Implosion Force (1:7, 5:30).
                                     </div>
                                 </div>
-                                <div className="space-y-1">
-                                    <div className="flex gap-2 items-baseline">
-                                        <span className="text-cyan-400 font-mono font-bold text-xs">9a</span>
-                                        <span className="text-xs font-semibold text-gray-200">Sacrifice (Phase 3, +76):</span>
-                                        <span className="text-xs text-gray-300">Faith Coherence. The great sacrifice verified.</span>
+
+                                {/* Phase 3 */}
+                                <div className="p-2.5 rounded-lg bg-cyan-950/20 border border-cyan-500/15 space-y-1">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div className="flex items-center gap-1.5 font-mono">
+                                            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-500/30">9a</span>
+                                            <span className="text-xs font-bold text-gray-100">Sacrifice</span>
+                                        </div>
+                                        <span className="text-[10px] text-cyan-400/80 font-mono font-semibold">Phase 3 (+76)</span>
                                     </div>
-                                    <div className="pl-4 text-[10px] font-mono text-cyan-400/80">
+                                    <div className="text-[11px] text-gray-300 leading-snug">
+                                        Faith Coherence. The great sacrifice verified.
+                                    </div>
+                                    <div className="text-[10px] font-mono text-cyan-400/80">
                                         — Mass spent as flux. The Mold fires (77:50, 37:107).
                                     </div>
                                 </div>
-                                <div className="space-y-1">
-                                    <div className="flex gap-2 items-baseline">
-                                        <span className="text-cyan-400 font-mono font-bold text-xs">6b</span>
-                                        <span className="text-xs font-semibold text-gray-200">Life (Phase 5, +94):</span>
-                                        <span className="text-xs text-gray-300">Cubic Overflow Phase. Entering the House safe.</span>
+
+                                {/* Phase 5 */}
+                                <div className="p-2.5 rounded-lg bg-cyan-950/20 border border-cyan-500/15 space-y-1">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div className="flex items-center gap-1.5 font-mono">
+                                            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-500/30">6b</span>
+                                            <span className="text-xs font-bold text-gray-100">Life</span>
+                                        </div>
+                                        <span className="text-[10px] text-cyan-400/80 font-mono font-semibold">Phase 5 (+94)</span>
                                     </div>
-                                    <div className="pl-4 text-[10px] font-mono text-cyan-400/80">
+                                    <div className="text-[11px] text-gray-300 leading-snug">
+                                        Cubic Overflow Phase. Entering the House safe.
+                                    </div>
+                                    <div className="text-[10px] font-mono text-cyan-400/80">
                                         — Body-side manifest. The Muslim House (95:8, 3:97).
                                     </div>
                                 </div>
@@ -1298,34 +1337,54 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                             <h4 className="text-xs font-bold text-pink-400 uppercase tracking-widest flex items-center gap-1.5 pb-2 border-b border-gray-800/40">
                                 <span>▲</span> <span>FAYA-QUN — THE RETURN [I9 +1 Memory Supply]</span>
                             </h4>
-                            <div className="space-y-4">
-                                <div className="space-y-1">
-                                    <div className="flex gap-2 items-baseline">
-                                        <span className="text-pink-400 font-mono font-bold text-xs">6b</span>
-                                        <span className="text-xs font-semibold text-gray-200">Return (Phase 2, +38):</span>
-                                        <span className="text-xs text-gray-300">Shadow Surplus / Entropy resolved into Light return.</span>
+                            <div className="space-y-2.5">
+                                {/* Phase 2 */}
+                                <div className="p-2.5 rounded-lg bg-pink-950/20 border border-pink-500/15 space-y-1">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div className="flex items-center gap-1.5 font-mono">
+                                            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-pink-900/40 text-pink-400 border border-pink-500/30">6b</span>
+                                            <span className="text-xs font-bold text-gray-100">Return</span>
+                                        </div>
+                                        <span className="text-[10px] text-pink-400/80 font-mono font-semibold">Phase 2 (+38)</span>
                                     </div>
-                                    <div className="pl-6 text-[10px] font-mono text-pink-400/80">
+                                    <div className="text-[11px] text-gray-300 leading-snug">
+                                        Shadow Surplus / Entropy resolved into Light return.
+                                    </div>
+                                    <div className="text-[10px] font-mono text-pink-400/80">
                                         — Shadow dissolved (25:46). Remembrance banks +1 (39:75, 2:152).
                                     </div>
                                 </div>
-                                <div className="space-y-1">
-                                    <div className="flex gap-2 items-baseline">
-                                        <span className="text-pink-400 font-mono font-bold text-xs">3c</span>
-                                        <span className="text-xs font-semibold text-gray-200">Ascend (Phase 4, +56):</span>
-                                        <span className="text-xs text-gray-300">Command Propagation. Idris & Isa raised.</span>
+
+                                {/* Phase 4 */}
+                                <div className="p-2.5 rounded-lg bg-pink-950/20 border border-pink-500/15 space-y-1">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div className="flex items-center gap-1.5 font-mono">
+                                            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-pink-900/40 text-pink-400 border border-pink-500/30">3c</span>
+                                            <span className="text-xs font-bold text-gray-100">Ascend</span>
+                                        </div>
+                                        <span className="text-[10px] text-pink-400/80 font-mono font-semibold">Phase 4 (+56)</span>
                                     </div>
-                                    <div className="pl-6 text-[10px] font-mono text-pink-400/80">
+                                    <div className="text-[11px] text-gray-300 leading-snug">
+                                        Command Propagation. Idris & Isa raised.
+                                    </div>
+                                    <div className="text-[10px] font-mono text-pink-400/80">
                                         — The Word returns massless. Idris route (57:29, 19:57).
                                     </div>
                                 </div>
-                                <div className="space-y-1">
-                                    <div className="flex gap-2 items-baseline">
-                                        <span className="text-pink-400 font-mono font-bold text-xs">9a</span>
-                                        <span className="text-xs font-semibold text-gray-200">Resurrection (Phase 6, +18):</span>
-                                        <span className="text-xs text-gray-300">Biological Cardiac Zero Point / Light Coherence.</span>
+
+                                {/* Phase 6 */}
+                                <div className="p-2.5 rounded-lg bg-pink-950/20 border border-pink-500/15 space-y-1">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div className="flex items-center gap-1.5 font-mono">
+                                            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-pink-900/40 text-pink-400 border border-pink-500/30">9a</span>
+                                            <span className="text-xs font-bold text-gray-100">Resurrection</span>
+                                        </div>
+                                        <span className="text-[10px] text-pink-400/80 font-mono font-semibold">Phase 6 (+18)</span>
                                     </div>
-                                    <div className="pl-6 text-[10px] font-mono text-pink-400/80">
+                                    <div className="text-[11px] text-gray-300 leading-snug">
+                                        Biological Cardiac Zero Point / Light Coherence.
+                                    </div>
+                                    <div className="text-[10px] font-mono text-pink-400/80">
                                         — Eternal receipt: aḥyāʾ (2:154, 19:98). Balance: up↑ − down↓ = 0.
                                     </div>
                                 </div>
