@@ -29,18 +29,18 @@ const PRESET_2 = [
 ];
 
 const PRESET_3 = [
-  "Ibrahim | Ahmed",
-  "Ishac | Ishmail",
-  "Rushd",
-  "Cave",
-  "Iron | Wood",
-  "Noah | Musa",
-  "Idris | Isa",
-  "Iron | Mountain",
-  "Amanah",
   "Dawud",
-  "Solomon | Death",
-  "Orphan | Yahya"
+  "Yahya",
+  "Zakariya",
+  "Abd",
+  "Muhammad",
+  "Cave",
+  "Reader X",
+  "Book",
+  "Musa",
+  "Ahmed",
+  "Isa",
+  "Solomon"
 ];
 
 const PRESET_4 = [

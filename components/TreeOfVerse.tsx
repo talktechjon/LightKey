@@ -45,12 +45,12 @@ const TREE_EXPLANATIONS = [
 
 const QUN_FAYAKUN_POINTS = [1, 39, 77, 19, 95, 57];
 const QUN_FAYAKUN_LABELS = [
-    "MuSolomon [Qun ▼]",
-    "Return [FayaQun ▲]",
+    "Life [Qun ▼]",
+    "Command [FayaQun ▲]",
     "Sacrifice [Qun ▼]",
     "Resurrection [FayaQun ▲]",
-    "Life [Qun ▼]",
-    "Ascend [FayaQun ▲]"
+    "House [Qun ▼]",
+    "Return [FayaQun ▲]"
 ];
 const QUN_FAYAKUN_EXPLANATIONS = [
     "Phase 1 (3c, +0): Debit strand initiates; prayer & intent taken under n/2 (1:7, 5:30) — Contraction Force.",
@@ -562,12 +562,12 @@ export const TreeOfVerse: React.FC<TreeOfVerseProps> = ({ rotation, onVerseSelec
                     The dual bifurcation of <span className="font-mono text-pink-300">3ₙ = 2×3×2 = 12</span> forms the Tree of Life [1-12].
                 </p>
                 <p className="text-white/75 text-xs">
-                    Three debit downstrokes (<strong className="text-cyan-400">Qun ▼</strong>: MuSolomon, Sacrifice, Life) are balanced one-for-one by three credit upstrokes (<strong className="text-pink-400">FayaQun ▲</strong>: Return, Ascend, Resurrection).
+                    Three debit downstrokes (<strong className="text-cyan-400">Qun ▼</strong>: Life, Sacrifice, House) are balanced one-for-one by three credit upstrokes (<strong className="text-pink-400">FayaQun ▲</strong>: Command, Return, Resurrection).
                     Mapped to 6 key nodes across the continuum, generating a trine of three verses for each node: 
                     <strong className="text-orange-400">V-1</strong>, the <strong className="text-cyan-400">Anchor</strong>, and <strong className="text-emerald-400">V+1</strong>.
                 </p>
                 <div className="bg-gradient-to-r from-cyan-950/20 to-pink-950/20 border border-purple-500/20 px-2.5 py-1.5 rounded text-[10px] text-purple-300 font-mono">
-                    15:87 CYCLE: MUSOLOMON [▼ 3c] → RETURN [▲ 6b] → SACRIFICE [▼ 9a] → ASCEND [▲ 3c] → LIFE [▼ 6b] → RESURRECTION [▲ 9a] = 0
+                    15:87 CYCLE: LIFE [▼ 3c] → COMMAND [▲ 6b] → SACRIFICE [▼ 9a] → RESURRECTION [▲ 9a] → HOUSE [▼ 6b] → RETURN [▲ 3c] = 0
                 </div>
             </div>
 

@@ -236,7 +236,7 @@ const SidePanel: React.FC<SidePanelProps> = ({
   };
   
   const handleWatchSequence = (type: PlaylistType) => {
-    // 15:87 Mathānī Order: 3↓ Debit (MuSolomon, Sacrifice, Life) ↔ 3↑ Credit (Return, Ascend, Resurrection)
+    // 15:87 Mathānī Order: 3↓ Debit (Life, Sacrifice, House) ↔ 3↑ Credit (Command, Return, Resurrection)
     const helixSequence = [1, 39, 77, 19, 95, 57];
     const chapterIds = helixSequence.map(pointValue => getSliceAtPoint(pointValue, rotation).id);
     createPlaylist(type, chapterIds);
