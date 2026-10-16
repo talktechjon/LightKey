@@ -10,6 +10,7 @@ import {
 } from './Icons.tsx';
 import { Fingerprint } from 'lucide-react';
 import { VerseRootTracer } from './VerseRootTracer.tsx';
+import { loadQuranEngine } from '../quranEngine.ts';
 
 const GET_ARABIC_AUDIO_URL = (abs: number) => `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${abs}.mp3`;
 
@@ -234,7 +235,42 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
   const handleSearch = useCallback(async () => {
     if (!query.trim()) return;
     setIsLoading(true); setError(null); audioRef.current.pause(); setCurrentlyPlaying(null);
-    const normalizedQuery = query.replace(/–|—/g, '-');
+    const normalizedQuery = query.replace(/–|—/g, '-').trim();
+
+    // Check for root search syntax (e.g. "root:b-q-y, w-dh-r" or "root:k-b-r+s-b-r")
+    if (normalizedQuery.toLowerCase().startsWith('root:')) {
+      const rootStr = normalizedQuery.substring(5).trim();
+      const targetRoots = rootStr.split(/[,+\s]+/).map(r => r.trim().toLowerCase()).filter(Boolean);
+      if (targetRoots.length === 0) {
+        setError('Please specify one or more roots (e.g. root:b-q-y, w-dh-r)');
+        setIsLoading(false);
+        return;
+      }
+      try {
+        const eng = await loadQuranEngine();
+        // Narrow down: must contain ALL specified roots
+        const matchingVerses = eng.verses.filter(v => v.R && targetRoots.every(r => v.R.includes(r)));
+        if (matchingVerses.length === 0) {
+          setError(`No verses found containing ALL roots: ${targetRoots.join(' + ')}`);
+          setIsLoading(false);
+          return;
+        }
+        const results = await processInBatches(
+          matchingVerses.slice(0, 100),
+          (mv) => getVerseDetails(mv.c, mv.v, translationMode, localTranslationData),
+          5
+        );
+        const finalResults = results.filter((v): v is VerseResult => v !== null);
+        if (finalResults.length === 0) setError('No verses found.');
+        else setContent({ type: 'search', verses: finalResults });
+      } catch (e) {
+        setError('Error querying root engine.');
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
+
     const queries = normalizedQuery.split(',').map(v => v.trim()).filter(Boolean);
 
     if (queries.length === 0) {
@@ -514,7 +550,7 @@ const VerseFinder: React.FC<VerseFinderProps> = ({ isVisible, setIsVisible, cont
       </div>
       <div className="p-3">
         <div className="flex items-center gap-2">
-            <input ref={inputRef} type="text" value={query} onChange={(e) => onQueryChange(e.target.value)} onKeyDown={handleKeyDown} placeholder="e.g., 2:255, 112, 18:1-10" className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-cyan-500 outline-none" />
+            <input ref={inputRef} type="text" value={query} onChange={(e) => onQueryChange(e.target.value)} onKeyDown={handleKeyDown} placeholder="e.g., 2:255, 112, 18:1-10 or root:b-q-y+w-dh-r" className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-cyan-500 outline-none" />
             <button onClick={handleSearch} disabled={isLoading} className="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-1.5 px-3 rounded text-sm disabled:bg-gray-500">
                 {isLoading ? '...' : 'Go'}
             </button>

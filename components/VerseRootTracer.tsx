@@ -86,20 +86,20 @@ const getRootWordInfo = (v: EngineVerse, targetRoots: string[]) => {
   }
 
   const rawWords = v.a.split(/\s+/);
-  const matching: { ar: string; tr: string }[] = [];
+  const matching: { ar: string; tr: string; root: string }[] = [];
 
   v.w.forEach((w, i) => {
     if (w.r && targetRoots.includes(w.r)) {
       const arWord = rawWords[i] || '';
       let trWord = w.T || '';
       if (arWord) {
-        matching.push({ ar: arWord, tr: trWord });
+        matching.push({ ar: arWord, tr: trWord, root: w.r });
       }
     }
   });
 
-  const arabicWord = matching.map(m => m.ar).filter(Boolean).join(' / ');
-  const transliteration = matching.map(m => m.tr).filter(Boolean).join(' / ');
+  const arabicWord = matching.map(m => m.ar).filter(Boolean).join(' · ');
+  const transliteration = matching.map(m => m.tr ? `${m.tr} (${m.root})` : m.root).filter(Boolean).join(' · ');
 
   return {
     arabicWord: arabicWord || v.a.split(/\s+/)[0] || '',
@@ -112,6 +112,7 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedRoots, setSelectedRoots] = useState<string[]>([]);
+  const [matchMode, setMatchMode] = useState<'AND' | 'OR'>('AND');
   const [hoveredRoot, setHoveredRoot] = useState<string | null>(null);
   const [pathwaySearchQuery, setPathwaySearchQuery] = useState<string>('');
   const [manualRootInput, setManualRootInput] = useState<string>('');
@@ -171,9 +172,37 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
 
   const handleAddManualRoot = (e: React.FormEvent) => {
     e.preventDefault();
-    const trimmed = manualRootInput.trim().toLowerCase();
-    if (trimmed && !selectedRoots.includes(trimmed)) {
-      setSelectedRoots(prev => [...prev, trimmed]);
+    if (!manualRootInput.trim()) return;
+
+    // Split multiple roots by commas, plus signs, or whitespace (e.g. "b-q-y, w-dh-r" or "b-q-y + w-dh-r" or "kbr sbr")
+    const rawTokens = manualRootInput
+      .split(/[,+\s]+/)
+      .map(t => t.trim().toLowerCase())
+      .filter(Boolean);
+
+    const normalizedTokens = rawTokens.map(token => {
+      // If token already exists in engine.roots, keep it
+      if (engine && engine.roots[token]) return token;
+      // If user typed 3 letters without hyphens (e.g. "kbr" or "sbr"), check if hyphenated version exists
+      if (!token.includes('-') && token.length >= 3) {
+        const hyphenated = token.split('').join('-');
+        if (engine && engine.roots[hyphenated]) {
+          return hyphenated;
+        }
+      }
+      return token;
+    });
+
+    if (normalizedTokens.length > 0) {
+      setSelectedRoots(prev => {
+        const next = [...prev];
+        normalizedTokens.forEach(t => {
+          if (!next.includes(t)) {
+            next.push(t);
+          }
+        });
+        return next;
+      });
       setManualRootInput('');
     }
   };
@@ -186,11 +215,19 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
     });
   };
 
-  // All verses sharing ANY of the selected roots
+  // Verses matching selected roots:
+  // In 'AND' mode (default): Narrows down results so verses must contain ALL selected roots (Intersection)
+  // In 'OR' mode: Expands results to verses containing ANY selected root (Union)
   const rootPathwayVerses = useMemo(() => {
     if (!engine || selectedRoots.length === 0) return [];
-    return engine.verses.filter(v => v.R && selectedRoots.some(r => v.R!.includes(r)));
-  }, [engine, selectedRoots]);
+    return engine.verses.filter(v => {
+      if (!v.R || v.R.length === 0) return false;
+      if (matchMode === 'AND') {
+        return selectedRoots.every(r => v.R!.includes(r));
+      }
+      return selectedRoots.some(r => v.R!.includes(r));
+    });
+  }, [engine, selectedRoots, matchMode]);
 
   // Filtered pathway based on search query (e.g. "19:" or "2:" or "chapter number")
   const filteredPathway = useMemo(() => {
@@ -208,12 +245,16 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
     // Chapters range from 1 to 114
     const distribution = Array(115).fill(0);
     engine.verses.forEach(v => {
-      if (v.R && selectedRoots.some(r => v.R!.includes(r))) {
+      if (!v.R || v.R.length === 0) return;
+      const isMatch = matchMode === 'AND'
+        ? selectedRoots.every(r => v.R!.includes(r))
+        : selectedRoots.some(r => v.R!.includes(r));
+      if (isMatch) {
         distribution[v.c]++;
       }
     });
     return distribution;
-  }, [selectedRoots, engine]);
+  }, [selectedRoots, engine, matchMode]);
 
   if (loading) {
     return (
@@ -350,6 +391,15 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
                     </button>
                   </span>
                 ))}
+                {selectedRoots.length > 1 && (
+                  <button 
+                    onClick={() => setSelectedRoots([])}
+                    className="text-[9px] text-gray-400 hover:text-red-400 font-mono ml-1 px-1.5 py-0.5 rounded bg-black/40 border border-slate-700 hover:border-red-500/30 transition-colors"
+                    title="Clear all roots"
+                  >
+                    Clear All
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -360,18 +410,64 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
               type="text"
               value={manualRootInput}
               onChange={(e) => setManualRootInput(e.target.value)}
-              placeholder="Type root (e.g. k-b-r)"
-              className="bg-black/50 border border-slate-700 rounded px-2 py-1 text-[10px] text-gray-200 outline-none w-32 focus:border-cyan-500/50"
+              placeholder="e.g. b-q-y, w-dh-r"
+              className="bg-black/50 border border-slate-700 rounded px-2 py-1 text-[10px] text-gray-200 outline-none w-36 focus:border-cyan-500/50"
             />
             <button 
               type="submit"
               className="bg-cyan-600 hover:bg-cyan-500 text-white p-1 rounded transition-colors flex items-center justify-center"
-              title="Add root"
+              title="Add root(s) - separates by comma, plus, or space"
             >
               <Plus className="h-3.5 w-3.5" />
             </button>
           </form>
         </div>
+
+        {/* Multi-Root Filter Mode Toggle when multiple roots are selected */}
+        {selectedRoots.length > 1 && (
+          <div className="flex flex-wrap items-center justify-between gap-2 bg-black/40 p-2 rounded border border-cyan-500/20 text-[10px]">
+            <div className="flex items-center gap-2">
+              <span className="text-gray-400 font-mono font-medium">Multi-Root Mode:</span>
+              <div className="inline-flex rounded p-0.5 bg-cyan-950/80 border border-cyan-500/40">
+                <button
+                  type="button"
+                  onClick={() => setMatchMode('AND')}
+                  className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all ${
+                    matchMode === 'AND'
+                      ? 'bg-amber-400 text-black shadow'
+                      : 'text-gray-400 hover:text-cyan-300'
+                  }`}
+                  title="Narrow down: Verse must contain ALL selected roots"
+                >
+                  AND (Narrow: All)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMatchMode('OR')}
+                  className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold transition-all ${
+                    matchMode === 'OR'
+                      ? 'bg-cyan-500 text-black shadow'
+                      : 'text-gray-400 hover:text-cyan-300'
+                  }`}
+                  title="Expand: Verse contains ANY selected root"
+                >
+                  OR (Expand: Any)
+                </button>
+              </div>
+            </div>
+            <div className="text-[9px] font-mono">
+              {matchMode === 'AND' ? (
+                <span className="text-amber-300 font-semibold">
+                  Narrowed down: {rootPathwayVerses.length} verses contain ALL {selectedRoots.length} roots
+                </span>
+              ) : (
+                <span className="text-cyan-300">
+                  Expanded union: {rootPathwayVerses.length} verses contain ANY root
+                </span>
+              )}
+            </div>
+          </div>
+        )}
 
         {selectedRoots.length > 0 ? (
           <>
@@ -379,7 +475,9 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
             <div className="flex flex-col gap-y-1 bg-black/40 p-2 rounded border border-cyan-500/10">
               <div className="flex justify-between items-center text-[9px] font-mono text-gray-400">
                 <span>Chapter 1</span>
-                <span className="text-cyan-400 tracking-wider">Chromosome-Style Distribution (1-114)</span>
+                <span className="text-cyan-400 tracking-wider">
+                  Chromosome Distribution ({matchMode === 'AND' && selectedRoots.length > 1 ? 'ALL Roots' : 'Occurrences'})
+                </span>
                 <span>Chapter 114</span>
               </div>
               <svg viewBox="0 0 114 6" className="w-full h-2.5 bg-gray-900 rounded overflow-hidden">
@@ -399,13 +497,15 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
                       strokeWidth="1"
                       strokeOpacity={opacity}
                     >
-                      <title>{`Chapter ${chap}: ${count} occurrences`}</title>
+                      <title>{`Chapter ${chap}: ${count} matches`}</title>
                     </line>
                   );
                 })}
               </svg>
               <span className="text-[8px] text-gray-500 font-mono text-right italic leading-none mt-0.5">
-                Highlighting {rootPathwayVerses.length} total coordinates
+                {matchMode === 'AND' && selectedRoots.length > 1
+                  ? `Narrowed down: ${rootPathwayVerses.length} coordinates contain ALL ${selectedRoots.length} roots`
+                  : `Highlighting ${rootPathwayVerses.length} total coordinates`}
               </span>
             </div>
 
@@ -437,10 +537,19 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
                 }
               `}</style>
               <div className="flex flex-wrap justify-between items-center border-b border-cyan-500/10 pb-1 gap-2">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400 flex items-center gap-1">
-                    <GitCommit className="h-3 w-3" /> The Beautiful Chain of {selectedRoots.join(', ')}
+                    <GitCommit className="h-3 w-3" /> The Beautiful Chain of {selectedRoots.join(matchMode === 'AND' ? ' + ' : ' | ')}
                   </span>
+                  {selectedRoots.length > 1 && (
+                    <span className={`text-[8px] font-mono px-1.5 py-0.5 rounded font-bold uppercase ${
+                      matchMode === 'AND' 
+                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' 
+                        : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                    }`}>
+                      {matchMode === 'AND' ? 'ALL ROOTS (Narrowed)' : 'ANY ROOT (Union)'}
+                    </span>
+                  )}
                   
                   {/* Copy X:X List button */}
                   <button 
@@ -469,7 +578,20 @@ export const VerseRootTracer: React.FC<VerseRootTracerProps> = ({ surah, ayah, o
               {/* Scrollable list of coordinates */}
               <div className="max-h-[160px] overflow-y-auto pr-1 flex flex-col gap-y-1.5 scrollbar-thin scrollbar-thumb-cyan-500/20">
                 {filteredPathway.length === 0 ? (
-                  <span className="text-[10px] text-center text-gray-500 py-2">No matching coordinates in root-lineage.</span>
+                  <div className="p-3 bg-black/40 border border-dashed border-cyan-500/20 rounded text-center flex flex-col items-center gap-1.5 my-1">
+                    <span className="text-[10px] text-gray-400 font-mono">
+                      No coordinates found containing {matchMode === 'AND' ? 'ALL' : 'ANY of'} the selected roots together: <strong className="text-amber-400">{selectedRoots.join(matchMode === 'AND' ? ' + ' : ' | ')}</strong>.
+                    </span>
+                    {matchMode === 'AND' && selectedRoots.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => setMatchMode('OR')}
+                        className="text-[9px] font-mono bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 px-2.5 py-1 rounded transition-colors"
+                      >
+                        Switch to OR Mode (Expand to view verses with ANY root)
+                      </button>
+                    )}
+                  </div>
                 ) : (
                   filteredPathway.map((v) => {
                     const isCurrent = v.r === currentRef;
