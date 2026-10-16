@@ -33,12 +33,12 @@ const TriangleGeometryGroup = React.memo(({ points, name, direction, rotation, i
   const headerTooltip = name.includes('Command') ? 'Input Engine: Chrysalis' : 'Output Engine: Photosynthesis';
 
   const getPointTooltip = (type: string, chapterName: string) => {
-    if (type.includes('Life') || type.includes('Death') || type.includes('Slave') || type.includes('MuSolomon')) return `The Vector (1): Prayer & Intent (66:11, 19:3)`;
-    if (type.includes('Command') || type.includes('Queen')) return `Shadow Surplus (+1) / Entropy Term: ${chapterName}`;
-    if (type.includes('Sacrifice') || type.includes('Righteous')) return `Faith Coherence: ${chapterName}`;
+    if (type.includes('Growth') || type.includes('Grow') || type.includes('Life') || type.includes('Death') || type.includes('Slave') || type.includes('MuSolomon')) return `The Vector (1): Prayer & Intent (66:11, 19:3)`;
+    if (type.includes('Inspiration') || type.includes('Command') || type.includes('Queen')) return `Shadow Surplus (+1) / Entropy Term: ${chapterName}`;
+    if (type.includes('Recognize') || type.includes('Sacrifice') || type.includes('Righteous')) return `Faith Coherence: ${chapterName}`;
     if (type.includes('Return') || type.includes('Ascend') || type.includes('Turabin')) return `Command Propagation: ${chapterName}`;
-    if (type.includes('House') || type.includes('Cave')) return `Cubic Overflow Phase (10): ${chapterName}`;
-    if (type.includes('Resurrection') || type.includes('Orphan')) return `Biological Cardiac Zero Point / Light Coherence (9): ${chapterName}`;
+    if (type.includes('Witness') || type.includes('House') || type.includes('Cave')) return `Cubic Overflow Phase (10): ${chapterName}`;
+    if (type.includes('Memory') || type.includes('Purification') || type.includes('Resurrection') || type.includes('Orphan')) return `Biological Cardiac Zero Point / Light Coherence (9): ${chapterName}`;
     return type;
   };
   
@@ -449,15 +449,15 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         const currentNode = nodes[cycleIdx] || nodes[5];
 
         if (phase < 1/6) {
-            activePhase = "Life"; color = COLORS.triangle2; isQun = true;
+            activePhase = "Growth"; color = COLORS.triangle2; isQun = true;
         } else if (phase < 2/6) {
-            activePhase = "Command"; color = COLORS.triangle1; isQun = false;
+            activePhase = "Inspiration"; color = COLORS.triangle1; isQun = false;
         } else if (phase < 3/6) {
-            activePhase = "Sacrifice"; color = COLORS.triangle2; isQun = true;
+            activePhase = "Recognize"; color = COLORS.triangle2; isQun = true;
         } else if (phase < 4/6) {
-            activePhase = "Resurrection"; color = COLORS.triangle1; isQun = false;
+            activePhase = "Memory"; color = COLORS.triangle1; isQun = false;
         } else if (phase < 5/6) {
-            activePhase = "House"; color = COLORS.triangle2; isQun = true;
+            activePhase = "Witness"; color = COLORS.triangle2; isQun = true;
         } else {
             activePhase = "Return"; color = COLORS.triangle1; isQun = false;
         }
@@ -511,22 +511,30 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
     }, [rotation, time]);
 
     const dataPairs = useMemo(() => {
-        const p1 = getSliceAtPoint(1, rotation);       // Life
-        const p39 = getSliceAtPoint(39, rotation);     // Command
-        const p77 = getSliceAtPoint(77, rotation);     // Sacrifice
-        const p19 = getSliceAtPoint(19, rotation);     // Resurrection
-        const p95 = getSliceAtPoint(95, rotation);     // House
+        const p1 = getSliceAtPoint(1, rotation);       // Growth
+        const p39 = getSliceAtPoint(39, rotation);     // Inspiration
+        const p77 = getSliceAtPoint(77, rotation);     // Recognize
+        const p19 = getSliceAtPoint(19, rotation);     // Memory
+        const p95 = getSliceAtPoint(95, rotation);     // Witness
         const p57 = getSliceAtPoint(57, rotation);     // Return
         return { p1, p39, p77, p19, p95, p57 };
     }, [rotation]);
 
     const phaseDataMap = {
-        "Life": { ...dataPairs.p1, label: "Life ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
-        "Command": { ...dataPairs.p39, label: "Command ▲", icon: "🐝", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
-        "Sacrifice": { ...dataPairs.p77, label: "Sacrifice ▼", icon: "🐪", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Growth": { ...dataPairs.p1, label: "Growth ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Inspiration": { ...dataPairs.p39, label: "Inspiration ▲", icon: "🐝", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Recognize": { ...dataPairs.p77, label: "Recognize ▼", icon: "🐪", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Memory": { ...dataPairs.p19, label: "Memory ▲", icon: "📜", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Witness": { ...dataPairs.p95, label: "Witness ▼", icon: "🕋", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
         "Return": { ...dataPairs.p57, label: "Return ▲", icon: "🐟", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
-        "House": { ...dataPairs.p95, label: "House ▼", icon: "🕋", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
-        "Resurrection": { ...dataPairs.p19, label: "Resurrection ▲", icon: "⚡", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        // Aliases for resilience
+        "Grow": { ...dataPairs.p1, label: "Growth ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Purification": { ...dataPairs.p19, label: "Memory ▲", icon: "📜", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Life": { ...dataPairs.p1, label: "Growth ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Command": { ...dataPairs.p39, label: "Inspiration ▲", icon: "🐝", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Sacrifice": { ...dataPairs.p77, label: "Recognize ▼", icon: "🐪", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "House": { ...dataPairs.p95, label: "Witness ▼", icon: "🕋", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
+        "Resurrection": { ...dataPairs.p19, label: "Memory ▲", icon: "📜", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
     };
     const activePhaseData = phaseDataMap[torusGeometry.activePhase as keyof typeof phaseDataMap];
     const activeChapter = CHAPTER_DETAILS.find(c => c.number === activePhaseData?.id);
@@ -720,7 +728,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
             {/* Geometric Data Legend Box */}
             <div className="w-full bg-black/40 border border-gray-800 rounded-xl p-4 sm:p-6 overflow-hidden">
                 <div className="grid grid-cols-3 gap-y-8 relative">
-                    {/* Row 1: Life -> Command -> Sacrifice */}
+                    {/* Row 1: Growth -> Inspiration -> Recognize */}
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-lg sm:text-xl">🌴</span>
                         <div className="text-center flex flex-col items-center w-full">
@@ -730,7 +738,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p1.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Life ▼</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Growth ▼</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-cyan-400/50 leading-none mt-0.5 select-none">[5:30]</div>
                         </div>
                     </div>
@@ -744,7 +752,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p39.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Command ▲</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Inspiration ▲</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-pink-550/50 leading-none mt-0.5 select-none">[16:68]</div>
                         </div>
                     </div>
@@ -758,7 +766,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p77.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Sacrifice ▼</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Recognize ▼</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-cyan-400/50 leading-none mt-0.5 select-none">[34:14]</div>
                         </div>
                     </div>
@@ -817,7 +825,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                         </div>
                     </div>
 
-                    {/* Row 2: Return -> House -> Resurrection */}
+                    {/* Row 2: Return -> Witness -> Memory */}
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
                         <span className="text-lg sm:text-xl">🐟</span>
                         <div className="text-center flex flex-col items-center w-full">
@@ -841,13 +849,13 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p95.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">House ▼</div>
+                            <div className="text-[8px] sm:text-[9px] text-cyan-500/80 tracking-tighter mt-0.5">Witness ▼</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-cyan-400/50 leading-none mt-0.5 select-none">[18:19]</div>
                         </div>
                     </div>
 
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-lg sm:text-xl">⚡</span>
+                        <span className="text-lg sm:text-xl">📜</span>
                         <div className="text-center flex flex-col items-center w-full">
                             <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">
                                 {dataPairs.p19.id}:{dataPairs.p19.blockCount}
@@ -855,7 +863,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                             <div className="text-[9px] sm:text-[10px] text-gray-300 font-medium mt-0.5 truncate w-full">
                                 {CHAPTER_DETAILS.find(c => c.number === dataPairs.p19.id)?.englishName}
                             </div>
-                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Resurrection ▲</div>
+                            <div className="text-[8px] sm:text-[9px] text-pink-500/80 tracking-tighter mt-0.5">Memory ▲</div>
                             <div className="text-[7.5px] sm:text-[8px] font-mono text-pink-550/50 leading-none mt-0.5 select-none">[19:19]</div>
                         </div>
                     </div>
@@ -1047,18 +1055,18 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
 
     
     // Side Panel Presentation Reordering (DNA Flow - INTERLEAVED):
-    // Row 1 (Interleaved Layout): Life(D 1) -> House(U 95) -> Sacrifice(D 77)
+    // Row 1 (Interleaved Layout): Growth(D 1) -> Witness(U 95) -> Recognize(D 77)
     const dnaRow1: PointWithColor[] = [
-        { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Life (Cyan)
-        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[0].color }, // House (Pink) - Twisted Up
-        { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Sacrifice (Cyan)
+        { ...TRIANGLE_POINTS[1].points[0], value: CENTRAL_GEOMETRY_POINTS[0], color: TRIANGLE_POINTS[1].color }, // Growth (Cyan)
+        { ...TRIANGLE_POINTS[0].points[1], value: CENTRAL_GEOMETRY_POINTS[4], color: TRIANGLE_POINTS[0].color }, // Witness (Pink) - Twisted Up
+        { ...TRIANGLE_POINTS[1].points[2], value: CENTRAL_GEOMETRY_POINTS[2], color: TRIANGLE_POINTS[1].color }, // Recognize (Cyan)
     ];
 
-    // Row 2 (Interleaved Layout): Return(U 57) -> Command(D 39) -> Resurrection(U 19)
+    // Row 2 (Interleaved Layout): Return(U 57) -> Inspiration(D 39) -> Memory(U 19)
     const dnaRow2: PointWithColor[] = [
         { ...TRIANGLE_POINTS[0].points[0], value: CENTRAL_GEOMETRY_POINTS[3], color: TRIANGLE_POINTS[0].color }, // Return (Pink)
-        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[1].color }, // Command (Cyan) - Twisted Down
-        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Resurrection (Pink)
+        { ...TRIANGLE_POINTS[1].points[1], value: CENTRAL_GEOMETRY_POINTS[1], color: TRIANGLE_POINTS[1].color }, // Inspiration (Cyan) - Twisted Down
+        { ...TRIANGLE_POINTS[0].points[2], value: CENTRAL_GEOMETRY_POINTS[5], color: TRIANGLE_POINTS[0].color }, // Memory (Pink)
     ];
     
     return (
@@ -1140,7 +1148,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                 <DNAHelixAnimation isPaused={effectiveIsPaused} />
 
                 <TriangleGeometryGroup 
-                    name="FayaQun - Book Returns 🐟🕋⚡"
+                    name="FayaQun - Book Returns 🐟🕋📜"
                     direction="upward"
                     points={dnaRow2}
                     rotation={rotation}
@@ -1281,7 +1289,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-1.5 font-mono">
                                             <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-500/30">3c</span>
-                                            <span className="text-xs font-bold text-gray-100">Life</span>
+                                            <span className="text-xs font-bold text-gray-100">Growth 🌴↓</span>
                                         </div>
                                         <span className="text-[10px] text-cyan-400/80 font-mono font-semibold">Phase 1 (+0)</span>
                                     </div>
@@ -1298,7 +1306,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-1.5 font-mono">
                                             <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-500/30">9a</span>
-                                            <span className="text-xs font-bold text-gray-100">Sacrifice</span>
+                                            <span className="text-xs font-bold text-gray-100">Recognize 🐪↓</span>
                                         </div>
                                         <span className="text-[10px] text-cyan-400/80 font-mono font-semibold">Phase 3 (+76)</span>
                                     </div>
@@ -1315,7 +1323,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-1.5 font-mono">
                                             <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-900/40 text-cyan-400 border border-cyan-500/30">6b</span>
-                                            <span className="text-xs font-bold text-gray-100">House</span>
+                                            <span className="text-xs font-bold text-gray-100">Witness 🕋↓</span>
                                         </div>
                                         <span className="text-[10px] text-cyan-400/80 font-mono font-semibold">Phase 5 (+94)</span>
                                     </div>
@@ -1343,7 +1351,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-1.5 font-mono">
                                             <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-pink-900/40 text-pink-400 border border-pink-500/30">6b</span>
-                                            <span className="text-xs font-bold text-gray-100">Command</span>
+                                            <span className="text-xs font-bold text-gray-100">Inspiration 🐝↑</span>
                                         </div>
                                         <span className="text-[10px] text-pink-400/80 font-mono font-semibold">Phase 2 (+38)</span>
                                     </div>
@@ -1360,7 +1368,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-1.5 font-mono">
                                             <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-pink-900/40 text-pink-400 border border-pink-500/30">3c</span>
-                                            <span className="text-xs font-bold text-gray-100">Return</span>
+                                            <span className="text-xs font-bold text-gray-100">Return 🐟↑</span>
                                         </div>
                                         <span className="text-[10px] text-pink-400/80 font-mono font-semibold">Phase 4 (+56)</span>
                                     </div>
@@ -1377,12 +1385,12 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-1.5 font-mono">
                                             <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-pink-900/40 text-pink-400 border border-pink-500/30">9a</span>
-                                            <span className="text-xs font-bold text-gray-100">Resurrection</span>
+                                            <span className="text-xs font-bold text-gray-100">Memory 📜↑</span>
                                         </div>
                                         <span className="text-[10px] text-pink-400/80 font-mono font-semibold">Phase 6 (+18)</span>
                                     </div>
                                     <div className="text-[11px] text-gray-300 leading-snug">
-                                        Biological Cardiac Zero Point / Light Coherence.
+                                        Remembrance of the Future / Light Coherence (dh-k-r +1).
                                     </div>
                                     <div className="text-[10px] font-mono text-pink-400/80">
                                         — Eternal receipt: aḥyāʾ (2:154, 19:98). Balance: up↑ − down↓ = 0.

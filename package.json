@@ -28,7 +28,6 @@
     "@types/node": "^22.14.0",
     "@types/three": "^0.185.1",
     "@vitejs/plugin-react": "^5.0.0",
-    "puppeteer": "^25.2.1",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }
