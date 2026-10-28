@@ -4,7 +4,7 @@ import Markdown from 'react-markdown';
 import { SLICE_DATA, CHAPTER_DETAILS, MUQATTAT_LETTERS, MUQATTAT_CHAPTERS } from '../constants.ts';
 import { getChapterIcon, colorScale } from '../utils.ts';
 import { BAQARAH_DESCRIPTIONS } from '../data/baqarahDescriptions.ts';
-import { BAQARAH_DCU_COMMENTARY } from '../data/baqarahDCU.ts';
+import { BAQARAH_MATHANI_COMMENTARY } from '../data/baqarahDCU.ts';
 
 interface PieceOfBakaraProps {
   onVerseSelect: (surah: number, ayah: number) => void;
@@ -276,16 +276,16 @@ export const PieceOfBakara: React.FC<PieceOfBakaraProps> = ({ onVerseSelect, onB
             {/* HEIFER PIECE DESCRIPTION */}
             <div className="bg-amber-950/30 border border-amber-500/40 rounded-xl p-3.5 shadow-xl space-y-2 translate-y-1">
                 <div className="flex items-center justify-between px-1">
-                    <span className="text-[10px] font-black text-amber-300 uppercase tracking-[0.2em]">Piece Description</span>
+                    <span className="text-[10px] font-black text-amber-300 uppercase tracking-[0.2em]">∫₂⁷ Saban al-Mathani Commentary</span>
                     <span className="text-[10px] font-mono font-bold text-amber-500/60 uppercase italic">Summary Index: {bakaraSpineIndex}</span>
                 </div>
                 <div className="bg-black/60 rounded-lg p-4 border border-amber-500/20 shadow-inner min-h-[54px] flex flex-col justify-center">
                     <div className="text-[15px] font-bold text-amber-300 tracking-tight leading-snug mb-3 text-center border-b border-amber-500/20 pb-2">
                         {BAQARAH_DESCRIPTIONS[bakaraSpineIndex] || "N/A"}
                     </div>
-                    {BAQARAH_DCU_COMMENTARY[bakaraSpineIndex] && (
+                    {BAQARAH_MATHANI_COMMENTARY[bakaraSpineIndex] && (
                         <div className="markdown-body text-[13px] text-amber-100/90 leading-relaxed text-justify overflow-y-auto max-h-[300px] pr-2 custom-scrollbar">
-                            <Markdown>{BAQARAH_DCU_COMMENTARY[bakaraSpineIndex]}</Markdown>
+                            <Markdown>{BAQARAH_MATHANI_COMMENTARY[bakaraSpineIndex]}</Markdown>
                         </div>
                     )}
                 </div>

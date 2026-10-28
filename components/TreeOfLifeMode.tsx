@@ -361,9 +361,9 @@ const TreeOfLifeMode: React.FC<TreeOfLifeModeProps> = ({ rotation, onClose }) =>
         <div className="flex justify-between items-start shrink-0">
           <div className="space-y-1">
             <h2 className="text-xl md:text-2xl font-black text-white tracking-tighter uppercase italic leading-tight">
-              Tree of Life [1–12]:
+              Shajarah Mathani (14:24):
               <span className="block text-[10px] md:text-sm font-bold tracking-widest text-cyan-400 mt-1 not-italic">
-                Dual Bifurcation of 3ₙ (2 × 3 × 2 = 12)
+                ∫₂⁷ Generator: 2[D10] ↔ 3ₙ ↔ 2[I9] → √7 (7)
               </span>
             </h2>
             <div className="flex flex-wrap gap-1.5 mt-2">

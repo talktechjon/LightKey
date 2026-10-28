@@ -32,10 +32,10 @@ const InstructionPanel: React.FC<RecoveryLogProps> = ({ isVisible, onClose }) =>
         {/* Header */}
         <div className="flex flex-col p-6 md:p-10 bg-black/60 border-b border-cyan-500/20 relative shrink-0 z-20">
             <h2 className="text-xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-amber-200 to-pink-300 tracking-[0.2em] uppercase font-serif">
-              THE ETERNAL MEMORY TESSERACT
+              ∫₂⁷ SABAN AL MATHANI
             </h2>
-            <p className="text-xs md:text-sm text-cyan-500/80 font-mono tracking-widest mt-2 uppercase">
-              1 → 15:87 Sabʿan al-Mathānī ← 1 • The Hidden 8th Cell (36:9 ↔ 50:21)
+            <p className="text-xs md:text-sm text-cyan-400 font-mono tracking-widest mt-2 uppercase">
+              15:87 Fractal of Paired 7 • Kun 1 → 2[D10] ↔ 3ₙ ↔ 2[I9] → √7 (7) ← 1 [Fayakun] • F(7) − F(2) = 0
             </p>
         </div>
 

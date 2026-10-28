@@ -9,10 +9,10 @@ interface TreeOfVerseCenterProps {
 }
 
 const TREE_LABELS = [
-    'The Seed', 'The Rupture', 'The Search', 
-    'The Cleanse', 'The Trunk', 'The Branching', 
-    'The Flowering', 'The Ripening', 'The Harvest', 
-    'The Pressing', 'The Extraction', 'The Oil (Light)'
+    '1: Kun 1 [Primal Seed]', '2: D10 [Rupture / Split]', '3: Mass Debit [Loan ↓]', 
+    '4: 3ₙ Life Beat [House]', '5: 3ₙ Trunk [Nafs]', '6: 3ₙ Branching [Alternation]', 
+    '7: 19:12 Grip [The Fork]', '8: I9 Memory Supply [+1]', '9: Credit [Loan Paid ↑]', 
+    '10: 39:23 Mathānī [Pairs]', '11: √7 (7) Pure Mass–Info', '12: Fayakun 1 [Oil / Light]'
 ];
 
 const NODE_COLORS = [

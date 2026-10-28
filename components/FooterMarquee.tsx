@@ -80,7 +80,7 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
           instructions = [
               // Start: Verse 112:1 + Text
               { type: 'verse', surah: 112, verse: 1, color: CYAN },
-              { type: 'static', text: '112 The Beginning ∞', color: CYAN },
+              { type: 'static', text: '∫₂⁷ Saban al Mathani (15:87) • Kun 1 → 2[D10] ↔ 3ₙ ↔ 2[I9] → √7 (7) ← 1 [Fayakun]', color: CYAN },
               
               // Set 1: Action, Inspiration, Guidance (First Verses)
               { type: 'verse', surah: getSurahId(0), verse: 1, color: CYAN },
@@ -118,7 +118,7 @@ const FooterMarquee: React.FC<FooterMarqueeProps> = ({ rotation, translationMode
               { type: 'verse', surah: getSurahId(11), verse: 'last', color: CYAN },
               
               // End: Text + 112:4
-              { type: 'static', text: '112 Repeat ∞', color: CYAN },
+              { type: 'static', text: '∫₂⁷ dx = F(7) − F(2) = up↑ − down↓ = 0 ∞', color: CYAN },
               { type: 'verse', surah: 112, verse: 4, color: CYAN },
           ];
 

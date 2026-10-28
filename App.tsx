@@ -41,7 +41,7 @@ const App: React.FC = () => {
   const [playYoutubeInternally, setPlayYoutubeInternally] = useState(false);
   const [translationMode, setTranslationMode] = useState<TranslationMode>('local');
   const [localTranslationData, setLocalTranslationData] = useState<LocalTranslationData>(defaultTranslation);
-  const [localFileName, setLocalFileName] = useState<string | null>("Default Translation");
+  const [localFileName, setLocalFileName] = useState<string | null>("∫₂⁷ Saban al Mathani (Default Invariant)");
   const [isInstructionVisible, setIsInstructionVisible] = useState(false); 
   const [isIdleAnimationEnabled, setIsIdleAnimationEnabled] = useState(false);
   const [bakaraSpineIndex, setBakaraSpineIndex] = useState(1);

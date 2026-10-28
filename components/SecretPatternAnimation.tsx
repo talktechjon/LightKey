@@ -1119,17 +1119,17 @@ export const SephirotAlignment: React.FC<SephirotAlignmentProps> = ({
                     </div>
                 </div>
 
-                {/* DCU Equations */}
+                {/* Saban al Mathani (∫₂⁷) Equations */}
                 <div className="p-5 bg-gradient-to-b from-[#030406] to-[#04060a] border border-[#cbd5e1]/10 rounded-xl space-y-4">
                     <h4 className="text-xs font-black text-[#cbd5e1] tracking-wider uppercase border-b border-zinc-850 pb-2">
-                        Sabʿan al-Mathānī Formulations (15:87)
+                        ∫₂⁷ Sab'an al-Mathānī Formulations (15:87)
                     </h4>
                     
                     <div className="space-y-4">
                         <div className="p-4 bg-emerald-950/5 border border-emerald-500/20 rounded-lg space-y-2.5">
                             <span className="text-[10px] uppercase font-black text-emerald-400 tracking-widest block font-serif">م س د [Masad]</span>
                             <div className="p-2.5 bg-black/60 rounded border border-zinc-900 font-mono text-[9px] tracking-tight text-emerald-300 whitespace-nowrap overflow-x-auto no-scrollbar">
-                                1[Source] → 2[D10: n/2 Mass Split] ↔ 3[T3: 3ₙ Trial] ↔ 2[I9: +1 Memory Return] → 7[Fruit Manifested] ← 1[Sink]
+                                Kun 1 → 2[D10: n/2 Mass Split] ↔ 3[3ₙ: Dual Memory Breathing] ↔ 2[I9: +1 Memory Return] → √7 (7)[Pure Mass–Information] ← 1 [Fayakun]
                             </div>
                             <span className="text-[10.5px] italic text-zinc-400 block pr-2 border-r-2 border-emerald-500/50 pl-1">
                                 The fiber grips. The fiber crosses. The fiber earns.

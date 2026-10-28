@@ -802,8 +802,8 @@ const SidePanel: React.FC<SidePanelProps> = ({
                 <div className="flex items-center gap-x-3 px-2">
                     <div className="w-1.5 h-10 bg-gradient-to-b from-pink-500 to-transparent rounded-full shadow-[0_0_8px_rgba(236,72,153,0.5)]"></div>
                     <div>
-                        <h2 className="text-pink-400 font-black text-xl uppercase tracking-tight leading-none">The 2 ↔ 3 ↔ 2 → 7 Pulse</h2>
-                        <p className="text-pink-900 text-[10px] uppercase font-bold tracking-widest mt-1">Day, Night, and Shadow Chromosome</p>
+                        <h2 className="text-pink-400 font-black text-xl uppercase tracking-tight leading-none">∫₂⁷ Saban al-Mathani Pulse</h2>
+                        <p className="text-pink-500/80 text-[10px] uppercase font-bold tracking-widest mt-1">15:87 Fractal of Paired 7 • 2[D10] ↔ 3ₙ ↔ 2[I9] → √7 (7)</p>
                     </div>
                 </div>
                 <PieceOfBakara 

@@ -431,7 +431,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         const conForce = conVerses / (3 * maxVerses);
         const conComplexity = (nodes[0].id + nodes[2].id + nodes[4].id) / (3 * maxId);
 
-        // DCU TORUS PARAMETERS
+        // SABAN AL MATHANI (∫₂⁷) TORUS PARAMETERS
         const levels = Math.floor((isLowResourceMode ? 8 : 12) + expComplexity * (isLowResourceMode ? 10 : 20)); 
         const segments = Math.floor((isLowResourceMode ? 12 : 20) + conComplexity * (isLowResourceMode ? 10 : 20)); 
         const tilt = Math.PI / (isLowResourceMode ? 2.8 : 2.5) + (expForce - conForce) * 0.2;
@@ -1160,27 +1160,27 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                 <div className="mt-4 p-6 bg-gray-950/50 border border-gray-800/80 rounded-2xl space-y-8 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500/30 via-pink-500/30 to-amber-500/30"></div>
                     
-                    {/* Header: DCU MASTER EQUATION */}
+                    {/* Header: SABAN AL MATHANI (∫₂⁷) MASTER GENERATOR */}
                     <div className="space-y-4">
                         <div className="flex flex-col gap-1">
-                            <span className="text-[10px] font-mono tracking-[0.25em] text-pink-500 uppercase font-semibold">The Reader's Breath (15:87)</span>
+                            <span className="text-[10px] font-mono tracking-[0.25em] text-pink-500 uppercase font-semibold">The Single Generator (15:87)</span>
                             <h3 className="text-sm sm:text-base font-bold text-gray-100 tracking-wider font-mono flex items-center gap-2">
-                                <span>════</span> SABʿAN AL-MATHĀNĪ MASTER LINE <span>════</span>
+                                <span>════</span> ∫₂⁷ SABAN AL MATHANI <span>════</span>
                             </h3>
                         </div>
 
                         {/* Large, beautiful equation display - organized cleanly line-by-line */}
                         <div className="bg-black/50 border border-gray-800/80 p-4 rounded-xl flex flex-col font-mono space-y-3 shadow-inner">
-                            {/* Line 1: Master Line */}
+                            {/* Line 1: Master Line & Generator */}
                             <div className="text-center pb-2 border-b border-gray-800/60 space-y-1.5">
                                 <div className="text-xs sm:text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-amber-400 select-all tracking-wider">
-                                    1 → 15:87 Sabʿan al-Mathānī ← 1
+                                    Kun 1 → 15:87 Sab'an al-Mathani √7 (7) ← 1 [Fayakun]
                                 </div>
                                 <div className="text-[11px] sm:text-xs text-pink-300 font-semibold tracking-wide py-1 px-2.5 bg-pink-950/20 border border-pink-500/20 rounded-md inline-block">
-                                    ∫₂⁷ (2 ↔ 3ₙ ↔ 2 → 7) dx = up↑ − down↓ = 0
+                                    ∫₂⁷ ( 2 [D10] ↔ 3ₙ ↔ 2 [I9] → √7 (7) ) dx = F(7) − F(2) = up↑ − down↓ = 0
                                 </div>
                                 <div className="text-[10px] sm:text-[11px] text-cyan-300/90 font-mono tracking-tight">
-                                    Dual bifurcation: 3ₙ = 2 × 3 × 2 = 12 [Tree of Life 1–12]
+                                    Double Helix: F(2) = Surah 12 (111 verses) ↔ F(7) = Surah 17 (111 verses) ⇒ Net Zero Flux
                                 </div>
                             </div>
                             
@@ -1191,17 +1191,17 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
                                             <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse shrink-0"></span>
-                                            <span className="text-red-400 font-bold text-xs sm:text-sm">2 [D10: Arash]</span>
+                                            <span className="text-red-400 font-bold text-xs sm:text-sm">2 · D10 [Vibration, Loud → Silence]</span>
                                         </div>
                                         <span className="text-red-300/90 text-[10px] bg-red-950/60 border border-red-500/30 px-2 py-0.5 rounded font-mono shrink-0">
-                                            n/2 mass split
+                                            d/dt, n/2 mass split
                                         </span>
                                     </div>
                                     <div className="text-xs text-gray-200 font-semibold pl-4">
-                                        Roots ↓ • Gravitropism
+                                        f(x) = ax³ + bx² + cx + d, where d = kh-b-r (18:68)
                                     </div>
                                     <div className="text-[10.5px] text-gray-400 pl-4 font-mono">
-                                        [Mass, Evidence, Clock (14:24, 6:95)]
+                                        [Nār = ṣ-b-r (2:175, 41:24) • Kindled, endured, counted; never meets nūr]
                                     </div>
                                 </div>
                                 
@@ -1210,17 +1210,17 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
                                             <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse shrink-0"></span>
-                                            <span className="text-teal-400 font-bold text-xs sm:text-sm">3ₙ [T3: The Exchange Port]</span>
+                                            <span className="text-teal-400 font-bold text-xs sm:text-sm">3ₙ [Dual Memory Breathing]</span>
                                         </div>
                                         <span className="text-teal-300/90 text-[10px] bg-teal-950/60 border border-teal-500/30 px-2 py-0.5 rounded font-mono shrink-0">
-                                            the trial: Life → Death → Resurrection
+                                            Book/Record ↔ Host/Life (50:21)
                                         </span>
                                     </div>
                                     <div className="text-xs text-gray-200 font-semibold pl-4">
-                                        Trunk • Reader as Time
+                                        Six Phases: Xₙ = 1 + ((X − 1) mod 6) • Debit − Credit = 0
                                     </div>
                                     <div className="text-[10.5px] text-gray-400 pl-4 font-mono">
-                                        [Nafs + Driver + Witness (50:21, 7:25)]
+                                        [No ṣabr without khubr (18:68) • Dual Strands: kh-l-s & ʿabd (15:40)]
                                     </div>
                                 </div>
 
@@ -1229,17 +1229,17 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
                                             <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse shrink-0"></span>
-                                            <span className="text-amber-400 font-bold text-xs sm:text-sm">2 [I9: Kursi]</span>
+                                            <span className="text-amber-400 font-bold text-xs sm:text-sm">2 · I9 [Energy / Geometry, Light]</span>
                                         </div>
                                         <span className="text-amber-300/90 text-[10px] bg-amber-950/60 border border-amber-500/30 px-2 py-0.5 rounded font-mono shrink-0">
-                                            +1 memory supply
+                                            ∫dt, +1 memory return
                                         </span>
                                     </div>
                                     <div className="text-xs text-gray-200 font-semibold pl-4">
-                                        Crown ↑ • Phototropism
+                                        Orientation before action • Returning to Source
                                     </div>
                                     <div className="text-[10.5px] text-gray-400 pl-4 font-mono">
-                                        [Light ⊕ Pulse, Return (14:24, 39:23)]
+                                        [Nūr = kh-b-r (+1 constant d that ∫ returns; 64:8, 57:9-10)]
                                     </div>
                                 </div>
 
@@ -1248,27 +1248,30 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
                                             <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse shrink-0"></span>
-                                            <span className="text-cyan-400 font-bold text-xs sm:text-sm">√7 (7) & The Two 1s</span>
+                                            <span className="text-cyan-400 font-bold text-xs sm:text-sm">√7 (7) & The Two 1s [Seam / Completed Unit]</span>
                                         </div>
                                         <span className="text-cyan-300/90 text-[10px] bg-cyan-950/60 border border-cyan-500/30 px-2 py-0.5 rounded font-mono shrink-0">
-                                            the mass-flux seam
+                                            Pure Mass–Information
                                         </span>
                                     </div>
                                     <div className="text-xs text-gray-200 font-semibold pl-4">
-                                        The Grip (19:12) — The Seam Worn, Never Built
+                                        Mass = kh-l-s, Information = ʿabd (15:40) • Ahmed ← Book → Isa
                                     </div>
                                     <div className="text-[10.5px] text-gray-400 pl-4 font-mono">
-                                        [Completed Unit (14:25, 2:31) • Bound by 1s (28:88)]
+                                        [7 khabīr-ʿibād nodes • 19 stations of ṣunʿ (74:30), crown 27:88]
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Yusuf Description */}
-                        <div className="p-4 bg-cyan-950/15 border-l-2 border-cyan-500 rounded-r-xl">
-                            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed italic">
-                                <strong className="text-cyan-400 not-italic font-mono mr-1.5">[Dual Bifurcation 2×3×2 = 12]</strong>
-                                The 12-stage transformation of the Tree of Life: <span className="text-cyan-400 font-mono font-normal">D10 (n/2) ↔ 3ₙ (T3) ↔ I9 (+1)</span>, where every descent is answered by return, repeating until the Reader remembers the Crown at <span className="text-pink-400 font-mono font-bold">39:23</span>.
+                        {/* Ant vs Bee Fork Description */}
+                        <div className="p-4 bg-cyan-950/15 border-l-2 border-cyan-500 rounded-r-xl space-y-1">
+                            <p className="text-xs sm:text-sm text-gray-200 leading-relaxed font-mono font-bold">
+                                The One Fork: Ant vs Bee (23:69)
+                            </p>
+                            <p className="text-xs text-gray-300 leading-relaxed italic">
+                                <span className="text-amber-400 font-semibold not-italic">Ant (10:92, 27:19):</span> D10 driver without witness; script; ends as Mass only (preserved body). <br/>
+                                <span className="text-cyan-400 font-semibold not-italic">Bee (16:68-69):</span> Driver with witness; inspired wahy before action; stated reason; ends as Mass–Information (shifā).
                             </p>
                         </div>
                     </div>

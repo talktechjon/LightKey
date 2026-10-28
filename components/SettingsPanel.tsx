@@ -165,7 +165,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isVisible, setIsVisible, 
   return (
     <div className="w-80 bg-black/50 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-2xl flex flex-col mt-2 pointer-events-auto">
       <div className="flex justify-between items-center p-3 border-b border-cyan-500/20">
-        <h3 className="font-semibold text-cyan-300">Translation Settings</h3>
+        <h3 className="font-semibold text-cyan-300">∫₂⁷ Saban al Mathani Settings</h3>
         <button onClick={() => setIsVisible(false)} className="text-gray-400 hover:text-white" aria-label="Close Settings">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
         </button>

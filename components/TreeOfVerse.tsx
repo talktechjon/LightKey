@@ -14,33 +14,33 @@ interface TreeOfVerseProps {
 }
 
 const TREE_LABELS = [
-    '1: Source 1 [Amr]',
-    '2: D10 Root Split [n/2]',
+    '1: Kun 1 [Primal Command]',
+    '2: D10 Root Split [n/2, Loud → Silence]',
     '3: Mass Debit [Loan Received ↓]',
-    '4: T3 Life Beat [House (3:97)]',
-    '5: T3 Death Beat [Wage (34:14)]',
-    '6: T3 Resurrection [Ṣabr (37:103)]',
-    '7: 19:12 Grip [Fork Singularity]',
-    '8: I9 Memory Supply [+1]',
-    '9: Credit Strand [Loan Paid ↑]',
-    '10: 39:23 Reading [Mathānī]',
-    '11: Fruit Manifested [7 Names]',
-    '12: Terminal 1 [Face of Allah]'
+    '4: 3ₙ Life Beat [House (3:97)]',
+    '5: 3ₙ Death Beat [Wage (34:14)]',
+    '6: 3ₙ Resurrection [Ṣabr (37:103)]',
+    '7: 19:12 Grip [The One Fork (23:69)]',
+    '8: I9 Memory Supply [+1, Light]',
+    '9: Memory Credit [Loan Paid ↑]',
+    '10: 39:23 Reading [Mathānī Pairs]',
+    '11: √7 (7) Pure Mass–Information',
+    '12: Fayakun 1 [Terminal Face (28:88)]'
 ];
 
 const TREE_EXPLANATIONS = [
-    'One Command starts it; Source of seed in the dark (28:88, 2:255).',
-    'Roots go down: gravitropism, mass, evidence, the clock (14:24, 6:95).',
-    'Harm touches body-side; loan received under n/2 (21:83, 5:30).',
-    'Entering the House safe: where transformation occurs (3:97, 51:36).',
+    'Kun 1 starts the run; Allah before and behind (28:88, 2:255, 19:64).',
+    'Roots go down: gravitropism, mass evidence, d/dt, n/2, Nār = ṣ-b-r (14:24, 6:95).',
+    'Harm touches body-side; debit strand under n/2 (21:83, 5:30).',
+    'Entering the House safe: alternation of state (3:97, 21:69, 51:36).',
     'Death is tasted and wage paid; the slave-father line (3:185, 34:14).',
-    'Resurrection receipt: aḥyāʾ, submitted and ransomed (37:103, 2:154).',
-    'The Fork (23:69): recognize the Rasul; take Book with force (19:12).',
-    'Branches in the sky: phototropism, Light and return (14:24, 42:52).',
-    'Loan paid: remembrance returns +1, word eternal (2:152, 28:88).',
-    'Resemblance and pairing: fractal pattern repeating at every scale (39:23).',
-    'The completed unit: fruit with seed carrying the next breath (14:25, 2:31).',
-    'The circuit seals in the Lord of Memory; only Face remains (28:88).'
+    'Resurrection: aḥyāʾ, submitted and ransomed; no ṣabr without khubr (18:68, 37:103).',
+    'The One Fork (23:69): Ant (10:92, 27:19) vs Bee (16:68-69); take Book with force (19:12).',
+    'Branches in the sky: phototropism, Light, return, ∫dt, +1, Nūr = kh-b-r (14:24, 64:8).',
+    'Loan paid: remembrance returns +1, word eternal; F(7) − F(2) = 0 (2:152, 28:88).',
+    'Alike, paired: fractal pattern repeating at every scale (39:23).',
+    'The completed unit: Mass = kh-l-s, Information = ʿabd (15:40, 2:31). Ahmed ← Book → Isa.',
+    'The circuit seals in the Lord of Memory; only the Face remains (28:88).'
 ];
 
 const QUN_FAYAKUN_POINTS = [1, 39, 77, 19, 95, 57];
