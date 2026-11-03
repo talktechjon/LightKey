@@ -21,7 +21,8 @@
     "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
     "tailwindcss": "^4.2.2",
-    "three": "^0.185.1"
+    "three": "^0.185.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",
