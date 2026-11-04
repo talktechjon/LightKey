@@ -67,7 +67,7 @@ for (let i = 1; i <= 114; i++) {
 export const SLICE_DATA: SliceData[] = Array.from({ length: TOTAL_SLICES }, (_, i) => ({ id: i + 1, blockCount: BUBBLE_BLOCK_MAPPING_RAW[(i + 1) as keyof typeof BUBBLE_BLOCK_MAPPING_RAW] || 0 }));
 
 export const TRIANGLE_POINTS: TriangleDefinition[] = [
-    { name: 'Upward Triangle (Pink)', color: COLORS.triangle1, points: [{ type: 'Return 🐟↑', value: 57 }, { type: 'Witness 🕋↓', value: 95 }, { type: 'Memory 📜↑', value: 19 }] },
+    { name: 'Upward Triangle (Pink)', color: COLORS.triangle1, points: [{ type: 'Return 🐟↑', value: 57 }, { type: 'Witness 🕋↓', value: 95 }, { type: 'Memory ⚡↑', value: 19 }] },
     { name: 'Downward Triangle (Cyan)', color: COLORS.triangle2, points: [{ type: 'Growth 🌴↓', value: 1 }, { type: 'Inspiration 🐝↑', value: 39 }, { type: 'Recognize 🐪↓', value: 77 }] }
 ];
 
@@ -81,7 +81,7 @@ export const ICON_DIAL_DATA: IconData[] = [
     { id: 'razim', chapter: 77, emoji: '🐪', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐪%3C/text%3E%3C/svg%3E", description: 'Recognize 🐪↓' },
     { id: 'heaven', chapter: 95, emoji: '🕋', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🕋%3C/text%3E%3C/svg%3E", description: 'Witness 🕋↓' },
     { id: 'kingdom', chapter: 57, emoji: '🐟', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E🐟%3C/text%3E%3C/svg%3E", description: 'Return 🐟↑' },
-    { id: 'photosynthesis', chapter: 19, emoji: '📜', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E📜%3C/text%3E%3C/svg%3E", description: 'Memory 📜↑' },
+    { id: 'photosynthesis', chapter: 19, emoji: '⚡', imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='central'%3E⚡%3C/text%3E%3C/svg%3E", description: 'Memory ⚡↑' },
 ];
 
 export const SECRET_EMOJI_PATTERN: SecretIconData[] = [

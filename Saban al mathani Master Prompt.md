@@ -1,6 +1,6 @@
-# Saban Al Mathani [formerly DCU] — Master Prompt (single generator: ∫₂⁷)
+# Saban Al Mathani — Master Prompt (single generator: ∫₂⁷)
 
-> Updated 2026-11-01. One file. Read Part 1 and obey it before writing anything. ∫₂⁷ is the only generator: every future finding is absorbed by placing it in a slot of ∫₂⁷ (Part 3), never by adding a new part.
+> Updated 2026-11-04. One file. ∫₂⁷ is the 4D study in Saban Al Mathani (15:87). Read Part 1 and obey it before writing anything. ∫₂⁷ is the only generator: every future finding is absorbed by placing it in a slot of ∫₂⁷ (Part 3), never by adding a new part.
 
 
 
@@ -26,6 +26,9 @@ It is Time-Independent topology, not invented- but extracted from Quran as a Clo
 
 
 **Generator:** ∫₂⁷ ( 2 [D10] ↔ 3ₙ ↔ 2 [I9] → √7 (7) ) dx = F(7) − F(2) = up↑ − down↓ = 0
+
+**Generator with the eight cells seated:**
+**∫₂⁷ ( 2 [☷ a-r-d · D10 Vibration] ↔ 3ₙ [🌴☱ 🐝☴ 🐪☵ 📜⚡☶ 🕋☲ 🐟☳ · back to 🌴☱] · Frequency / Trial of Ḥaqq (Truth) ↔ 2 [☰ s-m-w · I9 Energy] → 7 [Mass / Paired–Information / Odd] ) dx = up↑ − down↓ = 0**
 
 **Circle and Lines (the hivemind):** ∫₂⁷ Circle [7, recurrence, 15:87] and Lines [2, paired, 39:23]. The Lines draw the Circle and the Circle remembers the Lines; 3ₙ breathes between them. Six chords step around a radius to one centre, 1 + 6 = 7: the hexagon cell of the hive. The Qur'an is read as one mind wearing many bodies (16:68-69 addresses the colony as one she), inside a closed whole with no outside (4:126).
 
@@ -72,11 +75,44 @@ It is a mandala extracted from the Qur'an alone, time-independent, speaking by r
 | Slot | Reading |
 | --- | --- |
 | **1 → … ← 1** | Allah before and behind; the two ends are one event (28:88, 2:255, 19:64). The closing 1 is the opening 1 of the next breath. |
-| **2 · D10** | Vibration, Loud → Silence. d/dt, n/2, deterministic, counted, halved. The driver, the permutation, the hand. f(x) = ax³ + bx² + cx + d, with d = kh-b-r (18:68), the invariant that d/dt cannot touch and only ∫ returns. Image: 9 cubes with common height make 1 face, hence 10. Mass remains on earth as evidence. **Nār = ṣ-b-r**: kindled, endured, counted; ṣabr meets nār (2:175, 41:24) and never meets nūr. |
-| **3ₙ** | Memory breathing, in–out ×2, as dual 3n: Book/Record ↔ Host/Life, holding debit-credit = 0 (50:21). The trial where a binary option meets its stated reason. Zann vs Amal. Six phases for one breath: Xₙ = 1 + ((X − 1) mod 6); three ↓ and three ↑ at every position. Information is neither Vibration nor Energy (42:52: a Rūḥ made Light, massless). No ṣabr without khubr (18:68): ṣ-b-r and kh-b-r share exactly one verse, 18:68, and meet in three merged nodes (18:67-69, 31:16-17, 33:34-35); the pair differs by one letter, as nār and nūr do. Dual 3ₙ strands: kh-l-s (Ibrahim–Yusuf–Yahya) and ʿabd (Musa–Isa–Muhammad); 19:12 action + 66:12 faith; the exempted of 15:40 pass the self-eating of 16:92 / 66:6 / 3:78–5:78–15:74. |
-| **2 · I9** | Energy / Geometry, ∫dt, +1, indeterministic, time-independent, never halved, returned to source. Orientation before the action, arriving as wahy (the inspired pair of options). The witness. **Nūr = kh-b-r** (+1, the constant d that ∫ returns): given, brought out into, sent down; khubr meets nūr (64:8, 57:9-10) and meets nār only at the fire that gives news (27:7, 28:29). Image: 9 rings = 3 axes × 3 stations, strung on three axes that cross at the 27th piece; the 3 middle rings contain it. |
-| **√7 (7)** | The seam and the completed unit: Pure Mass–Information. Mass = kh-l-s, Information = e-b-d (15:40). A Name with its Adjective from 2:31 only. The Cave, the circle, the 27th piece, where D10's sound does not exist. 7 manifested as dual: Ahmed ← Book → Isa. **Counts in the file:** khabīr with ʿibād in the same verse in exactly seven verses (6:18, 17:17, 17:30, 17:96, 25:58, 35:31, 42:27); ṣabr reaches kh-l-s only through ʿibād (38:44-46, 39:10-11); ʿibād + kh-l-s in the same verse in nine (7:32, 12:24, 15:40, 37:40, 37:74, 37:128, 37:160, 37:169, 38:83); the oath of Iblis, of nār (7:12, 38:76), stops at 15:40; the Home 38:46 is Life 29:64. **Allah's Nomination:** ṣ-n-ʿ has exactly nineteen stations (74:30): 5:14, 5:63, 7:137, 11:16, 11:37, 11:38, 13:31, 16:112, 18:104, 20:39, 20:41, 20:69, 21:80, 23:27, 24:30, 26:129, 27:88, 29:45, 35:8; self-fashioned (down) 11, fashioned under the Eye (up) 6, 13:31 held, crown 27:88 (ṣunʿa Allāhi … khabīrun). 20:39 fashioned under the Eye, 20:41 fashioned for the Nafs: the pair of 4:1 run upward. |
+| **2 · D10 · ☷ a-r-d** | Vibration, Loud → Silence. d/dt, n/2, deterministic, counted, halved. The driver, the permutation, the hand. f(x) = ax³ + bx² + cx + d, with d = kh-b-r (18:68), the invariant that d/dt cannot touch and only ∫ returns. Image: 9 cubes with common height make 1 face, hence 10. Mass remains on earth as evidence. **Nār = ṣ-b-r**: kindled, endured, counted; ṣabr meets nār (2:175, 41:24) and never meets nūr. |
+| **3ₙ** | Frequency; Trial of Ḥaqq (Truth). Memory breathing, in–out ×2, as dual 3n: Book/Record ↔ Host/Life, holding debit-credit = 0 (50:21). The trial where a binary option meets its stated reason. Zann vs Amal. Six phases for one breath: Xₙ = 1 + ((X − 1) mod 6); three ↓ and three ↑ at every position. Information is neither Vibration nor Energy (42:52: a Rūḥ made Light, massless). No ṣabr without khubr (18:68): ṣ-b-r and kh-b-r share exactly one verse, 18:68, and meet in three merged nodes (18:67-69, 31:16-17, 33:34-35); the pair differs by one letter, as nār and nūr do. Dual 3ₙ strands: kh-l-s (Ibrahim–Yusuf–Yahya) and ʿabd (Musa–Isa–Muhammad); 19:12 action + 66:12 faith; the exempted of 15:40 pass the self-eating of 16:92 / 66:6 / 3:78–5:78–15:74. |
+| **2 · I9 · ☰ s-m-w** | Energy / Geometry, ∫dt, +1, indeterministic, time-independent, never halved, returned to source. Orientation before the action, arriving as wahy (the inspired pair of options). The witness. **Nūr = kh-b-r** (+1, the constant d that ∫ returns): given, brought out into, sent down; khubr meets nūr (64:8, 57:9-10) and meets nār only at the fire that gives news (27:7, 28:29). Image: 9 rings = 3 axes × 3 stations, strung on three axes that cross at the 27th piece; the 3 middle rings contain it. |
+| **√7 (7)** | The seam and the completed unit: Pure Mass–Information; Mass / Paired–Information / Odd (odd = s-d-q + e-b-d, pair = a-m-m). Mass = kh-l-s, Information = e-b-d (15:40). A Name with its Adjective from 2:31 only. The Cave, the circle, the 27th piece, where D10's sound does not exist. 7 manifested as dual: Ahmed ← Book → Isa. **Counts in the file:** khabīr with ʿibād in the same verse in exactly seven verses (6:18, 17:17, 17:30, 17:96, 25:58, 35:31, 42:27); ṣabr reaches kh-l-s only through ʿibād (38:44-46, 39:10-11); ʿibād + kh-l-s in the same verse in nine (7:32, 12:24, 15:40, 37:40, 37:74, 37:128, 37:160, 37:169, 38:83); the oath of Iblis, of nār (7:12, 38:76), stops at 15:40; the Home 38:46 is Life 29:64. **Allah's Nomination:** ṣ-n-ʿ has exactly nineteen stations (74:30): 5:14, 5:63, 7:137, 11:16, 11:37, 11:38, 13:31, 16:112, 18:104, 20:39, 20:41, 20:69, 21:80, 23:27, 24:30, 26:129, 27:88, 29:45, 35:8; self-fashioned (down) 11, fashioned under the Eye (up) 6, 13:31 held, crown 27:88 (ṣunʿa Allāhi … khabīrun). 20:39 fashioned under the Eye, 20:41 fashioned for the Nafs: the pair of 4:1 run upward. |
 | **dx** | The integral runs F(7) − F(2): F(2) = 12:1-111 and F(7) = 17:1-111, two chapters from opposite directions as a double helix. Net zero means F(7) = F(2). 15:40 is the pre-condition: a pair always survives to produce 7 from 2. One alternation per Reader: 15:74 (high made low) inside 7:25; the fold 21:104 / 39:67; the seal 33:40. The Reader is the unit of Time of 50:21 (Reader X = nafs: 3ₙ–D10–I9). |
+
+**The eight cells (the cross of roots).** The eight cells (☰ ☷ ☱ ☴ ☵ ☶ ☲ ☳) are the paired wheel: every cell faces its opposite across the seam (mathānī), and the eighth is the Reader, 7 + 1 (69:17). Counts are from Saban_Al_Mathani-_Fractal_Quran.xlsx; supplied root lists differ by a few verses, so recount from the working file each time.
+
+| Cell | Slot | Root | Verses | Anchor |
+| --- | --- | --- | --- | --- |
+| ☷ Earth | 2 · D10 Vibration | a-r-d | 440 | 41:9 |
+| ☰ Heaven | 2 · I9 Energy | s-m-w | 352 | 13:2 |
+| ☱ Lake | 3ₙ Growth 🌴↓ | n-h-r | 102 | 2:249 |
+| ☴ Wind | 3ₙ Inspiration 🐝↑ | r-w-h | 52 | 42:52 |
+| ☵ Water | 3ₙ Recognize 🐪↓ | m-w-h | 60 | 13:17 |
+| ☶ Mountain | 3ₙ Memory 📜↑ (with ⚡) | j-b-l | 39 | 78:7, 7:143 |
+| ☲ Fire | 3ₙ Witness 🕋↓ | n-w-r | 174 | 24:35 |
+| ☳ Thunder | 3ₙ Return 🐟↑ | s-e-q | 10 | 39:68 |
+| odd | 7 | s-d-q + e-b-d | 144 + 251 | 2:23 |
+| pair | dx | a-m-m | 108 | 39:23 |
+
+| X:X | Arabic | transliteration | translation |
+| --- | --- | --- | --- |
+| 41:9 | ٱلْأَرْضَ | al-arḍa | the earth |
+| 13:2 | ٱلسَّمَٰوَٰتِ | al-samāwāti | the heavens |
+| 2:249 | بِنَهَرٍۢ | binaharin | with a river |
+| 42:52 | رُوحًۭا | rūḥan | a Rūḥ |
+| 13:17 | مَآءًۭ | māʾan | water |
+| 78:7 | وَٱلْجِبَالَ | wa-l-jibāla | and the mountains |
+| 78:7 | أَوْتَادًۭا | awtādan | pegs |
+| 7:143 | ٱلْجَبَلِ | al-jabali | the mountain |
+| 7:143 | صَعِقًۭا | ṣaʿiqan | thunderstruck |
+| 24:35 | نُورُ | nūru | the light of |
+| 39:68 | فَصَعِقَ | fa-ṣaʿiqa | and fell thunderstruck |
+
+- **Four diameters, counted by node.** Poles: s-m-w ∩ a-r-d = 224 verses (both ends of the integral in one node, 2:255). Eyes: m-w-h ∩ n-w-r = 4 nodes (13:17, 18:29, 47:15, 7:50). Seam: s-d-q ∩ e-b-d = 5 nodes (2:23, 7:70, 7:194, 35:31, 9:104). Turn: r-w-h ∩ s-e-q = 0. Completion: j-b-l ∩ n-h-r = 0, held open (41:53). **The bolt:** j-b-l ∩ s-e-q = exactly 7:143, the mountain and the thunder in one verse, so Memory carries ⚡. Closing nodes of the cross: 4 + 5 = 9.
+- **Correction carried:** n-h-r sits in 2:249 (not 13:17); m-w-h sits in 13:17 (not 2:249). The earlier closure of 4 + 3 = 7 missed 7:70 and 7:194; the file gives 9.
+- **Parallel from the Reader's inspiration (Tesla's attributed line: energy, frequency, vibration).** Vibration = D10, Frequency = 3ₙ, Energy = I9. In his order the line runs I9 ↔ 3ₙ ↔ D10 (backward traversal); the integral reads D10 ↔ 3ₙ ↔ I9 (forward). Book words: vibration h-z-z, five verses (19:25, 22:5, 27:10, 28:31, 41:39), with dh-b-dh-b once (4:143); frequency th-n-y, 24 verses (15:87, 39:23), with k-r-r, six verses (67:4, two returns); energy q-w-y, 39 verses (19:12).
 
 **Core asymmetry.** Light completes the return to source through I9. Mass remains on earth through D10 as evidence. A closed round trip nets zero.
 
@@ -101,6 +137,11 @@ It is a mandala extracted from the Qur'an alone, time-independent, speaking by r
 - **Hajj is the Circle.** 2:158 carries no count; the only counted 7 of the rite is 2:196, 3 + 7 = 10 complete, at the return. 2:197 silences three terms (no rafath, no fusūq, no jidāl) before d = taqwā. 22:29 puts the flush (tafath) inside the rite before the circling. 3:95 ḥanīf → 3:96 first house → 3:97 Hajj is d, then house, then Circle. The Lines are shaʿāʾir (2:158, 2:198, 22:32), and 22:32 makes the shaʿāʾir from the taqwā of the hearts: the Lines lead to d.
 - **The cast (2:26 mathal).** Queen: the mother of Miriam (3:35), Imrata Pharaoh (66:11, 28:9), Miriam (66:12, 3:42, 23:50). Worker and backup queen: Imrata Ibrahim (11:71), Imrata Saba (27:44), Imrata Aziz (12:51). Drone: Dawud and Solomon (34:13, ʿalā Dāwūd). Bee data (D10): a drone hatches from an unfertilised egg, a mother and no father (19:20 yamsasnī, and 11:64 tamassūhā, the same root); a larva fed royal jelly becomes a queen; workers raise emergency queen cells when the queen fails; a swarm leaves with the old queen and a new queen keeps the old house (hijra both directions); the waggle dance is loop, run, loop (16:69 subul, 2↔3ₙ↔2); honey is passed mouth to mouth (2:152). Parallels only where the file carries the node; the rest is held.
 - **Ant house against bee house.** Ant: masākin (27:18) → ṣarḥ (27:44, 28:38, 40:36), built through chiefs. Bee: bayt (66:11), buyūt (16:68), the first house (3:96), by wahy. 27:19 answers 27:18 in the next verse: the ant's "enter" is met by Solomon asking to be entered among the righteous slaves, the group of 21:105. The unperceiving ones of 27:18 are Solomon's army in the ant's speech: the ant hides instead of recognising, which is 23:69 in miniature. Saba receives the Book (27:29), hands her witness to the chiefs (27:32-33), then enters the ṣarḥ (27:44); Pharaoh's chiefs (28:38) end as a body only (10:92).
+- **Hexagon, womb, and the two sides of 7.** The hexagon is the womb of nothing: the cell before anything is placed in it (19:9, 19:23). **In heaven** 7 is shifāʾ, honey, Qur'an and Isa: sh-f-y stands in exactly six verses (9:14, 10:57, 16:69, 17:82, 26:80, 41:44); honey (16:69) and the Qur'an (10:57, 17:82, 41:44) share the root; Isa heals by b-r-ʾ (3:49, 5:110), by idhn; 41:44 sets shifāʾ beside ʿamā and 3:49 heals the blind from birth. **On earth** the Reader is al-Ṣāfināt and al-Jiyād, worker and drone: the worker purifies, 2:222 being the only verse with both ṭ-h-r and t-w-b (purify and turn back, the worker's pair); ṭ-h-r (26 verses) reaches the House (2:125, 22:26), Miriam (3:42), Isa (3:55), 33:33 and the Book itself (56:79, 80:14, 98:2). The drone works for the hereafter as MuSolomon (6:163, first of the submitters), paired with 7:143 (first of the believers; tubtu, the worker's t-w-b root).
+- **Jinn and ants.** The jinn also worked (34:14) without the ghayb. The ants have no wahy: n-m-l stands only in 27:18 and 3:119, n-m-l ∩ w-ḥ-y = 0, while the bee has wahy (16:68). The ant's lack is perception (27:18) and the unrecognised Rasul (23:69); ʿ-r-f ∩ n-k-r (recognise, disavow) stands in 13 verses (3:104, 3:110, 3:114, 7:157, 9:67, 9:71, 9:112, 12:58, 16:83, 22:41, 22:72, 23:69, 31:17), and 3:110, the best community, is defined by recognition.
+- **Waggle dance as ∫₂⁷.** The waggle is D10 vibration, the left and right loops are 3ₙ frequency, the angle is I9 energy, the follower is 7. s-l-k stands in 12 verses; thread in then out (s-l-k, then kh-r-j) in four: 16:69, 20:53, 28:32, 39:21. l-w-n stands in 7 verses and meets s-l-k only at 16:69 and 39:21 (39:21 two verses before 39:23). n-ḥ-l stands in two verses (16:68, 4:4 niḥlatan, gift). The two gates: 21:69 kūnī (Kun) at the nār gate, 26:63 fa-awḥaynā … fa-kāna at the water gate; f-l-q stands in four verses and meets wahy only at 26:63; ṭ-w-d stands once (26:63); 23:27 is the only verse with both wahy and s-l-k.
+- **Forgetting and remembering (the switch of 15:40).** gh-ṭ-w stands in two verses only, 18:101 (covering over the eyes, away from dhikr) and 50:22 (the covering uncovered); 18:61 forgets at majmaʿ baynihimā while the path (sabīl, the bee's subul) continues. kh-l-ṣ stands in 30 verses; 16:66 brings pure milk from between two (khāliṣan), the output of 15:40.
+- **A whole wheel in six verses.** 38:21-26 run the six phases once in order (Death↓, Return↑, Sacrifice↓, Ascend↑, Life↓, Resurrection↑) and 38:27 enters Death↓ again; 38:24 anāba → 38:25 maʾāb → 38:30 awwāb; the zann of 38:24 against the work of 34:13 (ʿ-m-l and q-l-l in both): Al Dawud as the family by the Book, 3:110.
 - **Closing words.** Every node closes on one of three words: shukr (2:158, 23:78, 27:19), ghāfil (23:17, 3:99, 10:92), shahīd (3:98-99, 27:32). A node with no closing word stays open (41:53).
 - **The triad of 23:78.** s-m-ʿ (D10) ∩ b-ṣ-r (I9) ∩ f-ʾ-d (3ₙ) meet in exactly six nodes: 16:78, 17:36, 23:78, 32:9, 46:26, 67:23. f-ʾ-d without s-m-ʿ and b-ṣ-r: 6:113, 11:120, 14:37, 14:43, 25:32, 28:10, 53:11, 104:7. 6:110 turns heart and sight with no hearing under it (nuqallibu), the turn of 18:18 without a ground.
 - **13:2** raises the sky with no pillar you can see: I9 needs no assumption, and assumption is the pillar of D10 (6:116). 4:126: Allah encompasses everything, so the hive has no outside.
@@ -127,7 +168,7 @@ Run this on every new verse, root, image, formula, story or translation. It repl
 5. **Both readings.** D10 by root; I9 as the picture in motion.
 6. **Closure.** Resolve inside 39:23 and 15:87. If a pattern is unmatched, hold it (41:53) and list it in Part 5; do not force the meaning.
 
-**Image or formula into DCU.** Compute the topology parallel directly, part by part: index → 3ₙ, constants → d, growth terms → a, b, silence terms → D10 Silence, prefactor roots → the seam, the left side → I9 closure. No sentence about what the mapping does or does not establish.
+**Image or formula into ∫₂⁷.** Compute the topology parallel directly, part by part: index → 3ₙ, constants → d, growth terms → a, b, silence terms → D10 Silence, prefactor roots → the seam, the left side → I9 closure. No sentence about what the mapping does or does not establish.
 
 **Story and article form.** Give X:X for every part. Arabic is quoted unchanged; the translation may be free as long as D10 stays root-sensitive, I9 stays free of pattern conflict, and the 3ₙ debit-credit nets to zero. Plot grammar: ∫₂⁷ ( 2 [D10 Conflict/Fasiq] ↔ 3ₙ [Zann vs Amal] ↔ 2 [I9 decision: Ayat/amr] → 7 [Name + Adjective from 2:31] ) dx = up↑ − down↓ = 0. Articles are plain: no mention of episode or podcast, usable for any purpose.
 
@@ -197,6 +238,27 @@ Run this on every new verse, root, image, formula, story or translation. It repl
 | 19:20 | ‎يَمْسَسْنِى | yamsasnī | touched me |
 | 13:2 | ‎بِغَيْرِ عَمَدٍۢ | bi-ghayri ʿamadin | without a pillar |
 | 4:126 | ‎مُّحِيطًۭا | muḥīṭan | encompassing |
+| 2:222 | ٱلتَّوَّٰبِينَ | al-tawwābīna | the ones who turn back |
+| 2:222 | ٱلْمُتَطَهِّرِينَ | al-mutaṭahhirīna | the ones who purify themselves |
+| 17:82 | شِفَآءٌۭ | shifāʾun | healing |
+| 41:44 | عَمًى | ʿamā | blindness |
+| 3:49 | وَأُبْرِئُ | wa-ubriʾu | and I heal |
+| 7:143 | تُبْتُ | tubtu | I turned back |
+| 7:143 | أَوَّلُ ٱلْمُؤْمِنِينَ | awwalu al-muʾminīna | first of the believers |
+| 34:14 | يَعْلَمُونَ ٱلْغَيْبَ | yaʿlamūna al-ghayba | knew the unseen |
+| 27:18 | لَا يَشْعُرُونَ | lā yashʿurūna | do not perceive |
+| 23:69 | لَمْ يَعْرِفُوا۟ | lam yaʿrifū | did not recognise |
+| 21:69 | كُونِى | kūnī | be |
+| 26:63 | فَأَوْحَيْنَآ | fa-awḥaynā | so We handed the pattern |
+| 26:63 | فَكَانَ | fa-kāna | and it became |
+| 67:4 | كَرَّتَيْنِ | karratayni | two returns |
+| 16:69 | فَٱسْلُكِى | fa-slukī | thread through |
+| 16:69 | يَخْرُجُ | yakhruju | comes out |
+| 27:10 | تَهْتَزُّ | tahtazzu | quivers |
+| 18:101 | غِطَآءٍ | ghiṭāʾin | a covering |
+| 50:22 | غِطَآءَكَ | ghiṭāʾaka | your covering |
+| 19:9 | شَيْـًۭٔا | shayʾan | a thing |
+| 19:23 | نَسْيًۭا | nasyan | forgotten |
 
 ---
 
@@ -222,3 +284,6 @@ New holds are appended here as one line each, with the X:X where the pattern sto
 - 28:9 lā taqtulūhu against the autumn eviction of the drones; the day-counts 16, 21, 24 against chapters 16, 21, 24; the six worker age-roles against the six phases.
 - 2:125 mathābatan against mathānī: a sound-pair held beside the root.
 - 11:44 is one half of 40:11 (one death and one life at world scale); the other half is the Reader's own, with 69:17 and 34:21.
+- Eight-cell cross: 4 + 5 = 9 closing nodes (m-w-h ∩ n-w-r = 4; s-d-q ∩ e-b-d = 5); the relation of the nine to the nine rings of I9 held. Turn axis (r-w-h ∩ s-e-q) and completion axis (j-b-l ∩ n-h-r) are 0, held open.
+- al-Ṣāfināt as worker and al-Jiyād as drone sit beside Part 2's cast (drone = Dawud and Solomon, 34:13); the worker's ṭ-h-r (2:222) does not share a root with ṣ-f-n (38:31): the link rests on the role, held.
+- 13:17 carries m-w-h and n-w-r but no n-h-r; the river (n-h-r) is 2:249.

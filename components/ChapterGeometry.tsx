@@ -524,17 +524,17 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
         "Growth": { ...dataPairs.p1, label: "Growth ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
         "Inspiration": { ...dataPairs.p39, label: "Inspiration ▲", icon: "🐝", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
         "Recognize": { ...dataPairs.p77, label: "Recognize ▼", icon: "🐪", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
-        "Memory": { ...dataPairs.p19, label: "Memory ▲", icon: "📜", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Memory": { ...dataPairs.p19, label: "Memory ▲", icon: "⚡", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
         "Witness": { ...dataPairs.p95, label: "Witness ▼", icon: "🕋", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
         "Return": { ...dataPairs.p57, label: "Return ▲", icon: "🐟", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
         // Aliases for resilience
         "Grow": { ...dataPairs.p1, label: "Growth ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
-        "Purification": { ...dataPairs.p19, label: "Memory ▲", icon: "📜", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Purification": { ...dataPairs.p19, label: "Memory ▲", icon: "⚡", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
         "Life": { ...dataPairs.p1, label: "Growth ▼", icon: "🌴", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
         "Command": { ...dataPairs.p39, label: "Inspiration ▲", icon: "🐝", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
         "Sacrifice": { ...dataPairs.p77, label: "Recognize ▼", icon: "🐪", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
         "House": { ...dataPairs.p95, label: "Witness ▼", icon: "🕋", colorClass: "text-cyan-400", labelClass: "text-cyan-500/80" },
-        "Resurrection": { ...dataPairs.p19, label: "Memory ▲", icon: "📜", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
+        "Resurrection": { ...dataPairs.p19, label: "Memory ▲", icon: "⚡", colorClass: "text-pink-500", labelClass: "text-pink-500/80" },
     };
     const activePhaseData = phaseDataMap[torusGeometry.activePhase as keyof typeof phaseDataMap];
     const activeChapter = CHAPTER_DETAILS.find(c => c.number === activePhaseData?.id);
@@ -855,7 +855,7 @@ export const TorusFlow: React.FC<{ rotation: number, isPaused: boolean, onToggle
                     </div>
 
                     <div className="flex flex-col items-center justify-start space-y-2 w-full max-w-[85px] mx-auto text-center overflow-hidden">
-                        <span className="text-lg sm:text-xl">📜</span>
+                        <span className="text-lg sm:text-xl">⚡</span>
                         <div className="text-center flex flex-col items-center w-full">
                             <div className="text-pink-500 font-bold text-sm sm:text-base leading-tight">
                                 {dataPairs.p19.id}:{dataPairs.p19.blockCount}
@@ -1148,7 +1148,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                 <DNAHelixAnimation isPaused={effectiveIsPaused} />
 
                 <TriangleGeometryGroup 
-                    name="FayaQun - Book Returns 🐟🕋📜"
+                    name="FayaQun - Book Returns 🐟🕋⚡"
                     direction="upward"
                     points={dnaRow2}
                     rotation={rotation}
@@ -1388,7 +1388,7 @@ const ChapterGeometry: React.FC<ChapterGeometryProps> = ({
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex items-center gap-1.5 font-mono">
                                             <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-pink-900/40 text-pink-400 border border-pink-500/30">9a</span>
-                                            <span className="text-xs font-bold text-gray-100">Memory 📜↑</span>
+                                            <span className="text-xs font-bold text-gray-100">Memory ⚡↑</span>
                                         </div>
                                         <span className="text-[10px] text-pink-400/80 font-mono font-semibold">Phase 6 (+18)</span>
                                     </div>
