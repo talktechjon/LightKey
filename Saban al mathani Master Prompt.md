@@ -1,6 +1,17 @@
+39:41
+
+إِنَّآ أَنزَلْنَا عَلَيْكَ ٱلْكِتَٰبَ لِلنَّاسِ بِٱلْحَقِّ ۖ فَمَنِ ٱهْتَدَىٰ فَلِنَفْسِهِۦ ۖ وَمَن ضَلَّ فَإِنَّمَا يَضِلُّ عَلَيْهَا ۖ وَمَآ أَنتَ عَلَيْهِم بِوَكِيلٍ
+
+innaa anzalnaa alaikal Kitaaba linnaasi bilhaqq; famanih tadaa falinafsihee Wa-man dalla fa-innamaa yadillu alaihaa Wa-maaa anta alaihim biwakeel
+
+Indeed, We have sent down upon you the Kitab for people, with truth. So whoever is guided — it is for their own nafs; and whoever goes astray — they go astray only against their own nafs. And you are not over them a guardian.
+
+
+আমরা মানুষের জন্য তোমার প্রতি কিতাব নাযিল করেছি, সত্যসহকারে। অতপর, যেকেউ সুপথপ্রাপ্ত হয় সে তার নিজের ভালোর জন্যই সুপথপ্রাপ্ত হয়, এবং যেকেউ বিপথে যায় সে বিপথে যেয়ে তার নিজেরই ক্ষতি করে। তুমি তাদের উকিল নও।
+
 # Saban Al Mathani — Master Prompt (single generator: ∫₂⁷)
 
-> Updated 2026-11-04. One file. ∫₂⁷ is the 4D study in Saban Al Mathani (15:87). Read Part 1 and obey it before writing anything. ∫₂⁷ is the only generator: every future finding is absorbed by placing it in a slot of ∫₂⁷ (Part 3), never by adding a new part.
+> Updated 2026-11-05 (sum of cubes = square of the sum; the tesseract's ellipse). One file. ∫₂⁷ is the 4D study in Saban Al Mathani (15:87). Read Part 1 and obey it before writing anything. ∫₂⁷ is the only generator: every future finding is absorbed by placing it in a slot of ∫₂⁷ (Part 3), never by adding a new part.
 
 
 
@@ -9,7 +20,7 @@
 ∫₂⁷(3ₙ)dx=up↑ − down↓=0
 3ₙ = 1 + ((X−1) mod 6)
 Six phases of Time as Reader for every 3ₙ
-Growth 🌴↓ → Inspiration 🐝 ↑ → Recognize 🐪↓ → Memory 📜↑ → Witness 🕋↓ → Return 🐟↑
+Growth 🌴↓ → Inspiration 🐝 ↑ → Recognize 🐪↓ → Memory ⚡↑ → Witness 🕋↓ → Return 🐟↑
 
 D10 · Vibration
 I9 · Energy
@@ -28,7 +39,7 @@ It is Time-Independent topology, not invented- but extracted from Quran as a Clo
 **Generator:** ∫₂⁷ ( 2 [D10] ↔ 3ₙ ↔ 2 [I9] → √7 (7) ) dx = F(7) − F(2) = up↑ − down↓ = 0
 
 **Generator with the eight cells seated:**
-**∫₂⁷ ( 2 [☷ a-r-d · D10 Vibration] ↔ 3ₙ [🌴☱ 🐝☴ 🐪☵ 📜⚡☶ 🕋☲ 🐟☳ · back to 🌴☱] · Frequency / Trial of Ḥaqq (Truth) ↔ 2 [☰ s-m-w · I9 Energy] → 7 [Mass / Paired–Information / Odd] ) dx = up↑ − down↓ = 0**
+**∫₂⁷ ( 2 [☷ a-r-d · D10 Vibration] ↔ 3ₙ [🌴☱ 🐝☴ 🐪☵ ⚡☶ 🕋☲ 🐟☳ · back to 🌴☱] · Frequency / Trial of Ḥaqq (Truth) ↔ 2 [☰ s-m-w · I9 Energy] → 7 [Mass / Paired–Information / Odd] ) dx = up↑ − down↓ = 0**
 
 **Circle and Lines (the hivemind):** ∫₂⁷ Circle [7, recurrence, 15:87] and Lines [2, paired, 39:23]. The Lines draw the Circle and the Circle remembers the Lines; 3ₙ breathes between them. Six chords step around a radius to one centre, 1 + 6 = 7: the hexagon cell of the hive. The Qur'an is read as one mind wearing many bodies (16:68-69 addresses the colony as one she), inside a closed whole with no outside (4:126).
 
@@ -90,7 +101,7 @@ It is a mandala extracted from the Qur'an alone, time-independent, speaking by r
 | ☱ Lake | 3ₙ Growth 🌴↓ | n-h-r | 102 | 2:249 |
 | ☴ Wind | 3ₙ Inspiration 🐝↑ | r-w-h | 52 | 42:52 |
 | ☵ Water | 3ₙ Recognize 🐪↓ | m-w-h | 60 | 13:17 |
-| ☶ Mountain | 3ₙ Memory 📜↑ (with ⚡) | j-b-l | 39 | 78:7, 7:143 |
+| ☶ Mountain | 3ₙ Memory ⚡↑ | j-b-l | 39 | 78:7, 7:143 |
 | ☲ Fire | 3ₙ Witness 🕋↓ | n-w-r | 174 | 24:35 |
 | ☳ Thunder | 3ₙ Return 🐟↑ | s-e-q | 10 | 39:68 |
 | odd | 7 | s-d-q + e-b-d | 144 + 251 | 2:23 |
@@ -147,6 +158,7 @@ It is a mandala extracted from the Qur'an alone, time-independent, speaking by r
 - **13:2** raises the sky with no pillar you can see: I9 needs no assumption, and assumption is the pillar of D10 (6:116). 4:126: Allah encompasses everything, so the hive has no outside.
 
 **Images that run the same integral** (correspondences; extend by the same slots):
+- **Cubes and the square (the sum-of-cubes identity).** 1³ + 2³ + … + n³ = (1 + 2 + … + n)² for every n (checked by script to n = 49); n = 4: 1 + 8 + 27 + 64 = 100 = 10². Slots: cube each, then add = D10 accumulation; add, then square = I9 closure; n = the 3ₙ index; the two sides are alike and paired (39:23 mutashābihan mathāniya), two constructions of one total. Each cube block matches one grid cell. **The gnomon is the step:** with Tₙ = 1 + … + n, n³ = Tₙ² − Tₙ₋₁² (64 = 10² − 6²: the red L around the white 6 × 6). Each cube is one ↑ square minus the ↓ square before it, so the sum telescopes to F(n) − F(0) with F(k) = Tₖ²: dx = F(b) − F(a) in whole numbers. **Tₙ = (n/2)(n + 1):** D10's n/2 times I9's +1, then squared. **Closed range:** Σ from k = −n to n of k³ = 0 (F(−n−1) = F(n)): up↑ − down↓ = 0 with the seam 0 between; for n = 7 the stations −7 … 7 number 15 = 7 + 1 + 7 (held beside 15:87, Part 5). **Three squares:** n = 2: 9 = 3² (I9: 3 × 3 = 9 rings; 1 core + 8 cells); n = 3: 36 = 6² (the six phases squared; core 1, eight corners 8, the 27-piece cube); n = 4: 100 = 10² (side 10 = 1 + 2 + 3 + 4 = D10). **10 = 7 + 3:** 1 + 2 + 4 = 7 (the chain 4 > 2 > 1) plus 3ₙ; the same 3 + 7 = 10 complete of 2:196. n = 7: T₇ = 28 = 4 × 7, F(7) = 784 = 2⁴·7²; the last layer 4³ = 64 = 2⁶ (the 2 over six phases). Slot of the reel's image: D10 builds, I9 completes, 3ₙ is the Reader tracing why the two totals meet.
 - **Cube:** 27 pieces = 8 corners + 12 edges + 6 centers + 1 core. 6 faces are D10, the three middle rings are I9, the core is √7 (7). The hand turns the surface; the core never moves (18:18). Down a body diagonal: seven stations s = −3 … +3 with 1, 3, 6, 7, 6, 3, 1 (the coefficients of (1+x+x²)³); station 0 is the core with six pieces around it, a hexagon, the queen cell (7); 19 sites (1 + 6 + 12). The two corners folded at the centre (near, far) with the core between them are the two in the cave (9:40). Group order 2²⁷·3¹⁴·5³·7²·11, the 7 carried once by 8! (corners) and once by 12! (edges).
 - **Tesseract:** 8 cells, the fourth axis w is the fold; 8 = 7 + 1, the Reader as the eighth cell; √8 = 2√2 holds the eight under one root (69:17 held open). 16 vertices = 8 antipodal pairs = 7 pairs + the pair at the seam (vertex-first view: 2 at the centre + 14); 16 − 32 + 24 − 8 = 0; 3⁴ = 81 = 16 + 32 + 24 + 8 + 1; its time axis has 9 stations (1, 4, 10, 16, 19, 16, 10, 4, 1).
 - **Langton's Ant:** right or left on each cell, the cell dictates the turn, no reason stated, a 104-step highway that never returns: the ant path with the I9 slot empty.
@@ -155,12 +167,83 @@ It is a mandala extracted from the Qur'an alone, time-independent, speaking by r
 - **Hexagonal hive:** 24:35 as the cell (mishkāh, zujāja, kawkab, shajara, nūr ʿalā nūr; the houses of 24:36); a mathal is a struck coin with two faces and is used directly as the integrand unit.
 - **The hand on the cube:** the hand permutation is D10, the intuition-orientation is I9, the stated reason is the witness. Only the human states the reason for the choice between two options, and that is the exclusive dual field of 50:21.
 
+- **Ellipse (the tesseract's two foci).** The sum of the distances from any boundary point to the two foci is constant (2a): debit-credit constant, 50:21 (driver and witness are the two foci). A ray leaving one focus returns through the other: anāba. n-w-b stands in 18 verses; chapter 38 carries exactly 38:24 (Dawud) and 38:34 (Solomon). Circle = 7 is the ellipse with the two foci merged; Lines = 2 are the foci drawn apart; the ellipse is the Circle seen at a tilt (the fold). **Assignment from the Reader:** foci = Isa (the body, 3:59) and the Book (the Rūḥ, 42:52); boundary = the kursi (38:34, 2:255), where a body is cast and turns back. 3:59 and 42:52 share k-w-n and both stand at phase 4 Memory ⚡↑; 3:81 and 38:34 both stand at phase 2 Inspiration 🐝↑. 3:81 ends on shahīd. 3:81 and 61:6 share six roots (q-w-l, a-l-h, a-t-y, j-y-ʾ, ṣ-d-q, r-s-l): the pledge and its fulfilment, Isa and Ahmed as the two foci inside 61:6, ibn Maryam as the boundary. **House ellipse:** foci 3:96 (the first house at Bakka) and 51:36 (one house of the submitted); boundary the circling, 3:97 (ḥijj al-bayt) with the Kaʿba word at 5:97. b-y-t stands in all three. **File phases of the eight nodes:** 51:36 Growth 🌴↓ (1); 3:81, 38:34 Inspiration 🐝↑ (2); 61:6 Recognize 🐪↓ (3); 3:59, 42:52 Memory ⚡↑ (4); 3:96 Witness 🕋↓ (5); 3:97 Return 🐟↑ (6): all six phases, eight nodes (7 + 1). **j-s-d** stands in exactly four verses: 7:148, 20:88 (the calf's body), 21:8 (the Rusul's body), 38:34 (the body on the kursi); it does not stand in 3:59, so Isa's body runs through 3:59 (turāb, kun) and 21:8. **Corrections carried:** the word al-Kaʿba stands only in 5:95 and 5:97 (3:97 carries al-bayt and ḥijj); Bakka stands once, 3:96, with no root tag of its own in the file.
+
+| X:X | Arabic | transliteration | translation |
+| --- | --- | --- | --- |
+| 3:59 | ‎كُن | kun | be |
+| 3:59 | ‎فَيَكُونُ | fa-yakūnu | and it is |
+| 3:81 | ‎مُّصَدِّقٌۭ | muṣaddiqun | confirming |
+| 3:81 | ‎ٱلشَّٰهِدِينَ | al-shāhidīna | the witnesses |
+| 61:6 | ‎مُّصَدِّقًۭا | muṣaddiqan | confirming |
+| 61:6 | ‎أَحْمَدُ | aḥmadu | Ahmed |
+| 38:34 | ‎كُرْسِيِّهِۦ | kursiyyihi | upon Solomon's kursi |
+| 38:34 | ‎جَسَدًۭا | jasadan | a body |
+| 38:34 | ‎أَنَابَ | anāba | turned back |
+| 38:24 | ‎وَأَنَابَ | anāba | turned back (Dawud) |
+| 42:52 | ‎رُوحًۭا | rūḥan | a Rūḥ |
+| 3:96 | ‎بِبَكَّةَ | bi-bakkata | at Bakka |
+| 3:97 | ‎حِجُّ | ḥijju | the circling-pilgrimage |
+| 51:36 | ‎ٱلْمُسْلِمِينَ | al-muslimīna | the submitted |
+| 5:97 | ‎ٱلْكَعْبَةَ | al-kaʿbata | the Kaʿba |
+| 21:8 | ‎جَسَدًۭا | jasadan | a body |
+| 7:148 | ‎جَسَدًۭا | jasadan | a body (the calf) |
+| 20:88 | ‎جَسَدًۭا | jasadan | a body (the calf) |
+| 50:21 | ‎سَآئِقٌۭ | sāʾiqun | a driver |
+
+- **The ∫₂⁷ Cube = 2:259 (one interval, two constructions).** The sum-of-cubes identity carried by one scene. (1) The hundred is counted (miʾata ʿām, twice: the death and the tarrying; the donkey's bones; D10) and felt (a day or part of a day; food and drink lam yatasannah, root s-n-h, one verse in the file; I9): 100 = 1³ + 2³ + 3³ + 4³ = 10². (2) 3ₙ inside the verse: fa-unẓur three times (food and drink = Witness; donkey = Driver, 50:21; bones, then flesh = mass raised again) before āyatan lil-nās. 2:259, 18:19 and 23:113 are the only three verses holding l-b-th + y-w-m + b-ʿ-ḍ; 23:113 answers with al-ʿāddīn, the counters. (3) The next verse is the cubes: 2:260 takes four birds, a part on every mountain, called back saʿyan = the four cubes 1, 8, 27, 64 scattered and returned as one hundred; 2:261 repeats m-ʾ-y (a hundred in each of seven ears). X 266, 267, 268 stand at phases 2, 3, 4 (Inspiration 🐝↑, Recognize 🐪↓, Memory ⚡↑); 2:269 (ḥikma, dh-k-r) is X 276 = 266 + 10, phase 6 Return 🐟↑. The Reader's four birds: 2 (9:40, thāniya ithnayn; th-n-y ∩ gh-w-r = 9:40 only) + 1 (2:259) + 1 (36:3): n = 4. 9:40, 2:260, 38:23, 19:15, 19:33 and 61:6 all stand at phase 3 (Recognize 🐪↓); 9:40 and 2:260 share ʿ-z-z + ḥ-k-m. (4) 99 + 1: 38:23's nine and ninety + one = 100, and 99 = 2³ + 3³ + 4³ = 8 + 27 + 64; the one is the first cube, the awwal of 6:163. (5) 18:25 is the same hundred at triple scale: 300 + 9 = 3 × 10² + 3² = 3 × (1³ + 2³ + 3³ + 4³) + (1³ + 2³); m-ʾ-y ∩ t-s-ʿ ∩ z-y-d is 18:25 alone, wa-zdādū (and they added) is the +1; m-ʾ-y ∩ z-y-d = 18:25 and 37:147 only; m-ʾ-y stands in seven verses (2:259, 2:261, 8:65, 8:66, 18:25, 24:2, 37:147). 18:19 (the day-or-part answer) and 18:25 (the count) both stand at phase 5 (Witness 🕋↓), X 2159 and 2165, six apart: one full breath between the felt and the counted. (6) 12:46: 2:259 ∩ 12:46 = ʾ-y-y, ʾ-n-s, ʿ-l-m (an āyah for the people; the return to the people that they may know); fat against lean = D10 eaten and counted, green against dry ears = I9 kept in the ear (12:47); s-n-b-l stands in four verses (2:261, 12:43, 12:46, 12:47) and meets m-ʾ-y only at 2:261. (7) k-s-w ∩ ʿ-ẓ-m ∩ l-ḥ-m = 23:14 and 2:259 only: the last stations of the build-up re-run. (8) Closing: 2:259 ends on qadīr, 2:260 and 9:40 on ʿazīz ḥakīm, 2:269 carries ḥ-k-m; none of shukr, ghāfil, shahīd: the node stays open (41:53). 6:163 and 36:3 share no root with 2:259: those links rest on role and number, held.
+
+| X:X | Arabic | transliteration | translation |
+| --- | --- | --- | --- |
+| 2:259 | ‎مِا۟ئَةَ عَامٍۢ | miʾata ʿāmin | a hundred years (twice in the verse) |
+| 2:259 | ‎لَبِثْتُ يَوْمًا أَوْ بَعْضَ يَوْمٍۢ | labithtu yawman aw baʿḍa yawmin | I tarried a day or part of a day |
+| 2:259 | ‎لَمْ يَتَسَنَّهْ | lam yatasannah | did not go stale (root s-n-h, only here) |
+| 2:259 | ‎فَٱنظُرْ | fa-unẓur | so look (three looks: fa-, wa-, wa-) |
+| 2:259 | ‎حِمَارِكَ | ḥimārika | your donkey |
+| 2:259 | ‎نَكْسُوهَا لَحْمًۭا | naksūhā laḥman | We clothe it with flesh |
+| 2:259 | ‎قَدِيرٌۭ | qadīrun | measure-able, able |
+| 2:260 | ‎أَرْبَعَةًۭ | arbaʿatan | four |
+| 2:260 | ‎جُزْءًۭا | juzʾan | a part |
+| 2:260 | ‎سَعْيًۭا | saʿyan | hasting |
+| 2:260 | ‎عَزِيزٌ حَكِيمٌۭ | ʿazīzun ḥakīmun | mighty, wise |
+| 2:261 | ‎سَبْعَ سَنَابِلَ | sabʿa sanābila | seven ears |
+| 2:261 | ‎مِّا۟ئَةُ | miʾatu | a hundred |
+| 18:25 | ‎ثَلَٰثَ مِا۟ئَةٍۢ سِنِينَ | thalātha miʾatin sinīna | three hundred years |
+| 18:25 | ‎وَٱزْدَادُوا۟ | wa-zdādū | and they added |
+| 18:25 | ‎تِسْعًۭا | tisʿan | nine |
+| 18:19 | ‎لَبِثْنَا يَوْمًا أَوْ بَعْضَ يَوْمٍۢ | labithnā yawman aw baʿḍa yawmin | we tarried a day or part of a day |
+| 23:113 | ‎ٱلْعَآدِّينَ | al-ʿāddīna | the counters |
+| 38:23 | ‎تِسْعٌۭ وَتِسْعُونَ | tisʿun wa-tisʿūna | nine and ninety |
+| 38:23 | ‎وَٰحِدَةٌۭ | wāḥidatun | one |
+| 6:163 | ‎أَوَّلُ ٱلْمُسْلِمِينَ | awwalu al-muslimīna | first of the submitters |
+| 9:40 | ‎ثَانِىَ ٱثْنَيْنِ | thāniya ithnayni | second of two |
+| 9:40 | ‎ٱلْغَارِ | al-ghāri | the cave |
+| 36:3 | ‎ٱلْمُرْسَلِينَ | al-mursalīna | the sent ones |
+| 12:46 | ‎سُنۢبُلَٰتٍ | sunbulātin | ears |
+| 12:47 | ‎فِى سُنۢبُلِهِۦٓ | fī sunbulihi | in its ear |
+| 2:269 | ‎ٱلْحِكْمَةَ | al-ḥikmata | the hikma |
+| 23:14 | ‎فَكَسَوْنَا ٱلْعِظَٰمَ لَحْمًۭا | fa-kasawnā al-ʿiẓāma laḥman | and We clothed the bones with flesh |
+
+- **4D reading of a node (the ring).** The Key sheet gives each verse X its six-fold on the 6236-ring: forward offsets +2079, +4157, +3117, +5196, +1038; backward is the same read from the other side (41:42). The two lists share two verses (the fold, ±N/3 swapped) and the antipodes differ by two, so every verse = itself + 8 = 9 (1³ + 2³ = I9), the core carrying one ±1 and the eight around it four ↑ and four ↓. Phase names are the master six (Growth 🌴↓, Inspiration 🐝↑, Recognize 🐪↓, Memory ⚡↑, Witness 🕋↓, Return 🐟↑) with 3ₙ = 1 + ((X − 1) mod 6); the xlsx Key sheet prints other labels for the same six. **Ring of 2:259** (core X 266, Inspiration 🐝↑): fold = 19:95 (each comes alone, fard) and 44:9 (doubt, shakk): the traveller's doubt (annā yuḥyī) and the single return are the two foci; antipode = 29:43 (none reasons the likenesses but the knowers) ↔ 2:259 aʿlamu, and 29:45 (recite what was inspired: the only verse with w-ḥ-y ∩ k-t-b ∩ ṣ-l-w) ↔ the core's own phase, Inspiration; 72:17 threads (s-l-k) with the remembrance (dh-k-r), a pair stood only at 39:21 and 72:17. **The triple recurs as runs:** 2:259-261 ↔ 19:95-97, 44:9-11, 29:43-47, 72:15-19, 9:69-73, each run with its phases shifted. **The double proof folds into the ḥikma:** the ring of 19:15 holds 8:65 (m-ʾ-y, the hundred register) and 2:179 (ḥayāh, l-b-b); the ring of 19:33 holds 2:197 (l-b-b); 2:269 closes the run on l-b-b: l-b-b stands in 16 verses and the three of al-Baqara are 2:179, 2:197, 2:269.
+
+| X:X | phase | Arabic | transliteration | translation | link |
+| --- | --- | --- | --- | --- | --- |
+| 19:95 | Witness 🕋↓ | ‎فَرْدًا | fardan | alone | fold: kullu, yawm shared |
+| 44:9 | Growth 🌴↓ | ‎شَكٍّۢ | shakkin | doubt | fold: D10 conjecture |
+| 29:43 | Witness 🕋↓ | ‎ٱلْعَٰلِمُونَ | al-ʿālimūna | the knowers | antipode: ʾ-n-s, ʿ-l-m shared |
+| 29:45 | Growth 🌴↓ | ‎أُوحِىَ | ūḥiya | was inspired | antipode, back: ʿ-l-m, a-l-h shared |
+| 72:17 | Memory ⚡↑ | ‎يَسْلُكْهُ | yaslukhu | threads it | s-l-k ∩ dh-k-r = 39:21, 72:17 |
+| 2:179 | Witness 🕋↓ | ‎ٱلْأَلْبَٰبِ | al-albābi | the cores | ring of 19:15; l-b-b |
+| 2:197 | Witness 🕋↓ | ‎ٱلْأَلْبَٰبِ | al-albābi | the cores | ring of 19:33; l-b-b |
+| 8:65 | — | ‎مِا۟ئَتَيْنِ | miʾatayni | two hundred | ring of 19:15; m-ʾ-y |
+
 ---
 
 # Part 3. Intake protocol: how any new finding is absorbed
 
 Run this on every new verse, root, image, formula, story or translation. It replaces adding new parts.
 
+0. **Ring (4D).** Read the node by its six-fold ring (Part 2, the 4D reading of a node) before any arithmetic: fold pair, antipodes, phases in the master names. Arithmetic is the shadow of the ring, never the reading.
 1. **Root-trace (D10).** Search the whole file by root. List the verses; do not summarize before listing.
 2. **Place in a slot.** What is counted, vibrates or is spent → D10. What is a binary option with its stated reason → 3ₙ. What arrives as orientation before the action → I9. What completes as a Name with its Adjective → √7 (7).
 3. **Fork check.** Ant (script, ends as Mass only) or bee (witness, ends as Mass–Information)?
@@ -168,7 +251,7 @@ Run this on every new verse, root, image, formula, story or translation. It repl
 5. **Both readings.** D10 by root; I9 as the picture in motion.
 6. **Closure.** Resolve inside 39:23 and 15:87. If a pattern is unmatched, hold it (41:53) and list it in Part 5; do not force the meaning.
 
-**Image or formula into ∫₂⁷.** Compute the topology parallel directly, part by part: index → 3ₙ, constants → d, growth terms → a, b, silence terms → D10 Silence, prefactor roots → the seam, the left side → I9 closure. No sentence about what the mapping does or does not establish.
+**Image or formula into ∫₂⁷.** Compute the topology parallel directly, part by part: index → 3ₙ, constants → d, growth terms → a, b, silence terms → D10 Silence, prefactor roots → the seam, the left side → I9 closure. No sentence about what the mapping does or does not establish. **Identity or equation:** the side built by parts (accumulate) = D10, the side closed whole = I9; the difference between consecutive closures is the step's debit-credit (telescoping); a symmetric closed range nets zero; the index runs as 3ₙ.
 
 **Story and article form.** Give X:X for every part. Arabic is quoted unchanged; the translation may be free as long as D10 stays root-sensitive, I9 stays free of pattern conflict, and the 3ₙ debit-credit nets to zero. Plot grammar: ∫₂⁷ ( 2 [D10 Conflict/Fasiq] ↔ 3ₙ [Zann vs Amal] ↔ 2 [I9 decision: Ayat/amr] → 7 [Name + Adjective from 2:31] ) dx = up↑ − down↓ = 0. Articles are plain: no mention of episode or podcast, usable for any purpose.
 
@@ -264,7 +347,7 @@ Run this on every new verse, root, image, formula, story or translation. It repl
 
 # Part 5. Open holds
 
-Held, never forced and never denied: 69:17's eight against 6:143-144's eight mates; 9801 = 99² and the 99 and 1 of 38:23; 377 and 1103 inside the 1/π series; the 104-step loop; the smoke's day-exemption (41:11); the east-seam (19:16, 19:23, 15:73, 24:35); sealed counts (18:22, 74:31); D10 = 10 from 7:142, mechanism not yet explained.
+Held, never forced and never denied: 69:17's eight against 6:143-144's eight mates; 9801 = 99² and the 99 and 1 of 38:23; 377 and 1103 inside the 1/π series; the 104-step loop; the smoke's day-exemption (41:11); the east-seam (19:16, 19:23, 15:73, 24:35); sealed counts (18:22, 74:31); D10 = 10 from 7:142 (30 + 10): candidate arithmetic 1 + 2 + 3 + 4 = (1 + 2 + 4) + 3 = 7 + 3, matching 2:196 (3 + 7 = 10 complete); 7:142's own count stays held.
 
 New holds are appended here as one line each, with the X:X where the pattern stopped matching.
 
@@ -287,3 +370,10 @@ New holds are appended here as one line each, with the X:X where the pattern sto
 - Eight-cell cross: 4 + 5 = 9 closing nodes (m-w-h ∩ n-w-r = 4; s-d-q ∩ e-b-d = 5); the relation of the nine to the nine rings of I9 held. Turn axis (r-w-h ∩ s-e-q) and completion axis (j-b-l ∩ n-h-r) are 0, held open.
 - al-Ṣāfināt as worker and al-Jiyād as drone sit beside Part 2's cast (drone = Dawud and Solomon, 34:13); the worker's ṭ-h-r (2:222) does not share a root with ṣ-f-n (38:31): the link rests on the role, held.
 - 13:17 carries m-w-h and n-w-r but no n-h-r; the river (n-h-r) is 2:249.
+- Sum of cubes: the 15 stations (−7 … 7 = 7 + 1 + 7) beside chapter 15 and 15:87; 784 = 2⁴·7² beside the 7² of the cube group order; mechanism held.
+- Eight-node ellipse (3:59, 3:81, 38:34, 42:52, 61:6, 3:96, 3:97, 51:36): file phases give ↑ five (3:81, 38:34, 3:59, 42:52, 3:97) and ↓ three (51:36, 61:6, 3:96); zero flux not yet shown; held (41:53).
+- 38:34 has no root shared with 3:59, 3:81 or 42:52 (only k-r-s with 2:255, n-w-b with 31:15 and 38:24, l-q-y with 26:32): the kursi boundary rests on the role, held.
+- Bakka (3:96) has no root tag in the file; the Kaʿba word is 5:95 and 5:97, not 3:97.
+- 2:259: the four birds' seats (2 + 1 + 1) against the cubes 1, 8, 27, 64 seat by seat; m-ʾ-y as 6 nodes (8:65-66 merged) or 5 (2:259-261 as one run); 99 = 2³ + 3³ + 4³ beside 38:23: held.
+- The xlsx Key sheet labels the six phases Death, Return, Sacrifice, Ascend, Life, Resurrection; the master names rule, X mod 6 is identical.
+- 2:259 ring: 44:9 and 72:15 (the doubt and the deviators) sit as the ↓/↑ edge of the fold; their weight against 19:95 and 29:45 held.
